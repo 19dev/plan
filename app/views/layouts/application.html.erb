@@ -8,6 +8,23 @@
 </head>
 <body>
 
+	<div id="wrapper">
+      <div id="container">
+        <ul class="tabs" id="mainNav">
+          <li class="current home">
+          <a href="{{@SERVICEROOT}}"
+            title="Kullanıcı adınız"><%= @users.first_name %></a>
+          </li>
+          <li class="magenta">
+            <a href="info" title="Bilgilendirme sayfası">Bilgilendirme</a>
+          </li>
+          <li class="green">
+            <a href="logout" title="Çıkış">Çıkış</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
   <% if @error %>
     <div id="notice"><p class="fail"><%= @error %></p></div>
   <% end %>
@@ -16,7 +33,37 @@
     <div id="notice"><p class="success"><%= @correct %></p></div>
   <% end %>
 
-  <div id="content">
+ <div id="content">
+      <div id="leftcolumn">
+        <table>
+          <tr><td>
+              <img src="/images/table.png"/>{{@SESSION.TABLE}}
+          </td></tr>
+          <tr><td>
+              <img src="/images/save.png"/>{{@SESSION.SAVE}}
+          </td></tr>
+          <tr><td>
+              <a href="{{@SERVICEROOT}}" title="">
+				  <img src="/images/tables.png"/>Tablolar</a>
+          </td></tr>
+          <tr><td>
+              <a href="review" title="">
+                <img src="/images/review.png"/>Tablo İncele</a>
+          </td></tr>
+          <tr><td>
+              <a href="new" title="">
+                <img src="/images/add.png"/>Ekle</a>
+          </td></tr>
+          <tr><td>
+              <a href="find" title="">
+                <img src="/images/find.png"/>Bul</a>
+          </td></tr>
+          <tr><td>
+              <a href="csv" title="">
+                <img src="/images/csv.png"/>Csv Çıktı</a>
+          </td></tr>
+        </table>
+      </div>
     <h2 id="headline"><%= @head %></h2>
     <%= yield %>
   </div>
