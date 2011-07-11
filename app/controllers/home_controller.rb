@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
    def index
-	@say = "ogretim uyesi ders takvimini arama motoru"
+	@head = "ogretim uyesi ders takvimini arama motoru"
 	@departments = Departments.all
   end
 

@@ -8,7 +8,18 @@
 </head>
 <body>
 
-<%= yield %>
+  <% if @error %>
+    <div id="notice"><p class="fail"><%= @error %></p></div>
+  <% end %>
+
+  <% if @correct %>
+    <div id="notice"><p class="success"><%= @correct %></p></div>
+  <% end %>
+
+  <div id="content">
+    <h2 id="headline"><%= @head %></h2>
+    <%= yield %>
+  </div>
 
 </body>
 </html>

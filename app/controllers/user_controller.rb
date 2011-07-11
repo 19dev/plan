@@ -1,6 +1,6 @@
 class UserController < ApplicationController
   def login
-	@say = "login panel"
+	@head = "login panel"
   end
 
   def find
