@@ -45,7 +45,7 @@ a.last_name = "bay surname 3gx"
 a.email = "3x@bil.omu.edu.tr"
 a.save
 
-a = Users.new
-a.first_name = "gdemir"
+a = Admins.new
+a.first_name = "gdemir" # neden username degil ? TODO
 a.password = "12345"
 a.save

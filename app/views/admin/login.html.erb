@@ -2,19 +2,21 @@
 	#content{ margin:auto auto; margin-top:8%;width:400px;}
 	p.fail{ margin-top: 150px auto -84px;}
 </style>
+
+<h2 id="headline">Yonetici Girisi</h2>
 <div id="login">
 	<% form_tag :action => 'find' do %>
 	<table class="login">
 	<tr>
 		<td class="label"> İsim: </td>
 		<td class="field">
-			<%= text_field_tag :name %>
+			<%= text_field_tag :first_name %>
 		</td>
 	</tr>
 	<tr>
 		<td class="label"> Şifre: </td>
 		<td class="field">
-			<%= text_field_tag :pass %>
+			<%= text_field_tag :password %>
 		</td>
 	</tr>
 	<tr>

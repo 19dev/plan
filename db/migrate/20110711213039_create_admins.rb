@@ -1,6 +1,6 @@
-class CreateUsers < ActiveRecord::Migration
+class CreateAdmins < ActiveRecord::Migration
   def self.up
-    create_table :users do |t|
+    create_table :admins do |t|
       t.integer :department_id
       t.string :first_name
       t.string :last_name
@@ -12,6 +12,6 @@ class CreateUsers < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :users
+    drop_table :admins
   end
 end

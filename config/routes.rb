@@ -1,7 +1,9 @@
 Schedule::Application.routes.draw do
-  get "user/login"
-  post "user/login"
-  post "user/find"
+  get  "admin/login"
+  post "admin/login"
+  post "admin/find"
+  post "admin/table"
+  get  "admin/home"
 
   get "home/index"
   post "home/index"

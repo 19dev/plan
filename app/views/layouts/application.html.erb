@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Schedule</title>
+  <title><%= @title %></title>
   <%= stylesheet_link_tag :all %>
   <%= javascript_include_tag :defaults %>
   <%= csrf_meta_tag %>
 </head>
 <body>
 
-	<div id="wrapper">
+<% if session[:admin] %>
+    <div id="wrapper">
       <div id="container">
         <ul class="tabs" id="mainNav">
           <li class="current home">
-          <a href="{{@SERVICEROOT}}"
-            title="Kullanıcı adınız"><%= @users.first_name %></a>
+          <a href="<%= RAILS_ROOT %>"
+            title="Kullanıcı adınız"><%= session[:adminusername] %></a>
           </li>
           <li class="magenta">
             <a href="info" title="Bilgilendirme sayfası">Bilgilendirme</a>
@@ -24,6 +25,7 @@
         </ul>
       </div>
     </div>
+  <% end %>
 
   <% if @error %>
     <div id="notice"><p class="fail"><%= @error %></p></div>
@@ -34,6 +36,7 @@
   <% end %>
 
  <div id="content">
+    <% if session[:admin] %>
       <div id="leftcolumn">
         <table>
           <tr><td>
@@ -43,8 +46,8 @@
               <img src="/images/save.png"/>{{@SESSION.SAVE}}
           </td></tr>
           <tr><td>
-              <a href="{{@SERVICEROOT}}" title="">
-				  <img src="/images/tables.png"/>Tablolar</a>
+              <a href="<% RAILS_ROOT %>" title="">
+		<img src="/images/tables.png"/>Tablolar</a>
           </td></tr>
           <tr><td>
               <a href="review" title="">
@@ -64,7 +67,7 @@
           </td></tr>
         </table>
       </div>
-    <h2 id="headline"><%= @head %></h2>
+    <% end %>
     <%= yield %>
   </div>
 

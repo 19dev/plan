@@ -10,7 +10,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110711111318) do
+ActiveRecord::Schema.define(:version => 20110711213039) do
+
+  create_table "admins", :force => true do |t|
+    t.integer  "department_id"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "password"
+    t.integer  "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "class_plans", :force => true do |t|
     t.integer  "period_id"
@@ -66,16 +76,6 @@ ActiveRecord::Schema.define(:version => 20110711111318) do
   create_table "periods", :force => true do |t|
     t.string   "name"
     t.date     "year"
-    t.integer  "status"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "users", :force => true do |t|
-    t.integer  "department_id"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "password"
     t.integer  "status"
     t.datetime "created_at"
     t.datetime "updated_at"

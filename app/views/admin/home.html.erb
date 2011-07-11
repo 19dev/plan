@@ -9,23 +9,19 @@
         <td class="label">tablo:</td>
         <td class="field">
           <select name="table">
-            <F3:repeat group='{{@SESSION.TABLES}}' key='{{@table}}' >
-            <F3:check if='{{@table==@SESSION.TABLE}}'>
-            <F3:true>
-            <option value='{{@table}}' selected>{{@table}}</option>
-            </F3:true>
-            <F3:false>
-            <option value='{{@table}}'>{{@table}}</option>
-            </F3:false>
-            </F3:check>
-            </F3:repeat>
+
+              <option value="" selected></option>
+              <% session[:TABLES].each do |table, key| %>
+                <option value="<%= table %>"><%= table %></option>
+              <% end %>
+
           </select>
         </td>
       </tr>
       <tr>
         <td></td>
         <td>
-          <input id="submit_button" type="submit" value="Seç" />
+          <%= submit_tag "Seç", :id => "submit_button" %>
         </td>
       </form>
     </div>

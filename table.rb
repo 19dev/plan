@@ -21,7 +21,7 @@ tables = [
 	"class_plans " +
 		"period_id:integer classroom_id:integer course_id:integer lecturer_id:integer begin_time:datetime end_time:datetime",
 
-	"users " +
+	"admins " +
 		"department_id:integer first_name:string last_name:string password:string status:integer"
 ]
 tables.each do |table|
