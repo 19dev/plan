@@ -1,22 +1,26 @@
+<style>
+	#content{ margin:auto auto; margin-top:8%;width:400px;}
+	p.fail{ margin-top: 150px auto -84px;}
+</style>
 <div id="login">
 	<% form_tag :action => 'find' do %>
-	<table class="form">
+	<table class="login">
 	<tr>
 		<td class="label"> İsim: </td>
 		<td class="field">
 			<%= text_field_tag :name %>
-		</td>	
+		</td>
 	</tr>
 	<tr>
 		<td class="label"> Şifre: </td>
 		<td class="field">
 			<%= text_field_tag :pass %>
-		</td>	
+		</td>
 	</tr>
 	<tr>
 		<td></td>
 		<td>
-			<%= submit_tag "arama yap", :id => "student_user_submit" %>
+			<%= submit_tag "Giriş Yap", :id => "submit_button" %>
 		</td>
 	</tr>
 	</table>

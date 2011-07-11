@@ -7,20 +7,18 @@
   <%= csrf_meta_tag %>
 </head>
 <body>
+
 <% if @error %>
-	<div id="fail">
-		<%= @error %>
-	</div>
-<% end %>
-<% if @correct %>
-	<div id="success">
-		<%= @correct %>
-	</div>
+	<div id="notice"><p class="fail"><%= @error %></p></div>
 <% end %>
 
-<div id="page">
-	<div id="head"><%= @say %> </div>
-<%= yield %>
+<% if @correct %>
+	<div id="notice"><p class="success"><%= @correct %></p></div>
+<% end %>
+
+<div id="content">
+	<h2 id="headline"><%= @say %> </h2>
+	<%= yield %>
 </div>
 
 </body>

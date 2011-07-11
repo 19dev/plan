@@ -1,162 +1,77 @@
-#fail {
-  width:       910px;
-  margin:      auto;
-  padding:     1.5em;
-  padding-top: 10pt;
-  padding-bottom: 10pt;
-  color:       white;
-  line-height: 1.3em;
-  font-size:   1em;
-  font-family: arial, helvetica, sans-serif;
-  font-style:  normal;
-  background-color: #b22352;
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
-  border-radius:      8px;
+table.login {
+    border-spacing: 5px;
+    border-collapse: separate;
 }
-#success {
-  width:       910px;
-  margin:      auto;
-  padding:     1.5em;
-  padding-top: 10pt;
-  padding-bottom: 10pt;
-  color:       #3b3b3b;
-  line-height: 1.3em;
-  font-size:   1em;
-  font-family: arial, helvetica, sans-serif;
-  font-style:  normal;
-  background-color: #00e06f;
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
-  border-radius:      8px;
+
+table.login th,
+table.login td {
+    padding: 8px;
+    font-size: 13px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
 }
-#page {
-  color: #3b3b3b;
-  width: 900px;
-  margin: 30px auto 30px;
-  background: #fff;
-  padding: 20px 30px;
-  height: auto;
-  font-size:   1em;
-  font-family: arial, helvetica, sans-serif;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  -webkit-box-shadow: 0 2px 2px rgba(0,0,0,0.2);
-  -moz-box-shadow: 0 2px 2px rgba(0,0,0,0.2);
-  box-shadow: 0 2px 2px rgba(0,0,0,0.2);
+
+table.login input[type=text],
+table.login input[type=password]{
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding: 8px;
+    margin: 0;
+    font-size: 13px;
+    color: #555;
+    width: 220px;
+    border: 1px solid #ccc;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
-#page a {
-  color: #555f6a;
+
+table.login input[type=text]:focus,
+table.login input[type=password]:focus {
+    outline: 0;
+    border: 1px solid #35addf;
 }
-#page strong {
-  color: #404142;
+
+table.login td.label {
+    text-align: right;
+    vertical-align: top;
+    color: #333;
+    width: 120px;
+    font-weight: bold;
+    font-size: 11px;
+    border-top: 1px solid #ddd;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
 }
-#head {
-  padding: 10px 20px;
-  background: #f8f8f8;
-  text-shadow: #fff 1px 1px;
-  color: #2f7ca2;
-  font-size: 17px;
-  margin-bottom: 20px;
-  font-weight:    bold;
-  font-family:    helvetica, geneva, arial, sans-serif;
+
+table.login td.field {
+    width: 220px;
+    background: #ededed;
 }
-#lecturer {
-  color: #3b3b3b;
-  width: 500px;
-  margin: 30px auto 30px;
-  background: #eff;
-  padding: 20px 30px;
-  height: auto;
-  font-size:   1em;
-  font-family: arial, helvetica, sans-serif;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  -webkit-box-shadow: 0 2px 2px rgba(0,0,0,0.2);
-  -moz-box-shadow: 0 2px 2px rgba(0,0,0,0.2);
-  box-shadow: 0 2px 2px rgba(0,0,0,0.2);
+table.login td.select{
+    border:1px solid #bdc7d8;
+    font:   13px Arial, Helvetica, sans-serif;
+    padding:3px;
+    background:#fff;
+    width:  158px;
+    height: 27px;
+    color:  #585858;
 }
-/* ------------------------------------- */
-div#login table.list {
-  width: 100%;
-  text-align: left;
-  font-size: 13px;
+
+#submit_button {
+    height:23px;
+    color:#2F7CA2;
+    text-align:center;
+    padding-top:6px;
+    background:url(../images/btn.png) no-repeat top;
+    font-weight:bold;
+    width:96px;
+    font-size:13px;
+    display:block;
+    cursor:pointer;
+    border:none;
+    height:auto;
+    padding-bottom:7px;
 }
-div#login table th,
-div#login table td {
-  padding: 8px;
-  font-size: 13px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-}
-div#login table.form {
-  border-spacing: 5px;
-  border-collapse: separate;
-}
-div#login table input[type=text],
-div#login table input[type=password]{
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  padding: 8px;
-  margin: 0;
-  font-size: 13px;
-  color: #555;
-  width: 350px;
-  border: 1px solid #ccc;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-}
-div#login table input[type=text]:focus,
-div#login table input[type=password]:focus {
-  outline: 0;
-  border: 1px solid #35addf;
-}
-div#login table select {
-  border: 1px solid #bdc7d8;
-  font:   13px Arial, Helvetica, sans-serif;
-  padding: 3px;
-  background: #fff;
-  width:  365px;
-  height: 27px;
-  color:  #585858;
-}
-div#login table td.label {
-  text-align: right;
-  vertical-align: top;
-  color: #333;
-  width: 200px;
-  font-weight: bold;
-  font-size: 11px;
-  border-top: 1px solid #ddd;
-  -moz-border-radius: 0;
-  -webkit-border-radius: 0;
-  border-radius: 0;
-}
-div#login table td.field {
-  width: 350px;
-  background: #ededed;
-}
-div#login table td.captcha {
-  float: right;
-  display: inline-block;
-  margin-top: -5.5em;
-  margin-right: -12em;
-}
-#student_user_submit {
-  height:     23px;
-  color:      #2f7ca2;
-  text-align: center;
-  padding-top:6px;
-  background:url(../images/btn.png) no-repeat top;
-  font-weight:bold;
-  width:      96px;
-  font-size:  13px;
-  display:    block;
-  cursor:     pointer;
-}
-#student_user_submit:active { background-position:bottom;}
-#student_user_submit{border:none; height:auto; padding-bottom:7px;}
-/* ----------------------------------------- */
+#submit_button:active { background-position:bottom;}

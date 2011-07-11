@@ -5,13 +5,13 @@ one:
   classroom_id: 1
   course_id: 1
   lecturer_id: 1
-  begin_time: 2011-07-11 10:14:16
-  end_time: 2011-07-11 10:14:16
+  begin_time: 2011-07-11 14:13:12
+  end_time: 2011-07-11 14:13:12
 
 two:
   period_id: 1
   classroom_id: 1
   course_id: 1
   lecturer_id: 1
-  begin_time: 2011-07-11 10:14:16
-  end_time: 2011-07-11 10:14:16
+  begin_time: 2011-07-11 14:13:12
+  end_time: 2011-07-11 14:13:12

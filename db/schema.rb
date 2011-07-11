@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110711071419) do
+ActiveRecord::Schema.define(:version => 20110711111318) do
 
   create_table "class_plans", :force => true do |t|
     t.integer  "period_id"

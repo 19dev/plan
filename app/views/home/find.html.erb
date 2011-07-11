@@ -1,5 +1,5 @@
 <% @lecturers.each do |lecturer| %>
-	<div id="lecturer">
+	<div id="info">
 		<% if File::exists? RAILS_ROOT + "/public/images/#{lecturer.id}.png" %>
 			<%= image_tag "/images/#{lecturer.id}.png" %>
 		<% else %>

@@ -6,13 +6,13 @@ class UserController < ApplicationController
   def find
 	# kontrollere rails'in genel bir önerisi olmalısı lazım'
 	if params[:name].empty?
-		@error="ad bos birakilamaz"
-		render '/admin/login' # direct olmaması lazım'
+		@error = "ad bos birakilamaz"
+		return render '/user/login' # direct olmaması lazım'
 	end
 
 	if params[:pass].empty?
-		@error="sifre bos birakilamaz"
-		render '/admin/login' # direct olmaması lazım
+		@error = "sifre bos birakilamaz"
+		return render '/user/login' # direct olmaması lazım
 	end
 
 	@users = Users.find :first, :conditions => { :first_name => params[:name], :password => params[:pass] }

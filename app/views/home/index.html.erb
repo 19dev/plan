@@ -1,6 +1,6 @@
 <div id="login">
 	<% form_tag :action => 'find' do %>
-	<table class="form">
+	<table class="custom">
 	<tr>
 		<td class="label"> departments: </td>
 		<td class="field">
@@ -10,18 +10,18 @@
 				<option value="<%= t.id %>"><%= t.name %></option>
 			<% end %>
 			</select>
-		</td>	
+		</td>
 	</tr>
 	<tr>
 		<td class="label"> name: </td>
 		<td class="field">
 			<%= text_field_tag :name %>
-		</td>	
+		</td>
 	</tr>
 	<tr>
 		<td></td>
 		<td>
-			<%= submit_tag "arama yap", :id => "student_user_submit" %>
+			<%= submit_tag "arama yap", :id => "submit_button" %>
 		</td>
 	</tr>
 	</table>

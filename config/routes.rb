@@ -1,8 +1,10 @@
 Schedule::Application.routes.draw do
   get "user/login"
+  post "user/login"
   post "user/find"
 
   get "home/index"
+  post "home/index"
   post "home/find"
 
   # The priority is based upon order of creation:
