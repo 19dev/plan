@@ -6,6 +6,7 @@ class AdminController < ApplicationController
 				'admins' => 'first_name'
 			}
 	session[:TABLE_INIT] = 'admins'
+	redirect_to '/admin/home' if session[:admin]
   end
 
   def find
@@ -32,7 +33,7 @@ class AdminController < ApplicationController
   end
 
   def home
-
+	@title="Yonetici Paneli"
   end
 
   def table
@@ -42,6 +43,22 @@ class AdminController < ApplicationController
 		@TABLE = session[:TABLE_INIT]
 	end
 	@correct = "#{@TABLE} tablosu basariyla secildi"
+	session[:SAVE] = @TABLE
+	session[:TABLE] = @TABLE
 	session[:KEY] = session[:TABLES][@TABLE]
+
+  end
+
+  def logout
+	if session[:admin]
+		session[:admin] = nil
+		session[:adminusername] = nil
+		session[:adminpassword] = nil
+		session[:adminsuper] = nil
+		session[:TABLE] = nil
+		session[:TABLE_INIT] = nil
+		session[:TABLES] = nil
+	end
+	redirect_to '/admin/login'
   end
 end

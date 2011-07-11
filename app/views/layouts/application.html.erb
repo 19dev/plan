@@ -40,10 +40,10 @@
       <div id="leftcolumn">
         <table>
           <tr><td>
-              <img src="/images/table.png"/>{{@SESSION.TABLE}}
+              <img src="/images/table.png"/><%= session[:TABLE] %>
           </td></tr>
           <tr><td>
-              <img src="/images/save.png"/>{{@SESSION.SAVE}}
+          <img src="/images/save.png"/><%= session[:SAVE] %>
           </td></tr>
           <tr><td>
               <a href="<% RAILS_ROOT %>" title="">
