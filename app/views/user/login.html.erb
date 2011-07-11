@@ -1,0 +1,26 @@
+<div id="login">
+	<% form_tag :action => 'find' do %>
+	<table class="form">
+	<tr>
+		<td class="label"> İsim: </td>
+		<td class="field">
+			<%= text_field_tag :name %>
+		</td>	
+	</tr>
+	<tr>
+		<td class="label"> Şifre: </td>
+		<td class="field">
+			<%= text_field_tag :pass %>
+		</td>	
+	</tr>
+	<tr>
+		<td></td>
+		<td>
+			<%= submit_tag "arama yap", :id => "student_user_submit" %>
+		</td>
+	</tr>
+	</table>
+	<% end %>
+</div>
+
+

@@ -1,0 +1,51 @@
+: bölüm
+
+a = Departments.new
+a.name = 'Bilgisayar Mühendisliği'
+a.chairman = "Nurettin Şenyer"
+a.save
+
+a = Departments.new
+a.name = 'Elektirik elektronik Mühnedisliği'
+a.chairman = "Şişko adam"
+a.save
+
+a = Departments.new
+a.name = "Makina Mühendisliği"
+a.chairman = "Ne bileyim"
+a.save
+
+: hoca
+
+a = Lecturers.new
+a.department_id = 1
+a.first_name = "Recai"
+a.last_name = "Oktaş"
+a.email = "roktas@bil.omu.edu.tr"
+a.save
+
+a = Lecturers.new
+a.department_id = 1
+a.first_name = "Recai"
+a.last_name = "himmm"
+a.email = "himmm@bil.omu.edu.tr"
+a.save
+
+a = Lecturers.new
+a.department_id = 1
+a.first_name = "Onur"
+a.last_name = "baran"
+a.email = "obaran@bil.omu.edu.tr"
+a.save
+
+a = Lecturers.new
+a.department_id = 2
+a.first_name = "bay x"
+a.last_name = "bay surname 3gx"
+a.email = "3x@bil.omu.edu.tr"
+a.save
+
+a = Users.new
+a.first_name = "gdemir"
+a.password = "12345"
+a.save
