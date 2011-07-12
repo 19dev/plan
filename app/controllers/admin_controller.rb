@@ -3,10 +3,25 @@ class AdminController < ApplicationController
   def login
 	@title = "Yonetici Paneli"
 	session[:TABLES] = {
-				'admins' => 'first_name'
+				"Admins" => 'id',
+				"Lecturers" => 'id'
 			}
-	session[:TABLE_INIT] = 'admins'
+	session[:TABLE_INIT] = "Admins"
 	redirect_to '/admin/home' if session[:admin]
+  end
+
+  def logout
+	if session[:admin]
+		session[:admin] = nil
+		session[:adminusername] = nil
+		session[:adminpassword] = nil
+		session[:adminsuper] = nil
+		session[:TABLE] = nil
+		session[:TABLE_INIT] = nil
+		session[:TABLES] = nil
+		session[:KEY] = nil
+	end
+	redirect_to '/admin/login'
   end
 
   def find
@@ -21,15 +36,14 @@ class AdminController < ApplicationController
 		return render '/admin/login', # direct olmaması lazım
 	end
 
-	table # ilk tablo seçilsin
-
 	@admins = Admins.find :first, :conditions => { :first_name => params[:first_name], :password => params[:password] }
-	@correct = "giris yapildi" # türkçe karakter sıkıntısı var
+
 	session[:admin] = true
 	session[:adminusername] = @admins.first_name
 	session[:adminpassword] = @admins.password
 	session[:adminsuper] = @admins.status
-	redirect_to '/admin/home'
+
+	table # ilk tablo seçilsin
   end
 
   def home
@@ -38,27 +52,19 @@ class AdminController < ApplicationController
 
   def table
 	if params[:table]
-		@TABLE = params[:table]
+		table = params[:table]
 	else
-		@TABLE = session[:TABLE_INIT]
+		table = session[:TABLE_INIT]
 	end
-	@correct = "#{@TABLE} tablosu basariyla secildi"
-	session[:SAVE] = @TABLE
-	session[:TABLE] = @TABLE
-	session[:KEY] = session[:TABLES][@TABLE]
+	@correct = "#{table} tablosu basariyla secildi"
+	session[:SAVE] = eval table.capitalize + ".count"
+	session[:TABLE] = table
+	session[:KEY]  = session[:TABLES][table]
 
+	redirect_to '/admin/home'
   end
 
-  def logout
-	if session[:admin]
-		session[:admin] = nil
-		session[:adminusername] = nil
-		session[:adminpassword] = nil
-		session[:adminsuper] = nil
-		session[:TABLE] = nil
-		session[:TABLE_INIT] = nil
-		session[:TABLES] = nil
-	end
-	redirect_to '/admin/login'
+  def review
+	@datas = eval session[:TABLE].capitalize + ".all"
   end
 end

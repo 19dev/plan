@@ -1,21 +1,12 @@
 <div class="page">
   <h2 id="headline">HOŞGELDİNİZ</h2>
-  <br /><br />
   Veritabanının ilgili tablosunu seçiniz.
-  <form name="login" action="table" method="POST" id="login"
-    enctype="multipart/form-data">
+  <% form_tag :action => 'table' do %>
     <table class="custom">
       <tr>
         <td class="label">tablo:</td>
         <td class="field">
-          <select name="table">
-
-              <option value="" selected></option>
-              <% session[:TABLES].each do |table, key| %>
-                <option value="<%= table %>"><%= table %></option>
-              <% end %>
-
-          </select>
+          <%= select_tag :table, options_for_select(session[:TABLES].keys.map {|key| key.to_s}) %>
         </td>
       </tr>
       <tr>
@@ -23,7 +14,6 @@
         <td>
           <%= submit_tag "Seç", :id => "submit_button" %>
         </td>
-      </form>
-    </div>
-  </div>
+  <% end %>
+  </table>
 </div>

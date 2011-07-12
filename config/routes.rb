@@ -5,8 +5,9 @@ Schedule::Application.routes.draw do
   get  "admin/logout"
 
   post "admin/table"
- 
-  get "home/index"
+  get  "admin/review"
+
+  get  "home/index"
   post "home/index"
   post "home/find"
 
