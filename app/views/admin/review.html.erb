@@ -1,0 +1,24 @@
+<div class="page">
+  <h2 id="headline"><%= session[:TABLE] + session[:KEY] %> tablosu inceleniyor</h2>
+  <table class="custom">
+    <tr>
+      <% eval(session[:TABLE] + ".columns").map do |c| %>
+        <td class="label"><%= c.name %></td>
+      <% end %>
+    </tr>
+
+    <% @datas.each do |kisi| %>
+    <tr>
+      <% eval(session[:TABLE] + ".columns").map do |c| %>
+        <td class="label"><%= kisi.attributes[c.name] %></td>
+      <% end %>
+      <td class="label">
+        <% form_tag  :action => 'find' do %>
+          <input type="hidden" name="key" id="key" value="<%= kisi.attributes[session[:KEY]] %>" />
+          <%= submit_tag "İncele", :id => "submit_button" %>
+        <% end %>
+      </td>
+    </tr>
+    <% end %>
+  </table>
+</div>
