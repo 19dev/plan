@@ -176,6 +176,16 @@ h2.yellow {color:#fc9200;color:#d17200;}
 }
 /* ------------------------------------------------------------------ */
 
+
+select{
+    border:1px solid #bdc7d8;
+    font:   13px Arial, Helvetica, sans-serif;
+    padding:3px;
+    background:#fff;width:  158px;
+    height: 27px;
+    color:  #585858;
+}
+
 h1#headline,
 h2#headline,
 h3#headline,
@@ -194,32 +204,4 @@ h5#headline{
     margin-top:0px;
 }
 
-#footer {
-    margin-top: 270px; /* ustten ise */
-    margin-bottom: -350px; /* alttan 1.5 */
-    margin-left: -10px;
-    margin-right: -10px;
-    color: #585858;
-    font: 80% "Helvetica Neue", Arial, Helvetica, sans-serif;
-    text-align: center;
-    padding: 1em;
-    background-color: #eee; /* gray */
-    border: 1px solid #bebebe; /* cercevemiz */
-}
 
-#info {
-    color: #3b3b3b;
-    width: 500px;
-    margin: 30px auto 30px;
-    background: #eff;
-    padding: 20px 30px;
-    height: auto;
-    font-size: 1em;
-    font-family: arial, helvetica, sans-serif;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    -webkit-box-shadow: 0 2px 2px rgba(0,0,0,0.2);
-    -moz-box-shadow: 0 2px 2px rgba(0,0,0,0.2);
-    box-shadow: 0 2px 2px rgba(0,0,0,0.2);
-}

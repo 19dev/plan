@@ -11,13 +11,8 @@ class HomeController < ApplicationController
 		@departments = Departments.all # renderde /home/index'te tekrardan görmüyor
 		return render '/home/index'
 	end
-	if params[:name].empty?
-		@error = "hoca adi bos birakilamaz"
-		@departments = Departments.all # renderde /home/index'te tekrardan görmüyor
-		return render '/home/index'
-	end
 
-	@lecturers = Lecturers.find :all, :conditions => { :first_name => params[:name], :department_id => params[:id] }
+	@lecturers = Lecturers.find :all, :conditions => { :department_id => params[:id] }
 	@correct = "hoca bulundu"
   end
 end
