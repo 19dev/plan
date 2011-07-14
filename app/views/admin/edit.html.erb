@@ -1,5 +1,5 @@
 <div class="page">
-  <h2 id="headline"><%= session[:TABLE] %> tablosu inceleniyor</h2>
+  <h2 id="headline">Kayıt Düzenle</h2>
   <% form_tag  :action => 'update' do %>
     <table class="custom">
       <strong><%= session[:_key] %></strong> id'sine ait tüm bilgiler</p>
@@ -7,7 +7,7 @@
         <tr>
           <% if  c.name != session[:KEY] %>
             <td class="label"><%= c.name %></td>
-            <td class="field"><%= text_field_tag :_key, @data.attributes[c.name] %></td>
+            <td class="field"><%= text_field_tag c.name, @data.attributes[c.name] %></td>
           <% end %>
         </tr>
       <% end %>

@@ -10,11 +10,13 @@ Schedule::Application.routes.draw do
 
   post "admin/table"
   get  "admin/review"
-  post "admin/find"
-  get  "admin/ok"
+  post "admin/look"
   post "admin/del"
   post "admin/edit"
   post "admin/update"
+  get  "admin/find"
+  get  "admin/new"
+  post "admin/add"
 
   # HOME
   #

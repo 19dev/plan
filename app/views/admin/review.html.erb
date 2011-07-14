@@ -13,7 +13,7 @@
         <td class="label"><%= kisi.attributes[c.name] %></td>
       <% end %>
       <td class="label">
-        <% form_tag  :action => 'find' do %>
+        <% form_tag  :action => 'look' do %>
           <%= hidden_field_tag :_key,  kisi.attributes[session[:KEY]] %>
           <%= submit_tag "İncele", :id => "submit_button" %>
         <% end %>

@@ -1,5 +1,5 @@
 <div class="page">
-  <h2 id="headline"><%= session[:TABLE] %> tablosu inceleniyor</h2>
+  <h2 id="headline">İnceleme Sonuçları</h2>
   <table class="custom">
     <strong><%= session[:_key] %></strong> id'sine ait tüm bilgiler</p>
     <% eval(session[:TABLE] + ".columns").map do |c| %>
@@ -17,7 +17,7 @@
           <%= submit_tag "Düzenle", :id => "submit_button" %>
         <% end %>
         <% form_tag  :action => 'del' do %>
-          <%= submit_tag "Sil", :id => "submit_button" %>
+          <%= submit_tag "Sil", :id => "submit_button", :confirm => 'Are you sure?' %>
         <% end %>
       </td>
     </tr>

@@ -1,0 +1,15 @@
+<div class="page">
+  <h2 id="headline">Kayıt Bul</h2>
+  <% form_tag  :action => 'look' do %>
+    <table class="custom">
+      <tr>
+        <td class="label"><%= session[:KEY] %></td>
+        <td class="field"><%= text_field_tag :_key %></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><%= submit_tag "Bul", :id => "submit_button" %></td>
+      </tr>
+    </table>
+  <% end %>
+</div>

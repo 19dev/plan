@@ -1,0 +1,19 @@
+<div class="page">
+  <h2 id="headline">Kayıt Ekle</h2>
+  <% form_tag  :action => 'add' do %>
+    <table class="custom">
+      <% eval(session[:TABLE] + ".columns").map do |c| %>
+        <tr>
+          <% if c.name != session[:KEY] %>
+            <td class="label"><%= c.name %></td>
+            <td class="field"><%= text_field_tag c.name %></td>
+          <% end %>
+        </tr>
+      <% end %>
+      <tr>
+        <td></td>
+        <td><%= submit_tag "Kaydet", :id => "submit_button" %></td>
+      </tr>
+    </table>
+  <% end %>
+</div>

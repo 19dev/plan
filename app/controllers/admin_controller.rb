@@ -1,53 +1,42 @@
 class AdminController < ApplicationController
 
   def giris
-    @title = "Yonetici Paneli"
     session[:TABLES] = {
 			"Admins" => 'id',
 			"Lecturers" => 'id'
-		}
+                        }
     session[:TABLE_INIT] = "Admins"
+    @title = "Yonetici Paneli"
     redirect_to '/admin/home' if session[:admin]
   end
 
   def login
-    # kontrollere rails'in genel bir önerisi olması lazım'
-    if params[:first_name].empty?
-      @error = "ad bos birakilamaz"
-      return render '/admin/giris' # direct olmaması lazım'
+    if admin = Admins.find(:first, :conditions => { :first_name => params[:first_name], :password => params[:password] })
+      session[:admin] = true
+      session[:adminusername] = admin.first_name
+      session[:adminpassword] = admin.password
+      session[:adminsuper] = admin.status
+
+      table # ilk tablo seçilsin, oyun başlasın
+    else
+      @error = "isim veya sifre hatali"
+      return render '/admin/giris'
     end
-
-    if params[:password].empty?
-      @error = "sifre bos birakilamaz"
-      return render '/admin/giris', # direct olmaması lazım
-    end
-
-    @admins = Admins.find :first, :conditions => { :first_name => params[:first_name], :password => params[:password] }
-
-    session[:admin] = true
-    session[:adminusername] = @admins.first_name
-    session[:adminpassword] = @admins.password
-    session[:adminsuper] = @admins.status
-
-    table # ilk tablo seçilsin
   end
 
   def logout
     if session[:admin]
-      session[:admin] = nil
-      session[:adminusername] = nil
-      session[:adminpassword] = nil
-      session[:adminsuper] = nil
-      session[:TABLE_INIT] = nil
-      session[:TABLES] = nil
-      session[:TABLE] = nil
-      session[:KEY] = nil
+      reset_session
+#      session[:admin] = nil
+#      session[:adminusername] = nil
+#      session[:adminpassword] = nil
+#      session[:adminsuper] = nil
+#      session[:TABLE_INIT] = nil
+#      session[:TABLES] = nil
+#      session[:TABLE] = nil
+#      session[:KEY] = nil
     end
     redirect_to '/admin/giris'
-  end
-
-  def home
-    @title="Yonetici Paneli"
   end
 
   def table
@@ -59,23 +48,37 @@ class AdminController < ApplicationController
     @correct = "#{table} tablosu basariyla secildi"
     session[:SAVE] = eval table.capitalize + ".count"
     session[:TABLE] = table
-    session[:KEY]  = session[:TABLES][table]
+    session[:KEY] = session[:TABLES][table]
 
+    @title = "Yonetici Paneli"
     render '/admin/home'
   end
 
-  def find
+  def new
+    session[:_key] = nil
+  end
+
+  def add
+    table = session[:TABLE]
+    key = session[:KEY]
+
+    _post = {}
+    eval(table + ".columns").map do |c|
+      _post[c.name] = params[c.name]
+    end
+    eval table.capitalize + ".new(_post)"
+    session[:_key] = _post[key]
+
+  end
+
+  def look
+    @title = "Kayit Inceleniyor"
     table = session[:TABLE]
     key = session[:KEY]
     _key = params[:_key]
 
     session[:_key] = _key # uniq veriyi oturuma gömelim
     @data = eval table.capitalize + ".find :first, :conditions => { key => _key }"
-    render '/admin/ok'
-  end
-
-  def ok
-    @title = "Inceleme Sonuclari"
   end
 
   def review
@@ -88,11 +91,12 @@ class AdminController < ApplicationController
     _key = session[:_key]
 
     @data = eval table.capitalize + ".find :first, :conditions => { key => _key }"
-    render '/admin/edit'
   end
 
   def del
-
+    table = session[:TABLE]
+    _key = session[:_key]
+    eval table + ".delete(_key)"
   end
 
   def update
@@ -100,7 +104,13 @@ class AdminController < ApplicationController
     key = session[:KEY]
     _key = session[:_key]
 
+    _post = {}
+    eval(table + ".columns").map do |c|
+      _post[c.name] = params[c.name]
+    end
+
+    eval table.capitalize + ".update(_key, _post)"
     @data = eval table.capitalize + ".find :first, :conditions => { key => _key }"
-    @data.update_attributes(params[:first_name])
+    render '/admin/look'
   end
 end
