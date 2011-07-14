@@ -1,0 +1,26 @@
+<style>
+  #content{margin-top:8%;width:400px;min-height:240px;}
+  #p.fail{ margin:50px auto -84px;}
+</style>
+
+<h2 id="headline">Yonetici Girisi</h2>
+<div id="login">
+  <% form_tag :action => 'login' do %>
+    <table class="login">
+      <tr>
+        <td class="label"> İsim: </td>
+        <td class="field"><%= text_field_tag :first_name %></td>
+      </tr>
+      <tr>
+        <td class="label"> Şifre: </td>
+        <td class="field"><%= password_field_tag :password %></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><%= submit_tag "Giriş Yap", :id => "submit_button" %></td>
+      </tr>
+    </table>
+  <% end %>
+</div>
+
+

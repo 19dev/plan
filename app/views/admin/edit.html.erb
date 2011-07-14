@@ -1,0 +1,20 @@
+<div class="page">
+  <h2 id="headline"><%= session[:TABLE] %> tablosu inceleniyor</h2>
+  <% form_tag  :action => 'update' do %>
+    <table class="custom">
+      <strong><%= session[:_key] %></strong> id'sine ait tüm bilgiler</p>
+      <% eval(session[:TABLE] + ".columns").map do |c| %>
+        <tr>
+          <% if  c.name != session[:KEY] %>
+            <td class="label"><%= c.name %></td>
+            <td class="field"><%= text_field_tag :_key, @data.attributes[c.name] %></td>
+          <% end %>
+        </tr>
+      <% end %>
+      <tr>
+        <td></td>
+        <td><%= submit_tag "Güncelle", :id => "submit_button" %></td>
+      </tr>
+    </table>
+  <% end %>
+</div>
