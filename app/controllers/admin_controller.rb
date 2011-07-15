@@ -40,11 +40,7 @@ class AdminController < ApplicationController
   end
 
   def table
-    if params[:table]
-      table = params[:table]
-    else
-      table = session[:TABLE_INIT]
-    end
+    table = if params[:table]; params[:table] else session[:TABLE_INIT] end
     @correct = "#{table} tablosu basariyla secildi"
     session[:TABLE] = table
     session[:SAVE] = eval table.capitalize + ".count"
