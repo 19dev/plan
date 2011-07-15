@@ -65,13 +65,13 @@ class AdminController < ApplicationController
     session[:_key] = data[session[:KEY]]
     session[:SAVE] += 1
 
-    look # göster
+    show # göster
   end
 
-  def look # post ise oturma göm + verileri göster
+  def show # post ise oturma göm + verileri göster
     session[:_key] = params[:_key] if params[:_key] # uniq veriyi oturuma gömelim
     @data = eval session[:TABLE].capitalize + ".find :first, :conditions => { session[:KEY] => session[:_key] }"
-    render '/admin/look'
+    render '/admin/show'
   end
 
   def review
@@ -100,6 +100,6 @@ class AdminController < ApplicationController
     eval(table + ".columns").map { |c| _post[c.name] = params[c.name] }
     eval table.capitalize + ".update(session[:_key], _post)"
 
-    look # göster
+    show # göster
   end
 end
