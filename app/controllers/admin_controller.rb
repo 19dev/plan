@@ -17,7 +17,7 @@ class AdminController < ApplicationController
       session[:adminpassword] = admin.password
       session[:adminsuper] = admin.status
 
-      table # ilk tablo seçilsin, oyun başlasın
+      table # ilk tablo seçilsin, oyun başlasın!
     else
       @error = "isim veya sifre hatali"
       return render '/admin/giris'
@@ -46,11 +46,11 @@ class AdminController < ApplicationController
       table = session[:TABLE_INIT]
     end
     @correct = "#{table} tablosu basariyla secildi"
-    session[:SAVE] = eval table.capitalize + ".count"
     session[:TABLE] = table
+    session[:SAVE] = eval table.capitalize + ".count"
     session[:KEY] = session[:TABLES][table]
 
-    @title = "Yonetici Paneli"
+    @title = "Yonetici Panelix"
     render '/admin/home'
   end
 
@@ -60,25 +60,22 @@ class AdminController < ApplicationController
 
   def add
     table = session[:TABLE]
-    key = session[:KEY]
 
     _post = {}
-    eval(table + ".columns").map do |c|
-      _post[c.name] = params[c.name]
-    end
-    eval table.capitalize + ".new(_post)"
-    session[:_key] = _post[key]
+    eval(table + ".columns").map { |c| _post[c.name] = params[c.name] }
 
+    data = eval table.capitalize + ".new(_post)"
+    data.save
+    session[:_key] = data[session[:KEY]]
+    session[:SAVE] += 1
+
+    look # göster
   end
 
-  def look
-    @title = "Kayit Inceleniyor"
-    table = session[:TABLE]
-    key = session[:KEY]
-    _key = params[:_key]
-
-    session[:_key] = _key # uniq veriyi oturuma gömelim
-    @data = eval table.capitalize + ".find :first, :conditions => { key => _key }"
+  def look # post ise oturma göm + verileri göster
+    session[:_key] = params[:_key] if params[:_key] # uniq veriyi oturuma gömelim
+    @data = eval session[:TABLE].capitalize + ".find :first, :conditions => { session[:KEY] => session[:_key] }"
+    render '/admin/look'
   end
 
   def review
@@ -86,31 +83,27 @@ class AdminController < ApplicationController
   end
 
   def edit
-    table = session[:TABLE]
-    key = session[:KEY]
-    _key = session[:_key]
-
-    @data = eval table.capitalize + ".find :first, :conditions => { key => _key }"
+    @data = eval session[:TABLE].capitalize + ".find :first, :conditions => { session[:KEY] => session[:_key] }"
   end
 
   def del
     table = session[:TABLE]
     _key = session[:_key]
+
     eval table + ".delete(_key)"
+    session[:SAVE] -= 1
+    session[:_key] = nil # kişinin oturumunu öldürelim
+    @data = eval table.capitalize + ".find :first, :conditions => { session[:KEY] => _key }"
+    render '/admin/find'
   end
 
   def update
     table = session[:TABLE]
-    key = session[:KEY]
-    _key = session[:_key]
 
     _post = {}
-    eval(table + ".columns").map do |c|
-      _post[c.name] = params[c.name]
-    end
+    eval(table + ".columns").map { |c| _post[c.name] = params[c.name] }
+    eval table.capitalize + ".update(session[:_key], _post)"
 
-    eval table.capitalize + ".update(_key, _post)"
-    @data = eval table.capitalize + ".find :first, :conditions => { key => _key }"
-    render '/admin/look'
+    look # göster
   end
 end
