@@ -1,23 +1,14 @@
 <div id="login">
-	<% form_tag :action => 'find' do %>
-	<table class="custom">
-	<tr>
-		<td class="label"> departments: </td>
-		<td class="field">
-			<select name="id">
-				<option value="" selected></option>
-			<% @departments.each do |t| %>
-				<option value="<%= t.id %>"><%= t.name %></option>
-			<% end %>
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<td></td>
-		<td>
-			<%= submit_tag "arama yap", :id => "submit_button" %>
-		</td>
-	</tr>
-	</table>
-	<% end %>
+  <% form_tag :action => 'find' do %>
+    <table class="custom">
+      <tr>
+        <td class="label"> departments: </td>
+        <td class="field"><%= select_tag(:id, options_from_collection_for_select(Departments.all, :id, :name)) %></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><%= submit_tag "arama yap", :id => "submit_button" %></td>
+      </tr>
+    </table>
+  <% end %>
 </div>
