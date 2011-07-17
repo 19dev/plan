@@ -4,7 +4,7 @@ class AdminController < ApplicationController
     session[:TABLES] = {
 			"Admins" => 'id',
 			"Lecturers" => 'id',
-                        "Class_plans" => 'id',
+                        "Classplans" => 'id',
                         "Classrooms" => 'id',
                         "Courses" => 'id',
                         "Departments" => 'id',

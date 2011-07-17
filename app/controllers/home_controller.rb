@@ -7,11 +7,14 @@ class HomeController < ApplicationController
     # kontrollere rails'in genel bir önerisi olmalısı lazım'
     if params[:id].empty?
       @error = "bolum adi bos birakilamaz"
-      @departments = Departments.all # renderde /home/index'te tekrardan görmüyor
       return render '/home/index'
     end
 
-    @lecturers = Lecturers.find :all, :conditions => { :department_id => params[:id] }
-    @correct = "hoca bulundu"
+    if @lecturers = Lecturers.find(:all, :conditions => { :department_id => params[:id] })
+      @correct = "Bolum basariyla secildi"
+    else
+      @error = "Bu bolumde henuz hoca yok"
+      return render '/home/index'
+    end
   end
 end

@@ -5,7 +5,24 @@
     <% else %>
       <%= image_tag "/images/lecturer.png" %>
     <% end %>
-      <%= lecturer.first_name %>
-      <%= lecturer.last_name %>
+        <table class="custom">
+          <tr>
+            <td class="label"> Adı: </td>
+            <td class="field"><%= lecturer.first_name %></td>
+          </tr>
+          <tr>
+            <td class="label"> Soyadı: </td>
+            <td class="field"><%= lecturer.last_name %></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <% form_tag   do %>
+                <%= hidden_field_tag :_key,  lecturer.id %>
+                <%= submit_tag "Ders programı", :id => "submit_button" %>
+              <% end %>
+            </td>
+          </tr>
+        </table>
   </div>
 <% end %>

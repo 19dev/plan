@@ -18,7 +18,7 @@ tables = [
 	"classrooms " +
 		"name:string floor:string capacity:integer type:string",
 
-	"class_plans " +
+	"classplans " +
 		"period_id:integer classroom_id:integer course_id:integer lecturer_id:integer begin_time:datetime end_time:datetime",
 
 	"admins " +
