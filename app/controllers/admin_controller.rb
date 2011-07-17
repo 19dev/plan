@@ -3,7 +3,12 @@ class AdminController < ApplicationController
   def giris
     session[:TABLES] = {
 			"Admins" => 'id',
-			"Lecturers" => 'id'
+			"Lecturers" => 'id',
+                        "Class_plans" => 'id',
+                        "Classrooms" => 'id',
+                        "Courses" => 'id',
+                        "Departments" => 'id',
+                        "Periods" => 'id',
                         }
     session[:TABLE_INIT] = "Admins"
     @title = "Yonetici Paneli"
@@ -102,4 +107,5 @@ class AdminController < ApplicationController
 
     show # göster
   end
+
 end
