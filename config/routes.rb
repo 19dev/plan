@@ -18,6 +18,7 @@ Schedule::Application.routes.draw do
   get  "admin/new"
   post "admin/add"
 
+  get "admin/info"
   # HOME
   #
   get  "home/index"
