@@ -1,28 +1,42 @@
 <% @lecturers.each do |lecturer| %>
   <div id="info">
-    <% if File::exists? RAILS_ROOT + "/public/images/#{lecturer.id}.png" %>
-      <%= image_tag "/images/#{lecturer.id}.png" %>
-    <% else %>
-      <%= image_tag "/images/lecturer.png" %>
-    <% end %>
-        <table class="custom">
-          <tr>
-            <td class="label"> Adı: </td>
-            <td class="field"><%= lecturer.first_name %></td>
-          </tr>
-          <tr>
-            <td class="label"> Soyadı: </td>
-            <td class="field"><%= lecturer.last_name %></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>
-              <% form_tag   do %>
-                <%= hidden_field_tag :_key,  lecturer.id %>
-                <%= submit_tag "Ders programı", :id => "submit_button" %>
-              <% end %>
-            </td>
-          </tr>
-        </table>
+    <div id="leftcolumn">
+      <% if File::exists? RAILS_ROOT + "/public/images/#{lecturer.id}.png" %>
+        <%= image_tag "/images/#{lecturer.id}.png" %>
+      <% else %>
+        <%= image_tag "/images/lecturer.png" %>
+      <% end %>
+    </div>
+    <table class="custom">
+      <tr>
+        <td class="label"> Adı: </td>
+        <td class="field"><%= lecturer.first_name %></td>
+      </tr>
+      <tr>
+        <td class="label"> Soyadı: </td>
+        <td class="field"><%= lecturer.last_name %></td>
+      </tr>
+      <tr>
+        <td class="label"> Email: </td>
+        <td class="field"><%= lecturer.email %></td>
+      </tr>
+      <tr>
+        <td class="label"> Cep telefon: </td>
+        <td class="field"><%= lecturer.cell_phone %></td>
+      </tr>
+      <tr>
+        <td class="label"> İş telefonu: </td>
+        <td class="field"><%= lecturer.work_phone %></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <% form_tag   do %>
+            <%= hidden_field_tag :_key,  lecturer.id %>
+            <%= submit_tag "Ders programı", :id => "submit_button" %>
+          <% end %>
+        </td>
+      </tr>
+    </table>
   </div>
 <% end %>

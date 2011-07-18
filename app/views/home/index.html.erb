@@ -2,7 +2,7 @@
   <% form_tag :action => 'find' do %>
     <table class="custom">
       <tr>
-        <td class="label"> departments: </td>
+        <td class="label"> Bölümler: </td>
         <td class="field"><%= select_tag(:id, options_from_collection_for_select(Departments.all, :id, :name)) %></td>
       </tr>
       <tr>
