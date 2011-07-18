@@ -4,8 +4,23 @@
     <table class="custom">
       <% eval(session[:TABLE] + ".columns").map do |c| %>
         <tr>
+          <% if session[:adminsuper] %> <!-- harbi admin -->
             <td class="label"><%= c.name %></td>
-            <td class="field"><%= text_field_tag c.name %></td>
+            <td class="field">
+              <% if c.name == "photo" %><%= file_field_tag :file %>
+              <% else %>                <%= text_field_tag c.name %>
+              <% end %>
+            </td>
+          <% else %>
+            <% unless c.name == "created_at" or c.name == "updated_at" or c.name == "id"  or c.name == "department_id" %>
+              <td class="label"><%= c.name %></td>
+              <td class="field">
+                <% if c.name == "photo" %><%= file_field_tag :file %>
+                <% else %>                <%= text_field_tag c.name %>
+                <% end %>
+              </td>
+            <% end %>
+          <% end %>
         </tr>
       <% end %>
       <tr>

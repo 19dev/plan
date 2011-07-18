@@ -7,7 +7,7 @@ tables = [
 		"name:string chairman:string",
 
 	"lecturers " +
-		"department_id:integer first_name:string last_name:string email:string cell_phone:string work_phone:string",
+		"department_id:integer first_name:string last_name:string email:string cell_phone:string work_phone:string photo:string",
 
 	"courses " +
 		"department_id:integer period_id:integer code:string name:string theoretical:string practice:string lab:string credit:integer",

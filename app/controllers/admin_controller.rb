@@ -20,7 +20,7 @@ class AdminController < ApplicationController
       session[:admin] = true
       session[:adminusername] = admin.first_name
       session[:adminpassword] = admin.password
-      session[:adminsuper] = admin.status
+      session[:adminsuper] = true if admin.status == 1
 
       table # ilk tablo seçilsin, oyun başlasın!
     else
