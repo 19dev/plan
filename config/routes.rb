@@ -19,8 +19,6 @@ Schedule::Application.routes.draw do
   post "admin/add"
 
   get "admin/info"
-  get "admin/upload"
-  post "admin/upload"
   # HOME
   #
   get  "home/index"
