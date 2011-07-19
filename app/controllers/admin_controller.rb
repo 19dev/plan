@@ -59,11 +59,31 @@ class AdminController < ApplicationController
     session[:_key] = nil
   end
 
+  def upload savename, uploaded, overwrite = false
+    destination = Rails.root.join('public', session[:TABLE]) # hedef dizin
+    image = destination.join savename # resmin tam yolu
+
+    # hedef yoksa oluşturalım
+    FileUtils.mkdir(destination) unless File.exist? destination
+
+    message = if uploaded.size > 550000;       "Resim cok buyuk"
+    elsif !uploaded.content_type =~ /jpeg/;    "Resim jpg formatinda olmalidir"
+    elsif File.exist?(image) && !(overwrite);  "Resim zaten var"
+    elsif !FileUtils.mv(uploaded.path, image); "Dosya yukleme hatasi"
+    else nil end
+    return message # mesaj döndüğümüzü belli edelim
+  end
+
   def add
     table = session[:TABLE]
 
     _post = {}
-    eval(table + ".columns").map { |c| _post[c.name] = params[c.name] }
+    eval(table + ".columns").map { |c| _post[c.name] = params[c.name] if c.name != "photo" }
+
+    if error = upload(_post[session[:KEY]], params[:file], false) # üzerine yazma olmasın
+      @error = error
+      return render '/admin/new'
+    end
 
     data = eval table.capitalize + ".new(_post)"
     data.save
@@ -107,5 +127,4 @@ class AdminController < ApplicationController
 
     show # göster
   end
-
 end

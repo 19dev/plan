@@ -17,4 +17,7 @@ class HomeController < ApplicationController
       return render '/home/index'
     end
   end
+  def program
+    lecturer_id = params[:id]
+  end
 end

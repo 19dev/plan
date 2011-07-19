@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110718083659) do
+ActiveRecord::Schema.define(:version => 20110719144246) do
 
   create_table "admins", :force => true do |t|
     t.integer  "department_id"
@@ -44,7 +44,6 @@ ActiveRecord::Schema.define(:version => 20110718083659) do
 
   create_table "courses", :force => true do |t|
     t.integer  "department_id"
-    t.integer  "period_id"
     t.string   "code"
     t.string   "name"
     t.string   "theoretical"

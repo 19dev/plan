@@ -2,7 +2,6 @@ class CreateCourses < ActiveRecord::Migration
   def self.up
     create_table :courses do |t|
       t.integer :department_id
-      t.integer :period_id
       t.string :code
       t.string :name
       t.string :theoretical

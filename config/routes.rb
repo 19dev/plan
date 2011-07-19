@@ -19,11 +19,14 @@ Schedule::Application.routes.draw do
   post "admin/add"
 
   get "admin/info"
+  get "admin/upload"
+  post "admin/upload"
   # HOME
   #
   get  "home/index"
   post "home/index"
   post "home/find"
+  post "home/program"
   # ---------------------
 
   # The priority is based upon order of creation:

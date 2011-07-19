@@ -31,8 +31,8 @@
       <tr>
         <td></td>
         <td>
-          <% form_tag   do %>
-            <%= hidden_field_tag :_key,  lecturer.id %>
+          <% form_tag :action => 'program' do %>
+            <%= hidden_field_tag :id,  lecturer.id %>
             <%= submit_tag "Ders programı", :id => "submit_button" %>
           <% end %>
         </td>
