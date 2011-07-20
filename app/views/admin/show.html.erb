@@ -6,7 +6,11 @@
       <tr>
         <% if  c.name != session[:KEY] %>
           <td class="label"><%= c.name %></td>
-          <td class="field"><%= @data.attributes[c.name] %></td>
+          <td class="field">
+            <% if  c.name == "photo" %><img src="<%= "/images/"+@data.attributes[c.name] %>" />
+            <% else %> <%= @data.attributes[c.name] %>
+            <% end %>
+          </td>
         <% end %>
       </tr>
     <% end %>

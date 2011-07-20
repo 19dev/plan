@@ -11,12 +11,12 @@
     <%= image_tag "/images/mf.jpg" %>
     <h1 style="margin-top:-40px;margin-left:300px;">OMÜ Mühendislik Fakültesi Program Arama Sistemi</h1>
   </div>
-  <% if @error %>
-    <div id="notice"><p class="fail"><%= @error %></p></div>
+  <% if session[:error] %>
+    <div id="notice"><p class="fail"><%= session[:error] %></p></div>
   <% end %>
 
-  <% if @correct %>
-    <div id="notice"><p class="success"><%= @correct %></p></div>
+  <% if session[:correct] %>
+    <div id="notice"><p class="success"><%= session[:correct] %></p></div>
   <% end %>
 
  <div id="content">

@@ -26,12 +26,12 @@
     </div>
   <% end %>
 
-  <% if @error %>
-    <div id="notice"><p class="fail"><%= @error %></p></div>
+  <% if session[:error] %>
+    <div id="notice"><p class="fail"><%= session[:error] %></p></div>
   <% end %>
 
-  <% if @correct %>
-    <div id="notice"><p class="success"><%= @correct %></p></div>
+  <% if session[:correct] %>
+    <div id="notice"><p class="success"><%= session[:correct] %></p></div>
   <% end %>
 
  <div id="content">
