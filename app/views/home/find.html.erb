@@ -1,10 +1,8 @@
 <% @lecturers.each do |lecturer| %>
   <div id="info">
     <div id="leftcolumn">
-      <% if File::exists? RAILS_ROOT + "/public/images/#{lecturer.id}.png" %>
-        <%= image_tag "/images/#{lecturer.id}.png" %>
-      <% else %>
-        <%= image_tag "/images/lecturer.png" %>
+      <% if File::exists? RAILS_ROOT + "/public/images/#{lecturer.photo}" %>
+        <%= image_tag "/images/#{lecturer.photo}" %>
       <% end %>
     </div>
     <table class="custom">
