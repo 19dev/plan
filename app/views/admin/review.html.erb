@@ -10,6 +10,7 @@
     </tr>
 
     <% @data.each do |kisi| %>
+      <!-- günü kurtaran hareket 'department_id' : danışman kendi bölüm hocalarına baksın -->
       <% if kisi.attributes["department_id"] == session[:admindepartment] or session[:adminsuper] %>
       <tr>
         <% eval(session[:TABLE] + ".columns").map do |c| %>
