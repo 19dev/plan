@@ -107,12 +107,18 @@ class AdminController < ApplicationController
   end
 
   def find
+    # günü kurtaran hareket harbi admin değilsen ne işin var burada
+    redirect_to '/admin/home' unless session[:adminsuper]
     session[:error], session[:notice], session[:_key] = nil, nil, nil
   end
 
   def show # post ise oturma göm + verileri göster
     session[:_key] = params[:_key] if params[:_key] # uniq veriyi oturuma gömelim
-    @data = eval(session[:TABLE].capitalize + ".find :first, :conditions => { session[:KEY] => session[:_key] }")
+    unless @data = eval(session[:TABLE].capitalize + ".find :first, :conditions => { session[:KEY] => session[:_key] }")
+      session[:error] = "Boyle bir kayit bulunmamaktadir"
+      return render '/admin/find'
+    end
+    session[:error] = nil
     render '/admin/show'
   end
 

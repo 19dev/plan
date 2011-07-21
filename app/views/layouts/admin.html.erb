@@ -14,7 +14,7 @@
           <li class="current">
             <a href="/admin/giris" title="Kullanıcı adınız"><%= session[:adminusername] %></a>
           </li>
-          <% if session[:superadmin] %>
+          <% if session[:adminsuper] %>
             <li class="green">
               <a href="info" title="Bilgilendirme sayfası">Bilgilendirme</a>
             </li>
@@ -57,7 +57,7 @@
               <a href="new" title="">
                 <img src="/images/add.png"/>Ekle</a>
           </td></tr>
-            <% if session[:superadmin] %>
+            <% if session[:adminsuper] %>
             <tr><td>
               <a href="find" title="">
                 <img src="/images/find.png"/>Bul</a>
