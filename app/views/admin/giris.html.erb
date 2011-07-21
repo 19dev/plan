@@ -1,18 +1,18 @@
 <style>
   #content{margin-top:8%;width:400px;min-height:240px;}
-  p.fail{ margin:150px auto -84px;}
+  .notice, .error {margin-left:460px;margin-top:45px;margin-bottom:-100px;}
 </style>
 
-<h2 id="headline">Yonetici Girisi</h2>
+<h2 class="box-header">Hesabınıza giriş yapın</h2>
 <div id="login">
   <% form_tag :action => 'login' do %>
     <table class="login">
       <tr>
-        <td class="label"> İsim: </td>
+        <td class="label"> Kullanıcı Adı: </td>
         <td class="field"><%= text_field_tag :first_name %></td>
       </tr>
       <tr>
-        <td class="label"> Şifre: </td>
+        <td class="label"> Parola: </td>
         <td class="field"><%= password_field_tag :password %></td>
       </tr>
       <tr>

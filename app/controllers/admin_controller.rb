@@ -1,31 +1,41 @@
 class AdminController < ApplicationController
-
   def giris
-    session[:TABLES] = {
-			"Admins" => 'id',
-			"Lecturers" => 'id',
-                        "Classplans" => 'id',
-                        "Classrooms" => 'id',
-                        "Courses" => 'id',
-                        "Departments" => 'id',
-                        "Periods" => 'id',
-                        }
-    session[:TABLE_INIT] = "Admins"
-    session[:error], session[:correct] = nil, nil
+    session[:error], session[:notice] = nil, nil
     redirect_to '/admin/home' if session[:admin]
   end
 
   def login
     if admin = Admins.find(:first, :conditions => { :first_name => params[:first_name], :password => params[:password] })
       session[:admin] = true
+      session[:admindepartment] = admin.department_id
       session[:adminusername] = admin.first_name
       session[:adminpassword] = admin.password
-      session[:adminsuper] = true if admin.status == 1
-      session[:error], session[:correct] = nil, nil
+      if admin.status == 1
+        session[:TABLES] = {
+                            "Admins" => 'id',
+                            "Lecturers" => 'id',
+                            "Classplans" => 'id',
+                            "Classrooms" => 'id',
+                            "Courses" => 'id',
+                            "Departments" => 'id',
+                            "Periods" => 'id',
+                            }
+        session[:TABLE_INIT] = "Admins"
+        session[:adminsuper] = true
+        session[:escape] = []
+      else
+        session[:TABLES] = {
+                            "Lecturers" => 'id',
+                            "Courses" => 'id',
+                            }
+        session[:TABLE_INIT] = "Lecturers"
+        session[:escape] = ["id", "department_id", "created_at", "updated_at"]
+      end
+      session[:error], session[:notice] = nil, nil
 
       table # ilk tablo seçilsin, oyun başlasın!
     else
-      session[:error] = "isim veya sifre hatali"
+      session[:error] = "Oops! Isminiz veya sifreniz hatali, belkide bunlardan sadece biri hatalidir?"
       return render '/admin/giris'
     end
   end
@@ -37,7 +47,7 @@ class AdminController < ApplicationController
 
   def table
     table = if params[:table]; params[:table] else session[:TABLE_INIT] end
-    session[:correct] = "#{table} tablosu basariyla secildi"
+    session[:notice] = "#{table} tablosu basariyla secildi"
     session[:TABLE] = table
     session[:SAVE] = eval table.capitalize + ".count"
     session[:KEY] = session[:TABLES][table]
@@ -46,7 +56,7 @@ class AdminController < ApplicationController
   end
 
   def new
-    session[:error], session[:correct], session[:_key] = nil, nil, nil
+    session[:error], session[:notice], session[:_key] = nil, nil, nil
   end
 
   # hata var ise oturuma göm; çıkmak isterse nil, doğru ise true dön
@@ -75,6 +85,9 @@ class AdminController < ApplicationController
     photo = params[:file] if params[:file]
     params.select! { |k, v| eval(session[:TABLE] + ".columns").reduce([]) {|res, c| res << c.name; res}.include?(k) }
 
+    # bu bir danışman mı ? O zaman kendi bölümüne eklesin.
+    params[:department_id] = session[:admindepartment] unless params[:department_id]
+
     data = eval session[:TABLE].capitalize + ".new(params)"
     data.save
     session[:_key] = data[session[:KEY]]
@@ -88,44 +101,47 @@ class AdminController < ApplicationController
       data[:photo] = "default.png"
       data.save
     end
-    session[:correct] = "#{session[:_key]} bilgisine sahip kisi #{session[:TABLE]} tablosunu basariyla eklendi"
+    session[:notice] = "#{session[:_key]} bilgisine sahip kisi #{session[:TABLE]} tablosunu basariyla eklendi"
+
     show # göster
   end
 
   def find
-    session[:error], session[:correct], session[:_key] = nil, nil, nil
+    session[:error], session[:notice], session[:_key] = nil, nil, nil
   end
 
   def show # post ise oturma göm + verileri göster
     session[:_key] = params[:_key] if params[:_key] # uniq veriyi oturuma gömelim
-    @data = eval session[:TABLE].capitalize + ".find :first, :conditions => { session[:KEY] => session[:_key] }"
+    @data = eval(session[:TABLE].capitalize + ".find :first, :conditions => { session[:KEY] => session[:_key] }")
     render '/admin/show'
   end
 
   def review
-    session[:error], session[:correct] = nil, nil
+    session[:error], session[:notice] = nil, nil
     @data = eval session[:TABLE].capitalize + ".all"
   end
 
   def edit
+    session[:error], session[:notice] = nil, nil
     @data = eval session[:TABLE].capitalize + ".find :first, :conditions => { session[:KEY] => session[:_key] }"
   end
 
   def del
-    session[:error], session[:correct] = nil, nil
+    session[:error], session[:notice] = nil, nil
 
     eval session[:TABLE] + ".delete(session[:_key])"
 
     image = Rails.root.join 'public', 'images', session[:TABLE], "#{session[:_key]}.jpg" # resmimizin tam yolu
     FileUtils.rm(image) if File.exist? image # resim var ise sil.
     session[:SAVE] -= 1
+    session[:notice] = "#{session[:_key]} bilgisine sahip kisi #{session[:TABLE]} tablosundan basariyla silindi"
     session[:_key] = nil # kişinin oturumunu öldürelim
 
     render '/admin/find'
   end
 
   def update
-    session[:error], session[:correct] = nil, nil
+    session[:error], session[:notice] = nil, nil
 
     photo = params[:file] if params[:file]
     params.select! { |k, v| eval(session[:TABLE] + ".columns").reduce([]) {|res, c| res << c.name; res}.include?(k) }
@@ -138,6 +154,7 @@ class AdminController < ApplicationController
       data[:photo] = "#{session[:TABLE]}/#{session[:_key]}.jpg"
       data.save
     end
+    session[:notice] = "#{session[:_key]} bilgisine sahip kisi #{session[:TABLE]} tablosunda basariyla guncellendi"
 
     show # göster
   end

@@ -6,12 +6,14 @@
       <% eval(session[:TABLE] + ".columns").map do |c| %>
         <tr>
           <% if  c.name != session[:KEY] %>
-            <td class="label"><%= c.name %></td>
-            <td class="field">
-              <% if  c.name == "photo" %><%= file_field_tag :file %>
-              <% else %><%= text_field_tag c.name, @data.attributes[c.name] %>
-              <% end %>
-            </td>
+            <% unless session[:escape].include?(c.name) %> <!-- harbi adminsen gör -->
+              <td class="label"><%= c.name %></td>
+              <td class="field">
+                <% if  c.name == "photo" %><%= file_field_tag :file %>
+                <% else %><%= text_field_tag c.name, @data.attributes[c.name] %>
+                <% end %>
+              </td>
+            <% end %>
           <% end %>
         </tr>
       <% end %>

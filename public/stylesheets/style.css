@@ -36,7 +36,7 @@ body {
     margin:     auto;
     padding:    auto;
     color:#555;
-    background:#f0f0f0;
+    background:#e2e6e9;
     font-family:Arial, Helvetica, Helvetica Neue, Verdana, sans-serif;
     -webkit-font-smoothing: antialiased;
 }
@@ -83,14 +83,6 @@ a {
     height: 81px;
 }
 
-
-.error {
-    font-size:   13px;
-    color:       #872020;
-    margin:      10px auto -30px auto;
-    line-height: 20px;
-    width:780px;
-}
 
 
 /* ------------- wrapper - header ------------------------- */

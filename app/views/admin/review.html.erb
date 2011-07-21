@@ -3,22 +3,28 @@
   <table class="custom">
     <tr>
       <% eval(session[:TABLE] + ".columns").map do |c| %>
-        <td class="label"><%= c.name %></td>
+        <% unless session[:escape].include?(c.name) %> <!-- harbi adminsen gör -->
+          <td class="label"><%= c.name %></td>
+        <% end %>
       <% end %>
     </tr>
 
     <% @data.each do |kisi| %>
-    <tr>
-      <% eval(session[:TABLE] + ".columns").map do |c| %>
-        <td class="label"><%= kisi.attributes[c.name] %></td>
-      <% end %>
-      <td class="label">
-        <% form_tag  :action => 'show' do %>
-          <%= hidden_field_tag :_key,  kisi.attributes[session[:KEY]] %>
-          <%= submit_tag "İncele", :id => "submit_button" %>
+      <% if kisi.attributes["department_id"] == session[:admindepartment] or session[:adminsuper] %>
+      <tr>
+        <% eval(session[:TABLE] + ".columns").map do |c| %>
+          <% unless session[:escape].include?(c.name) %> <!-- harbi adminsen gör -->
+            <td class="label"><%= kisi.attributes[c.name] %></td>
+          <% end %>
         <% end %>
-      </td>
-    </tr>
+        <td class="label">
+          <% form_tag :action => 'show' do %>
+            <%= hidden_field_tag :_key,  kisi.attributes[session[:KEY]] %>
+            <%= submit_tag "İncele", :id => "submit_button" %>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
     <% end %>
   </table>
 </div>

@@ -7,17 +7,18 @@
   <%= csrf_meta_tag %>
 </head>
 <body>
-<% if session[:admin] %>
+  <% if session[:admin] %>
     <div id="wrapper">
       <div id="container">
         <ul class="tabs" id="mainNav">
-          <li class="current home">
-          <a href="<%= RAILS_ROOT %>"
-            title="Kullanıcı adınız"><%= session[:adminusername] %></a>
+          <li class="current">
+            <a href="/admin/giris" title="Kullanıcı adınız"><%= session[:adminusername] %></a>
           </li>
-          <li class="magenta">
-            <a href="info" title="Bilgilendirme sayfası">Bilgilendirme</a>
-          </li>
+          <% if session[:superadmin] %>
+            <li class="green">
+              <a href="info" title="Bilgilendirme sayfası">Bilgilendirme</a>
+            </li>
+          <% end %>
           <li class="green">
             <a href="logout" title="Çıkış">Çıkış</a>
           </li>
@@ -27,14 +28,14 @@
   <% end %>
 
   <% if session[:error] %>
-    <div id="notice"><p class="fail"><%= session[:error] %></p></div>
+    <div class="error"><h3>Bir problemimiz var</h3><%= session[:error] %></div>
   <% end %>
 
-  <% if session[:correct] %>
-    <div id="notice"><p class="success"><%= session[:correct] %></p></div>
+  <% if session[:notice] %>
+    <div class="notice"><h3>Bir başarı iletisi var</h3><%= session[:notice] %></div>
   <% end %>
 
- <div id="content">
+  <div id="content">
     <% if session[:admin] %>
       <div id="leftcolumn">
         <table>
@@ -56,10 +57,12 @@
               <a href="new" title="">
                 <img src="/images/add.png"/>Ekle</a>
           </td></tr>
-          <tr><td>
+            <% if session[:superadmin] %>
+            <tr><td>
               <a href="find" title="">
                 <img src="/images/find.png"/>Bul</a>
-          </td></tr>
+            </td></tr>
+            <% end %>
           <tr><td>
               <a href="csv" title="">
                 <img src="/images/csv.png"/>Csv Çıktı</a>

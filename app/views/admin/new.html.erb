@@ -4,22 +4,13 @@
     <table class="custom">
       <% eval(session[:TABLE] + ".columns").map do |c| %>
         <tr>
-          <% if session[:adminsuper] %> <!-- harbi admin -->
+          <% unless session[:escape].include?(c.name) %> <!-- harbi adminsen gör -->
             <td class="label"><%= c.name %></td>
             <td class="field">
               <% if c.name == "photo" %><%= file_field_tag :file %>
               <% else %>                <%= text_field_tag c.name %>
               <% end %>
             </td>
-          <% else %>
-            <% unless c.name == "created_at" or c.name == "updated_at" %> <!-- or c.name == "id"  ? -->
-              <td class="label"><%= c.name %></td>
-              <td class="field">
-                <% if c.name == "photo" %><%= file_field_tag :file %>
-                <% else %>                <%= text_field_tag c.name %>
-                <% end %>
-              </td>
-            <% end %>
           <% end %>
         </tr>
       <% end %>
