@@ -10,14 +10,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110719144246) do
+ActiveRecord::Schema.define(:version => 20110722081345) do
 
   create_table "admins", :force => true do |t|
     t.integer  "department_id"
     t.string   "first_name"
     t.string   "last_name"
     t.string   "password"
-    t.integer  "status"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -56,7 +55,6 @@ ActiveRecord::Schema.define(:version => 20110719144246) do
 
   create_table "departments", :force => true do |t|
     t.string   "name"
-    t.string   "chairman"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -68,6 +66,7 @@ ActiveRecord::Schema.define(:version => 20110719144246) do
     t.string   "email"
     t.string   "cell_phone"
     t.string   "work_phone"
+    t.integer  "status"
     t.string   "photo"
     t.datetime "created_at"
     t.datetime "updated_at"

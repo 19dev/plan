@@ -4,10 +4,10 @@ model = "rails g model"
 
 tables = [
 	"departments " +
-		"name:string chairman:string",
+		"name:string",
 
 	"lecturers " +
-		"department_id:integer first_name:string last_name:string email:string cell_phone:string work_phone:string photo:string",
+		"department_id:integer first_name:string last_name:string email:string cell_phone:string work_phone:string status:integer photo:string",
 
 	"courses " +
 		"department_id:integer code:string name:string theoretical:string practice:string lab:string credit:integer",
@@ -22,7 +22,7 @@ tables = [
 		"period_id:integer classroom_id:integer course_id:integer lecturer_id:integer begin_time:datetime end_time:datetime",
 
 	"admins " +
-		"department_id:integer first_name:string last_name:string password:string status:integer"
+		"department_id:integer first_name:string last_name:string password:string"
 ]
 tables.each do |table|
 	system "#{model} #{table}"

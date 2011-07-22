@@ -1,27 +1,34 @@
-: bölüm
 
 a = Departments.new
 a.name = 'Bilgisayar Mühendisliği'
-a.chairman = "Nurettin Şenyer"
 a.save
 
 a = Departments.new
-a.name = 'Elektirik elektronik Mühnedisliği'
-a.chairman = "Şişko adam"
+a.name = 'Elektirik elektronik Mühendisliği'
 a.save
 
 a = Departments.new
 a.name = "Makina Mühendisliği"
-a.chairman = "Ne bileyim"
 a.save
 
-: hoca
+
+
+a = Lecturers.new
+a.department_id = 1
+a.first_name = "Nurettin"
+a.last_name = "Şenyer"
+a.email = "nurettin.senyer@bil.omu.edu.tr"
+a.photo = "default.png"
+a.status = 1
+a.save
 
 a = Lecturers.new
 a.department_id = 1
 a.first_name = "Recai"
 a.last_name = "Oktaş"
 a.email = "roktas@bil.omu.edu.tr"
+a.photo = "default.png"
+a.status = 0
 a.save
 
 a = Lecturers.new
@@ -29,6 +36,8 @@ a.department_id = 1
 a.first_name = "Recai"
 a.last_name = "himmm"
 a.email = "himmm@bil.omu.edu.tr"
+a.photo = "default.png"
+a.status = 0
 a.save
 
 a = Lecturers.new
@@ -36,16 +45,45 @@ a.department_id = 1
 a.first_name = "Onur"
 a.last_name = "baran"
 a.email = "obaran@bil.omu.edu.tr"
+a.photo = "default.png"
+a.status = 0
 a.save
 
 a = Lecturers.new
 a.department_id = 2
-a.first_name = "bay x"
-a.last_name = "bay surname 3gx"
-a.email = "3x@bil.omu.edu.tr"
+a.first_name = "x"
+a.last_name = "y"
+a.email = "xy@ee.omu.edu.tr"
+a.photo = "default.png"
+a.status = 1
+a.save
+
+
+a = Lecturers.new
+a.department_id = 2
+a.first_name = "foo"
+a.last_name = "bar"
+a.email = "foobar@ee.omu.edu.tr"
+a.photo = "default.png"
+a.status = 0
+a.save
+
+
+
+a = Admins.new
+a.department_id = 0
+a.first_name = "gdemir" # neden username degil ? TODO
+a.password = "12345"
 a.save
 
 a = Admins.new
-a.first_name = "gdemir" # neden username degil ? TODO
-a.password = "12345"
+a.department_id = 1
+a.first_name = "bal19"
+a.password = "bal19"
+a.save
+
+a = Admins.new
+a.department_id = 2
+a.first_name = "x"
+a.password = "x"
 a.save

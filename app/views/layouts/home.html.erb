@@ -12,11 +12,11 @@
     <h1 style="margin-top:-40px;margin-left:300px;">OMÜ Mühendislik Fakültesi Program Arama Sistemi</h1>
   </div>
   <% if session[:error] %>
-    <div id="notice"><p class="fail"><%= session[:error] %></p></div>
+    <div class="error"><h3>Bir problemimiz var</h3><%= session[:error] %></div>
   <% end %>
 
-  <% if session[:correct] %>
-    <div id="notice"><p class="success"><%= session[:correct] %></p></div>
+  <% if session[:notice] %>
+    <div class="notice"><h3>Bir başarı iletisi var</h3><%= session[:notice] %></div>
   <% end %>
 
  <div id="content">

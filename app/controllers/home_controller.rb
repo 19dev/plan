@@ -1,19 +1,19 @@
 class HomeController < ApplicationController
   def index
-    @head = "ogretim uyesi ders takvimini arama motoru"
+    session[:error], session[:notice] = nil, nil
   end
 
   def find
+    session[:error], session[:notice] = nil, nil
     # kontrollere rails'in genel bir önerisi olmalısı lazım'
     if params[:id].empty?
       @error = "bolum adi bos birakilamaz"
       return render '/home/index'
     end
 
-    if @lecturers = Lecturers.find(:all, :conditions => { :department_id => params[:id] })
-      @correct = "Bolum basariyla secildi"
-    else
-      @error = "Bu bolumde henuz hoca yok"
+    @lecturers = Lecturers.find(:all, :conditions => { :department_id => params[:id] })
+    if @lecturers.empty?
+      session[:error] = "Bu bolumde henuz hoca yok"
       return render '/home/index'
     end
   end

@@ -5,11 +5,9 @@ one:
   first_name: MyString
   last_name: MyString
   password: MyString
-  status: 1
 
 two:
   department_id: 1
   first_name: MyString
   last_name: MyString
   password: MyString
-  status: 1

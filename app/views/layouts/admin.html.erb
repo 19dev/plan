@@ -42,9 +42,11 @@
           <tr><td>
               <img src="/images/table.png"/><%= session[:TABLE] %>
           </td></tr>
-          <tr><td>
-          <img src="/images/save.png"/><%= session[:SAVE] %>
-          </td></tr>
+            <% if session[:adminsuper] %>
+            <tr><td>
+              <img src="/images/save.png"/><%= session[:SAVE] %>
+            </td></tr>
+            <% end %>
           <tr><td>
               <a href="home" title="">
 		<img src="/images/tables.png"/>Tablolar</a>
@@ -63,10 +65,12 @@
                 <img src="/images/find.png"/>Bul</a>
             </td></tr>
             <% end %>
+          <!--
           <tr><td>
               <a href="csv" title="">
                 <img src="/images/csv.png"/>Csv Çıktı</a>
           </td></tr>
+          -->
         </table>
       </div>
     <% end %>
