@@ -14,11 +14,9 @@
           <li class="current">
             <a href="/admin/giris" title="Kullanıcı adınız"><%= session[:adminusername] %></a>
           </li>
-          <% if session[:adminsuper] %>
             <li class="green">
               <a href="info" title="Bilgilendirme sayfası">Bilgilendirme</a>
             </li>
-          <% end %>
           <li class="green">
             <a href="logout" title="Çıkış">Çıkış</a>
           </li>
@@ -37,16 +35,14 @@
 
   <div id="content">
     <% if session[:admin] %>
-      <div id="leftcolumn">
+      <div id="column">
         <table>
           <tr><td>
               <img src="/images/table.png"/><%= session[:TABLE] %>
           </td></tr>
-            <% if session[:adminsuper] %>
             <tr><td>
               <img src="/images/save.png"/><%= session[:SAVE] %>
             </td></tr>
-            <% end %>
           <tr><td>
               <a href="home" title="">
 		<img src="/images/tables.png"/>Tablolar</a>
@@ -59,12 +55,10 @@
               <a href="new" title="">
                 <img src="/images/add.png"/>Ekle</a>
           </td></tr>
-            <% if session[:adminsuper] %>
             <tr><td>
               <a href="find" title="">
                 <img src="/images/find.png"/>Bul</a>
             </td></tr>
-            <% end %>
           <!--
           <tr><td>
               <a href="csv" title="">

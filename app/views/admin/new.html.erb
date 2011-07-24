@@ -1,11 +1,10 @@
 <div class="page">
   <h2 id="headline">Kayıt Ekle</h2>
-  <% form_tag({ :action => 'add' }, :multipart => true) do %>
+  <%= form_tag({ :action => 'add' }, :multipart => true) do %>
     <table class="custom">
-    <% unless session[:TABLE] == "Classplans" and !session[:adminsuper] %><!-- danışmanlar için özel ve günü kurtaran -->
       <% eval(session[:TABLE] + ".columns").map do |c| %>
         <tr>
-          <% unless session[:escape].include?(c.name) %> <!-- harbi adminsen gör -->
+          <% unless session[:escape].include?(c.name) %> <!-- kısıtlamalar -->
             <td class="label"><%= c.name %></td>
             <td class="field">
               <% if c.name == "photo" %><%= file_field_tag :file %>
@@ -15,34 +14,6 @@
           <% end %>
         </tr>
       <% end %>
-    <% else %>
-      <tr>
-          <td class="label"> classroom </td>
-          <td class="field">
-            <%= select_tag(:classroom_id, options_from_collection_for_select(Classrooms.all, :id, :name)) %>
-          </td>
-      </tr>
-      <tr>
-          <td class="label"> course </td>
-          <td class="field">
-            <%= select_tag(:course_id, options_from_collection_for_select(Courses.find(:all, :conditions => { :department_id => session[:admindepartment] }), :id, :full_name))  %>
-          </td>
-      </tr>
-      <tr>
-          <td class="label"> lecturer </td>
-          <td class="field">
-            <%= select_tag(:lecturer_id, options_from_collection_for_select(Lecturers.find(:all, :conditions => { :department_id => session[:admindepartment] }), :id, :full_name)) %>
-          </td>
-      </tr>
-      <tr>
-          <td class="label"> begin_time </td>
-          <td class="field"><%= text_field_tag :begin_time %></td>
-      </tr>
-      <tr>
-          <td class="label"> end_time </td>
-          <td class="field"><%= text_field_tag :end_time %></td>
-      </tr>
-    <% end %>
       <tr>
         <td></td>
         <td><%= submit_tag "Kaydet", :id => "submit_button" %></td>

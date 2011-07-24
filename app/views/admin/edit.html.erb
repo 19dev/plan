@@ -1,12 +1,12 @@
 <div class="page">
   <h2 id="headline">Kayıt Düzenle</h2>
-  <% form_tag({ :action => 'update' }, :multipart => true) do %>
+  <%= form_tag({ :action => 'update' }, :multipart => true) do %>
     <table class="custom">
       <strong><%= session[:_key] %></strong> id'sine ait tüm bilgiler</p>
       <% eval(session[:TABLE] + ".columns").map do |c| %>
         <tr>
           <% if  c.name != session[:KEY] %>
-            <% unless session[:escape].include?(c.name) %> <!-- harbi adminsen gör -->
+            <% unless session[:escape].include?(c.name) %> <!-- kısıtlamalar -->
               <td class="label"><%= c.name %></td>
               <td class="field">
                 <% if  c.name == "photo" %><%= file_field_tag :file %>

@@ -1,7 +1,21 @@
 Schedule::Application.routes.draw do
+  # USER --------------
+  # - I/O
+  get  "user/giris"
+  post "user/login"
+  get  "user/logout"
+  get  "user/home"
+  # --------------------
+
+  get  "user/tutornew"
+  post "user/tutoradd"
+  get  "user/tutorshow"
+  post "user/tutorshow"
+  get "user/tutorreview"
+  # end USER -----------
 
   # ADMIN
-  # standart I/O
+  # - I/O
   get  "admin/giris"
   post "admin/login"
   get  "admin/home"
@@ -10,6 +24,7 @@ Schedule::Application.routes.draw do
 
   post "admin/table"
   get  "admin/review"
+  get  "admin/show"
   post "admin/show"
   post "admin/del"
   post "admin/edit"
@@ -19,6 +34,8 @@ Schedule::Application.routes.draw do
   post "admin/add"
 
   get "admin/info"
+  # end ADMIN -----------
+
   # HOME
   #
   get  "home/index"
