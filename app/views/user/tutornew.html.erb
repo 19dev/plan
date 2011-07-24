@@ -1,0 +1,44 @@
+<div class="page">
+  <h2 id="headline"><%= session[:department] %> bölümüne öğretim üyesi ekle</h2>
+  <%= form_tag({ :action => 'tutoradd' }, :multipart => true) do %>
+    <table class="custom">
+    <tr>
+      <td class="label">Adı</td>
+      <td class="field"><%= text_field_tag :first_name %></td>
+    </tr>
+    <tr>
+      <td class="label">Soyadı</td>
+      <td class="field"><%= text_field_tag :last_name %></td>
+    </tr>
+    <tr>
+      <td class="label">Fotoğraf</td>
+      <td class="field"><%= file_field_tag :file %></td>
+    </tr>
+    <tr>
+      <td class="label">Email</td>
+      <td class="field"><%= text_field_tag :email %></td>
+    </tr>
+    <tr>
+      <td class="label">İş telefonu</td>
+      <td class="field"><%= text_field_tag :work_phone %></td>
+    </tr>
+    <tr>
+      <td class="label">Cep telefonu</td>
+      <td class="field"><%= text_field_tag :cell_phone %></td>
+    </tr>
+    <tr>
+      <td class="label">Bölüm başkanı mı?</td>
+      <td class="field">
+        evet
+        <%= radio_button_tag("status", '1')%>
+        hayır
+        <%= radio_button_tag("status", '0', true)%>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><%= submit_tag "Kaydet", :id => "submit_button" %></td>
+    </tr>
+    </table>
+  <% end %>
+</div>

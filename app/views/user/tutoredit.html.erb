@@ -1,0 +1,23 @@
+<div class="page">
+  <h2 id="headline"><% session[:department] %> bölümü öğretim görevlisi düzenle</h2>
+  <%= form_tag({ :action => 'tutoradd' }, :multipart => true) do %>
+    <table class="custom">
+        <tr>
+          <% if c.name != session[:KEY] %>
+            <% unless session[:escape].include?(c.name) %> <!-- kısıtlamalar -->
+              <td class="label"><%= c.name %></td>
+              <td class="field">
+                <% if  c.name == "photo" %><%= file_field_tag :file %>
+                <% else %><%= text_field_tag c.name, @data.attributes[c.name] %>
+                <% end %>
+              </td>
+            <% end %>
+          <% end %>
+        </tr>
+      <% end %>
+      <tr>
+        <td></td>
+        <td><%= submit_tag "Güncelle", :id => "submit_button" %></td>
+      </tr>
+    </table>
+</div>

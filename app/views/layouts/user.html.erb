@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= @title %></title>
+  <%= stylesheet_link_tag :all %>
+  <%= javascript_include_tag :defaults %>
+  <%= csrf_meta_tag %>
+  <style>
+    #column {width:930px;}
+    #column tr img {width:75px;}
+    #column td {width:100px;}
+    .page {margin-left:0px;margin-top:125px;width:930px;}
+  </style>
+</head>
+<body>
+  <% if session[:user] %>
+    <div id="wrapper">
+      <div id="container">
+        <ul class="tabs" id="mainNav">
+          <li class="current">
+            <a href="/user/giris" title="Kullanıcı adınız"><%= session[:username] %></a>
+          </li>
+          <li class="green">
+            <a href="logout" title="Çıkış">Çıkış</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <% if session[:error] %>
+    <div class="error"><h3>Bir problemimiz var</h3><%= session[:error] %></div>
+  <% end %>
+
+  <% if session[:notice] %>
+    <div class="notice"><h3>Bir başarı iletisi var</h3><%= session[:notice] %></div>
+  <% end %>
+
+  <div id="content">
+    <% if session[:user] %>
+      <div id="column">
+        <table>
+          <tr>
+          <td>
+              <a href="tutornew" title="">
+		<img src="/images/default.png"/>Hoca ekle</a>
+          </td>
+          <td>
+              <a href="tutorreview" title="">
+                <img src="/images/review.png"/>Hoca İncele</a>
+          </td>
+          <td>
+              <a href="new" title="">
+                <img src="/images/lesson.png"/>Ders Ekle</a>
+          </td>
+          <td>
+              <a href="find" title="">
+                <img src="/images/review.png"/>Ders İncele</a>
+          </td>
+          <td>
+              <a href="find" title="">
+                <img src="/images/schedule.png"/>Program ekle</a>
+          </td>
+          <td>
+              <a href="find" title="">
+                <img src="/images/review.png"/>Program incele</a>
+          </td>
+          <!--
+          <tr><td>
+              <a href="csv" title="">
+                <img src="/images/csv.png"/>Csv Çıktı</a>
+          </td></tr>
+          -->
+        </tr>
+      </table>
+      </div>
+    <% end %>
+    <%= yield %>
+  </div>
+
+</body>
+</html>
