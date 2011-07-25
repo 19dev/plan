@@ -49,13 +49,9 @@ class AdminController < ApplicationController
     render '/admin/home'
   end
 
-  def new
-    session[:error], session[:notice], session[:_key] = nil, nil, nil
-  end
-
   # hata var ise oturuma göm; çıkmak isterse nil, doğru ise true dön
-  def upload savename, uploaded, overwrite = false
-    destination = Rails.root.join 'public', 'images', session[:TABLE] # hedef dizin
+  def upload directory, savename, uploaded, overwrite = false
+    destination = Rails.root.join 'public', 'images', directory # hedef dizin
     image = destination.join savename # resmin tam yolu
 
     # hedef yoksa oluşturalım
@@ -66,11 +62,19 @@ class AdminController < ApplicationController
 
     if uploaded.size > 550000;                          session[:error] = "Resim cok buyuk"
     elsif !(uploaded.content_type =~ /jpe?g/);          session[:error] = "Resim jpg formatinda olmalidir"
-    elsif File.exist?("#{image}.jpg") && !(overwrite);           session[:error] = "Resim zaten var"
+    elsif File.exist?("#{image}.jpg") && !(overwrite);  session[:error] = "Resim zaten var"
     elsif !FileUtils.mv(uploaded.path, "#{image}.jpg"); session[:error] = "Dosya yukleme hatasi"
     else return true end # resim yükleme başarısı
 
     return nil
+  end
+
+  def new
+    session[:error], session[:notice], session[:_key] = nil, nil, nil
+  end
+
+  def home
+    session[:error] = nil
   end
 
   def add
@@ -85,7 +89,7 @@ class AdminController < ApplicationController
     session[:SAVE] += 1
 
     # bir resim isteğimiz var mı ?
-    if photo and upload("#{session[:_key]}", photo, false) # üzerine yazma olmasın
+    if photo and upload(session[:TABLE], session[:_key].to_s, photo, false) # üzerine yazma olmasın
       data[:photo] = "#{session[:TABLE]}/#{session[:_key]}.jpg"
       data.save
     else
@@ -143,7 +147,7 @@ class AdminController < ApplicationController
     data = eval session[:TABLE].capitalize + ".find :first, :conditions => { session[:KEY] => session[:_key] }"
 
     # bir resim isteğimiz var mı ?
-    if photo and upload("#{session[:_key]}", photo, true) # üzerine yazma olsun
+    if photo and upload(session[:TABLE], session[:_key].to_s, photo, true) # üzerine yazma olsun
       data[:photo] = "#{session[:TABLE]}/#{session[:_key]}.jpg"
       data.save
     end

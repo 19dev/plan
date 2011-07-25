@@ -7,11 +7,24 @@ Schedule::Application.routes.draw do
   get  "user/home"
   # --------------------
 
-  get  "user/tutornew"
-  post "user/tutoradd"
-  get  "user/tutorshow"
-  post "user/tutorshow"
-  get "user/tutorreview"
+  get  "user/lecturernew"
+  post "user/lectureradd"
+  get  "user/lecturershow"
+  post "user/lecturershow"
+  post "user/lectureredit"
+  get  "user/lecturerreview"
+  post "user/lecturerdel"
+  post "user/lecturerupdate"
+  # --------------------
+
+  get  "user/coursenew"
+  post "user/courseadd"
+  get  "user/courseshow"
+  post "user/courseshow"
+  post "user/courseedit"
+  get  "user/coursereview"
+  post "user/coursedel"
+  post "user/courseupdate"
   # end USER -----------
 
   # ADMIN

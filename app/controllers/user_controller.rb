@@ -5,16 +5,16 @@ class UserController < ApplicationController
 
   def login
     if admin = Admins.find(:first, :conditions => { :first_name => params[:first_name], :password => params[:password] })
-        session[:user] = true
-        session[:userdepartment_id] = admin.department_id
-        session[:department] = Departments.find(:first, :conditions => { :id => admin.department_id }).name
-        session[:username] = admin.first_name
-        session[:userpassword] = admin.password
-        session[:error] = nil
-        render '/user/home'
+      session[:user] = true
+      session[:userdepartment_id] = admin.department_id
+      session[:department] = Departments.find(:first, :conditions => { :id => admin.department_id }).name
+      session[:username] = admin.first_name
+      session[:userpassword] = admin.password
+      session[:error] = nil
+      render '/user/home'
     else
-        session[:error] = "Oops! Isminiz veya sifreniz hatali, belkide bunlardan sadece biri hatalidir?"
-        redirect_to '/user/giris'
+      session[:error] = "Oops! Isminiz veya sifreniz hatali, belkide bunlardan sadece biri hatalidir?"
+      redirect_to '/user/giris'
     end
   end
 
@@ -24,8 +24,8 @@ class UserController < ApplicationController
   end
 
   # hata var ise oturuma göm; çıkmak isterse nil, doğru ise true dön
-  def upload savename, uploaded, overwrite = false
-    destination = Rails.root.join 'public', 'images'
+  def upload directory, savename, uploaded, overwrite = false
+    destination = Rails.root.join 'public', 'images', directory
     # hedef dizin
     image = destination.join savename # resmin tam yolu
 
@@ -44,43 +44,112 @@ class UserController < ApplicationController
     return nil
   end
 
-  def tutornew
-
-  end
-
-  def tutoradd
+# Lecturers --------------------------------------------------------------------
+  def lectureradd
     session[:error] = nil
 
     photo = params[:file]
     params.select! { |k, v| Lecturers.columns.collect {|c| c.name}.include?(k) }
     params[:department_id] = session[:userdepartment_id]
-    tutor = Lecturers.new params
-    tutor.save
-    session[:_key] = tutor.id
+    lecturer = Lecturers.new params
+    lecturer.save
+    session[:lecturer_id] = lecturer.id
 
-    # bir resim isteğimiz var mı ?
-    if photo and upload("Lecturers/#{session[:_key]}", photo, false) # üzerine yazma olmasın
-      tutor[:photo] = "Lecturers/#{session[:_key]}.jpg"
-      tutor.save
+    if photo and upload('Lecturers', "#{session[:lecturer_id]}", photo, false) # üzerine yazma olmasın
+      lecturer[:photo] = "Lecturers/#{session[:lecturer_id]}.jpg"
+      lecturer.save
     else
-      tutor[:photo] = "default.png"
-      tutor.save
+      lecturer[:photo] = "default.png"
+      lecturer.save
     end
-    session[:notice] = "#{tutor.first_name} #{tutor.last_name} kisi ogretim gorevlisi olarak basariyla eklendi"
-    redirect_to '/user/tutorshow'
+    session[:notice] = "#{lecturer.first_name} #{lecturer.last_name} kisi ogretim gorevlisi olarak basariyla eklendi"
+    redirect_to '/user/lecturershow'
   end
-
-  def tutorshow
-    session[:_key] = params[:_key] if params[:_key] # uniq veriyi oturuma gömelim
-    unless @tutor = Lecturers.find(:first, :conditions => { :id => session[:_key] })
+  def lecturershow
+    session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
+    unless @lecturer = Lecturers.find(:first, :conditions => { :id => session[:lecturer_id] })
       session[:error] = "Boyle bir kayit bulunmamaktadir"
-  #      redirect_to '/user/find'
+      redirect_to '/user/lecturerreview'
     end
   end
-
-  def tutorreview
-    session[:error], session[:notice] = nil, nil
-    @data = Lecturers.find(:all, :conditions => { :department_id => session[:userdepartment_id] })
+  def lecturerreview
+    session[:error] = nil
+    @lecturers = Lecturers.find(:all, :conditions => { :department_id => session[:userdepartment_id] })
   end
+  def lectureredit
+    session[:error], session[:notice] = nil, nil
+    @lecturer = Lecturers.find(:first, :conditions => { :id => session[:lecturer_id] })
+  end
+  def lecturerdel
+    Lecturers.delete(session[:lecturer_id])
 
+    image = Rails.root.join 'public', 'images', 'Lecturers', "#{session[:lecturer_id]}.jpg" # resmimizin tam yolu
+    FileUtils.rm(image) if File.exist? image # resim var ise sil.
+    session[:notice] = "#{session[:lecturer_id]} bilgisine sahip ogretim gorevlisi basariyla silindi"
+    session[:lecturer_id] = nil # kişinin oturumunu öldürelim
+
+    redirect_to '/user/lecturerreview'
+  end
+  def lecturerupdate
+    session[:error], session[:notice] = nil, nil
+
+    photo = params[:file] if params[:file]
+    params.select! { |k, v| Lecturers.columns.collect {|c| c.name}.include?(k) }
+
+    Lecturers.update(session[:lecturer_id], params)
+    lecturer = Lecturers.find :first, :conditions => { :id => session[:lecturer_id] }
+    if photo and upload('Lecturers', "#{session[:lecturer_id]}", photo, true) # üzerine yazma olsun
+      lecturer[:photo] = "Lecturers/#{session[:lecturer_id]}.jpg"
+      lecturer.save
+    end
+    session[:notice] = "#{session[:lecturer_id]} bilgisine sahip kisi asd tablosunda basariyla guncellendi"
+    redirect_to '/user/lecturershow'
+   end
+# end Lecturers -------------------------------------------------------
+# Courses --------------------------------------------------------------------
+  def courseadd
+    session[:error] = nil
+
+    photo = params[:file]
+    params.select! { |k, v| Courses.columns.collect {|c| c.name}.include?(k) }
+    params[:department_id] = session[:userdepartment_id]
+    course = Courses.new params
+    course.save
+    session[:course_id] = course.id
+
+    session[:notice] = "#{course.code} - #{course.name} dersi basariyla eklendi"
+    redirect_to '/user/courseshow'
+  end
+  def courseshow
+    session[:course_id] = params[:course_id] if params[:course_id] # uniq veriyi oturuma gömelim
+    unless @course = Courses.find(:first, :conditions => { :id => session[:course_id] })
+      session[:error] = "Boyle bir kayit bulunmamaktadir"
+      redirect_to '/user/coursereview'
+    end
+  end
+  def coursereview
+    session[:error] = nil
+    @courses = Courses.find :all, :conditions => { :department_id => session[:userdepartment_id] }
+  end
+  def courseedit
+    session[:error], session[:notice] = nil, nil
+    @course = Courses.find :first, :conditions => { :id => session[:course_id] }
+  end
+  def coursedel
+    Courses.delete session[:course_id]
+    session[:notice] = "#{session[:course_id]} dersi basariyla silindi"
+    session[:course_id] = nil # kişinin oturumunu öldürelim
+    redirect_to '/user/coursereview'
+  end
+  def courseupdate
+    session[:error], session[:notice] = nil, nil
+
+    params.select! { |k, v| Courses.columns.collect {|c| c.name}.include?(k) }
+
+    Courses.update(session[:course_id], params)
+    course = Courses.find :first, :conditions => { :id => session[:course_id] }
+    session[:notice] = "#{course.code}-#{course.name} dersi basariyla guncellendi"
+    redirect_to '/user/courseshow'
+   end
+# end Courses -------------------------------------------------------
 end
