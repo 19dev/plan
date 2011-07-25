@@ -1,0 +1,40 @@
+<div class="page">
+  <h2 id="headline"><%= session[:department] %> bölümünün öğretim görevlisi bilgileri</h2>
+  <table class="custom">
+    <tr>
+      <td class="label">Kod Adı</td>
+      <td class="field"><%= @course.code %></td>
+    </tr>
+    <tr>
+      <td class="label">Soyadı</td>
+      <td class="field"><%= @course.name %></td>
+    </tr>
+    <tr>
+      <td class="label">Teorik ders sayısı</td>
+      <td class="field"><%= @course.theoretical %></td>
+    </tr>
+    <tr>
+      <td class="label">Pratik ders sayısı</td>
+      <td class="field"><%= @course.practice %></td>
+    </tr>
+    <tr>
+      <td class="label">Lab ders sayısı</td>
+      <td class="field"><%= @course.lab %></td>
+    </tr>
+    <tr>
+      <td class="label">Kredi</td>
+      <td class="field"><%= @course.credit %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <%= form_tag({ :action => 'courseedit' }, :multipart => true) do %>
+          <%= submit_tag "Düzenle", :id => "submit_button" %>
+        <% end %>
+        <%= form_tag({ :action => 'coursedel' }, :multipart => true) do %>
+          <%= submit_tag "Sil", :id => "submit_button", :confirm => 'Silmek istediğinizden emin misiniz?'%>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+</div>

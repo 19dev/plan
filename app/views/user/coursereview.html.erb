@@ -1,0 +1,30 @@
+<div class="page">
+  <h2 id="headline"><%= session[:department] %> bölümünün hocaları inceleniyor...</h2>
+  <table class="custom">
+    <tr>
+      <td class="label">Kod Ad</td>
+      <td class="label">Ad</td>
+      <td class="label">Teorik ders sayısı</td>
+      <td class="label">Pratik ders sayısı</td>
+      <td class="label">Lab ders sayısı</td>
+      <td class="label">Kredi</td>
+    </tr>
+
+    <% @courses.each do |course| %>
+      <tr>
+        <td class="label"><%= course.code %></td>
+        <td class="label"><%= course.name %></td>
+        <td class="label"><%= course.theoretical %></td>
+        <td class="label"><%= course.practice %></td>
+        <td class="label"><%= course.lab %></td>
+        <td class="label"><%= course.credit %></td>
+        <td class="label">
+          <%= form_tag :action => 'courseshow' do %>
+            <%= hidden_field_tag :course_id,  course.id %>
+            <%= submit_tag "İncele", :id => "submit_button" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>

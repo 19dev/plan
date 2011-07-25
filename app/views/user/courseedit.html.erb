@@ -1,0 +1,35 @@
+<div class="page">
+  <h2 id="headline"><% session[:department] %> bölümü derslerini düzenle</h2>
+  <%= form_tag({ :action => 'courseupdate' }, :multipart => true) do %>
+    <table class="custom">
+    <tr>
+      <td class="label">Kod Ad</td>
+      <td class="field"><%= text_field_tag :first_name, @course.code %></td>
+    </tr>
+    <tr>
+      <td class="label">Ad</td>
+      <td class="field"><%= text_field_tag :last_name, @course.name %></td>
+    </tr>
+    <tr>
+      <td class="label">Teorik ders sayısı</td>
+      <td class="field"><%= text_field_tag :email, @course.theoretical %></td>
+    </tr>
+    <tr>
+      <td class="label">Pratik ders sayısı</td>
+      <td class="field"><%= text_field_tag :work_phone, @course.practice %></td>
+    </tr>
+    <tr>
+      <td class="label">Lab ders sayısı</td>
+      <td class="field"><%= text_field_tag :cell_phone, @course.lab %></td>
+    </tr>
+    <tr>
+      <td class="label">Kredi</td>
+      <td class="field"><%= text_field_tag :cell_phone, @course.credit %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><%= submit_tag "Güncelle", :id => "submit_button" %></td>
+    </tr>
+    </table>
+  <% end %>
+</div>
