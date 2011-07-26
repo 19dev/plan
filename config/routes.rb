@@ -1,5 +1,4 @@
 Schedule::Application.routes.draw do
-  resources :homes
   # USER --------------
   # - I/O
   get  "user/giris"

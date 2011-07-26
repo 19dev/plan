@@ -30,7 +30,6 @@ class HomeController < ApplicationController
           lecturer.id => ["#{lecturer.first_name} #{lecturer.last_name}", lecturer.photo]
         }
     end
-    @a = @fields
   end
 
   def program
