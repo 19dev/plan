@@ -4,6 +4,9 @@ class HomeController < ApplicationController
   end
 
   def find
+  end
+
+  def review
     session[:error], session[:notice] = nil, nil
     # kontrollere rails'in genel bir önerisi olmalısı lazım'
     if params[:id].empty?
@@ -17,6 +20,19 @@ class HomeController < ApplicationController
       return render '/home/index'
     end
   end
+
+  def auto
+    lecturers = Lecturers.all
+    @fields = []
+    lecturers.each do |lecturer|
+      @fields <<
+        {
+          lecturer.id => ["#{lecturer.first_name} #{lecturer.last_name}", lecturer.photo]
+        }
+    end
+    @a = @fields
+  end
+
   def program
     lecturer_id = params[:id]
   end

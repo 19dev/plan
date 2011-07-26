@@ -1,4 +1,5 @@
 Schedule::Application.routes.draw do
+  resources :homes
   # USER --------------
   # - I/O
   get  "user/giris"
@@ -52,8 +53,12 @@ Schedule::Application.routes.draw do
   # HOME
   #
   get  "home/index"
-  post "home/index"
+  get  "home/find"
   post "home/find"
+  get  "home/review"
+  post "home/review"
+  get  "home/auto"
+  post "home/auto"
   post "home/program"
   # ---------------------
 
