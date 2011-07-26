@@ -1,0 +1,52 @@
+<style>
+  .page{margin-bottom:-125px;}
+</style>
+<h2 id="headline">Arama sonuçları</h2>
+<% @lecturers.each do |lecturer| %>
+  <div id="info">
+    <div id="image-box">
+      <table>
+        <tr>
+          <td>
+          <% if File::exists? RAILS_ROOT + "/public/images/#{lecturer.photo}" %>
+            <%= image_tag "/images/#{lecturer.photo}" %>
+          <% end %>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="page">
+      <table class="custom">
+        <tr>
+          <td class="label" style="border:none"> Adı: </td>
+          <td class="field"><%= lecturer.first_name %></td>
+        </tr>
+        <tr>
+          <td class="label" style="border:none"> Soyadı: </td>
+          <td class="field"><%= lecturer.last_name %></td>
+        </tr>
+        <tr>
+          <td class="label" style="border:none"> Email: </td>
+          <td class="field"><%= lecturer.email %></td>
+        </tr>
+        <tr>
+          <td class="label" style="border:none"> Cep telefon: </td>
+          <td class="field"><%= lecturer.cell_phone %></td>
+        </tr>
+        <tr>
+          <td class="label" style="border:none"> İş telefonu: </td>
+          <td class="field"><%= lecturer.work_phone %></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <% form_tag :action => 'program' do %>
+              <%= hidden_field_tag :id,  lecturer.id %>
+              <%= submit_tag "Ders programı", :id => "submit_button" %>
+            <% end %>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+<% end %>
