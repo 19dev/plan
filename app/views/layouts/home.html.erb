@@ -17,14 +17,19 @@
                 <% @fields.each do |l|  %>
                   {
                     <% l.each do |k, v| %>
-                      label: "<img src='/images/<%= raw v[1] %>'/><%= raw v[0] %>",
-                      value: <%= raw k %>
+                      label: "<img src='/images/<%= raw v[1] %>' width='50'; height='50'/><%= raw v[0]+' - '+v[2] %>",
+                      value: "<%= v[0] %>",
+                      deger: "<%= raw k %>"
                     <% end %>
                   },
                 <% end %>
-                ]
-        ,
-        html: true
+                ],
+                select: function( event, ui ) {
+                          $("#post").html(
+                                  "<input type='hidden'name='lecturer_id' value='" + ui.item.deger + "'/>"
+                          );
+                        },
+            html: true
       });
     });
   </script>

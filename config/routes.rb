@@ -58,6 +58,7 @@ Schedule::Application.routes.draw do
   post "home/review"
   get  "home/auto"
   post "home/auto"
+  post "home/show"
   post "home/program"
   # ---------------------
 
