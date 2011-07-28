@@ -6,7 +6,7 @@ tables = [
 	"departments " +
 		"name:string",
 
-	"lecturers " +
+	"lecturers " + # status : boolen olacak
 		"department_id:integer first_name:string last_name:string email:string cell_phone:string work_phone:string status:integer photo:string",
 
 	"courses " +
@@ -18,10 +18,13 @@ tables = [
 	"classrooms " +
 		"name:string floor:string capacity:integer type:string",
 
-	"classplans " +
-		"period_id:integer classroom_id:integer course_id:integer lecturer_id:integer begin_time:datetime end_time:datetime",
+	"assignments " +
+		"period_id:integer lecturer_id:integer course_id:integer",
 
-	"admins " +
+	"classplans " +
+		"period_id:integer classroom_id:integer assignment_id:integer day:string begin_time:time",
+
+	"admins " + # status eklenecek
 		"department_id:integer first_name:string last_name:string password:string"
 ]
 tables.each do |table|

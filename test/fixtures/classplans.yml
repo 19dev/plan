@@ -3,15 +3,13 @@
 one:
   period_id: 1
   classroom_id: 1
-  course_id: 1
-  lecturer_id: 1
-  begin_time: 2011-07-22 11:13:38
-  end_time: 2011-07-22 11:13:38
+  assignment_id: 1
+  day: MyString
+  begin_time: 2011-07-28 16:05:22
 
 two:
   period_id: 1
   classroom_id: 1
-  course_id: 1
-  lecturer_id: 1
-  begin_time: 2011-07-22 11:13:38
-  end_time: 2011-07-22 11:13:38
+  assignment_id: 1
+  day: MyString
+  begin_time: 2011-07-28 16:05:22
