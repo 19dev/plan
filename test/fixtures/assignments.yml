@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  period_id: 1
+  lecturer_id: 1
+  course_id: 1
+
+two:
+  period_id: 1
+  lecturer_id: 1
+  course_id: 1
