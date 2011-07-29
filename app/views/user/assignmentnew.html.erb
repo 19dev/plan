@@ -1,35 +1,34 @@
 <div class="page">
   <h2 id="headline"><%= session[:department] %> bölümüne ders ekle</h2>
-  <%= form_tag({ :action => 'courseadd' }, :multipart => true) do %>
+  <%= form_tag({ :action => 'assignmentadd' }, :multipart => true, :html => {:id => 'real-form'}) do %>
+  <!-- <form id='real-form' action='http://localhost:4567/ms' method='post'>-->
     <table class="custom">
-    <tr>
-      <td class="label">Kod Adı</td>
-      <td class="field"><%= text_field_tag :code %></td>
-    </tr>
-    <tr>
-      <td class="label">Adı</td>
-      <td class="field"><%= text_field_tag :name %></td>
-    </tr>
-    <tr>
-      <td class="label">Teorik ders sayısı</td>
-      <td class="field"><%= text_field_tag :theoretical %></td>
-    </tr>
-    <tr>
-      <td class="label">Pratik ders sayısı</td>
-      <td class="field"><%= text_field_tag :practice %></td>
-    </tr>
-    <tr>
-      <td class="label">Lab ders sayısı</td>
-      <td class="field"><%= text_field_tag :lab %></td>
-    </tr>
-    <tr>
-      <td class="label">Kredi</td>
-      <td class="field"><%= text_field_tag :credit %></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><%= submit_tag "Kaydet", :id => "submit_button" %></td>
-    </tr>
+      <tr>
+        <td class="label"> Hoca seçiniz</td>
+        <td>
+          <%= select_tag(:lecturer_id,
+            options_from_collection_for_select(
+              Lecturer.find(:all, :conditions => { :department_id => session[:userdepartment_id] }), :id, :full_name)
+            )
+          %>
+        </td>
+      </tr>
+      <tr>
+        <td class="label"> Dersleri seçiniz</td>
+        <td>
+          <%= select_tag 'course_ids[]',
+            options_from_collection_for_select(
+              Course.find(:all, :conditions => { :department_id => session[:userdepartment_id] }), :id, :full_name
+          ),
+            :multiple => true, :class => 'multiselect' %>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <input id="submit_button" type='submit' value='Kaydet' />
+        </td>
+      </tr>
     </table>
   <% end %>
 </div>

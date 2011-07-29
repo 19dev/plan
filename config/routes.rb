@@ -25,6 +25,17 @@ Schedule::Application.routes.draw do
   get  "user/coursereview"
   post "user/coursedel"
   post "user/courseupdate"
+  # --------------------
+
+  get  "user/assignmentnew"
+  post "user/assignmentadd"
+  # get  "user/assignmentshow"
+  # post "user/assignmentshow"
+  # post "user/assignmentedit"
+  # get  "user/assignmentreview"
+  # post "user/assignmentdel"
+  # post "user/assignmentupdate"
+  # --------------------
   # end USER -----------
 
   # ADMIN

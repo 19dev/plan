@@ -152,4 +152,12 @@ class UserController < ApplicationController
     redirect_to '/user/courseshow'
    end
 # end Course -------------------------------------------------------
+# Course --------------------------------------------------------------------
+  def assignmentadd
+    session[:error] = nil
+    # test amaçlı
+    session[:error] = params[:course_ids]
+
+    redirect_to '/user/assignmentnew'
+  end
 end
