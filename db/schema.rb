@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110722081345) do
+ActiveRecord::Schema.define(:version => 20110729170259) do
 
   create_table "admins", :force => true do |t|
     t.integer  "department_id"
@@ -21,13 +21,20 @@ ActiveRecord::Schema.define(:version => 20110722081345) do
     t.datetime "updated_at"
   end
 
+  create_table "assignments", :force => true do |t|
+    t.integer  "period_id"
+    t.integer  "lecturer_id"
+    t.integer  "course_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "classplans", :force => true do |t|
     t.integer  "period_id"
     t.integer  "classroom_id"
-    t.integer  "course_id"
-    t.integer  "lecturer_id"
-    t.datetime "begin_time"
-    t.datetime "end_time"
+    t.integer  "assignment_id"
+    t.string   "day"
+    t.time     "begin_time"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

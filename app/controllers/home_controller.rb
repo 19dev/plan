@@ -14,7 +14,7 @@ class HomeController < ApplicationController
       return redirect_to '/home/find'
     end
 
-    @lecturers = Lecturers.find(:all, :conditions => { :department_id => params[:department_id] })
+    @lecturers = Lecturer.find(:all, :conditions => { :department_id => params[:department_id] })
     if @lecturers.empty?
       session[:error] = "Bu bolumde henuz hoca yok"
       return render '/home/find'
@@ -23,13 +23,14 @@ class HomeController < ApplicationController
 
   def auto
     departments = {}
-    Departments.all.each {|department| departments[department.id] = department.name}
-    lecturers = Lecturers.all
+    Department.all.each {|department| departments[department.id] = department.name}
+    lecturers = Lecturer.all
     @fields = []
     lecturers.each do |lecturer|
       @fields <<
         {
           lecturer.id => ["#{lecturer.first_name} #{lecturer.last_name}", lecturer.photo, departments[lecturer.department_id]]
+          # lecturer.id => ["#{lecturer.first_name} #{lecturer.last_name}", lecturer.photo, lecturer.department.name]
         }
     end
   end
@@ -46,6 +47,6 @@ class HomeController < ApplicationController
       return render '/home/auto'
     end
 
-    @lecturer = Lecturers.find(:first, :conditions => { :id => params[:lecturer_id] })
+    @lecturer = Lecturer.find(:first, :conditions => { :id => params[:lecturer_id] })
   end
 end

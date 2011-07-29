@@ -3,7 +3,7 @@
     <table class="custom">
       <tr>
         <td class="label"> Bölümler: </td>
-        <td class="field"><%= select_tag(:department_id, options_from_collection_for_select(Departments.all, :id, :name)) %></td>
+        <td class="field"><%= select_tag(:department_id, options_from_collection_for_select(Department.all, :id, :name)) %></td>
       </tr>
       <tr>
         <td></td>

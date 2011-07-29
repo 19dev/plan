@@ -3,28 +3,28 @@
 model = "rails g model"
 
 tables = [
-	"departments " +
+	"department " +
 		"name:string",
 
-	"lecturers " + # status : boolen olacak
+	"lecturer " + # status : boolen olacak
 		"department_id:integer first_name:string last_name:string email:string cell_phone:string work_phone:string status:integer photo:string",
 
-	"courses " +
+	"course " +
 		"department_id:integer code:string name:string theoretical:string practice:string lab:string credit:integer",
 
-	"periods " +
+	"period " +
 		"name:string year:date status:integer",
 
-	"classrooms " +
+	"classroom " +
 		"name:string floor:string capacity:integer type:string",
 
-	"assignments " +
+	"assignment " +
 		"period_id:integer lecturer_id:integer course_id:integer",
 
-	"classplans " +
+	"classplan " +
 		"period_id:integer classroom_id:integer assignment_id:integer day:string begin_time:time",
 
-	"admins " + # status eklenecek
+	"admin " + # status eklenecek
 		"department_id:integer first_name:string last_name:string password:string"
 ]
 tables.each do |table|

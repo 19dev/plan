@@ -1,19 +1,19 @@
 
-a = Departments.new
+a = Department.new
 a.name = 'Bilgisayar Mühendisliği'
 a.save
 
-a = Departments.new
+a = Department.new
 a.name = 'Elektirik elektronik Mühendisliği'
 a.save
 
-a = Departments.new
+a = Department.new
 a.name = "Makina Mühendisliği"
 a.save
 
 
 
-a = Lecturers.new
+a = Lecturer.new
 a.department_id = 1
 a.first_name = "Nurettin"
 a.last_name = "Şenyer"
@@ -22,7 +22,7 @@ a.photo = "default.png"
 a.status = 1
 a.save
 
-a = Lecturers.new
+a = Lecturer.new
 a.department_id = 1
 a.first_name = "Recai"
 a.last_name = "Oktaş"
@@ -31,7 +31,7 @@ a.photo = "default.png"
 a.status = 0
 a.save
 
-a = Lecturers.new
+a = Lecturer.new
 a.department_id = 1
 a.first_name = "Recai"
 a.last_name = "himmm"
@@ -40,7 +40,7 @@ a.photo = "default.png"
 a.status = 0
 a.save
 
-a = Lecturers.new
+a = Lecturer.new
 a.department_id = 1
 a.first_name = "Onur"
 a.last_name = "baran"
@@ -49,7 +49,7 @@ a.photo = "default.png"
 a.status = 0
 a.save
 
-a = Lecturers.new
+a = Lecturer.new
 a.department_id = 2
 a.first_name = "x"
 a.last_name = "y"
@@ -59,7 +59,7 @@ a.status = 1
 a.save
 
 
-a = Lecturers.new
+a = Lecturer.new
 a.department_id = 2
 a.first_name = "foo"
 a.last_name = "bar"
@@ -70,19 +70,19 @@ a.save
 
 
 
-a = Admins.new
+a = Admin.new
 a.department_id = 0
 a.first_name = "gdemir" # neden username degil ? TODO
 a.password = "12345"
 a.save
 
-a = Admins.new
+a = Admin.new
 a.department_id = 1
 a.first_name = "bal19"
 a.password = "bal19"
 a.save
 
-a = Admins.new
+a = Admin.new
 a.department_id = 2
 a.first_name = "x"
 a.password = "x"
