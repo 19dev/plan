@@ -29,8 +29,8 @@ class HomeController < ApplicationController
     lecturers.each do |lecturer|
       @fields <<
         {
-          lecturer.id => ["#{lecturer.first_name} #{lecturer.last_name}", lecturer.photo, departments[lecturer.department_id]]
-          # lecturer.id => ["#{lecturer.first_name} #{lecturer.last_name}", lecturer.photo, lecturer.department.name]
+          # lecturer.id => ["#{lecturer.first_name} #{lecturer.last_name}", lecturer.photo, departments[lecturer.department_id]]
+          lecturer.id => ["#{lecturer.first_name} #{lecturer.last_name}", lecturer.photo, lecturer.department.name]
         }
     end
   end
