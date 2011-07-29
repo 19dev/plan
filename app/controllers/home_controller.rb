@@ -22,9 +22,9 @@ class HomeController < ApplicationController
   end
 
   def auto
-    @fields = []
+    @lecturers = []
     Lecturer.all.each do |lecturer|
-      @fields <<
+      @lecturers <<
         {
           lecturer.id => ["#{lecturer.first_name} #{lecturer.last_name}", lecturer.photo, lecturer.department.name]
         }
