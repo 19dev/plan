@@ -43,6 +43,6 @@ class HomeController < ApplicationController
       return render '/home/auto'
     end
 
-    @lecturer = Lecturer.find(:first, :conditions => { :id => params[:lecturer_id] })
+    @lecturer = Lecturer.find params[:lecturer_id]
   end
 end

@@ -7,7 +7,7 @@ one:
   email: MyString
   cell_phone: MyString
   work_phone: MyString
-  status: 1
+  status: false
   photo: MyString
 
 two:
@@ -17,5 +17,5 @@ two:
   email: MyString
   cell_phone: MyString
   work_phone: MyString
-  status: 1
+  status: false
   photo: MyString

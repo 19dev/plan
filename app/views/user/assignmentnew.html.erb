@@ -1,26 +1,26 @@
 <div class="page">
   <h2 id="headline"><%= session[:department] %> bölümüne ders ekle</h2>
   <%= form_tag({ :action => 'assignmentadd' }, :multipart => true, :html => {:id => 'real-form'}) do %>
-  <!-- <form id='real-form' action='http://localhost:4567/ms' method='post'>-->
     <table class="custom">
       <tr>
-        <td class="label"> Hoca seçiniz</td>
+        <td class="label">Hoca seçiniz</td>
         <td>
-          <%= select_tag(:lecturer_id,
-            options_from_collection_for_select(
-              Lecturer.find(:all, :conditions => { :department_id => session[:userdepartment_id] }), :id, :full_name)
-            )
+          <%=
+              select_tag(:lecturer_id,
+                options_from_collection_for_select(@unassignments, :id, :full_name)
+              )
           %>
         </td>
       </tr>
       <tr>
-        <td class="label"> Dersleri seçiniz</td>
+        <td class="label">Dersleri seçiniz</td>
         <td>
           <%= select_tag 'course_ids[]',
-            options_from_collection_for_select(
-              Course.find(:all, :conditions => { :department_id => session[:userdepartment_id] }), :id, :full_name
-          ),
-            :multiple => true, :class => 'multiselect' %>
+                options_from_collection_for_select(
+                  Course.find(:all, :conditions => { :department_id => session[:department_id] }), :id, :full_name
+                ),
+                  :multiple => true, :class => 'multiselect'
+          %>
         </td>
       </tr>
       <tr>

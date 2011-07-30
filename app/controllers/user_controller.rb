@@ -4,18 +4,19 @@ class UserController < ApplicationController
   end
 
   def login
-    if admin = Admin.find(:first, :conditions => { :first_name => params[:first_name], :password => params[:password] })
-      session[:user] = true
-      session[:userdepartment_id] = admin.department_id
-      session[:department] = Department.find(:first, :conditions => { :id => admin.department_id }).name
-      session[:username] = admin.first_name
-      session[:userpassword] = admin.password
-      session[:error] = nil
-      render '/user/home'
-    else
+    if user = People.find(:first, :conditions => { :first_name => params[:first_name], :password => params[:password] })
+      if user.department_id != 0 and user.status == 1
+        session[:user] = true
+        session[:department_id] = user.department_id
+        session[:department] = user.department.name
+        session[:username] = user.first_name
+        session[:userpassword] = user.password
+        session[:error] = nil
+        return render '/user/home'
+      end
+    end
       session[:error] = "Oops! Isminiz veya sifreniz hatali, belkide bunlardan sadece biri hatalidir?"
       redirect_to '/user/giris'
-    end
   end
 
   def logout
@@ -50,7 +51,7 @@ class UserController < ApplicationController
 
     photo = params[:file]
     params.select! { |k, v| Lecturer.columns.collect {|c| c.name}.include?(k) }
-    params[:department_id] = session[:userdepartment_id]
+    params[:department_id] = session[:department_id]
     lecturer = Lecturer.new params
     lecturer.save
     session[:lecturer_id] = lecturer.id
@@ -67,18 +68,18 @@ class UserController < ApplicationController
   end
   def lecturershow
     session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
-    unless @lecturer = Lecturer.find(:first, :conditions => { :id => session[:lecturer_id] })
+    unless @lecturer = Lecturer.find(session[:lecturer_id])
       session[:error] = "Boyle bir kayit bulunmamaktadir"
       redirect_to '/user/lecturerreview'
     end
   end
   def lecturerreview
     session[:error] = nil
-    @lecturers = Lecturer.find(:all, :conditions => { :department_id => session[:userdepartment_id] })
+    @lecturers = Lecturer.find(:all, :conditions => { :department_id => session[:department_id] })
   end
   def lectureredit
     session[:error], session[:notice] = nil, nil
-    @lecturer = Lecturer.find(:first, :conditions => { :id => session[:lecturer_id] })
+    @lecturer = Lecturer.find session[:lecturer_id]
   end
   def lecturerdel
     Lecturer.delete(session[:lecturer_id])
@@ -97,7 +98,7 @@ class UserController < ApplicationController
     params.select! { |k, v| Lecturer.columns.collect {|c| c.name}.include?(k) }
 
     Lecturer.update(session[:lecturer_id], params)
-    lecturer = Lecturer.find :first, :conditions => { :id => session[:lecturer_id] }
+    lecturer = Lecturer.find session[:lecturer_id]
     if photo and upload('Lecturer', "#{session[:lecturer_id]}", photo, true) # üzerine yazma olsun
       lecturer[:photo] = "Lecturer/#{session[:lecturer_id]}.jpg"
       lecturer.save
@@ -112,7 +113,7 @@ class UserController < ApplicationController
 
     photo = params[:file]
     params.select! { |k, v| Course.columns.collect {|c| c.name}.include?(k) }
-    params[:department_id] = session[:userdepartment_id]
+    params[:department_id] = session[:department_id]
     course = Course.new params
     course.save
     session[:course_id] = course.id
@@ -122,18 +123,18 @@ class UserController < ApplicationController
   end
   def courseshow
     session[:course_id] = params[:course_id] if params[:course_id] # uniq veriyi oturuma gömelim
-    unless @course = Course.find(:first, :conditions => { :id => session[:course_id] })
+    unless @course = Course.find(session[:course_id])
       session[:error] = "Boyle bir kayit bulunmamaktadir"
       redirect_to '/user/coursereview'
     end
   end
   def coursereview
     session[:error] = nil
-    @courses = Course.find :all, :conditions => { :department_id => session[:userdepartment_id] }
+    @courses = Course.find :all, :conditions => { :department_id => session[:department_id] }
   end
   def courseedit
     session[:error], session[:notice] = nil, nil
-    @course = Course.find :first, :conditions => { :id => session[:course_id] }
+    @course = Course.find session[:course_id]
   end
   def coursedel
     Course.delete session[:course_id]
@@ -147,12 +148,18 @@ class UserController < ApplicationController
     params.select! { |k, v| Course.columns.collect {|c| c.name}.include?(k) }
 
     Course.update(session[:course_id], params)
-    course = Course.find :first, :conditions => { :id => session[:course_id] }
+    course = Course.find session[:course_id]
     session[:notice] = "#{course.code}-#{course.name} dersi basariyla guncellendi"
     redirect_to '/user/courseshow'
    end
 # end Course -------------------------------------------------------
 # Course --------------------------------------------------------------------
+  def assignmentnew
+    lecturers = Lecturer.find(:all, :conditions => {:department_id => session[:department_id]})
+    @unassignments = lecturers.select do |lecturer|
+      !Assignment.find(:first, :conditions => { :lecturer_id => lecturer.id, :period_id => session[:period] })
+    end
+  end
   def assignmentadd
     session[:error] = nil
     # test amaçlı
@@ -160,4 +167,5 @@ class UserController < ApplicationController
 
     redirect_to '/user/assignmentnew'
   end
+
 end

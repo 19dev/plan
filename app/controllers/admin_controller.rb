@@ -4,14 +4,14 @@ class AdminController < ApplicationController
   end
 
   def login
-    if admin = Admin.find(:first, :conditions => { :first_name => params[:first_name], :password => params[:password] })
-      if admin.department_id == 0
+    if admin = People.find(:first, :conditions => { :first_name => params[:first_name], :password => params[:password] })
+      if admin.department_id == 0 and admin.status == 0
         session[:admin] = true
         session[:admindepartment] = admin.department_id
         session[:adminusername] = admin.first_name
         session[:adminpassword] = admin.password
         session[:TABLES] = {
-                            "Admin" => 'id',
+                            "People" => 'id',
                             "Lecturer" => 'id',
                             "Classroom" => 'id',
                             "Assignment" => 'id',
@@ -20,7 +20,7 @@ class AdminController < ApplicationController
                             "Department" => 'id',
                             "Period" => 'id',
                             }
-        session[:TABLE_INIT] = "Admin"
+        session[:TABLE_INIT] = "People"
         session[:escape] = ["created_at", "updated_at"]
         # session[:escape] = ["id", "department_id", "period_id", "created_at", "updated_at", "status"]
 

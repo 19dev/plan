@@ -19,7 +19,7 @@ a.first_name = "Nurettin"
 a.last_name = "Şenyer"
 a.email = "nurettin.senyer@bil.omu.edu.tr"
 a.photo = "default.png"
-a.status = 1
+a.status = true
 a.save
 
 a = Lecturer.new
@@ -28,7 +28,7 @@ a.first_name = "Recai"
 a.last_name = "Oktaş"
 a.email = "roktas@bil.omu.edu.tr"
 a.photo = "default.png"
-a.status = 0
+a.status = false
 a.save
 
 a = Lecturer.new
@@ -37,7 +37,7 @@ a.first_name = "Recai"
 a.last_name = "himmm"
 a.email = "himmm@bil.omu.edu.tr"
 a.photo = "default.png"
-a.status = 0
+a.status = false
 a.save
 
 a = Lecturer.new
@@ -46,7 +46,7 @@ a.first_name = "Onur"
 a.last_name = "baran"
 a.email = "obaran@bil.omu.edu.tr"
 a.photo = "default.png"
-a.status = 0
+a.status = false
 a.save
 
 a = Lecturer.new
@@ -55,7 +55,7 @@ a.first_name = "x"
 a.last_name = "y"
 a.email = "xy@ee.omu.edu.tr"
 a.photo = "default.png"
-a.status = 1
+a.status = true
 a.save
 
 
@@ -65,25 +65,31 @@ a.first_name = "foo"
 a.last_name = "bar"
 a.email = "foobar@ee.omu.edu.tr"
 a.photo = "default.png"
+a.status = false
+a.save
+
+
+
+a = People.new
+a.department_id = 0 # none çünkü adam admin.
+a.first_name = "gdemir" # neden username degil ? TODO
+a.password = "12345"
+a.photo = "default.png"
 a.status = 0
 a.save
 
-
-
-a = Admin.new
-a.department_id = 0
-a.first_name = "gdemir" # neden username degil ? TODO
-a.password = "12345"
-a.save
-
-a = Admin.new
+a = People.new
 a.department_id = 1
 a.first_name = "bal19"
 a.password = "bal19"
+a.photo = "default.png"
+a.status = 1
 a.save
 
-a = Admin.new
+a = People.new
 a.department_id = 2
 a.first_name = "x"
 a.password = "x"
+a.photo = "default.png"
+a.status = 1
 a.save

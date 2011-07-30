@@ -5,11 +5,11 @@ one:
   classroom_id: 1
   assignment_id: 1
   day: MyString
-  begin_time: 2011-07-29 20:02:51
+  begin_time: 2011-07-30 14:04:04
 
 two:
   period_id: 1
   classroom_id: 1
   assignment_id: 1
   day: MyString
-  begin_time: 2011-07-29 20:02:51
+  begin_time: 2011-07-30 14:04:04
