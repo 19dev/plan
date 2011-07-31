@@ -241,6 +241,8 @@ class UserController < ApplicationController
    end
   private
   def period
-    session[:period_id] = Period.find( :first, :conditions => { :status => 1 }).id
+    if period = Period.find( :first, :conditions => { :status => 1 })
+      session[:period_id] = period.id
+    end
   end
 end
