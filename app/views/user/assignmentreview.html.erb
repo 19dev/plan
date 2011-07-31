@@ -1,0 +1,33 @@
+<div class="page">
+  <h2 id="headline"><%= session[:department] %> bölümünün ders atamaları inceleniyor...</h2>
+  <table class="custom">
+    <tr>
+      <td class="label">Fotoğraf</td>
+      <td class="label">Ad</td>
+      <td class="label">Dersler</td>
+    </tr>
+
+    <% @assignment_lecturers.each do |lecturer| %>
+      <tr>
+        <td class="label"><%= image_tag lecturer.photo, :width => 75, :height => 75 %></td>
+        <td class="label"><%= lecturer.full_name %></td>
+        <% Assignment.find(:all, :conditions => { :lecturer_id => lecturer.id }).each do |ass| %>
+          <tr></tr>
+          <td></td>
+          <td></td>
+          <td class="field"><%= ass.course.full_name %></td>
+        <% end %>
+          <tr></tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="label">
+            <%= form_tag :action => 'assignmentshow' do %>
+              <%= hidden_field_tag :lecturer_id, lecturer.id %>
+              <%= submit_tag "İncele", :id => "submit_button" %>
+            <% end %>
+          </td>
+      </tr>
+    <% end %>
+  </table>
+</div>
