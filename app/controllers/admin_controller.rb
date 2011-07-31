@@ -6,6 +6,7 @@ class AdminController < ApplicationController
   def login
     if admin = People.find(:first, :conditions => { :first_name => params[:first_name], :password => params[:password] })
       if admin.department_id == 0 and admin.status == 0
+        session[:error] = nil
         session[:admin] = true
         session[:admindepartment] = admin.department_id
         session[:adminusername] = admin.first_name
@@ -24,7 +25,7 @@ class AdminController < ApplicationController
         session[:escape] = ["created_at", "updated_at"]
         # session[:escape] = ["id", "department_id", "period_id", "created_at", "updated_at", "status"]
 
-        unless session[:period] = Period.find( :first, :conditions => { :status => 0 })
+        unless session[:period_id] = Period.find( :first, :conditions => { :status => 1 })
           session[:error] = "Dikkat! aktif bir guz/bahar yili yok. Bu problemin duzeltilmesi icin asil yonetici ile irtibata gecin"
         end
 

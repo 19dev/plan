@@ -29,12 +29,12 @@ Schedule::Application.routes.draw do
 
   get  "user/assignmentnew"
   post "user/assignmentadd"
-  # get  "user/assignmentshow"
-  # post "user/assignmentshow"
-  # post "user/assignmentedit"
-  # get  "user/assignmentreview"
-  # post "user/assignmentdel"
-  # post "user/assignmentupdate"
+  get  "user/assignmentshow"
+  post "user/assignmentshow"
+  post "user/assignmentedit"
+  get  "user/assignmentreview"
+  post "user/assignmentdel"
+  post "user/assignmentupdate"
   # --------------------
   # end USER -----------
 

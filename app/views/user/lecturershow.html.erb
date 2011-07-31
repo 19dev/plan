@@ -41,7 +41,7 @@
           <%= submit_tag "Düzenle", :id => "submit_button" %>
         <% end %>
         <%= form_tag({ :action => 'lecturerdel' }, :multipart => true) do %>
-          <%= submit_tag "Sil", :id => "submit_button", :confirm => 'Silmek istediğinizden emin misiniz?'%>
+          <%= submit_tag "Sil", :id => "submit_button", :confirm => 'Bu öğretim görevlisini silerseniz, ona ait olan ders atamaları da silinmiş olacaktır. Silmek istediğinizden emin misiniz ?'%>
         <% end %>
       </td>
     </tr>
