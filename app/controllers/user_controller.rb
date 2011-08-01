@@ -236,7 +236,6 @@ class UserController < ApplicationController
     session[:lecturer_id] = nil # kişinin oturumunu öldürelim
     redirect_to '/user/assignmentreview'
   end
-
   def assignmentupdate
     session[:error], session[:notice] = nil, nil
     # tum atamalarını silelim
