@@ -1,0 +1,28 @@
+<div class="page">
+  <h2 id="headline"><% session[:department] %> bölümü derslerini düzenle</h2>
+  <%= form_tag({ :action => 'assignmentupdate' }, :multipart => true) do %>
+    <table class="custom">
+    <tr>
+      <td class="label">Fotoğraf</td>
+      <td><%= image_tag "/images/"+Lecturer.find(session[:lecturer_id]).photo %></td>
+    </tr>
+    <tr>
+      <td class="label">Ad</td>
+      <td><%= Lecturer.find(session[:lecturer_id]).full_name %></td>
+    </tr>
+    <tr>
+      <td class="label">Dersleri seçiniz</td>
+      <td>
+        <%= select_tag 'course_ids[]',
+          options_from_collection_for_select(@unassignment_courses, :id, :full_name, @lecturer_course_ids ),
+          :multiple => true, :class => 'multiselect, callbacks', :id => 'callback'
+        %>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><%= submit_tag "Güncelle", :id => "submit_button" %></td>
+    </tr>
+    </table>
+  <% end %>
+</div>
