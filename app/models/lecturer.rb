@@ -4,4 +4,7 @@ class Lecturer < ActiveRecord::Base
   def full_name
     self.first_name + ' ' + self.last_name
   end
+  def image_with_full_name
+    "<%= image_tag " + self.photo + "%>" + self.first_name + ' ' + self.last_name
+  end
 end

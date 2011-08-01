@@ -47,6 +47,14 @@ html {
     box-shadow:0 2px 2px rgba(0,0,0,0.2);
 }
 
+.image_with_name{
+    background-size:50px;
+    background-position:left;
+    background-repeat:no-repeat;
+    height:50px;
+    padding-left:55px;
+}
+
 body {
     font-family: "Helvetica Neue", Helvetica, Corbel, Arial, sans-serif;
     font-size: 12px;

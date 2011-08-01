@@ -5,11 +5,13 @@
       <tr>
         <td class="label">Hoca seçiniz</td>
         <td>
-          <%=
-              select_tag(:lecturer_id,
-                options_from_collection_for_select(@unassignment_lecturers, :id, :full_name)
-              )
-          %>
+            <select name="lecturer_id">
+            <%= @unassignment_lecturers.each do |lecturer| %>
+              <option class="image_with_name" style="background-image:url(/images/<%= lecturer.photo %>);" value="<%= lecturer.id %>">
+                <%= lecturer.full_name %>
+              </option>
+            <%end%>
+            </select>
         </td>
       </tr>
       <tr>
@@ -17,7 +19,7 @@
         <td>
           <%= select_tag 'course_ids[]',
                 options_from_collection_for_select(@unassignment_courses, :id, :full_name),
-                  :multiple => true, :class => 'multiselect'
+                :multiple => true, :class => 'multiselect, callbacks', :id => 'callback'
           %>
         </td>
       </tr>

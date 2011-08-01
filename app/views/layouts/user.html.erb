@@ -7,7 +7,7 @@
   <%= csrf_meta_tag %>
   <!-- multiselect -->
   <!-- kaynak : http://loudev.com/ -->
-  <% if @unassignment_lecturers and @unassignment_courses %>
+  <% if @unassignment_lecturers or @unassignment_courses %>
     <link href="/stylesheets/multi-select.css" rel="stylesheet" type="text/css">
     <script src="/javascripts/jquery.js" type="text/javascript"></script>
     <script src="/javascripts/jquery.multi-select.js" type="text/javascript"></script>

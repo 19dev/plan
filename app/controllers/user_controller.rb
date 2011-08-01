@@ -217,28 +217,46 @@ class UserController < ApplicationController
 
   def assignmentedit
     session[:error], session[:notice] = nil, nil
-    @assignment = Course.find session[:assignment_id]
+    lecturer_assignment = Assignment.find(:all, :conditions => {:lecturer_id => session[:lecturer_id], :period_id => session[:period_id]})
+    @lecturer_course_ids = lecturer_assignment.collect { |ass| ass.course_id }
+
+    courses = Course.find(:all, :conditions => {:department_id => session[:department_id]})
+    @unassignment_courses = courses.select do |course|
+      !Assignment.find(:first, :conditions => { :course_id => course.id, :period_id => session[:period_id] }) or
+      @lecturer_course_ids.include?(course.id)
+    end
   end
+
   def assignmentdel
     Assignment.delete_all ({
                   :lecturer_id => session[:lecturer_id],
                   :period_id => session[:period_id]
                 })
-    session[:notice] = "#{Lecturer.find(session[:lecturer_id]).full_name} ogretim gorevlisinindersleri basariyla silindi"
+    session[:notice] = "#{Lecturer.find(session[:lecturer_id]).full_name} ogretim gorevlisinin dersleri basariyla silindi"
     session[:lecturer_id] = nil # kişinin oturumunu öldürelim
     redirect_to '/user/assignmentreview'
   end
 
   def assignmentupdate
     session[:error], session[:notice] = nil, nil
-
-    params.select! { |k, v| Course.columns.collect {|c| c.name}.include?(k) }
-
-    Course.update(session[:assignment_id], params)
-    assignment = Course.find session[:assignment_id]
-    session[:notice] = "#{assignment.code}-#{assignment.name} dersi basariyla guncellendi"
+    # tum atamalarını silelim
+    Assignment.delete_all ({
+                  :lecturer_id => session[:lecturer_id],
+                  :period_id => session[:period_id]
+                })
+    # yeni atamalarını ekliyelim
+    params[:course_ids].each do |course_id|
+      assignment = Assignment.new ({
+                                    :period_id => session[:period_id],
+                                    :lecturer_id => session[:lecturer_id],
+                                    :course_id => course_id
+                                  })
+      assignment.save
+    end
+    session[:notice] = "#{Lecturer.find(session[:lecturer_id]).full_name} ogretim gorevlisinin dersleri basariyla guncellendi"
     redirect_to '/user/assignmentshow'
-   end
+  end
+
   private
   def period
     if period = Period.find( :first, :conditions => { :status => 1 })

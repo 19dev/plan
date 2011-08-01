@@ -1,7 +1,7 @@
 (function($){
   $(function(){
     $('.multiselect').multiSelect({});
-    $('#multipleHeaders').multiSelect({
+    $('#multiselectHeaders').multiSelect({
       selectableHeader : '<h4>Selectable Items</h4>',
       selectedHeader : '<h4>Selected Items</h4>'
     });
@@ -10,12 +10,12 @@
 
     $('#empty-array-select').multiSelect({ emptyArray: true})
     
-    $('#callbackCountries').multiSelect({
+    $('#callback').multiSelect({
       afterSelect: function(value, text){
-        alert('Select element\nvalue: '+value+'\ntext: '+text);
+        alert('Şu elamanı seçtiniz : \n'+text);
       },
       afterDeselect: function(value, text){
-        alert('Deselect element\nvalue: '+value+'\ntext: '+text);
+        alert('Şu elamanı seçim listenizden sildiniz : \n'+text);
       }
     });
     
