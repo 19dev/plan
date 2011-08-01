@@ -6,12 +6,8 @@
       <tr>
         <td class="label">tablo:</td>
         <td class="field">
-          <%= select_tag :table, options_for_select(session[:TABLES].keys.map {|key| key.to_s}) %>
+          <%= select_tag :table, options_for_select(session[:TABLES].keys.map {|key| key.to_s}), :onchange => 'this.form.submit()' %>
         </td>
-      </tr>
-      <tr>
-        <td></td>
-        <td><%= submit_tag "Seç", :id => "submit_button" %></td>
       </tr>
     </table>
   <% end %>
