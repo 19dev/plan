@@ -7,7 +7,7 @@
   <%= csrf_meta_tag %>
   <!-- autocomplete -->
   <!-- kaynak : https://github.com/scottgonzalez/jquery-ui-extensions/tree/master/autocomplete -->
-  <% if @fields %>
+  <% if @auto_lecturers %>
     <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/themes/base/jquery-ui.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.js"></script>
@@ -16,7 +16,7 @@
       $(function() {
         $( "#autocomplete" ).autocomplete({
           source: [
-                  <% @fields.each do |l|  %>
+                  <% @auto_lecturers.each do |l|  %>
                     {
                       <% l.each do |k, v| %>
                         label: "<img src='/images/<%= raw v[1] %>' width='50'; height='50'/><%= raw v[0]+' - '+v[2] %>",

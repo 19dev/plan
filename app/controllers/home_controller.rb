@@ -22,12 +22,8 @@ class HomeController < ApplicationController
   end
 
   def auto
-    @fields = []
-    Lecturer.all.each do |lecturer|
-      @fields <<
-        {
-          lecturer.id => ["#{lecturer.first_name} #{lecturer.last_name}", lecturer.photo, lecturer.department.name]
-        }
+    @auto_lecturers = Lecturer.all.collect do |lecturer|
+      { lecturer.id => ["#{lecturer.first_name} #{lecturer.last_name}", lecturer.photo, lecturer.department.name] }
     end
   end
 
