@@ -214,7 +214,6 @@ class UserController < ApplicationController
       Assignment.find(:first, :conditions => { :lecturer_id => lecturer.id, :period_id => session[:period_id] })
     end
   end
-
   def assignmentedit
     session[:error], session[:notice] = nil, nil
     lecturer_assignment = Assignment.find(:all, :conditions => {:lecturer_id => session[:lecturer_id], :period_id => session[:period_id]})
@@ -226,7 +225,6 @@ class UserController < ApplicationController
       @lecturer_course_ids.include?(course.id)
     end
   end
-
   def assignmentdel
     Assignment.delete_all ({
                   :lecturer_id => session[:lecturer_id],
@@ -255,6 +253,31 @@ class UserController < ApplicationController
     session[:notice] = "#{Lecturer.find(session[:lecturer_id]).full_name} ogretim gorevlisinin dersleri basariyla guncellendi"
     redirect_to '/user/assignmentshow'
   end
+# end Assignment  -------------------------------------------------------
+# Schedule -------------------------------------------------------
+  def schedulenew
+    lecturers = Lecturer.find(:all, :conditions => {:department_id => session[:department_id]})
+    @lecturers = lecturers.select do |lecturer|
+      Assignment.find(:first, :conditions => { :period_id => session[:period_id], :lecturer_id => lecturer.id })
+    end
+    # courses = Course.find(:all, :conditions => {:department_id => session[:department_id]})
+    # @unschedule_courses = courses.select do |course|
+    #   !Assignment.find(:first, :conditions => { :course_id => course.id, :period_id => session[:period_id] })
+    # end
+  end
+  def scheduleadd
+  end
+  def scheduleshow
+  end
+  def schedulereview
+  end
+  def scheduleedit
+  end
+  def scheduledel
+  end
+  def scheduleupdate
+  end
+# end Schedule -------------------------------------------------------
 
   private
   def period

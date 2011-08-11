@@ -36,6 +36,16 @@ Schedule::Application.routes.draw do
   post "user/assignmentdel"
   post "user/assignmentupdate"
   # --------------------
+
+  get  "user/schedulenew"
+  post "user/scheduleadd"
+  get  "user/scheduleshow"
+  post "user/scheduleshow"
+  post "user/scheduleedit"
+  get  "user/schedulereview"
+  post "user/scheduledel"
+  post "user/scheduleupdate"
+  # --------------------
   # end USER -----------
 
   # ADMIN

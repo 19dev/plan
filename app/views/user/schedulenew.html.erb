@@ -1,0 +1,62 @@
+<div class="page">
+  <h2 id="headline"><%= session[:department] %> bölümü programı öğretim görevlisi programı ayarla</h2>
+  <%= form_tag({ :action => 'scheduleadd' }, :multipart => true, :html => {:id => 'real-form'}) do %>
+    <table class="custom">
+      <tr>
+        <td class="label">Hoca seçiniz</td>
+        <td>
+            <select name="lecturer_id">
+            <%= @lecturers.each do |lecturer| %>
+              <option class="image_with_name" style="background-image:url(/images/<%= lecturer.photo %>);" value="<%= lecturer.id %>">
+                <%= lecturer.full_name %>
+              </option>
+            <%end%>
+            </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">Ders seçiniz</td>
+        <td>
+            <select name="lecturer_id">
+            <%= @lecturers.each do |lecturer| %>
+              <option class="image_with_name" style="background-image:url(/images/<%= lecturer.photo %>);" value="<%= lecturer.id %>">
+                <%= lecturer.full_name %>
+              </option>
+            <%end%>
+            </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">ders saatleri - yerleri </td>
+        <td></td>
+      </tr>
+    </table>
+        <td>
+          <style>
+            #cer {margin-left:233px;}
+            .col {width:100px;border:1px solid #cccccc;}
+              .colcenter {text-align:center;}
+          </style>
+          <div id="cer">
+            <table>
+              <tr>
+                <th class="col"></th>
+                <th class="col">Pazartesi</th>
+                <th class="col">Salı</th>
+                <th class="col">Çarşamba</th>
+                <th class="col">Perşembe</th>
+                <th class="col">Cuma</th>
+              </tr>
+            </table>
+          </div>
+      </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <input id="submit_button" type='submit' value='Kaydet' />
+        </td>
+      </tr>
+
+  <% end %>
+</div>
