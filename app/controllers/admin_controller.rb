@@ -22,7 +22,7 @@ class AdminController < ApplicationController
                             "Period" => 'id',
                             }
         session[:TABLE_INIT] = "People"
-        session[:escape] = ["created_at", "updated_at"]
+        session[:escape] = ["created_at", "updated_at", "cell_phone", "work_phone"]
         # session[:escape] = ["id", "department_id", "period_id", "created_at", "updated_at", "status"]
 
         unless session[:period_id] = Period.find( :first, :conditions => { :status => 1 })

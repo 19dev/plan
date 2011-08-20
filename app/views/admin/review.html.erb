@@ -1,14 +1,31 @@
+<link type="text/css" rel="stylesheet" href="/stylesheets/datatable.css"/>
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
+<script type="text/javascript" src="/javascripts/jquery.dataTables.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function() {
+      oTable = $('#example').dataTable({
+        "bJQueryUI": true,
+        "sPaginationType": "full_numbers"
+      });
+  });
+</script>
 <div class="page">
   <h2 id="headline"><%= session[:TABLE] %> tablosu inceleniyor</h2>
-  <table class="custom">
+   <div class="dt_example module">
+   <table cellpadding="0" cellspacing="0" border="0" class="display" 
+       id="example">
+   <thead>
     <tr>
       <% eval(session[:TABLE] + ".columns").map do |c| %>
         <% unless session[:escape].include?(c.name) %> <!-- kısıtlamalar -->
-          <td class="label" style="color:#2f7ca2"><%= c.name %></td>
+          <th><%= c.name %></th>
         <% end %>
       <% end %>
+      <th></th>
     </tr>
-
+  </thead>
+  <tbody>
     <% @data.each do |kisi| %>
       <tr>
         <% eval(session[:TABLE] + ".columns").map do |c| %>
@@ -20,13 +37,23 @@
             <% end %>
           <% end %>
         <% end %>
-        <td class="label">
+        <td class="label" style="float:left;width:92px">
           <%= form_tag :action => 'show' do %>
             <%= hidden_field_tag :_key,  kisi.attributes[session[:KEY]] %>
-            <%= submit_tag "İncele", :id => "submit_button" %>
+            <%= submit_tag "",:id => "review_button" %>
+          <% end %>
+          <%= form_tag :action => 'edit' do %>
+            <%= hidden_field_tag :_key,  kisi.attributes[session[:KEY]] %>
+            <%= submit_tag "",:id => "edit_button" %>
+          <% end %>
+          <%= form_tag :action => 'del' do %>
+            <%= hidden_field_tag :_key,  kisi.attributes[session[:KEY]] %>
+            <%= submit_tag "", :id => "delete_button", :confirm => 'Silmek istediğinizden emin misiniz?' %>
           <% end %>
         </td>
       </tr>
     <% end %>
+  </tbody>
   </table>
+  </div>
 </div>

@@ -12,7 +12,7 @@ development:
   database: schedule_development
   pool: 5
   username: root
-  password:
+  password: "12345"
   socket: /var/run/mysqld/mysqld.sock
 
 # Warning: The database defined as "test" will be erased and

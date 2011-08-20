@@ -1,4 +1,5 @@
 .notice, .error {
+	width:400px;
 	padding:5px;
 	border:solid 1px #cfe5a0;
 	border-top-color:#b4d76c;
@@ -14,12 +15,8 @@
 	margin-bottom:30px;
 	text-shadow:rgba(255,255,255,0.5) 0 1px 0;
 	text-align:center;
-}
-.notice h3, .error h3 {
-	color:#468012;
-	margin-bottom:5px;
-	font-size:11px;
-	text-transform:none;
+	padding:0px 20px 5px;
+	margin:auto;
 }
 .error {
 	border:solid 1px #e5bda0;
@@ -28,18 +25,48 @@
 	background:#f0d9c8;
 	color:#9c4c33;
 }
-.error h3 {
+.notice2, .error2 {
+	margin:auto;
+	width: 400px;
+	padding: 8px 20px 10px;
+	margin-top: -30px;
+	margin-bottom:-20px;
+	margin-left:195px;
+	color: #fff;
+	background: #2daebf;
+	line-height: 16px;
+	font-size: 13px;
+	font-weight: bold;
+	font-family: arial, helvetica, sans-serif;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+.error2 {
+	color: white;
+	background-color:#d62929;
+}
+#noticeline, #errorline {
+	color:#468012;
+	margin-bottom:5px;
+	font-size:11px;
+	text-transform:none;
+}
+#errorline {
 	color:#763926;
 }
-.notice, .error{
-	width:405px;
-	padding:0px 20px 5px;
-	margin-left:200px;
-	margin-top:30px;
-	margin-bottom:-25px;
-	margin-auto;
+#headline {
+    padding: 10px 20px;
+    background: #f8f8f8;
+    text-shadow: #fff 1px 1px;
+    color: #2f7ca2;
+    font-size: 17px;
+    margin-bottom: 20px;
+    font-weight:    bold;
+    font-family:    helvetica, geneva, arial, sans-serif;
+    margin-top:0px;
 }
-.box-header{
+#boxline {
 	color:#888888;
 	font-size:18px;
 	padding:15px;

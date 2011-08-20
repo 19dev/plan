@@ -11,14 +11,15 @@
     <div id="wrapper">
       <div id="container">
         <ul class="tabs" id="mainNav">
-          <li class="current">
+          <li class="home">
             <a href="/admin/giris" title="Kullanıcı adınız"><%= session[:adminusername] %></a>
           </li>
-            <li class="green">
-              <a href="info" title="Bilgilendirme sayfası">Bilgilendirme</a>
-            </li>
-          <li class="green">
-            <a href="logout" title="Çıkış">Çıkış</a>
+          <li class="magenta">
+          <a href="info"
+            title="Bilgilendirme sayfası">Bilgilendirme</a>
+          </li>
+          <li class="logout">
+          <a href="logout" title="Çıkış">Çıkış</a>
           </li>
         </ul>
       </div>
@@ -26,11 +27,11 @@
   <% end %>
 
   <% if session[:error] %>
-    <div class="error"><h3>Bir problemimiz var</h3><%= session[:error] %></div>
+    <div class="error"><h3 id="errorline">Bir problemimiz var!</h3><%= session[:error] %></div>
   <% end %>
 
   <% if session[:notice] %>
-    <div class="notice"><h3>Bir başarı iletisi var</h3><%= session[:notice] %></div>
+    <div class="notice"><h3 id="noticeline">Bir başarı iletisi var!</h3><%= session[:notice] %></div>
   <% end %>
 
   <div id="content">
@@ -70,6 +71,5 @@
     <% end %>
     <%= yield %>
   </div>
-
 </body>
 </html>

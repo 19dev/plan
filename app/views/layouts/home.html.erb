@@ -44,7 +44,7 @@
 </head>
 <body>
   <div id="logo" >
-    <%= image_tag "/images/mf.jpg" %>
+    <%= image_tag "/images/mf-256x256.png" %>
     <h1 style="margin-top:-40px;margin-left:300px;">OMÜ Mühendislik Fakültesi Program Arama Sistemi</h1>
   </div>
   <div id="logo" style="margin-top:-25px;margin-bottom:-25px;padding-top:0.5em;padding-bottom:0.5em;">
@@ -57,11 +57,11 @@
     </table>
   </div>
   <% if session[:error] %>
-    <div class="error"><h3>Bir problemimiz var</h3><%= session[:error] %></div>
+    <div class="error2"><%= session[:error] %></div>
   <% end %>
 
   <% if session[:notice] %>
-    <div class="notice"><h3>Bir başarı iletisi var</h3><%= session[:notice] %></div>
+    <div class="notice2"><%= session[:notice] %></div>
   <% end %>
 
   <div id="content">

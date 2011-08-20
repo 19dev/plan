@@ -9,7 +9,7 @@
     border-radius: 5px;
     -webkit-box-shadow:0 2px 2px rgba(0,0,0,0.2);
     -moz-box-shadow:0 2px 2px rgba(0,0,0,0.2);
-    box-shadow:0 2px 2px rgba(0,0,0,0.2);
+    box-shadow:0 5px 10px rgba(0,0,0,0.2);
 }
 #column tr img {width:35px;} /*75*/
 #column tr{font-size:12px;font-weight:bold;}
@@ -69,6 +69,11 @@ table.custom input[type=password]:focus {
     border: 1px solid #35addf;
 }
 
+table.custom td.info {
+    font-size:13px;
+    width: 1000px;/*label + field*/
+}
+
 table.custom td.label {
     text-align: right;
     vertical-align: top;
@@ -90,27 +95,6 @@ table.custom td.field {
 table.custom td.captcha {
     float: right;
     display: inline-block;
-    margin-top: -5.5em;
-    margin-right: -12em;
+    margin-top: -6em;
+    margin-right: -14em;
 }
-
-#submit_button {
-    height:23px;
-    color:#2F7CA2;
-    text-align:center;
-    padding-top:6px;
-    background:url(../images/btn.png) no-repeat top;
-    font-weight:bold;
-    width:96px;
-    font-size:13px;
-    display:block;
-    cursor:pointer;
-    border:none;
-    height:auto;
-    padding-bottom:7px;
-}
-#submit_button:active { background-position:bottom;}
-
-/* -------------------------------------------------------------------- */
-
-
