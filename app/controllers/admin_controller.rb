@@ -122,12 +122,13 @@ class AdminController < ApplicationController
 
   def edit
     session[:error], session[:notice] = nil, nil
+    session[:_key] = params[:_key] if params[:_key] # post ise uniq veriyi oturuma gömelim
     @data = eval session[:TABLE].capitalize + ".find :first, :conditions => { session[:KEY] => session[:_key] }"
   end
 
   def del
     session[:error], session[:notice] = nil, nil
-
+    session[:_key] = params[:_key] if params[:_key] # post ise uniq veriyi oturuma gömelim
     eval session[:TABLE] + ".delete(session[:_key])"
 
     image = Rails.root.join 'public', 'images', session[:TABLE], "#{session[:_key]}.jpg" # resmimizin tam yolu

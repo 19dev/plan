@@ -85,9 +85,11 @@ class UserController < ApplicationController
   end
   def lectureredit
     session[:error], session[:notice] = nil, nil
+    session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
     @lecturer = Lecturer.find session[:lecturer_id]
   end
   def lecturerdel
+    session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
     Lecturer.delete session[:lecturer_id]
     # bu hocaya ait tüm dersleri silelim
     Assignment.delete_all ({
@@ -144,9 +146,11 @@ class UserController < ApplicationController
   end
   def courseedit
     session[:error], session[:notice] = nil, nil
+    session[:course_id] = params[:course_id] if params[:course_id] # uniq veriyi oturuma gömelim
     @course = Course.find session[:course_id]
   end
   def coursedel
+    session[:course_id] = params[:course_id] if params[:course_id] # uniq veriyi oturuma gömelim
     Course.delete session[:course_id]
     # bu derse ait tüm atamaları da silelim
     Assignment.delete_all ({
@@ -216,6 +220,7 @@ class UserController < ApplicationController
   end
   def assignmentedit
     session[:error], session[:notice] = nil, nil
+    session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
     lecturer_assignment = Assignment.find(:all, :conditions => {:lecturer_id => session[:lecturer_id], :period_id => session[:period_id]})
     @lecturer_course_ids = lecturer_assignment.collect { |ass| ass.course_id }
 
@@ -226,6 +231,7 @@ class UserController < ApplicationController
     end
   end
   def assignmentdel
+    session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
     Assignment.delete_all ({
                   :lecturer_id => session[:lecturer_id],
                   :period_id => session[:period_id]

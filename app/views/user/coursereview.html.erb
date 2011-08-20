@@ -1,15 +1,32 @@
+<link type="text/css" rel="stylesheet" href="/stylesheets/datatable.css"/>
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
+<script type="text/javascript" src="/javascripts/jquery.dataTables.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function() {
+      oTable = $('#example').dataTable({
+        "bJQueryUI": true,
+        "sPaginationType": "full_numbers"
+      });
+  });
+</script>
 <div class="page">
   <h2 id="headline"><%= session[:department] %> bölümünün dersleri inceleniyor...</h2>
-  <table class="custom">
+   <div class="dt_example module">
+   <table cellpadding="0" cellspacing="0" border="0" class="display" 
+       id="example">
+   <thead>
     <tr>
-      <td class="label">Kod Ad</td>
-      <td class="label">Ad</td>
-      <td class="label">Teorik ders sayısı</td>
-      <td class="label">Pratik ders sayısı</td>
-      <td class="label">Lab ders sayısı</td>
-      <td class="label">Kredi</td>
+      <th class="label">Kod Ad</th>
+      <th class="label">Ad</th>
+      <th class="label">Teorik ders sayısı</th>
+      <th class="label">Pratik ders sayısı</th>
+      <th class="label">Lab ders sayısı</th>
+      <th class="label">Kredi</th>
+      <th></th>
     </tr>
-
+  </thead>
+  <tbody>
     <% @courses.each do |course| %>
       <tr>
         <td class="label"><%= course.code %></td>
@@ -18,13 +35,23 @@
         <td class="label"><%= course.practice %></td>
         <td class="label"><%= course.lab %></td>
         <td class="label"><%= course.credit %></td>
-        <td class="label">
+        <td class="label" style="float:left;width:92px">
           <%= form_tag :action => 'courseshow' do %>
-            <%= hidden_field_tag :course_id,  course.id %>
-            <%= submit_tag "İncele", :id => "submit_button" %>
+            <%= hidden_field_tag :course_id, course.id %>
+            <%= submit_tag "",:id => "review_button" %>
+          <% end %>
+          <%= form_tag :action => 'courseedit' do %>
+            <%= hidden_field_tag :course_id, course.id %>
+            <%= submit_tag "",:id => "edit_button" %>
+          <% end %>
+          <%= form_tag :action => 'coursedel' do %>
+            <%= hidden_field_tag :course_id, course.id %>
+            <%= submit_tag "", :id => "delete_button", :confirm => 'Silmek istediğinizden emin misiniz?' %>
           <% end %>
         </td>
       </tr>
     <% end %>
+  </tbody>
   </table>
+  </div>
 </div>
