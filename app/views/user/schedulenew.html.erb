@@ -28,28 +28,47 @@
       </tr>
       <tr>
         <td class="label">ders saatleri - yerleri </td>
-        <td></td>
-      </tr>
-    </table>
         <td>
           <style>
-            #cer {margin-left:233px;}
             .col {width:100px;border:1px solid #cccccc;}
-              .colcenter {text-align:center;}
           </style>
           <div id="cer">
             <table>
               <tr>
-                <th class="col"></th>
-                <th class="col">Pazartesi</th>
-                <th class="col">Salı</th>
-                <th class="col">Çarşamba</th>
-                <th class="col">Perşembe</th>
-                <th class="col">Cuma</th>
+                <th class="col">Saatler/Günler</th>
+                <% days = ["Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi","Pazar"] %>
+                <% days.each do |day| %>
+                  <th class="col"><%= day %></th>
+                <% end %>
               </tr>
+
+                <% (8..12).each do |hour| %>
+                <tr>
+                  <th class="col"><%= time=(hour).to_s+':15'+' '+(hour+1).to_s+':00' %></th>
+                  <% days.length.times do |i| %>
+                    <th class="col">
+                      <input type="checkbox" name="time"
+                        id="<%= 'şu saate seçtiniz : '+(days[i]).to_s+' - '+time %>"
+                        value="<%= (hour).to_s+':15' %>" onchange="alert(this.id)"/>
+                    </th>
+                  <% end %>
+                </tr>
+                <% end %>
+                <%(13..16).each do |hour| %>
+                <tr>
+                  <th class="col"><%= time=(hour).to_s+':00'+' '+(hour+1).to_s+':00' %></th>
+                  <% days.length.times do |i| %>
+                    <th class="col">
+                      <input type="checkbox" name="time"
+                        id="<%= 'şu saate seçtiniz : '+(days[i]).to_s+' - '+time %>"
+                        value="<%= (hour).to_s+':00' %>" onchange="alert(this.id)"/>
+                    </th>
+                  <% end %>
+                </tr>
+                <% end %>
             </table>
           </div>
-      </td>
+        </th>
       </tr>
       <tr>
         <td></td>
@@ -57,6 +76,6 @@
           <input id="submit_button" type='submit' value='Kaydet' />
         </td>
       </tr>
-
+    </table>
   <% end %>
 </div>
