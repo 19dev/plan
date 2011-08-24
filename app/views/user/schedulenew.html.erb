@@ -1,23 +1,44 @@
+<script type="text/javascript">
+  function check() {
+    sel1 = document.getElementById("lecturer_id");
+    sel2 = document.getElementById("course_id");
+    sel1.disabled = true;
+    if (sel1.options.selectedIndex){
+      sel2.disabled = true;
+    } else {
+      sel2.disabled = false;
+    }
+  }
+</script>
 <div class="page">
   <h2 id="headline"><%= session[:department] %> bölümü programı öğretim görevlisi programı ayarla</h2>
-  <%= form_tag({ :action => 'scheduleadd' }, :multipart => true, :html => {:id => 'real-form'}) do %>
+    <%= form_tag({ :action => 'lecturerchoice' }) do %>
     <table class="custom">
       <tr>
         <td class="label">Hoca seçiniz</td>
         <td>
-            <select name="lecturer_id">
-            <%= @lecturers.each do |lecturer| %>
-              <option class="image_with_name" style="background-image:url(/images/<%= lecturer.photo %>);" value="<%= lecturer.id %>">
-                <%= lecturer.full_name %>
-              </option>
-            <%end%>
-            </select>
+          <select name="lecturer_id" onchange='check()'>
+          <%= @lecturers.each do |lecturer| %>
+            <option class="image_with_name"
+                    style="background-image:url(/images/<%= lecturer.photo %>);"
+                    value="<%= lecturer.id %>" selected>
+              <%= lecturer.full_name %>
+            </option>
+          <% end %>
+          </select>
         </td>
       </tr>
+      <% if session[:lecturer_id] %>
+        <td class="label">
+          <%= image_tag "/images/#{Lecturer.find(session[:lecturer_id]).photo}", :width => 75, :height => 75 %>
+        </td>
+      <% end %>
+    <% end %>
+    <%= form_tag({ :action => 'scheduleadd' }) do %>
       <tr>
         <td class="label">Ders seçiniz</td>
         <td>
-            <select name="lecturer_id">
+            <select name="course_id">
             <%= @lecturers.each do |lecturer| %>
               <option class="image_with_name" style="background-image:url(/images/<%= lecturer.photo %>);" value="<%= lecturer.id %>">
                 <%= lecturer.full_name %>

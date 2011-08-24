@@ -17,9 +17,9 @@
        id="example">
    <thead>
     <tr>
+      <th class="label">Fotoğraf</th>
       <th class="label">Adı</th>
       <th class="label">Soyadı</th>
-      <th class="label">Fotoğraf</th>
       <th class="label">Email</th>
       <th class="label">İş telefonu</th>
       <th class="label">Cep telefonu</th>
@@ -30,9 +30,9 @@
   <tbody>
     <% @lecturers.each do |lecturer| %>
       <tr>
+        <td class="label"><%= image_tag "/images/#{lecturer.photo}", :width => 26, :height => 26 %></td>
         <td class="label"><%= lecturer.first_name %></td>
         <td class="label"><%= lecturer.last_name %></td>
-        <td class="label"><img src="/images/<%= lecturer.photo %>" width="75" height="75"/></td>
         <td class="label"><%= lecturer.email %></td>
         <td class="label"><%= lecturer.work_phone %></td>
         <td class="label"><%= lecturer.cell_phone %></td>

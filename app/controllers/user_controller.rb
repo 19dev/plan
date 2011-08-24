@@ -284,7 +284,11 @@ class UserController < ApplicationController
   def scheduleupdate
   end
 # end Schedule -------------------------------------------------------
-
+  def lecturerchoice
+    session[:lecturer_id] = params[:lecturer_id]
+    @lecturerx = Lecturer.find(session[:lecturer_id])
+    redirect_to '/user/schedulenew'
+  end
   private
   def period
     if period = Period.find( :first, :conditions => { :status => 1 })

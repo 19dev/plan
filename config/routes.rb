@@ -82,6 +82,7 @@ Schedule::Application.routes.draw do
   post "home/show"
   post "home/program"
   # ---------------------
+  post "user/lecturerchoice"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

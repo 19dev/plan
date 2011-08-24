@@ -42,20 +42,71 @@
     #logo td {width:70px;}
   </style>
 </head>
-<body>
-  <div id="logo" >
-    <%= image_tag "/images/mf-256x256.png" %>
-    <h1 style="margin-top:-40px;margin-left:300px;">OMÜ Mühendislik Fakültesi Program Arama Sistemi</h1>
+<body style="background-color:white;">
+
+  <!--PLATFORM BAR-->
+  <div class="platform-bar">
+    <div class="container">
+      <div class="row bar-content">
+        <div class="twelve columns">
+          <span class="title">
+            <a href="http://mf.omu.edu.tr">
+              ONDOKUZ MAYIS ÜNİVERSİTESİ MÜHENDİSLİK FAKÜLTESİ
+            </a>
+          </span>
+          <ul class="related hide-on-mobile">
+            <li>
+            <a href="/home/index">
+              Ana Sayfa</a>
+            </li>
+            <li>
+            <a href="/user/giris">
+              User</a>
+            </li>
+            <li>
+            <a href="/home/info">
+              Hakkında</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
-  <div id="logo" style="margin-top:-25px;margin-bottom:-25px;padding-top:0.5em;padding-bottom:0.5em;">
-    <table>
-      <tr>
-      <td><a href="/home/index"><img src="/images/home.png"/></a></td>
-      <td><a href="/home/find"><img src="/images/show.png"/></a></td>
-      <td><a href="/home/auto"><img src="/images/fast.png"/></a></td>
-      </tr>
-    </table>
+  <!--PLATFORM BAR END-->
+
+  <div id="logo">
+    <%= image_tag "/images/mf-256x256.png", :width=> 150, :height=>150%>
+    <h1 style="font-family:'Proxima';font-weight:bold;color:#555;font-size:15px;height:45px;margin-top:-50px;margin-left:250px;">
+      OMÜ Mühendislik Fakültesi Program Arama Sistemi
+    </h1>
   </div>
+  <% page = File.basename request.fullpath %>
+
+  <div class="container">
+    <div class="row">
+      <div class="twelve columns">
+        <ul class="sub-nav">
+          <li class="<%= 'current' if ["index"].include?(page) %>">
+          <a href="/home/index" title="Ana Sayfa">
+            Ana Sayfa
+          </a>
+          </li>
+          <li class="<%= 'current' if ["find", "review"].include?(page) %>">
+          <a href="/home/find">
+            Arama
+          </a>
+          </li>
+          <li class="<%= 'current' if ["auto", "show"].include?(page) %>">
+          <a href="/home/auto">
+            Hızlı Arama
+          </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
   <% if session[:error] %>
     <div class="error2"><%= session[:error] %></div>
   <% end %>
