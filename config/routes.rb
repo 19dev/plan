@@ -71,7 +71,7 @@ Schedule::Application.routes.draw do
   # end ADMIN -----------
 
   # HOME
-  #
+  root :to => 'home#index'
   get  "home/index"
   get  "home/find"
   post "home/find"
