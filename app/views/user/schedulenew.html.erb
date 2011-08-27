@@ -1,15 +1,3 @@
-<script type="text/javascript">
-  function check() {
-    sel1 = document.getElementById("lecturer_id");
-    sel2 = document.getElementById("course_id");
-    sel1.disabled = true;
-    if (sel1.options.selectedIndex){
-      sel2.disabled = true;
-    } else {
-      sel2.disabled = false;
-    }
-  }
-</script>
 <div class="page">
   <h2 id="headline"><%= session[:department] %> bölümü programı öğretim görevlisi programı ayarla</h2>
     <%= form_tag({ :action => 'lecturerchoice' }) do %>
@@ -17,16 +5,16 @@
       <tr>
         <td class="label">Hoca seçiniz</td>
         <td>
-          <select name="lecturer_id" onchange='check()'>
-          <%= @lecturers.each do |lecturer| %>
-            <option class="image_with_name"
-                    style="background-image:url(/images/<%= lecturer.photo %>);"
-                    value="<%= lecturer.id %>" selected>
-              <%= lecturer.full_name %>
-            </option>
-          <% end %>
+          <select id="x" name="lecturer_id">
+            <%= @lecturers.each do |lecturer| %>
+              <option class="image_with_name"
+                      value="<%= lecturer.id %>" selected>
+                <%= lecturer.full_name %>
+              </option>
+            <% end %>
           </select>
         </td>
+        <input type="button" value="Disable" onclick="$('#x').attr('disabled',true)"/>
       </tr>
       <% if session[:lecturer_id] %>
         <td class="label">

@@ -1,13 +1,15 @@
+# encoding: utf-8
 class UserController < ApplicationController
   before_filter :period # rubysiz olmadığı gibi periodsuz da sahaya çıkmayız.
 
   def giris
+    session[:error] = nil
     redirect_to '/user/home' if session[:user]
   end
 
   def login
     unless session[:period_id]
-      session[:error] = "Dikkat! aktif bir guz/bahar yili yok. Bu problemin duzeltilmesi icin asil yonetici ile irtibata gecin"
+      session[:error] = "Dikkat! aktif bir güz/bahar yılı yok. Bu problemin düzeltilmesi için asıl yönetici ile irtibata geçin"
       return redirect_to '/user/giris'
     end
     if user = People.find(:first, :conditions => { :first_name => params[:first_name], :password => params[:password] })
@@ -21,8 +23,8 @@ class UserController < ApplicationController
         return render '/user/home'
       end
     end
-    session[:error] = "Oops! Isminiz veya sifreniz hatali, belkide bunlardan sadece biri hatalidir?"
-    redirect_to '/user/giris'
+    session[:error] = "Oops! İsminiz veya şifreniz hatali, belkide bunlardan sadece biri hatalıdır?"
+    render '/user/giris'
   end
 
   def logout
@@ -42,10 +44,10 @@ class UserController < ApplicationController
     # yüklenen dosya yok ise sessiz çık
     return nil unless File.exist? uploaded.path
 
-    if uploaded.size > 550000;                          session[:error] = "Resim cok buyuk"
-    elsif !(uploaded.content_type =~ /jpe?g/);          session[:error] = "Resim jpg formatinda olmalidir"
+    if uploaded.size > 550000;                          session[:error] = "Resim cok büyük"
+    elsif !(uploaded.content_type =~ /jpe?g/);          session[:error] = "Resim jpg formatında olmalıdır"
     elsif File.exist?("#{image}.jpg") && !(overwrite);  session[:error] = "Resim zaten var"
-    elsif !FileUtils.mv(uploaded.path, "#{image}.jpg"); session[:error] = "Dosya yukleme hatasi"
+    elsif !FileUtils.mv(uploaded.path, "#{image}.jpg"); session[:error] = "Dosya yükleme hatası"
     else return true end # resim yükleme başarısı
 
     return nil
@@ -69,13 +71,13 @@ class UserController < ApplicationController
       lecturer[:photo] = "default.png"
       lecturer.save
     end
-    session[:notice] = "#{lecturer.first_name} #{lecturer.last_name} kisi ogretim gorevlisi olarak basariyla eklendi"
+    session[:notice] = "#{lecturer.first_name} #{lecturer.last_name} kisi öğretim görevlisi olarak eklendi"
     redirect_to '/user/lecturershow'
   end
   def lecturershow
     session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
     unless @lecturer = Lecturer.find(session[:lecturer_id])
-      session[:error] = "Boyle bir kayit bulunmamaktadir"
+      session[:error] = "Böyle bir kayıt bulunmamaktadır"
       redirect_to '/user/lecturerreview'
     end
   end
@@ -98,7 +100,7 @@ class UserController < ApplicationController
                 })
     image = Rails.root.join 'public', 'images', 'Lecturer', "#{session[:lecturer_id]}.jpg" # resmimizin tam yolu
     FileUtils.rm(image) if File.exist? image # resim var ise sil.
-    session[:notice] = "ogretim gorevlisi basariyla silindi"
+    session[:notice] = "Öğretim görevlisi başarıyla silindi"
     session[:lecturer_id] = nil # kişinin oturumunu öldürelim
 
     redirect_to '/user/lecturerreview'
@@ -115,7 +117,7 @@ class UserController < ApplicationController
       lecturer[:photo] = "Lecturer/#{session[:lecturer_id]}.jpg"
       lecturer.save
     end
-    session[:notice] = "#{session[:lecturer_id]} bilgisine sahip kisi asd tablosunda basariyla guncellendi"
+    session[:notice] = "#{session[:lecturer_id]} bilgisine sahip kişi başarıyla güncellendi"
     redirect_to '/user/lecturershow'
    end
 # end Lecturer -------------------------------------------------------
@@ -130,13 +132,13 @@ class UserController < ApplicationController
     course.save
     session[:course_id] = course.id
 
-    session[:notice] = "#{course.code} - #{course.name} dersi basariyla eklendi"
+    session[:notice] = "#{course.code} - #{course.name} dersi başarıyla eklendi"
     redirect_to '/user/courseshow'
   end
   def courseshow
     session[:course_id] = params[:course_id] if params[:course_id] # uniq veriyi oturuma gömelim
     unless @course = Course.find(session[:course_id])
-      session[:error] = "Boyle bir kayit bulunmamaktadir"
+      session[:error] = "Böyle bir kayıt bulunmamaktadır"
       redirect_to '/user/coursereview'
     end
   end
@@ -157,7 +159,7 @@ class UserController < ApplicationController
                   :course_id => session[:course_id],
                   :period_id => session[:period_id]
                 })
-    session[:notice] = "#{session[:course_id]} dersi basariyla silindi"
+    session[:notice] = "#{session[:course_id]} dersi başarıyla silindi"
     session[:course_id] = nil # kişinin oturumunu öldürelim
     redirect_to '/user/coursereview'
   end
@@ -168,7 +170,7 @@ class UserController < ApplicationController
 
     Course.update(session[:course_id], params)
     course = Course.find session[:course_id]
-    session[:notice] = "#{course.code}-#{course.name} dersi basariyla guncellendi"
+    session[:notice] = "#{course.code}-#{course.name} dersi başarıyla güncellendi"
     redirect_to '/user/courseshow'
    end
 # end Course -------------------------------------------------------
@@ -185,11 +187,11 @@ class UserController < ApplicationController
   end
   def assignmentadd
     unless params[:lecturer_id]
-      session[:error] = "Dersi atanmamis hoca kalmamis!"
+      session[:error] = "Dersi atanmamış hoca kalmamis!"
       return redirect_to '/user/assignmentnew'
     end
     unless params[:course_ids]
-      session[:error] = "Atanacak hic ders kalmamis!"
+      session[:error] = "Atanacak hic ders kalmamış!"
       return redirect_to '/user/assignmentnew'
     end
     params[:course_ids].each do |course_id|
@@ -201,13 +203,13 @@ class UserController < ApplicationController
       assignment.save
     end
     session[:lecturer_id] = params[:lecturer_id]
-    session[:notice] = "#{Lecturer.find(params[:lecturer_id]).full_name} ogretim gorevlisinin dersleri basariyla atandi"
+    session[:notice] = "#{Lecturer.find(params[:lecturer_id]).full_name} öğretim görevlisinin dersleri atandı"
     redirect_to '/user/assignmentshow'
   end
   def assignmentshow
     session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
     unless @assignment = Assignment.find(:all, :conditions => { :lecturer_id => session[:lecturer_id] })
-      session[:error] = "Boyle bir kayit bulunmamaktadir"
+      session[:error] = "Böyle bir kayıt bulunmamaktadır"
       redirect_to '/user/assignmentreview'
     end
   end
@@ -236,7 +238,7 @@ class UserController < ApplicationController
                   :lecturer_id => session[:lecturer_id],
                   :period_id => session[:period_id]
                 })
-    session[:notice] = "#{Lecturer.find(session[:lecturer_id]).full_name} ogretim gorevlisinin dersleri basariyla silindi"
+    session[:notice] = "#{Lecturer.find(session[:lecturer_id]).full_name} öğretim görevlisinin dersleri silindi"
     session[:lecturer_id] = nil # kişinin oturumunu öldürelim
     redirect_to '/user/assignmentreview'
   end
@@ -256,7 +258,7 @@ class UserController < ApplicationController
                                   })
       assignment.save
     end
-    session[:notice] = "#{Lecturer.find(session[:lecturer_id]).full_name} ogretim gorevlisinin dersleri basariyla guncellendi"
+    session[:notice] = "#{Lecturer.find(session[:lecturer_id]).full_name} öğretim görevlisinin dersleri güncellendi"
     redirect_to '/user/assignmentshow'
   end
 # end Assignment  -------------------------------------------------------

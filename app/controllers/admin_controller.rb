@@ -1,5 +1,7 @@
+# encoding: utf-8
 class AdminController < ApplicationController
   def giris
+    session[:error] = nil
     redirect_to '/admin/home' if session[:admin]
   end
 
@@ -26,14 +28,14 @@ class AdminController < ApplicationController
         # session[:escape] = ["id", "department_id", "period_id", "created_at", "updated_at", "status"]
 
         unless session[:period_id] = Period.find( :first, :conditions => { :status => 1 })
-          session[:error] = "Dikkat! aktif bir guz/bahar yili yok. Bu problemin duzeltilmesi icin asil yonetici ile irtibata gecin"
+          session[:error] = "Dikkat! aktif bir güz/bahar yılı yok. Bu problemin düzeltilmesi için asıl yönetici ile irtibata geçin"
         end
 
         return table # ilk tablo seçilsin, oyun başlasın!
       end
     end
-      session[:error] = "Oops! Isminiz veya sifreniz hatali, belkide bunlardan sadece biri hatalidir?"
-      redirect_to '/admin/giris'
+      session[:error] = "Oops! İsminiz veya şifreniz hatali, belkide bunlardan sadece biri hatalıdır?"
+      render '/admin/giris'
   end
 
   def logout
@@ -43,7 +45,7 @@ class AdminController < ApplicationController
 
   def table
     table = if params[:table]; params[:table] else session[:TABLE_INIT] end
-    session[:notice] = "#{table} tablosu basariyla secildi"
+    session[:notice] = "#{table} tablosu başarıyla seçildi"
     session[:TABLE] = table
     session[:SAVE] = eval table.capitalize + ".count"
     session[:KEY] = session[:TABLES][table]
@@ -62,10 +64,10 @@ class AdminController < ApplicationController
     # yüklenen dosya yok ise sessiz çık
     return nil unless File.exist? uploaded.path
 
-    if uploaded.size > 550000;                          session[:error] = "Resim cok buyuk"
-    elsif !(uploaded.content_type =~ /jpe?g/);          session[:error] = "Resim jpg formatinda olmalidir"
+    if uploaded.size > 550000;                          session[:error] = "Resim çok büyük"
+    elsif !(uploaded.content_type =~ /jpe?g/);          session[:error] = "Resim jpg formatında olmalıdır"
     elsif File.exist?("#{image}.jpg") && !(overwrite);  session[:error] = "Resim zaten var"
-    elsif !FileUtils.mv(uploaded.path, "#{image}.jpg"); session[:error] = "Dosya yukleme hatasi"
+    elsif !FileUtils.mv(uploaded.path, "#{image}.jpg"); session[:error] = "Dosya yükleme hatası"
     else return true end # resim yükleme başarısı
 
     return nil
@@ -98,7 +100,7 @@ class AdminController < ApplicationController
       data[:photo] = "default.png"
       data.save
     end
-    session[:notice] = "#{session[:_key]} bilgisine sahip kisi #{session[:TABLE]} tablosuna basariyla eklendi"
+    session[:notice] = "#{session[:_key]} bilgisine sahip kişi #{session[:TABLE]} tablosuna başarıyla eklendi"
 
     redirect_to '/admin/show'# göster
   end
@@ -110,7 +112,7 @@ class AdminController < ApplicationController
   def show # post ise oturma göm + verileri göster
     session[:_key] = params[:_key] if params[:_key] # uniq veriyi oturuma gömelim
     unless @data = eval(session[:TABLE].capitalize + ".find :first, :conditions => { session[:KEY] => session[:_key] }")
-      session[:error] = "Boyle bir kayit bulunmamaktadir"
+      session[:error] = "Böyle bir kayıt bulunmamaktadır"
       redirect_to '/admin/find'
     end
   end
@@ -134,7 +136,7 @@ class AdminController < ApplicationController
     image = Rails.root.join 'public', 'images', session[:TABLE], "#{session[:_key]}.jpg" # resmimizin tam yolu
     FileUtils.rm(image) if File.exist? image # resim var ise sil.
     session[:SAVE] -= 1
-    session[:notice] = "#{session[:_key]} bilgisine sahip kisi #{session[:TABLE]} tablosundan basariyla silindi"
+    session[:notice] = "#{session[:_key]} bilgisine sahip kişi #{session[:TABLE]} tablosundan başarıyla silindi"
     session[:_key] = nil # kişinin oturumunu öldürelim
 
     render '/admin/find'
@@ -154,7 +156,7 @@ class AdminController < ApplicationController
       data[:photo] = "#{session[:TABLE]}/#{session[:_key]}.jpg"
       data.save
     end
-    session[:notice] = "#{session[:_key]} bilgisine sahip kisi #{session[:TABLE]} tablosunda basariyla guncellendi"
+    session[:notice] = "#{session[:_key]} bilgisine sahip kişi #{session[:TABLE]} tablosunda başariyla güncellendi"
 
     redirect_to '/admin/show'# göster
   end

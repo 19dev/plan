@@ -1,3 +1,17 @@
+<!-- jlistbox -->
+<!-- kaynak : http://www.senamion.com/blog/jlistbox_demo.html -->
+<link rel="stylesheet" href="/stylesheets/jquery.jListbox.css" type="text/css" media="screen" />
+	<script type="text/javascript" src="/javascripts/jquery.js" ></script>
+	<script type="text/javascript" src="/javascripts/jquery.bgiframe.js" ></script>
+	<script type="text/javascript" src="/javascripts/jquery.jListbox.js" ></script>
+	<script type="text/javascript">
+		$().ready(function() {
+			$("#lecturer_id, #test").jListbox();
+			$("#showcode2").click(function() { $("#code2").toggle(); });
+		});
+</script>
+<!-- end jlistbox -->
+</head>
 <div class="page">
   <h2 id="headline"><%= session[:department] %> bölümüne ders ekle</h2>
   <%= form_tag({ :action => 'assignmentadd' }, :multipart => true, :html => {:id => 'real-form'}) do %>
@@ -5,9 +19,9 @@
       <tr>
         <td class="label">Hoca seçiniz</td>
         <td>
-            <select name="lecturer_id">
+            <select id="lecturer_id" name="lecturer_id">
             <%= @unassignment_lecturers.each do |lecturer| %>
-              <option class="image_with_name" style="background-image:url(/images/<%= lecturer.photo %>);" value="<%= lecturer.id %>">
+              <option rel="<img width='56' height='56' src='/images/<%= lecturer.photo %>'/>" value="<%= lecturer.id %>">
                 <%= lecturer.full_name %>
               </option>
             <%end%>
