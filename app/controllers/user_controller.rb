@@ -31,7 +31,7 @@ class UserController < ApplicationController
         return render '/user/home'
       end
     end
-    session[:error] = "Oops! İsminiz veya şifreniz hatali, belkide bunlardan sadece biri hatalıdır?"
+    session[:error] = "Oops! İsminiz veya şifreniz hatalı, belkide bunlardan sadece biri hatalıdır?"
     render '/user/giris'
   end
 
