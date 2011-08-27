@@ -1,11 +1,14 @@
 # encoding: utf-8
 class UserController < ApplicationController
   before_filter :period # rubysiz olmadığı gibi periodsuz da sahaya çıkmayız.
+
+  # gerekli yardımcı menümünüz
   include UploadHelper
   include LecturerHelper
   include CourseHelper
   include AssignmentHelper
   include ScheduleHelper
+  # --------------------------
 
   def giris
     session[:error] = nil
