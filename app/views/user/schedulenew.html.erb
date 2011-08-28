@@ -1,40 +1,27 @@
+<script src="http://code.jquery.com/jquery-latest.js"></script>
 <div class="page">
   <h2 id="headline"><%= session[:department] %> bölümü programı öğretim görevlisi programı ayarla</h2>
-    <%= form_tag({ :action => 'lecturerchoice' }) do %>
+  <%= form_tag({ :action => 'scheduleadd' }) do %>
     <table class="custom">
       <tr>
         <td class="label">Hoca seçiniz</td>
         <td>
-          <select id="x" name="lecturer_id">
-            <%= @lecturers.each do |lecturer| %>
-              <option class="image_with_name"
-                      value="<%= lecturer.id %>" selected>
-                <%= lecturer.full_name %>
+          <select id="lecturer_id" name="lecturer_id">
+            <%= @assignments.each do |k, v| %>
+              <option class="image_with_name" value="<%= k %>" selected>
+                <%= v %>
               </option>
             <% end %>
           </select>
         </td>
-        <input type="button" value="Disable" onclick="$('#x').attr('disabled',true)"/>
       </tr>
-      <% if session[:lecturer_id] %>
-        <td class="label">
-          <%= image_tag "/images/#{Lecturer.find(session[:lecturer_id]).photo}", :width => 75, :height => 75 %>
-        </td>
-      <% end %>
-    <% end %>
-    <%= form_tag({ :action => 'scheduleadd' }) do %>
       <tr>
         <td class="label">Ders seçiniz</td>
         <td>
-            <select name="course_id">
-            <%= @lecturers.each do |lecturer| %>
-              <option class="image_with_name" style="background-image:url(/images/<%= lecturer.photo %>);" value="<%= lecturer.id %>">
-                <%= lecturer.full_name %>
-              </option>
-            <%end%>
-            </select>
-        </td>
-      </tr>
+          <select id="course_id" name="course_id">
+          </select>
+          </td>
+        </tr>
       <tr>
         <td class="label">ders saatleri - yerleri </td>
         <td>
@@ -88,3 +75,16 @@
     </table>
   <% end %>
 </div>
+<script>
+  $("#lecturer_id").change(function () {
+    var ham_dersler = $(this).val().split(';')
+    var dersler = "";
+    for (var i = 0; i < ham_dersler.length; i++) {
+      ders = ham_dersler[i].split(',');
+      if (ders[1] != undefined)
+      dersler +=  "<option value='"+ ders[0] +"'>" + ders[1] + "</option>";
+    }
+    $("#course_id").html(dersler);
+  })
+  .trigger('change');
+</script>

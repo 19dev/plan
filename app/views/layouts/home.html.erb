@@ -26,12 +26,12 @@
                     },
                   <% end %>
                   ],
-                  select: function( event, ui ) {
-                            $("#post").html(
-                                    "<input type='hidden'name='lecturer_id' value='" + ui.item.deger + "'/>"
-                            );
-                          },
-              html: true
+          select: function( event, ui ) {
+                    $("#post").html(
+                            "<input type='hidden'name='lecturer_id' value='" + ui.item.deger + "'/>"
+                    );
+                  },
+          html: true
         });
       });
     </script>
