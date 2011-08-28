@@ -6,7 +6,7 @@
       <tr>
         <td class="label">Hoca seçiniz</td>
         <td>
-          <select id="lecturer_id" name="lecturer_id">
+          <select id="lecturer" name="lecturer">
             <%= @assignments.each do |k, v| %>
               <option class="image_with_name" value="<%= k %>" selected>
                 <%= v %>
@@ -15,13 +15,14 @@
           </select>
         </td>
       </tr>
+      <p id="lecturer_id" name="lecturer_id"></p>
       <tr>
         <td class="label">Ders seçiniz</td>
         <td>
           <select id="course_id" name="course_id">
           </select>
           </td>
-        </tr>
+      </tr>
       <tr>
         <td class="label">ders saatleri - yerleri </td>
         <td>
@@ -37,8 +38,7 @@
                   <th class="col"><%= day %></th>
                 <% end %>
               </tr>
-
-                <% (8..12).each do |hour| %>
+                <% (8..11).each do |hour| %>
                 <tr>
                   <th class="col"><%= time=(hour).to_s+':15'+' '+(hour+1).to_s+':00' %></th>
                   <% days.length.times do |i| %>
@@ -50,7 +50,7 @@
                   <% end %>
                 </tr>
                 <% end %>
-                <%(13..16).each do |hour| %>
+                <%(13..22).each do |hour| %>
                 <tr>
                   <th class="col"><%= time=(hour).to_s+':00'+' '+(hour+1).to_s+':00' %></th>
                   <% days.length.times do |i| %>
@@ -76,8 +76,10 @@
   <% end %>
 </div>
 <script>
-  $("#lecturer_id").change(function () {
-    var ham_dersler = $(this).val().split(';')
+  $("#lecturer").change(function () {
+    var part = $(this).val().split('#');
+    var ham_dersler = part[0].split(';');
+    var lecturer_id = part[1];
     var dersler = "";
     for (var i = 0; i < ham_dersler.length; i++) {
       ders = ham_dersler[i].split(',');
@@ -85,6 +87,7 @@
       dersler +=  "<option value='"+ ders[0] +"'>" + ders[1] + "</option>";
     }
     $("#course_id").html(dersler);
+    $("#lecturer_id").html("<input type='hidden' id='lecturer_id' name='lecturer_id' value='" + lecturer_id + "'/>'");
   })
   .trigger('change');
 </script>

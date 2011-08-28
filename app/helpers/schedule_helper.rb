@@ -6,16 +6,15 @@ module ScheduleHelper
     @assignments = {}
     lecturers.select do |lecturer|
       if Assignment.find(:first, :conditions => { :period_id => session[:period_id], :lecturer_id => lecturer.id })
-        c = ""
-        d = Assignment.find(:all, :conditions => { :period_id => session[:period_id], :lecturer_id => lecturer.id })
-        d.each do |ass|
-          if c
-            c = c + ";"
-          end
-          c = c + ass.course_id.to_s+","+ass.course.full_name.to_s
+        ham_dersler = ""
+        b = Assignment.find(:all, :conditions => { :period_id => session[:period_id], :lecturer_id => lecturer.id })
+        b.each do |ass|
+          ham_dersler += ";" if ham_dersler
+          ham_dersler += ass.course_id.to_s + "," + ass.course.full_name.to_s
           #= ass.lecturer.full_name
         end
-        @assignments[c] = lecturer.full_name
+        ham_dersler += '#' + lecturer.id.to_s
+        @assignments[ham_dersler] = lecturer.full_name
       end
     end
 
@@ -25,6 +24,7 @@ module ScheduleHelper
     # end
   end
   def scheduleadd
+    @a = params
   end
   def scheduleshow
   end
