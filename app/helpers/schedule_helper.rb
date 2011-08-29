@@ -16,6 +16,7 @@ module ScheduleHelper
         ham_dersler += '#' + lecturer.id.to_s
         @assignments[ham_dersler] = lecturer.full_name
       end
+    @class = Classroom.find(:all)
     end
 
     # courses = Course.find(:all, :conditions => {:department_id => session[:department_id]})
