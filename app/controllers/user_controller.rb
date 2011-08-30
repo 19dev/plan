@@ -16,7 +16,6 @@ class UserController < ApplicationController
 
     unless session[:period_id]
       session[:error] = "Dikkat! aktif bir güz/bahar yılı yok. Bu problemin düzeltilmesi için asıl yönetici ile irtibata geçin"
-      return redirect_to '/user/giris'
     end
     if user = People.find(:first, :conditions => { :first_name => params[:first_name], :password => params[:password] })
       if user.department_id != 0 and user.status == 1

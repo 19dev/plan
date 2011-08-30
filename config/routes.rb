@@ -73,6 +73,7 @@ Schedule::Application.routes.draw do
 
   # HOME
   root :to => 'home#index'
+  match "home/" => "home#index"
   get  "home/index"
   get  "home/find"
   post "home/find"
