@@ -14,7 +14,7 @@ module ScheduleHelper
           #= ass.lecturer.full_name
         end
         ham_dersler += '#' + lecturer.id.to_s
-        @assignments[ham_dersler] = lecturer.full_name
+        @assignments[ham_dersler] = lecturer
       end
     @class = Classroom.find(:all)
     end
