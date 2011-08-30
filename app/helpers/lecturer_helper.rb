@@ -11,7 +11,7 @@ module LecturerHelper
     lecturer.save
     session[:lecturer_id] = lecturer.id
 
-    if photo and upload('Lecturer', "#{session[:lecturer_id]}", photo, false) # üzerine yazma olmasın
+    if photo and Image.upload('Lecturer', "#{session[:lecturer_id]}", photo, false) # üzerine yazma olmasın
       lecturer[:photo] = "Lecturer/#{session[:lecturer_id]}.jpg"
       lecturer.save
     else
@@ -45,8 +45,7 @@ module LecturerHelper
                   :lecturer_id => session[:lecturer_id],
                   :period_id => session[:period_id]
                 })
-    image = Rails.root.join 'public', 'images', 'Lecturer', "#{session[:lecturer_id]}.jpg" # resmimizin tam yolu
-    FileUtils.rm(image) if File.exist? image # resim var ise sil.
+    Image.delete 'Lecturer', "#{session[:lecturer_id]}.jpg"
     session[:notice] = "Öğretim görevlisi başarıyla silindi"
     session[:lecturer_id] = nil # kişinin oturumunu öldürelim
 

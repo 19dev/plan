@@ -1,7 +1,8 @@
 Schedule::Application.routes.draw do
   # USER --------------
   # - I/O
-  get  "user/giris"
+  match "user/" => "user#login"
+  get  "user/login"
   post "user/login"
   get  "user/logout"
   get  "user/home"
@@ -50,7 +51,8 @@ Schedule::Application.routes.draw do
 
   # ADMIN
   # - I/O
-  get  "admin/giris"
+  match "admin/" => "admin#login"
+  get  "admin/login"
   post "admin/login"
   get  "admin/home"
   get  "admin/logout"
@@ -66,8 +68,7 @@ Schedule::Application.routes.draw do
   get  "admin/find"
   get  "admin/new"
   post "admin/add"
-
-  get "admin/info"
+  get  "admin/info"
   # end ADMIN -----------
 
   # HOME
@@ -82,7 +83,6 @@ Schedule::Application.routes.draw do
   post "home/show"
   post "home/program"
   # ---------------------
-  post "user/lecturerchoice"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

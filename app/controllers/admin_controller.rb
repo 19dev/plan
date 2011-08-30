@@ -1,13 +1,11 @@
 # encoding: utf-8
 class AdminController < ApplicationController
-  include UploadHelper
-
-  def giris
-    session[:error] = nil
-    redirect_to '/admin/home' if session[:admin]
-  end
+  before_filter :require_login,  :except => [:login, :logout] # loginsiz asla!
+  include ImageHelper
 
   def login
+    redirect_to '/admin/home' if session[:admin]
+
     if admin = People.find(:first, :conditions => { :first_name => params[:first_name], :password => params[:password] })
       if admin.department_id == 0 and admin.status == 0
         session[:error] = nil
@@ -36,13 +34,21 @@ class AdminController < ApplicationController
         return table # ilk tablo seçilsin, oyun başlasın!
       end
     end
-      session[:error] = "Oops! İsminiz veya şifreniz hatali, belkide bunlardan sadece biri hatalıdır?"
-      render '/admin/giris'
+      if params[:first_name] or params[:password]
+        session[:error] = "Oops! İsminiz veya şifreniz hatali, belkide bunlardan sadece biri hatalıdır?"
+      end
   end
 
   def logout
     reset_session if session[:admin]
-    redirect_to '/admin/giris'
+    redirect_to '/admin/login'
+  end
+
+  def require_login
+    unless session[:admin]
+      session[:error] = "Lütfen hesabınıza girişi yapın!"
+      redirect_to '/admin/login'
+    end
   end
 
   def table
@@ -52,7 +58,7 @@ class AdminController < ApplicationController
     session[:SAVE] = eval table.capitalize + ".count"
     session[:KEY] = session[:TABLES][table]
 
-    render '/admin/home'
+    redirect_to '/admin/home'
   end
 
   def new
@@ -75,7 +81,7 @@ class AdminController < ApplicationController
     session[:SAVE] += 1
 
     # bir resim isteğimiz var mı ?
-    if photo and upload(session[:TABLE], session[:_key].to_s, photo, false) # üzerine yazma olmasın
+    if photo and Image.upload(session[:TABLE], session[:_key].to_s, photo, false) # üzerine yazma olmasın
       data[:photo] = "#{session[:TABLE]}/#{session[:_key]}.jpg"
       data.save
     else
@@ -115,8 +121,7 @@ class AdminController < ApplicationController
     session[:_key] = params[:_key] if params[:_key] # post ise uniq veriyi oturuma gömelim
     eval session[:TABLE] + ".delete(session[:_key])"
 
-    image = Rails.root.join 'public', 'images', session[:TABLE], "#{session[:_key]}.jpg" # resmimizin tam yolu
-    FileUtils.rm(image) if File.exist? image # resim var ise sil.
+    Image.delete session[:TABLE], "#{session[:_key]}.jpg"
     session[:SAVE] -= 1
     session[:notice] = "#{session[:_key]} bilgisine sahip kişi #{session[:TABLE]} tablosundan başarıyla silindi"
     session[:_key] = nil # kişinin oturumunu öldürelim
