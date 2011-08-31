@@ -81,11 +81,15 @@ class AdminController < ApplicationController
     session[:SAVE] += 1
 
     # bir resim isteğimiz var mı ?
-    if photo and savename = Image.upload(session[:TABLE], session[:_key].to_s, photo, false) # üzerine yazma olmasın
-      data[:photo] = savename
-      data.save
+    if photo and response = Image.upload(session[:TABLE], session[:_key].to_s, photo, false) # üzerine yazma olmasın
+      if response[0] # bu yanıt iyi mi kötü mü
+        data[:photo] = response[1]
+        data.save
+      else
+        session[:error] = response[1]
+      end
     else
-      data[:photo] = "default.png"
+      data[:photo] = "/images/default.png"
       data.save
     end
     session[:notice] = "#{session[:_key]} bilgisine sahip kişi #{session[:TABLE]} tablosuna başarıyla eklendi"
@@ -126,7 +130,7 @@ class AdminController < ApplicationController
     session[:notice] = "#{session[:_key]} bilgisine sahip kişi #{session[:TABLE]} tablosundan başarıyla silindi"
     session[:_key] = nil # kişinin oturumunu öldürelim
 
-    render '/admin/find'
+    redirect_to '/admin/review'
   end
 
   def update
@@ -139,15 +143,18 @@ class AdminController < ApplicationController
     data = eval session[:TABLE].capitalize + ".find :first, :conditions => { session[:KEY] => session[:_key] }"
 
     # bir resim isteğimiz var mı ?
-    if photo and savename = Image.upload(session[:TABLE], session[:_key].to_s, photo, true) # üzerine yazma olsun
-      data[:photo] = savename
-      data.save
+    if photo and response = Image.upload(session[:TABLE], session[:_key].to_s, photo, true) # üzerine yazma olsun
+      if response[0] # bu yanıt iyi mi kötü mü
+        data[:photo] = response[1]
+        data.save
+      else
+        session[:error] = response[1]
+      end
     end
     session[:notice] = "#{session[:_key]} bilgisine sahip kişi #{session[:TABLE]} tablosunda başariyla güncellendi"
 
     redirect_to '/admin/show'# göster
   end
-
 end
 
 

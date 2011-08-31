@@ -12,11 +12,15 @@ module LecturerHelper
     lecturer.save
     session[:lecturer_id] = lecturer.id
 
-    if photo and savename = Image.upload('Lecturer', "#{session[:lecturer_id]}", photo, false) # üzerine yazma olmasın
-      lecturer[:photo] = savename
-      lecturer.save
+    if photo and response = Image.upload('Lecturer', "#{session[:lecturer_id]}", photo, false) # üzerine yazma olmasın
+      if response[0] # bu yanıt iyi mi kötü mü
+        lecturer[:photo] = response[1]
+        lecturer.save
+      else
+        session[:error] = response[1]
+      end
     else
-      lecturer[:photo] = "default.png"
+      lecturer[:photo] = "/images/default.png"
       lecturer.save
     end
     session[:notice] = "#{lecturer.first_name} #{lecturer.last_name} kisi öğretim görevlisi olarak eklendi"
@@ -60,9 +64,13 @@ module LecturerHelper
 
     Lecturer.update(session[:lecturer_id], params)
     lecturer = Lecturer.find session[:lecturer_id]
-    if photo and savename = Image.upload('Lecturer', "#{session[:lecturer_id]}", photo, true) # üzerine yazma olsun
-      lecturer[:photo] = savename
-      lecturer.save
+    if photo and response = Image.upload('Lecturer', "#{session[:lecturer_id]}", photo, true) # üzerine yazma olsun
+      if response[0] # bu yanıt iyi mi kötü mü
+        lecturer[:photo] = response[1]
+        lecturer.save
+      else
+        session[:error] = response[1]
+      end
     end
     session[:notice] = "#{session[:lecturer_id]} bilgisine sahip kişi başarıyla güncellendi"
     redirect_to '/user/lecturershow'

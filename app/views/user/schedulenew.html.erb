@@ -25,7 +25,7 @@
         <td>
           <select id="lecturer" name="lecturer">
             <% @assignments.each do |k, lecturer| %>
-              <option  rel="<img width='56' height='56' src='/images/<%= lecturer.photo %>'/>" value="<%= k %>" selected>
+              <option  rel="<img width='56' height='56' src='<%= lecturer.photo %>'/>" value="<%= k %>" selected>
                 <%= lecturer.full_name %>
               </option>
             <% end %>

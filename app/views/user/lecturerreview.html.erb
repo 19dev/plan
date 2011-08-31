@@ -30,7 +30,7 @@
   <tbody>
     <% @lecturers.each do |lecturer| %>
       <tr>
-        <td class="label"><%= image_tag "/#{lecturer.photo}", :width => 26, :height => 26 %></td>
+        <td class="label"><%= image_tag lecturer.photo, :width => 26, :height => 26 %></td>
         <td class="label"><%= lecturer.first_name %></td>
         <td class="label"><%= lecturer.last_name %></td>
         <td class="label"><%= lecturer.email %></td>

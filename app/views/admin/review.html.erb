@@ -34,7 +34,7 @@
         <% eval(session[:TABLE] + ".columns").map do |c| %>
           <% unless session[:escape].include?(c.name) %> <!-- kısıtlamalar -->
             <% if c.name == 'photo' %>
-              <td class="label"><img src="/<%= kisi.attributes[c.name] %>" width="50" height="50"/></td>
+              <td class="label"><img src="<%= kisi.attributes[c.name] %>" width="50" height="50"/></td>
             <% else %>
               <td class="label"><%= kisi.attributes[c.name] %></td>
             <% end %>

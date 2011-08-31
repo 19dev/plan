@@ -8,8 +8,8 @@
       <table>
         <tr>
           <td>
-          <% if File::exists? RAILS_ROOT + "/public/images/#{lecturer.photo}" %>
-            <%= image_tag "/images/#{lecturer.photo}" %>
+          <% if File::exists? RAILS_ROOT + "/public/#{lecturer.photo}" %>
+            <%= image_tag lecturer.photo %>
           <% end %>
           </td>
         </tr>

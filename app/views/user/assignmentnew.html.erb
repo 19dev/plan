@@ -31,7 +31,7 @@
         <td>
             <select id="lecturer_id" name="lecturer_id">
             <%= @unassignment_lecturers.each do |lecturer| %>
-              <option rel="<img width='56' height='56' src='/images/<%= lecturer.photo %>'/>" value="<%= lecturer.id %>">
+              <option rel="<img width='56' height='56' src='<%= lecturer.photo %>'/>" value="<%= lecturer.id %>">
                 <%= lecturer.full_name %>
               </option>
             <%end%>
