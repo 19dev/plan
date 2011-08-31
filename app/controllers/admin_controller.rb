@@ -81,8 +81,8 @@ class AdminController < ApplicationController
     session[:SAVE] += 1
 
     # bir resim isteğimiz var mı ?
-    if photo and Image.upload(session[:TABLE], session[:_key].to_s, photo, false) # üzerine yazma olmasın
-      data[:photo] = "#{session[:TABLE]}/#{session[:_key]}.jpg"
+    if photo and savename = Image.upload(session[:TABLE], session[:_key].to_s, photo, false) # üzerine yazma olmasın
+      data[:photo] = savename
       data.save
     else
       data[:photo] = "default.png"
@@ -139,8 +139,8 @@ class AdminController < ApplicationController
     data = eval session[:TABLE].capitalize + ".find :first, :conditions => { session[:KEY] => session[:_key] }"
 
     # bir resim isteğimiz var mı ?
-    if photo and Image.upload(session[:TABLE], session[:_key].to_s, photo, true) # üzerine yazma olsun
-      data[:photo] = "#{session[:TABLE]}/#{session[:_key]}.jpg"
+    if photo and savename = Image.upload(session[:TABLE], session[:_key].to_s, photo, true) # üzerine yazma olsun
+      data[:photo] = savename
       data.save
     end
     session[:notice] = "#{session[:_key]} bilgisine sahip kişi #{session[:TABLE]} tablosunda başariyla güncellendi"

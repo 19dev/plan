@@ -5,22 +5,28 @@ module ImageHelper
     # @uploaddir = Rails.root.join 'public', 'images' # <ana> yükleme dizini
     @uploaddir = Rails.root.join 'public' # <ana> yükleme dizini
 
-    # hata var ise oturuma göm; çıkmak isterse nil, doğru ise true dön
+    # hata var ise oturuma göm; çıkmak isterse nil, doğru ise resmin ismini dön
     def self.upload directory, savename, uploaded, overwrite = false
       destination = @uploaddir.join directory # hedef dizin
-      image = destination.join savename # resmin tam yolu
+      image = destination.join savename+'.jpg' # resmin tam yolu
 
       # hedef yoksa oluşturalım
-      FileUtils.mkdir(destination) unless File.exist? destination
+      unless File.exist? destination
+        FileUtils.mkdir_p destination, :mode => 0777
+        FileUtils.chmod_R 0777, destination
+      end
 
       # yüklenen dosya yok ise sessiz çık
       return nil unless File.exist? uploaded.path
 
-      if uploaded.size > 550000;                          session[:error] = "Resim çok büyük"
-      elsif !(uploaded.content_type =~ /jpe?g/);          session[:error] = "Resim jpg formatında olmalıdır"
-      elsif File.exist?("#{image}.jpg") && !(overwrite);  session[:error] = "Resim zaten var"
-      elsif !FileUtils.mv(uploaded.path, "#{image}.jpg"); session[:error] = "Dosya yükleme hatası"
-      else return true end # resim yükleme başarısı
+      if uploaded.size > 550000;                 session[:error] = "Resim çok büyük"
+      elsif !(uploaded.content_type =~ /jpe?g/); session[:error] = "Resim jpg formatında olmalıdır"
+      elsif File.exist?(image) && !(overwrite);  session[:error] = "Resim zaten var"
+      elsif !FileUtils.mv(uploaded.path, image); session[:error] = "Dosya yükleme hatası"
+      else
+        FileUtils.chmod 0777, image
+        return directory.join image # resim yükleme başarısı
+      end
 
       return nil
     end

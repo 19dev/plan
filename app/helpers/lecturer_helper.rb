@@ -12,8 +12,8 @@ module LecturerHelper
     lecturer.save
     session[:lecturer_id] = lecturer.id
 
-    if photo and Image.upload('Lecturer', "#{session[:lecturer_id]}", photo, false) # üzerine yazma olmasın
-      lecturer[:photo] = "Lecturer/#{session[:lecturer_id]}.jpg"
+    if photo and savename = Image.upload('Lecturer', "#{session[:lecturer_id]}", photo, false) # üzerine yazma olmasın
+      lecturer[:photo] = savename
       lecturer.save
     else
       lecturer[:photo] = "default.png"
@@ -60,8 +60,8 @@ module LecturerHelper
 
     Lecturer.update(session[:lecturer_id], params)
     lecturer = Lecturer.find session[:lecturer_id]
-    if photo and Image.upload('Lecturer', "#{session[:lecturer_id]}", photo, true) # üzerine yazma olsun
-      lecturer[:photo] = "Lecturer/#{session[:lecturer_id]}.jpg"
+    if photo and savename = Image.upload('Lecturer', "#{session[:lecturer_id]}", photo, true) # üzerine yazma olsun
+      lecturer[:photo] = savename
       lecturer.save
     end
     session[:notice] = "#{session[:lecturer_id]} bilgisine sahip kişi başarıyla güncellendi"
