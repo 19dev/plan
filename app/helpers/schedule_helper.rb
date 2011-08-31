@@ -9,12 +9,15 @@ module ScheduleHelper
         ham_dersler = ""
         b = Assignment.find(:all, :conditions => { :period_id => session[:period_id], :lecturer_id => lecturer.id })
         b.each do |ass|
-          ham_dersler += ";" if ham_dersler
-          ham_dersler += ass.course_id.to_s + "," + ass.course.full_name.to_s
-          #= ass.lecturer.full_name
+          unless Classplan.find(:first, :conditions => { :assignment_id => ass.id })
+            ham_dersler += ";" unless ham_dersler == ""
+            ham_dersler += ass.course_id.to_s + "," + ass.course.full_name.to_s
+          end
         end
-        ham_dersler += '#' + lecturer.id.to_s
-        @assignments[ham_dersler] = lecturer
+        unless ham_dersler == ""
+          ham_dersler += '#' + lecturer.id.to_s
+          @assignments[ham_dersler] = lecturer
+        end
       end
     @class = Classroom.find(:all)
     end
