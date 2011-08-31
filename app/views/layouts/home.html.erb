@@ -5,38 +5,6 @@
   <%= stylesheet_link_tag :all %>
   <%= javascript_include_tag :defaults %>
   <%= csrf_meta_tag %>
-  <!-- autocomplete -->
-  <!-- kaynak : https://github.com/scottgonzalez/jquery-ui-extensions/tree/master/autocomplete -->
-  <% if @auto_lecturers %>
-    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/themes/base/jquery-ui.css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.js"></script>
-    <script src="/javascripts/jquery.ui.autocomplete.html.js"></script>
-    <script>
-      $(function() {
-        $( "#autocomplete" ).autocomplete({
-          source: [
-                  <% @auto_lecturers.each do |l|  %>
-                    {
-                      <% l.each do |k, v| %>
-                        label: "<img src='/images/<%= raw v[1] %>' width='50'; height='50'/><%= raw v[0]+' - '+v[2] %>",
-                        value: "<%= v[0] %>",
-                        deger: "<%= raw k %>"
-                      <% end %>
-                    },
-                  <% end %>
-                  ],
-          select: function( event, ui ) {
-                    $("#post").html(
-                            "<input type='hidden'name='lecturer_id' value='" + ui.item.deger + "'/>"
-                    );
-                  },
-          html: true
-        });
-      });
-    </script>
-  <% end %>
-  <!-- end autocomplete -->
   <style>
     #logo tr img {width:60px;}
     #logo td {width:70px;}
@@ -46,30 +14,26 @@
 
   <!--PLATFORM BAR-->
   <div class="platform-bar">
-    <div class="container">
-      <div class="row bar-content">
-        <div class="twelve columns">
-          <span class="title">
-            <a href="http://mf.omu.edu.tr">
-              ONDOKUZ MAYIS ÜNİVERSİTESİ MÜHENDİSLİK FAKÜLTESİ
-            </a>
-          </span>
-          <ul class="related hide-on-mobile">
-            <li>
-            <a href="/home/index">
-              Ana Sayfa</a>
-            </li>
-            <li>
-            <a href="/user/">
-              User</a>
-            </li>
-            <li>
-            <a href="/home/info">
-              Hakkında</a>
-            </li>
-          </ul>
-        </div>
-      </div>
+    <div class="row bar-content" style="margin-left:205px;">
+      <span class="title">
+        <a href="http://mf.omu.edu.tr">
+          ONDOKUZ MAYIS ÜNİVERSİTESİ MÜHENDİSLİK FAKÜLTESİ
+        </a>
+      </span>
+      <ul class="related hide-on-mobile">
+        <li>
+        <a href="/home/index">
+          Ana Sayfa</a>
+        </li>
+        <li>
+        <a href="/user/">
+          User</a>
+        </li>
+        <li>
+        <a href="/home/info">
+          Hakkında</a>
+        </li>
+      </ul>
     </div>
   </div>
   <!--PLATFORM BAR END-->
@@ -81,31 +45,27 @@
     </h1>
   </div>
   <% page = File.basename request.fullpath %>
-
-  <div class="container">
+  <div style="margin-left:205px;">
     <div class="row">
-      <div class="twelve columns">
-        <ul class="sub-nav">
-          <li class="<%= 'current' if ["index"].include?(page) %>">
-          <a href="/home/index" title="Ana Sayfa">
-            Ana Sayfa
-          </a>
-          </li>
-          <li class="<%= 'current' if ["find", "review"].include?(page) %>">
-          <a href="/home/find">
-            Arama
-          </a>
-          </li>
-          <li class="<%= 'current' if ["auto", "show"].include?(page) %>">
-          <a href="/home/auto">
-            Hızlı Arama
-          </a>
-          </li>
-        </ul>
-      </div>
+      <ul class="sub-nav">
+        <li class="<%= 'current' if ["index"].include?(page) %>">
+        <a href="/home/index" title="Ana Sayfa">
+          Ana Sayfa
+        </a>
+        </li>
+        <li class="<%= 'current' if ["find", "review"].include?(page) %>">
+        <a href="/home/find">
+          Arama
+        </a>
+        </li>
+        <li class="<%= 'current' if ["auto", "show"].include?(page) %>">
+        <a href="/home/auto">
+          Hızlı Arama
+        </a>
+        </li>
+      </ul>
     </div>
   </div>
-
 
   <% if session[:error] %>
     <div class="error2"><%= session[:error] %></div>

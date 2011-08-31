@@ -12,7 +12,7 @@ class UserController < ApplicationController
   # --------------------------
 
   def login
-    redirect_to '/admin/home' if session[:user]
+    redirect_to '/user/home' if session[:user]
 
     unless session[:period_id]
       session[:error] = "Dikkat! aktif bir güz/bahar yılı yok. Bu problemin düzeltilmesi için asıl yönetici ile irtibata geçin"

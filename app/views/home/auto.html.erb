@@ -1,3 +1,35 @@
+<!-- autocomplete -->
+<!-- kaynak : https://github.com/scottgonzalez/jquery-ui-extensions/tree/master/autocomplete -->
+<% if @auto_lecturers %>
+  <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/themes/base/jquery-ui.css">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.js"></script>
+  <script src="/javascripts/jquery.ui.autocomplete.html.js"></script>
+  <script>
+    $(function() {
+      $( "#autocomplete" ).autocomplete({
+        source: [
+                <% @auto_lecturers.each do |l|  %>
+                  {
+                    <% l.each do |k, v| %>
+                      label: "<img src='/images/<%= raw v[1] %>' width='50'; height='50'/><%= raw v[0]+' - '+v[2] %>",
+                      value: "<%= v[0] %>",
+                      deger: "<%= raw k %>"
+                    <% end %>
+                  },
+                <% end %>
+                ],
+        select: function( event, ui ) {
+                  $("#post").html(
+                          "<input type='hidden'name='lecturer_id' value='" + ui.item.deger + "'/>"
+                  );
+                },
+        html: true
+      });
+    });
+  </script>
+<% end %>
+<!-- end autocomplete -->
 <style>
   .page {margin-left:0px;width:930px;}
 </style>
