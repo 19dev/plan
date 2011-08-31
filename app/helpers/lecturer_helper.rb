@@ -59,7 +59,7 @@ module LecturerHelper
 
     Lecturer.update(session[:lecturer_id], params)
     lecturer = Lecturer.find session[:lecturer_id]
-    if photo and upload('Lecturer', "#{session[:lecturer_id]}", photo, true) # üzerine yazma olsun
+    if photo and Image.upload('Lecturer', "#{session[:lecturer_id]}", photo, true) # üzerine yazma olsun
       lecturer[:photo] = "Lecturer/#{session[:lecturer_id]}.jpg"
       lecturer.save
     end
