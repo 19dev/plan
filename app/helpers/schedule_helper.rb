@@ -25,10 +25,12 @@ module ScheduleHelper
     # end
   end
   def scheduleadd
-    @assignment = Assignment.find(:first, :conditions => { :period_id => session[:period_id],
-                                             :lecturer_id => params['lecturer_id'],
-                                             :course_id => params['course_id']
-                                              })
+    @assignment = Assignment.find(:first,
+                                  :conditions => {
+                                      :period_id => session[:period_id],
+                                      :lecturer_id => params['lecturer_id'],
+                                      :course_id => params['course_id']
+                                  })
     # @assignment.id
     schedule = []
     days = {"Sunday" => "Pazartesi",
@@ -43,19 +45,38 @@ module ScheduleHelper
         sec = day_en + hour.to_s + ":15"
         part = params[sec]
         if part.length == 2 and part[1] == ""
-            session[:error] = day_tr+hour.to_s+":15"+"  bölümünde sınıf işaretlenmemiş"
+            session[:error] = day_tr+hour.to_s+":15"+" bölümünde sınıf işaretlenmemiş"
             return redirect_to "/user/schedulenew"
         elsif part.length == 1 and part[0] != ""
-            session[:error] = day_tr+hour.to_s+":15"+"  bölümünde saat işaretlenmemiş"
+            session[:error] = day_tr+hour.to_s+":15"+" bölümünde saat işaretlenmemiş"
             return redirect_to "/user/schedulenew"
         elsif part[0] != "" and part[1] != ""
-            schedule << {
+            choice = {
                       'period_id' => session[:period_id],
                       'assignment_id' => @assignment.id,
                       'day' => day_en,
                       'begin_time' => part[0],
                       'classroom_id' => part[1],
                     }
+            if classplan = Classplan.find(:first,
+                                          :conditions => {
+                                                'period_id' => session[:period_id],
+                                                'day' => day_en,
+                                                'begin_time' => part[0],
+                                                'classroom_id' => part[1],
+                                            })
+
+              session[:error] = day_tr + " " + hour.to_s + ":15" + "de "+
+                "#{classplan.classroom.name} sınıfında "+
+                "#{classplan.assignment.lecturer.department.name} bölümünden "+
+                "öğretim görevlisi #{classplan.assignment.lecturer.full_name} tarafından "+
+                "#{classplan.assignment.course.full_name} dersi verilmektedir. Bu "+
+                "bilginin düzeltilmesini istiyorsanız; "+
+                "#{classplan.assignment.lecturer.department.name} bölümünün yöneticileri ile irtibata geçin."
+              return redirect_to "/user/schedulenew"
+            end
+
+            schedule << choice
         end
       end
     end
@@ -65,19 +86,38 @@ module ScheduleHelper
         sec = day_en + hour.to_s + ":00"
         part = params[sec]
         if part.length == 2 and part[1] == ""
-            session[:error] = day_tr+hour.to_s+":00"+"  bölümünde sınıf işaretlenmemiş"
+            session[:error] = day_tr+hour.to_s+":00"+" bölümünde sınıf işaretlenmemiş"
             return redirect_to "/user/schedulenew"
         elsif part.length == 1 and part[0] != ""
-            session[:error] = day_tr+hour.to_s+":00"+"  bölümünde saat işaretlenmemiş"
+            session[:error] = day_tr+hour.to_s+":00"+" bölümünde saat işaretlenmemiş"
             return redirect_to "/user/schedulenew"
         elsif part[0] != "" and part[1] != ""
-            schedule << {
+            choice = {
                       'period_id' => session[:period_id],
                       'assignment_id' => @assignment.id,
                       'day' => day_en,
                       'begin_time' => part[0],
                       'classroom_id' => part[1],
                     }
+            if classplan = Classplan.find(:first,
+                                          :conditions => {
+                                                'period_id' => session[:period_id],
+                                                'day' => day_en,
+                                                'begin_time' => part[0],
+                                                'classroom_id' => part[1],
+                                            })
+
+              session[:error] = day_tr + " " + hour.to_s + ":00" + "de "+
+                "#{classplan.classroom.name} sınıfında "+
+                "#{classplan.assignment.lecturer.department.name} bölümünden "+
+                "öğretim görevlisi #{classplan.assignment.lecturer.full_name} tarafından "+
+                "#{classplan.assignment.course.full_name} dersi verilmektedir. Bu "+
+                "bilginin düzeltilmesini istiyorsanız; "+
+                "#{classplan.assignment.lecturer.department.name} bölümünün yöneticileri ile irtibata geçin."
+              return redirect_to "/user/schedulenew"
+            end
+
+            schedule << choice
         end
       end
     end
