@@ -1,5 +1,6 @@
 # encoding: utf-8
 module LecturerHelper
+  include ImageHelper
 # Lecturer --------------------------------------------------------------------
   def lectureradd
     session[:error] = nil

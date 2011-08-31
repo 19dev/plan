@@ -4,7 +4,6 @@ class UserController < ApplicationController
   before_filter :require_login,  :except => [:login, :logout] # loginsiz asla!
 
   # gerekli yardımcı menümünüz
-  include ImageHelper # Image.upload & Image.delete
   include LecturerHelper
   include CourseHelper
   include AssignmentHelper
