@@ -2,7 +2,8 @@
 module ImageHelper
   class Image
 
-    @uploaddir = Rails.root.join 'public', 'images' # <ana> yükleme dizini
+    # @uploaddir = Rails.root.join 'public', 'images' # <ana> yükleme dizini
+    @uploaddir = Rails.root.join 'public' # <ana> yükleme dizini
 
     # hata var ise oturuma göm; çıkmak isterse nil, doğru ise true dön
     def self.upload directory, savename, uploaded, overwrite = false
