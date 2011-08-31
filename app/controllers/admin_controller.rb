@@ -41,13 +41,13 @@ class AdminController < ApplicationController
 
   def logout
     reset_session if session[:admin]
-    redirect_to '/admin/login'
+    redirect_to '/admin/'
   end
 
   def require_login
     unless session[:admin]
       session[:error] = "Lütfen hesabınıza girişi yapın!"
-      redirect_to '/admin/login'
+      redirect_to '/admin/'
     end
   end
 

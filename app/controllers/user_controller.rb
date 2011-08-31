@@ -35,13 +35,13 @@ class UserController < ApplicationController
 
   def logout
     reset_session if session[:user]
-    redirect_to '/user/login'
+    redirect_to '/user/'
   end
 
   def require_login
     unless session[:user]
       session[:error] = "Lütfen hesabınıza girişi yapın!"
-      redirect_to '/user/login'
+      redirect_to '/user/'
     end
   end
 
