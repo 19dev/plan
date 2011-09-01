@@ -1,5 +1,6 @@
 #!/usr/bin/ruby
 # encoding: utf-8
+# LOCAL bir tablo oluşturma, örnek yükleme eklentisi
 
 EXAMPLE_FILE = 'lib/tasks/insert'
 MODEL = 'rails g model' # rails generate model
