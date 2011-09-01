@@ -3,7 +3,7 @@ class AdminController < ApplicationController
   include ImageHelper
   include CleanHelper # temizlik birimi
   before_filter :require_login, :except => [:login, :logout] # loginsiz asla!
-  before_filter :clean_notice, :except => [:home, :show, :update] # temiz sayfa
+  before_filter :clean_notice, :except => [:home, :show, :update, :review] # temiz sayfa
   before_filter :clean_error, :except => [:login, :find, :show] # temiz sayfa
 
   def login
