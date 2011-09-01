@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110730110417) do
+ActiveRecord::Schema.define(:version => 20110901160241) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "period_id"
@@ -43,8 +43,8 @@ ActiveRecord::Schema.define(:version => 20110730110417) do
     t.integer  "department_id"
     t.string   "code"
     t.string   "name"
-    t.string   "theoretical"
-    t.string   "practice"
+    t.integer  "theoretical"
+    t.integer  "practice"
     t.string   "lab"
     t.integer  "credit"
     t.datetime "created_at"
@@ -83,8 +83,8 @@ ActiveRecord::Schema.define(:version => 20110730110417) do
 
   create_table "periods", :force => true do |t|
     t.string   "name"
-    t.date     "year"
-    t.integer  "status"
+    t.integer  "year"
+    t.boolean  "status"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
