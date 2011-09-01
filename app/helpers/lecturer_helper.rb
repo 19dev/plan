@@ -3,8 +3,6 @@ module LecturerHelper
   include ImageHelper
 # Lecturer --------------------------------------------------------------------
   def lectureradd
-    session[:error] = nil
-
     photo = params[:file]
     params.select! { |k, v| Lecturer.columns.collect {|c| c.name}.include?(k) }
     params[:department_id] = session[:department_id]
@@ -34,11 +32,9 @@ module LecturerHelper
     end
   end
   def lecturerreview
-    session[:error] = nil
     @lecturers = Lecturer.find(:all, :conditions => { :department_id => session[:department_id] })
   end
   def lectureredit
-    session[:error], session[:notice] = nil, nil
     session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
     @lecturer = Lecturer.find session[:lecturer_id]
   end
@@ -57,8 +53,6 @@ module LecturerHelper
     redirect_to '/user/lecturerreview'
   end
   def lecturerupdate
-    session[:error], session[:notice] = nil, nil
-
     photo = params[:file] if params[:file]
     params.select! { |k, v| Lecturer.columns.collect {|c| c.name}.include?(k) }
 

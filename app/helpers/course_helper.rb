@@ -2,8 +2,6 @@
 module CourseHelper
 # Course --------------------------------------------------------------------
   def courseadd
-    session[:error] = nil
-
     photo = params[:file]
     params.select! { |k, v| Course.columns.collect {|c| c.name}.include?(k) }
     params[:department_id] = session[:department_id]
@@ -22,11 +20,9 @@ module CourseHelper
     end
   end
   def coursereview
-    session[:error] = nil
     @courses = Course.find :all, :conditions => { :department_id => session[:department_id] }
   end
   def courseedit
-    session[:error], session[:notice] = nil, nil
     session[:course_id] = params[:course_id] if params[:course_id] # uniq veriyi oturuma gömelim
     @course = Course.find session[:course_id]
   end
@@ -43,8 +39,6 @@ module CourseHelper
     redirect_to '/user/coursereview'
   end
   def courseupdate
-    session[:error], session[:notice] = nil, nil
-
     params.select! { |k, v| Course.columns.collect {|c| c.name}.include?(k) }
 
     Course.update(session[:course_id], params)

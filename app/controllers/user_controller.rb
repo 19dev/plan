@@ -1,7 +1,6 @@
 # encoding: utf-8
 class UserController < ApplicationController
-  before_filter :period # rubysiz olmadığı gibi periodsuz da sahaya çıkmayız.
-  before_filter :require_login,  :except => [:login, :logout] # loginsiz asla!
+  include CleanHelper # temizlik birimi
 
   # gerekli yardımcı menümünüz
   include LecturerHelper
@@ -10,6 +9,18 @@ class UserController < ApplicationController
   include ScheduleHelper
   # --------------------------
 
+  before_filter :period # rubysiz olmadığı gibi periodsuz da sahaya çıkmayız.
+  before_filter :require_login, :except => [:login, :logout] # loginsiz asla!
+  before_filter :clean_notice, :except => [:home, :lecturershow, :lecturerupdate,
+                                                  :courseshow, :courseupdate,
+                                                  :assignmentshow, :assignmentupdate,
+                                                  :scheduleshow, :scheduleupdate
+                                          ] # temiz sayfa
+  before_filter :clean_error, :except => [:login, :lecturerfind, :lecturershow,
+                                                  :coursefind, :courseshow,
+                                                  :assignmentfind, :assignmentshow,
+                                                  :schedulefind, :scheduleshow
+                                        ] # temiz sayfa
   def login
     redirect_to '/user/home' if session[:user]
 
@@ -23,7 +34,6 @@ class UserController < ApplicationController
         session[:department] = user.department.name
         session[:username] = user.first_name
         session[:userpassword] = user.password
-        session[:error] = nil
         return redirect_to '/user/home'
       end
     end

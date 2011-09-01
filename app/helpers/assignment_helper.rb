@@ -40,14 +40,12 @@ module AssignmentHelper
     end
   end
   def assignmentreview
-    session[:error] = nil
     lecturers = Lecturer.find(:all, :conditions => {:department_id => session[:department_id]})
     @assignment_lecturers = lecturers.select do |lecturer|
       Assignment.find(:first, :conditions => { :lecturer_id => lecturer.id, :period_id => session[:period_id] })
     end
   end
   def assignmentedit
-    session[:error], session[:notice] = nil, nil
     session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
     lecturer_assignment = Assignment.find(:all, :conditions => {:lecturer_id => session[:lecturer_id], :period_id => session[:period_id]})
 
@@ -84,7 +82,6 @@ module AssignmentHelper
     redirect_to '/user/assignmentreview'
   end
   def assignmentupdate
-    session[:error], session[:notice] = nil, nil
     # o dönemki öğretim görevlisinin tüm atamalarını alalım
     assignments = Assignment.find(:all,
                     :conditions => {

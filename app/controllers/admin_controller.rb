@@ -1,14 +1,16 @@
 # encoding: utf-8
 class AdminController < ApplicationController
-  before_filter :require_login,  :except => [:login, :logout] # loginsiz asla!
   include ImageHelper
+  include CleanHelper # temizlik birimi
+  before_filter :require_login, :except => [:login, :logout] # loginsiz asla!
+  before_filter :clean_notice, :except => [:home, :show, :update] # temiz sayfa
+  before_filter :clean_error, :except => [:login, :find, :show] # temiz sayfa
 
   def login
     redirect_to '/admin/home' if session[:admin]
 
     if admin = People.find(:first, :conditions => { :first_name => params[:first_name], :password => params[:password] })
       if admin.department_id == 0 and admin.status == 0
-        session[:error] = nil
         session[:admin] = true
         session[:admindepartment] = admin.department_id
         session[:adminusername] = admin.first_name
@@ -62,16 +64,10 @@ class AdminController < ApplicationController
   end
 
   def new
-    session[:error], session[:notice], session[:_key] = nil, nil, nil
-  end
-
-  def home
-    session[:error] = nil
+    session[:_key] = nil
   end
 
   def add
-    session[:error] = nil
-
     photo = params[:file] if params[:file]
     params.select! { |k, v| eval(session[:TABLE] + ".columns").collect {|c| c.name}.include?(k) }
 
@@ -98,7 +94,7 @@ class AdminController < ApplicationController
   end
 
   def find
-    session[:error], session[:notice], session[:_key] = nil, nil, nil
+    session[:_key] = nil
   end
 
   def show # post ise oturma göm + verileri göster
@@ -110,18 +106,15 @@ class AdminController < ApplicationController
   end
 
   def review
-    session[:error], session[:notice] = nil, nil
     @data = eval session[:TABLE].capitalize + ".all"
   end
 
   def edit
-    session[:error], session[:notice] = nil, nil
     session[:_key] = params[:_key] if params[:_key] # post ise uniq veriyi oturuma gömelim
     @data = eval session[:TABLE].capitalize + ".find :first, :conditions => { session[:KEY] => session[:_key] }"
   end
 
   def del
-    session[:error], session[:notice] = nil, nil
     session[:_key] = params[:_key] if params[:_key] # post ise uniq veriyi oturuma gömelim
     eval session[:TABLE] + ".delete(session[:_key])"
 
@@ -134,8 +127,6 @@ class AdminController < ApplicationController
   end
 
   def update
-    session[:error], session[:notice] = nil, nil
-
     photo = params[:file] if params[:file]
     params.select! { |k, v| eval(session[:TABLE] + ".columns").collect {|c| c.name}.include?(k) }
 

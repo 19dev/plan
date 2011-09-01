@@ -35,7 +35,6 @@ class HomeController < ApplicationController
 
   def show
     session[:error], session[:notice] = nil, nil
-    # kontrollere rails'in genel bir önerisi olmalısı lazım'
     unless params[:lecturer_id]
       session[:error] = "Bu isme ait bir öğretim görevlisi bulunamadı"
       return render '/home/auto'
