@@ -38,6 +38,7 @@ module AssignmentHelper
       session[:error] = "Böyle bir kayıt bulunmamaktadır"
       redirect_to '/user/assignmentreview'
     end
+    @lecturer = Lecturer.find(session[:lecturer_id])
   end
   def assignmentreview
     lecturers = Lecturer.find(:all, :conditions => {:department_id => session[:department_id]})
@@ -56,6 +57,7 @@ module AssignmentHelper
       !Assignment.find(:first, :conditions => { :course_id => course.id, :period_id => session[:period_id] }) or
       @lecturer_course_ids.include?(course.id)
     end
+    @lecturer = Lecturer.find(session[:lecturer_id])
   end
   def assignmentdel
     session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim

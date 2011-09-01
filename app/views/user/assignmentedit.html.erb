@@ -7,18 +7,17 @@
   <script src="/javascripts/app.js" type="text/javascript"></script>
 <% end %>
 <!-- end multiselect -->
-
 <div class="page">
-  <h2 id="headline"><% session[:department] %> bölümü derslerini düzenle</h2>
+  <h2 id="headline"><%= session[:department] %> bölümü <%= @lecturer.full_name %> isimli öğretim görevlisinin verdiği derslerini düzenle</h2>
   <%= form_tag({ :action => 'assignmentupdate' }, :multipart => true) do %>
     <table class="custom">
     <tr>
       <td class="label">Fotoğraf</td>
-      <td><%= image_tag Lecturer.find(session[:lecturer_id]).photo %></td>
+      <td><%= image_tag @lecturer.photo %></td>
     </tr>
     <tr>
       <td class="label">Ad</td>
-      <td><%= Lecturer.find(session[:lecturer_id]).full_name %></td>
+      <td><%= @lecturer.full_name %></td>
     </tr>
     <tr>
       <td class="label">Dersleri seçiniz</td>

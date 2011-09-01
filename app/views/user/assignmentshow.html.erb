@@ -1,14 +1,13 @@
 <div class="page">
-  <h2 id="headline"><%= session[:department] %> bölümünün öğretim görevlisi bilgileri</h2>
+  <h2 id="headline"><%= session[:department] %> bölümü <%= @lecturer.full_name %> isimli öğretim görevlisinin verdiği dersler</h2>
   <table class="custom">
-    <% lecturer = Lecturer.find(session[:lecturer_id]) %>
     <tr>
       <td class="label">Fotoğraf</td>
-      <td class="field"><%= image_tag lecturer.photo %></td>
+      <td class="field"><%= image_tag @lecturer.photo %></td>
     </tr>
     <tr>
       <td class="label">Ad</td>
-      <td class="field"><%= lecturer.full_name %></td>
+      <td class="field"><%= @lecturer.full_name %></td>
     </tr>
     <tr>
       <td class="label">Dersler</td>
@@ -28,7 +27,7 @@
         <% end %>
         <%= form_tag({ :action => 'assignmentdel' }, :multipart => true) do %>
           <%= submit_tag "Sil", :id => "submit_button",
-            :confirm => "#{lecturer.full_name} isimli öğretim görevlisinin verdiği dersleri " +
+            :confirm => "#{@lecturer.full_name} isimli öğretim görevlisinin verdiği dersleri " +
                         "silmek üzeresiniz. Eğer silerseniz, bu dönemlik ders atamaları " +
                         "silinmiş olacaktır. Silmek istediğinizden emin misiniz ?" %>
         <% end %>
