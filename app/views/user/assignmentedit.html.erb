@@ -1,10 +1,20 @@
+<!-- multiselect -->
+<!-- kaynak : http://loudev.com/ -->
+<% if @unassignment_lecturers or @unassignment_courses %>
+  <link href="/stylesheets/multi-select.css" rel="stylesheet" type="text/css">
+  <script src="/javascripts/jquery.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.multi-select.js" type="text/javascript"></script>
+  <script src="/javascripts/app.js" type="text/javascript"></script>
+<% end %>
+<!-- end multiselect -->
+
 <div class="page">
   <h2 id="headline"><% session[:department] %> bölümü derslerini düzenle</h2>
   <%= form_tag({ :action => 'assignmentupdate' }, :multipart => true) do %>
     <table class="custom">
     <tr>
       <td class="label">Fotoğraf</td>
-      <td><%= image_tag "/images/"+Lecturer.find(session[:lecturer_id]).photo %></td>
+      <td><%= image_tag Lecturer.find(session[:lecturer_id]).photo %></td>
     </tr>
     <tr>
       <td class="label">Ad</td>

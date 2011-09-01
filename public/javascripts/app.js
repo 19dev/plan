@@ -12,10 +12,10 @@
     
     $('#callback').multiSelect({
       afterSelect: function(value, text){
-        alert('Şu elamanı seçtiniz : \n'+text);
+        alert('Seçilen ders : \n'+text);
       },
       afterDeselect: function(value, text){
-        alert('Şu elamanı seçim listenizden sildiniz : \n'+text);
+        alert('Silinen ders : \n'+text);
       }
     });
     
