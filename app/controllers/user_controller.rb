@@ -11,10 +11,10 @@ class UserController < ApplicationController
 
   before_filter :period # rubysiz olmadığı gibi periodsuz da sahaya çıkmayız.
   before_filter :require_login, :except => [:login, :logout] # loginsiz asla!
-  before_filter :clean_notice, :except => [:home, :lecturershow, :lecturerupdate,
-                                                  :courseshow, :courseupdate,
-                                                  :assignmentshow, :assignmentupdate,
-                                                  :scheduleshow, :scheduleupdate
+  before_filter :clean_notice, :except => [:home, :lecturershow, :lecturerupdate, :lecturerreview,
+                                                  :courseshow, :courseupdate, :coursereview,
+                                                  :assignmentshow, :assignmentupdate, :assignmentreview,
+                                                  :scheduleshow, :scheduleupdate, :schedulereview
                                           ] # temiz sayfa
   before_filter :clean_error, :except => [:login, :lecturerfind, :lecturershow,
                                                   :coursefind, :courseshow,

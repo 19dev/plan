@@ -48,7 +48,11 @@
           <% end %>
           <%= form_tag :action => 'lecturerdel' do %>
             <%= hidden_field_tag :lecturer_id, lecturer.id %>
-            <%= submit_tag "", :id => "delete_button", :confirm => 'Silmek istediğinizden emin misiniz?' %>
+            <!--<%= submit_tag "", :id => "delete_button", :confirm => 'Silmek istediğinizden emin misiniz?' %>-->
+          <%= submit_tag "", :id => "delete_button",
+            :onClick => "return confirm('#{Lecturer.find(lecturer.id).full_name} isimli öğretim görevlisini " +
+                        "silmek üzeresiniz. Eğer silerseniz ona ait olan tüm dönemlik ders atamaları da silinmiş " +
+                        "olacaktır. Silmek istediğinizden emin misiniz ?');" %>
           <% end %>
         </td>
       </tr>

@@ -2,14 +2,13 @@
 module CourseHelper
 # Course --------------------------------------------------------------------
   def courseadd
-    photo = params[:file]
     params.select! { |k, v| Course.columns.collect {|c| c.name}.include?(k) }
     params[:department_id] = session[:department_id]
     course = Course.new params
     course.save
     session[:course_id] = course.id
 
-    session[:notice] = "#{course.code} - #{course.name} dersi başarıyla eklendi"
+    session[:notice] = "#{course.full_name} dersi başarıyla eklendi"
     redirect_to '/user/courseshow'
   end
   def courseshow
@@ -28,22 +27,21 @@ module CourseHelper
   end
   def coursedel
     session[:course_id] = params[:course_id] if params[:course_id] # uniq veriyi oturuma gömelim
+    session[:notice] = "#{Course.find(session[:course_id]).full_name} dersi başarıyla silindi"
     Course.delete session[:course_id]
     # bu derse ait tüm atamaları da silelim
     Assignment.delete_all ({
                   :course_id => session[:course_id],
                   :period_id => session[:period_id]
                 })
-    session[:notice] = "#{session[:course_id]} dersi başarıyla silindi"
-    session[:course_id] = nil # kişinin oturumunu öldürelim
+    session[:course_id] = nil # dersin oturumunu öldürelim
     redirect_to '/user/coursereview'
   end
   def courseupdate
     params.select! { |k, v| Course.columns.collect {|c| c.name}.include?(k) }
 
     Course.update(session[:course_id], params)
-    course = Course.find session[:course_id]
-    session[:notice] = "#{course.code}-#{course.name} dersi başarıyla güncellendi"
+    session[:notice] = "#{Course.find(session[:course_id]).full_name} dersi başarıyla güncellendi"
 
     redirect_to '/user/courseshow'
    end

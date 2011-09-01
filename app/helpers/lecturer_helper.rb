@@ -21,7 +21,7 @@ module LecturerHelper
       lecturer[:photo] = "/images/default.png"
       lecturer.save
     end
-    session[:notice] = "#{lecturer.first_name} #{lecturer.last_name} kisi öğretim görevlisi olarak eklendi"
+    session[:notice] = "#{lecturer.full_name} isimli kişi öğretim görevlisi olarak eklendi"
     redirect_to '/user/lecturershow'
   end
   def lecturershow
@@ -66,7 +66,7 @@ module LecturerHelper
         session[:error] = response[1]
       end
     end
-    session[:notice] = "#{session[:lecturer_id]} bilgisine sahip kişi başarıyla güncellendi"
+    session[:notice] = "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim görevlisi başarıyla güncellendi"
     redirect_to '/user/lecturershow'
    end
 # end Lecturer -------------------------------------------------------

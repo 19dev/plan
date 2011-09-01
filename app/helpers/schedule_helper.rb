@@ -7,8 +7,8 @@ module ScheduleHelper
     lecturers.select do |lecturer|
       if Assignment.find(:first, :conditions => { :period_id => session[:period_id], :lecturer_id => lecturer.id })
         ham_dersler = ""
-        b = Assignment.find(:all, :conditions => { :period_id => session[:period_id], :lecturer_id => lecturer.id })
-        b.each do |ass|
+        assignment = Assignment.find(:all, :conditions => { :period_id => session[:period_id], :lecturer_id => lecturer.id })
+        assignment.each do |ass|
           unless Classplan.find(:first, :conditions => { :assignment_id => ass.id })
             ham_dersler += ";" unless ham_dersler == ""
             ham_dersler += ass.course_id.to_s + "," + ass.course.full_name.to_s
