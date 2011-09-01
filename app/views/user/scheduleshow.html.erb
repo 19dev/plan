@@ -1,0 +1,52 @@
+<div class="page">
+  <h2 id="headline"><%= session[:department] %> bölümünün öğretim görevlisi bilgileri</h2>
+  <table class="custom">
+    <tr>
+      <td class="label">Ad</td>
+      <td class="field"><%= @lecturer.first_name %></td>
+    </tr>
+    <tr>
+      <td class="label">Soyad</td>
+      <td class="field"><%= @lecturer.last_name %></td>
+    </tr>
+    <tr>
+      <td class="label">Fotoğraf</td>
+      <td class="field"><img src="<%= @lecturer.photo %>"/></td>
+    </tr>
+    <tr>
+      <td class="label">Email</td>
+      <td class="field"><%= @lecturer.email %></td>
+    </tr>
+    <tr>
+      <td class="label">İş telefonu</td>
+      <td class="field"><%= @lecturer.work_phone %></td>
+    </tr>
+    <tr>
+      <td class="label">Cep telefonu</td>
+      <td class="field"><%= @lecturer.cell_phone %></td>
+    </tr>
+    <tr>
+      <td class="label">Bölüm başkanı mı?</td>
+      <td class="field">
+        <% if @lecturer.status == 1 %> evet
+        <% else %>                  hayır
+        <% end %>
+      </td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td>
+        <%= form_tag({ :action => 'lectureredit' }, :multipart => true) do %>
+          <%= submit_tag "Düzenle", :id => "submit_button" %>
+        <% end %>
+        <%= form_tag({ :action => 'lecturerdel' }, :multipart => true) do %>
+          <%= submit_tag "Sil", :id => "submit_button",
+            :confirm => "#{Lecturer.find(@lecturer.id).full_name} isimli öğretim görevlisini " +
+                        "silmek üzeresiniz. Eğer silerseniz ona ait olan tüm dönemlik ders atamaları da silinmiş " +
+                        "olacaktır. Silmek istediğinizden emin misiniz ?" %>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+</div>
