@@ -13,23 +13,33 @@
     .page{margin-top:125px;margin-left:0px;width:930px}
   </style>
 </head>
-<body>
+<body style="background:white">
   <% if session[:user] %>
-    <div id="wrapper">
-      <div id="container">
-        <ul class="tabs" id="mainNav">
-          <li class="current">
-            <a href="/user/home" title="Kullanıcı adınız"><%= session[:username] %></a>
+
+    <!--PLATFORM BAR-->
+    <div class="platform-bar">
+      <div class="row bar-content" style="margin-left:205px;">
+        <span class="title">
+          <a href="/home">
+            ONDOKUZ MAYIS ÜNİVERSİTESİ MÜHENDİSLİK FAKÜLTESİ - <%= session[:department] %>
+          </a>
+        </span>
+        <ul class="related">
+          <li class="title">
+            <a href="/user/home">
+              <%= session[:username] %>
+            </a>
           </li>
-          <li class="orange">
-            <a href="/user/home" title="Bölüm"><%= session[:department] %></a>
-          </li>
-          <li class="green">
-            <a href="logout" title="Çıkış">Çıkış</a>
+          <li class="title">
+            <a href="logout">
+              Çıkış
+            </a>
           </li>
         </ul>
       </div>
     </div>
+    <!--PLATFORM BAR END-->
+
   <% end %>
 
   <% if session[:error] %>
@@ -135,6 +145,7 @@
       </table>
       </div>
     <% end %>
+
     <%= yield %>
   </div>
 </body>

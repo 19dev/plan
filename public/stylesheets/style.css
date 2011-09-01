@@ -18,7 +18,6 @@ body {
     color: #ccc;
     font-size: 13px;
     line-height: 18px;
-    margin-top: 10px;
     word-spacing: 1px;
     font-weight: bold;
     letter-spacing:0.4px;
@@ -161,8 +160,8 @@ h2.yellow {color:#fc9200;color:#d17200;}
     -moz-border-radius: 5px; border-radius: 5px;
 }
 .black_overlay{
-      position: absolute; top: 0%;left: 0%; width: 100%; height: 100%;
-      background-color: black;z-index:1001;
+      position: absolute; top: 0%;left: 0%; width: 60%; height: 100%;
+      background-color: #2daebf;z-index:1001;
       -moz-opacity: 0.8; opacity:.70; filter: alpha(opacity=80);
 }
 /* ------------------------------------------------------------------ */
