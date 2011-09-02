@@ -18,8 +18,8 @@ class UserController < ApplicationController
                                           ] # temiz sayfa
   before_filter :clean_error, :except => [:login, :lecturerfind, :lecturershow,
                                                   :coursefind, :courseshow,
-                                                  :assignmentfind, :assignmentshow,
-                                                  :schedulefind, :scheduleshow
+                                                  :assignmentnew, :assignmentfind, :assignmentshow,
+                                                  :schedulenew, :schedulefind, :scheduleshow
                                         ] # temiz sayfa
   def login
     redirect_to '/user/home' if session[:user]

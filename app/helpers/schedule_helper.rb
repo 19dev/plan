@@ -4,23 +4,26 @@ module ScheduleHelper
   def schedulenew
     lecturers = Lecturer.find(:all, :conditions => { :department_id => session[:department_id] })
     @assignments = {}
+    # tüm hocaların derslerini şu şekilde ekleyelim
+    # courses = "1,BIL303-foo;2,BIL404-bar;#1"
+    # courses = "1,BIL303-baz;2;#2"
     lecturers.select do |lecturer|
       if Assignment.find(:first, :conditions => { :period_id => session[:period_id], :lecturer_id => lecturer.id })
-        ham_dersler = ""
-        assignment = Assignment.find(:all, :conditions => { :period_id => session[:period_id], :lecturer_id => lecturer.id })
-        assignment.each do |ass|
-          unless Classplan.find(:first, :conditions => { :assignment_id => ass.id })
-            ham_dersler += ";" unless ham_dersler == ""
-            ham_dersler += ass.course_id.to_s + "," + ass.course.full_name.to_s
+        courses = ""
+        assignments = Assignment.find(:all, :conditions => { :period_id => session[:period_id], :lecturer_id => lecturer.id })
+        assignments.each do |assignment|
+          unless Classplan.find(:first, :conditions => { :assignment_id => assignment.id })
+            courses += ';' unless courses == ""
+            courses += assignment.course_id.to_s + ',' + assignment.course.full_name.to_s
           end
         end
-        unless ham_dersler == ""
-          ham_dersler += '#' + lecturer.id.to_s
-          @assignments[ham_dersler] = lecturer
+        unless courses == ""
+          courses += '#' + lecturer.id.to_s
+          @assignments[courses] = lecturer
         end
       end
-    @class = Classroom.find(:all)
     end
+    @class = Classroom.find(:all)
 
     # courses = Course.find(:all, :conditions => {:department_id => session[:department_id]})
     # @unschedule_courses = courses.select do |course|
@@ -128,8 +131,37 @@ module ScheduleHelper
       choice = Classplan.new s
       choice.save
     end
+    session[:lecturer_id] = params['lecturer_id']
+    # kayıt buraya kadar tamam.
+    # şimdi ekrana göstermek için veri toplayalım
+    session[:course_ids] = {}
+    assignments = Assignment.find(:all, :conditions => { :period_id => session[:period_id], :lecturer_id => session[:lecturer_id] })
+    assignments.each do |assignment|
+      if Classplan.find(:first, :conditions => { :period_id => session[:period_id], :assignment_id => assignment.id })
+        courses = ""
+        classplans = Classplan.find(:all, :conditions => { :period_id => session[:period_id], :assignment_id => assignment.id })
+        classplans.each do |classplan|
+            courses += ';' unless courses == ""
+            courses += classplan.day + classplan.begin_time.to_s
+        end
+        unless courses == ""
+          courses += '#' + assignment.course_id.to_s
+          session[:course_ids][courses] = assignment.course.full_name
+        end
+      end
 
-    @a = params
+
+    end
+    # session[:course_ids] = ""
+    # courses.select do |c|
+    #       session[:course_ids] += ';' unless session[:course_ids] == ""
+    #       session[:course_ids] += c.day + c.begin_time.to_s + ',' + c.course.full_name + '#' + c.course.id
+    #       unless session[:course_ids] == ""
+    #         session[:course_ids] += '#' + lecturer.id.to_s
+    #         session[:course_ids] = lecturer
+    #       end
+    return redirect_to '/user/scheduleshow'
+    # end
   end
   def scheduleshow
   end

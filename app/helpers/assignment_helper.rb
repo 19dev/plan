@@ -84,38 +84,46 @@ module AssignmentHelper
     redirect_to '/user/assignmentreview'
   end
   def assignmentupdate
-    # o dönemki öğretim görevlisinin tüm atamalarını alalım
-    assignments = Assignment.find(:all,
-                    :conditions => {
-                        :lecturer_id => session[:lecturer_id],
-                        :period_id => session[:period_id]
+    if params[:course_ids]
+      # o dönemki öğretim görevlisinin tüm atamalarını alalım
+      assignments = Assignment.find(:all,
+                      :conditions => {
+                          :lecturer_id => session[:lecturer_id],
+                          :period_id => session[:period_id]
+                      })
+      # öğretim görevlisinin verdiği derslere erişmek için.
+      assignments.each do |assignment|
+        # yeni isteklerde, eski isteklerden biri yok ise
+        # eski isteği sil(sınıf planınıda dahil).
+
+        unless params[:course_ids].include?(assignment.course_id)
+          Classplan.delete_all({
+                      :assignment_id => assignment.id,
+                      :period_id => session[:period_id]
                     })
-    # öğretim görevlisinin verdiği derslere erişmek için.
-    assignments.each do |assignment|
-      # yeni isteklerde, eski isteklerden biri yok ise
-      # eski isteği sil(sınıf planınıda dahil).
-      unless params[:course_ids].include?(assignment.course_id)
-        Classplan.delete_all({
-                    :assignment_id => assignment.id,
-                    :period_id => session[:period_id]
-                  })
-        Assignment.delete(assignment.id)
+          Assignment.delete(assignment.id)
+        end
       end
-    end
-    # yeni atamalarda değişmenyenler var ise ona ellemeden ekliyelim.
-    params[:course_ids].each do |course_id|
-      request = {
-              :period_id => session[:period_id],
-              :lecturer_id => session[:lecturer_id],
-              :course_id => course_id
-            }
-      unless Assignment.find(:first, :conditions => request)
-        assignment = Assignment.new(request)
-        assignment.save
+      # yeni atamalarda değişmenyenler var ise ona ellemeden ekliyelim.
+      params[:course_ids].each do |course_id|
+        request = {
+                :period_id => session[:period_id],
+                :lecturer_id => session[:lecturer_id],
+                :course_id => course_id
+              }
+        unless Assignment.find(:first, :conditions => request)
+          assignment = Assignment.new(request)
+          assignment.save
+        end
       end
-    end
-    session[:notice] = "#{Lecturer.find(session[:lecturer_id]).full_name} öğretim görevlisinin dersleri güncellendi"
-    redirect_to '/user/assignmentshow'
+      session[:notice] = "#{Lecturer.find(session[:lecturer_id]).full_name} öğretim görevlisinin dersleri güncellendi"
+  else
+      session[:error] = "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim görevlisinin dönemlik tüm derslerini ve " +
+                        "tüm ders atamalarını silmeye çalışıyorsunuz. Bunu yapmak istediğinizden emin misiniz ? Eğer öyle ise " +
+                        "İncele/Düzenle kısmından sil seçeneğini seçin "
+  end
+
+  redirect_to '/user/assignmentshow'
   end
 # end Assignment  -------------------------------------------------------
 end
