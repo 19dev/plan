@@ -7,7 +7,17 @@ MODEL = 'rails g model' # rails generate model
 MIGRATE = 'db/migrate'
 CONSOLE = 'rails c' # rails console
 
-task :init => [:table, :example]
+task :init => [:db, :table, :example]
+task :reex => [:db, :retable, :example]
+task :table => [:retable]
+
+task :db do
+  puts "db siliniyor..."
+  system "rake db:drop"
+
+  puts "db oluşturuluyor..."
+  system "rake db:create"
+end
 
 task :table do
   tables = [
@@ -69,6 +79,10 @@ task :table do
 
   puts "tablolar oluşturuluyor..."
   tables.each { |table| system "#{MODEL} #{table}" }
+end
+
+task :retable do
+  puts "tablolar etkinleşiyor..."
   system "rake db:migrate"
 end
 
