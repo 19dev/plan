@@ -10,7 +10,7 @@
   <script type="text/javascript" src="/javascripts/jquery.jListbox.js" ></script>
   <script type="text/javascript">
           $().ready(function() {
-                  $("#lecturer, #test").jListbox();
+                  $("#lecturer_ids, #test").jListbox();
                   $("#showcode2").click(function() { $("#code2").toggle(); });
           });
 </script>
@@ -23,7 +23,7 @@
       <tr>
         <td class="label">Öğretim görevlisi</td>
         <td>
-          <select id="lecturer" name="lecturer">
+          <select id="lecturer_ids" name="lecturer_ids">
             <% @assignments.each do |k, lecturer| %>
               <option  rel="<img width='56' height='56' src='<%= lecturer.photo %>'/>" value="<%= k %>" selected>
                 <%= lecturer.full_name %>
@@ -65,12 +65,12 @@
                 <th class="col"><%= time=(hour).to_s+':15'+' '+(hour+1).to_s+':00' %></th>
                 <% days.each do |day_en, day_tr| %>
                   <th class="col">
-                    <input type="checkbox" name="<%= day_en+(hour).to_s+':15' %>[]"
+                    <input type="checkbox" name="<%= day_en+(hour).to_s+'-15' %>[]"
                       id="<%= 'seçim : '+day_tr+' - '+time %>"
-                      value="<%= (hour).to_s+':15' %>" onchange="alert(this.id)"/>
+                      value="<%= (hour).to_s+'-15' %>" onchange="alert(this.id)"/>
                   </th>
                   <th class="col">
-                    <select id="classroom_id" name="<%= day_en+(hour).to_s+':15' %>[]" style="width:75px">
+                    <select id="classroom_id" name="<%= day_en+(hour).to_s+'-15' %>[]" style="width:75px">
                         <option value="" selected>
                         </option>
                       <% @class.each do |k| %>
@@ -88,12 +88,12 @@
                 <th class="col"><%= time=(hour).to_s+':00'+' '+(hour+1).to_s+':00' %></th>
                 <% days.each do |day_en, day_tr| %>
                   <th class="col">
-                    <input type="checkbox" name="<%= day_en+(hour).to_s+':00' %>[]"
+                    <input type="checkbox" name="<%= day_en+(hour).to_s+'-00' %>[]"
                       id="<%= 'seçim : '+day_tr+' - '+time %>"
-                      value="<%= (hour).to_s+':00' %>" onchange="alert(this.id)"/>
+                      value="<%= (hour).to_s+'-00' %>" onchange="alert(this.id)"/>
                   </th>
                   <th class="col">
-                    <select id="classroom_id" name="<%= day_en+(hour).to_s+':00' %>[]" style="width:75px">
+                    <select id="classroom_id" name="<%= day_en+(hour).to_s+'-00' %>[]" style="width:75px">
                         <option value="" selected>
                         </option>
                       <% @class.each do |k| %>
@@ -121,7 +121,7 @@
 </div>
 <!-- dual listbox -->
 <script>
-  $("#lecturer").change(function () {
+  $("#lecturer_ids").change(function () {
     var part = $(this).val().split('#');
     var ham_dersler = part[0].split(';');
     var lecturer_id = part[1];

@@ -9,14 +9,13 @@ module ScheduleHelper
     # courses = "1,BIL303-baz;2;#2"
     lecturers.select do |lecturer|
       if Assignment.find(:first, :conditions => { :period_id => session[:period_id], :lecturer_id => lecturer.id })
-        courses = ""
         assignments = Assignment.find(:all, :conditions => { :period_id => session[:period_id], :lecturer_id => lecturer.id })
-        assignments.each do |assignment|
+        courses = assignments.collect do |assignment|
           unless Classplan.find(:first, :conditions => { :assignment_id => assignment.id })
-            courses += ';' unless courses == ""
-            courses += assignment.course_id.to_s + ',' + assignment.course.full_name.to_s
+            assignment.course_id.to_s + ',' + assignment.course.full_name.to_s
           end
         end
+        courses = courses.join(';')
         unless courses == ""
           courses += '#' + lecturer.id.to_s
           @assignments[courses] = lecturer
@@ -48,7 +47,7 @@ module ScheduleHelper
     # sabah
     (8..11).each do |hour|
       days.each do |day_en, day_tr|
-        sec = day_en + hour.to_s + ":15"
+        sec = day_en + hour.to_s + "-15"
         part = params[sec]
         if part.length == 2 and part[1] == ""
             session[:error] = day_tr+hour.to_s+":15"+" bölümünde sınıf işaretlenmemiş"
@@ -89,7 +88,7 @@ module ScheduleHelper
     # akşam
     (13..22).each do |hour|
       days.each do |day_en, day_tr|
-        sec = day_en + hour.to_s + ":00"
+        sec = day_en + hour.to_s + "-00"
         part = params[sec]
         if part.length == 2 and part[1] == ""
             session[:error] = day_tr+hour.to_s+":00"+" bölümünde sınıf işaretlenmemiş"
@@ -134,22 +133,20 @@ module ScheduleHelper
     session[:lecturer_id] = params['lecturer_id']
     # kayıt buraya kadar tamam.
     # şimdi ekrana göstermek için veri toplayalım
+
     session[:course_ids] = {}
     assignments = Assignment.find(:all, :conditions => { :period_id => session[:period_id], :lecturer_id => session[:lecturer_id] })
     assignments.each do |assignment|
       if Classplan.find(:first, :conditions => { :period_id => session[:period_id], :assignment_id => assignment.id })
-        courses = ""
         classplans = Classplan.find(:all, :conditions => { :period_id => session[:period_id], :assignment_id => assignment.id })
-        classplans.each do |classplan|
-            courses += ';' unless courses == ""
-            courses += classplan.day + classplan.begin_time.hour.to_s+classplan.begin_time.min.to_s
-        end
+
+        courses = classplans.collect { |classplan| classplan.day + classplan.begin_time }
+        courses = courses.join(';')
         unless courses == ""
           courses += '#' + assignment.course_id.to_s
           session[:course_ids][courses] = assignment.course.full_name
         end
       end
-
 
     end
     # session[:course_ids] = ""

@@ -15,7 +15,7 @@
       <tr>
         <td class="label">Verdiği ders</td>
         <td>
-          <select id="course_id" name="course_id">
+          <select id="course_ids" name="course_ids">
             <% session[:course_ids].each do |k, v| %>
               <option value="<%= k %>" selected>
                 <%= v %>
@@ -48,10 +48,10 @@
               <tr>
                 <th class="col"><%= time=(hour).to_s+':15'+' '+(hour+1).to_s+':00' %></th>
                 <% days.each do |day_en, day_tr| %>
-                  <th class="col">
-                  </th>
-                  <th class="col">
-                  </th>
+                    <th class='col' id="<%= day_en + hour.to_s+'-15course' %>">
+                    </th>
+                    <th class='col' id="<%= day_en + hour.to_s+'-15class' %>">
+                    </th>
                 <% end %>
               </tr>
               <% end %>
@@ -59,12 +59,12 @@
               <tr>
                 <th class="col"><%= time=(hour).to_s+':00'+' '+(hour+1).to_s+':00' %></th>
                 <% days.each do |day_en, day_tr| %>
-                  <th class="col">
+                  <th class='col' id="<%= day_en + hour.to_s+'-00' %>" name="<%= day_en + hour.to_s+'-00' %>" >
                   </th>
-                  <th class="col">
+                  <th class='col' id="<%= day_en + hour.to_s+'-00' %>" name="<%= day_en + hour.to_s+'-00' %>" >
                   </th>
-                  <% end %>
-                </tr>
+                <% end %>
+              </tr>
               <% end %>
             </table>
           </div>
@@ -82,14 +82,16 @@
 
 <!-- dual listbox -->
 <script>
-  $("#course_id").change(function () {
-    var part = $(this).val();
-/*    for (var i = 0; i < ham_dersler.length; i++) {
-      ders = ham_dersler[i].split(',');
-      if (ders[1] != undefined)
-      dersler +=  "<option value='"+ ders[0] +"'>" + ders[1] + "</option>";
-    }*/
-    // $("#course_id").html(dersler);
+  $("#course_ids").change(function () {
+    var part = $(this).val().split('#');
+    var days = part[0].split(';');
+    var course_id = part[1];
+    $('th').css('border', "1px solid #ddd");
+    for (var i = 0; i < days.length; i++) {
+      $('#' + days[i]+'course').css('border', "1px solid #35addf");
+      $('#' + days[i]+'class').css('border', "1px solid #35addf");
+    }
+
     //$("#lecturer_id").html("<input type='hidden' id='lecturer_id' name='lecturer_id' value='" + lecturer_id + "'/>'");
   })
   .trigger('change');
