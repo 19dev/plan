@@ -7,6 +7,12 @@
   <%= form_tag({ :action => 'scheduleadd' }) do %>
     <table class="custom">
       <tr>
+        <td class="label">Fotoğraf</td>
+        <td>
+          <%= image_tag Lecturer.find(session[:lecturer_id]).photo %>
+        </td>
+      </tr>
+      <tr>
         <td class="label">Öğretim görevlisi</td>
         <td>
           <%= Lecturer.find(session[:lecturer_id]).full_name %>

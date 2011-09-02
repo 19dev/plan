@@ -15,8 +15,9 @@ module ScheduleHelper
             assignment.course_id.to_s + ',' + assignment.course.full_name.to_s
           end
         end
-        courses = courses.join(';')
-        unless courses == ""
+        courses = courses.compact # nil'lerden kurtulsun
+        unless courses == []
+          courses = courses.join(';')
           courses += '#' + lecturer.id.to_s
           @assignments[courses] = lecturer
         end
@@ -134,6 +135,10 @@ module ScheduleHelper
     # kayıt buraya kadar tamam.
     # şimdi ekrana göstermek için veri toplayalım
 
+    redirect_to '/user/scheduleshow'
+  end
+  def scheduleshow
+    session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
     session[:course_ids] = {}
     assignments = Assignment.find(:all, :conditions => { :period_id => session[:period_id], :lecturer_id => session[:lecturer_id] })
     assignments.each do |assignment|
@@ -147,22 +152,24 @@ module ScheduleHelper
           session[:course_ids][courses] = assignment.course.full_name
         end
       end
-
     end
-    # session[:course_ids] = ""
-    # courses.select do |c|
-    #       session[:course_ids] += ';' unless session[:course_ids] == ""
-    #       session[:course_ids] += c.day + c.begin_time.to_s + ',' + c.course.full_name + '#' + c.course.id
-    #       unless session[:course_ids] == ""
-    #         session[:course_ids] += '#' + lecturer.id.to_s
-    #         session[:course_ids] = lecturer
-    #       end
-    return redirect_to '/user/scheduleshow'
-    # end
-  end
-  def scheduleshow
   end
   def schedulereview
+    lecturers = Lecturer.find(:all, :conditions => { :department_id => session[:department_id] })
+    @classplans = {}
+    lecturers.each do |lecturer|
+      if Assignment.find(:first, :conditions => { :period_id => session[:period_id], :lecturer_id => lecturer.id })
+        assignments = Assignment.find(:all, :conditions => { :period_id => session[:period_id], :lecturer_id => lecturer.id })
+        courses = assignments.collect do |assignment|
+          if Classplan.find(:first, :conditions => { :assignment_id => assignment.id })
+            assignment.course_id
+          end
+        end
+        if courses != nil
+          @classplans[lecturer] = courses
+        end
+      end
+    end
   end
   def scheduleedit
   end
