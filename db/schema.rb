@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110901160241) do
+ActiveRecord::Schema.define(:version => 20110902100749) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "period_id"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(:version => 20110901160241) do
     t.integer  "classroom_id"
     t.integer  "assignment_id"
     t.string   "day"
-    t.time     "begin_time"
+    t.string   "begin_time"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

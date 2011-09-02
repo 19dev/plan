@@ -54,7 +54,7 @@ task :table do
       "classroom_id:integer " +
       "assignment_id:integer " +
       "day:string " +
-      "begin_time:time ",
+      "begin_time:string ",
 
     "people " +
       "department_id:integer " +

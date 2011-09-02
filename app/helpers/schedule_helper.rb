@@ -142,7 +142,7 @@ module ScheduleHelper
         classplans = Classplan.find(:all, :conditions => { :period_id => session[:period_id], :assignment_id => assignment.id })
         classplans.each do |classplan|
             courses += ';' unless courses == ""
-            courses += classplan.day + classplan.begin_time.to_s
+            courses += classplan.day + classplan.begin_time.hour.to_s+classplan.begin_time.min.to_s
         end
         unless courses == ""
           courses += '#' + assignment.course_id.to_s
