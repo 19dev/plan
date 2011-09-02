@@ -90,7 +90,10 @@
 <script>
   $("#course_ids").change(function () {
     var part = $(this).val().split('#');
-    var days = part[0].split(';');
+    if (part[0].indexOf(';') >= 0)
+      var days = part[0].split(';');
+    else
+      var days = part[0];
     var course_id = part[1];
     $('th').css('border', "1px solid #ddd");
     for (var i = 0; i < days.length; i++) {
