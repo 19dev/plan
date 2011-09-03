@@ -4,7 +4,6 @@
 
 <div class="page">
   <h2 id="headline"><%= session[:department] %> bölümü programı öğretim görevlisi programı ayarla</h2>
-  <%= form_tag({ :action => 'scheduleadd' }) do %>
     <table class="custom">
       <tr>
         <td class="label">Fotoğraf</td>
@@ -65,9 +64,9 @@
               <tr>
                 <th class="col"><%= time=(hour).to_s+':00'+' '+(hour+1).to_s+':00' %></th>
                 <% days.each do |day_en, day_tr| %>
-                  <th class='col' id="<%= day_en + hour.to_s+'-00' %>" name="<%= day_en + hour.to_s+'-00' %>" >
+                  <th class='col' id="<%= day_en + hour.to_s+'-00course' %>">
                   </th>
-                  <th class='col' id="<%= day_en + hour.to_s+'-00' %>" name="<%= day_en + hour.to_s+'-00' %>" >
+                  <th class='col' id="<%= day_en + hour.to_s+'-00class' %>">
                   </th>
                 <% end %>
               </tr>
@@ -79,11 +78,11 @@
       <tr>
         <td></td>
         <td>
-          <input id="submit_button" type='submit' value='Kaydet'/>
+          <input id="submit_button" type='submit' value='Düzenle'/>
+          <input id="submit_button" type='submit' value='Sil'/>
         </td>
       </tr>
     </table>
-  <% end %>
 </div>
 
 <!-- dual listbox -->
