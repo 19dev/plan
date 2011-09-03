@@ -166,7 +166,7 @@ module ScheduleHelper
           end
         end
         courses = courses.compact
-        if courses != nil
+        if courses != []
           @classplans[lecturer] = courses
         end
       end
