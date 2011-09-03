@@ -123,19 +123,22 @@
 <script>
   $("#lecturer_ids").change(function () {
     var part = $(this).val().split('#');
-    if (part[0].indexOf(';') >= 0)
-      var ham_dersler = part[0].split(';');
-    else
-      var ham_dersler = part[0];
-    var lecturer_id = part[1];
-    var dersler = "";
-    for (var i = 0; i < ham_dersler.length; i++) {
-      ders = ham_dersler[i].split(',');
-      if (ders[1] != undefined)
-      dersler +=  "<option value='"+ ders[0] +"'>" + ders[1] + "</option>";
+    if (part[0] != "") {
+      if (part[0].indexOf(';') >= 0)
+        var ham_dersler = part[0].split(';');
+      else
+        var ham_dersler = [part[0]];
+
+      var lecturer_id = part[1];
+      var dersler = "";
+      for (var i = 0; i < ham_dersler.length; i++) {
+        ders = ham_dersler[i].split(',');
+        if (ders[1] != undefined)
+        dersler +=  "<option value='"+ ders[0] +"'>" + ders[1] + "</option>";
+      }
+      $("#course_id").html(dersler);
+      $("#lecturer_id").html("<input type='hidden' id='lecturer_id' name='lecturer_id' value='" + lecturer_id + "'/>'");
     }
-    $("#course_id").html(dersler);
-    $("#lecturer_id").html("<input type='hidden' id='lecturer_id' name='lecturer_id' value='" + lecturer_id + "'/>'");
   })
   .trigger('change');
 </script>
