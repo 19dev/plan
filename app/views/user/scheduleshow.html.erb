@@ -53,10 +53,18 @@
               <tr>
                 <th class="col"><%= time=(hour).to_s+':15'+' '+(hour+1).to_s+':00' %></th>
                 <% days.each do |day_en, day_tr| %>
-                    <th class='col' id="<%= day_en + hour.to_s+'-15course' %>">
-                    </th>
-                    <th class='col' id="<%= day_en + hour.to_s+'-15class' %>">
-                    </th>
+                  <% classplan = Classplan.find(:first,
+                                    :conditions => {
+                                      :period_id => session[:period_id],
+                                      :day => day_en,
+                                      :begin_time => hour.to_s+'-15'
+                  }) %>
+                  <th class='col' id="<%= day_en + hour.to_s+'-15course' %>">
+                    <%= classplan.assignment.course.full_name if classplan %>
+                  </th>
+                  <th class='col' id="<%= day_en + hour.to_s+'-15class' %>">
+                    <%= classplan.classroom.name if classplan %>
+                  </th>
                 <% end %>
               </tr>
               <% end %>
@@ -64,9 +72,17 @@
               <tr>
                 <th class="col"><%= time=(hour).to_s+':00'+' '+(hour+1).to_s+':00' %></th>
                 <% days.each do |day_en, day_tr| %>
+                  <% classplan = Classplan.find(:first,
+                                    :conditions => {
+                                      :period_id => session[:period_id],
+                                      :day => day_en,
+                                      :begin_time => hour.to_s+'-00'
+                  }) %>
                   <th class='col' id="<%= day_en + hour.to_s+'-00course' %>">
+                    <%= classplan.assignment.course.full_name if classplan %>
                   </th>
                   <th class='col' id="<%= day_en + hour.to_s+'-00class' %>">
+                    <%= classplan.classroom.name if classplan %>
                   </th>
                 <% end %>
               </tr>
