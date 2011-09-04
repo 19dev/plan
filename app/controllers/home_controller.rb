@@ -2,17 +2,18 @@
 class HomeController < ApplicationController
   include CleanHelper # temizlik birimi
   before_filter :clean_notice # temiz sayfa
-  before_filter :clean_error # temiz sayfa
+  before_filter :clean_error, :except => [:review] # temiz sayfa
 
   def review
-    unless params[:department_id]
+    session[:department_id] = params[:department_id] if params[:department_id]
+    unless session[:department_id]
       session[:error] = "Bölüm adı boş bırakılamaz"
       return redirect_to '/home/find'
     end
 
-    @lecturers = Lecturer.find(:all, :conditions => { :department_id => params[:department_id] })
+    @lecturers = Lecturer.find(:all, :conditions => { :department_id => session[:department_id] })
     if @lecturers.empty?
-      session[:error] = Department.find(params[:department_id]).name + " bölümünde henüz öğretim görevlisi yok"
+      session[:error] = Department.find(session[:department_id]).name + " bölümünde henüz öğretim görevlisi yok"
       return render '/home/find'
     end
   end
@@ -46,6 +47,11 @@ class HomeController < ApplicationController
           session[:course_ids][courses] = assignment.course.full_name
         end
       end
+    end
+    if session[:course_ids] == {}
+      session[:error] = "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim görevlisinin " +
+                        "bu dönemlik ders programı tablosu henüz hazır değil."
+      redirect_to '/home/review'
     end
   end
 
