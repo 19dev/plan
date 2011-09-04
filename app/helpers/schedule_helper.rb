@@ -8,12 +8,16 @@ module ScheduleHelper
     # courses = "1,BIL303-foo;2,BIL404-bar;#1"
     # courses = "1,BIL303-baz;2;#2"
     lecturers.select do |lecturer|
-      if Assignment.find(:first, :conditions => { :period_id => session[:period_id], :lecturer_id => lecturer.id })
-        assignments = Assignment.find(:all, :conditions => { :period_id => session[:period_id], :lecturer_id => lecturer.id })
+      if Assignment.find(:first, :conditions => { :lecturer_id => lecturer.id, :period_id => session[:period_id] })
+        assignments = Assignment.find(:all,
+                                      :conditions => {
+                                        :lecturer_id => lecturer.id,
+                                        :period_id => session[:period_id]
+                                      })
         courses = assignments.collect do |assignment|
-          unless Classplan.find(:first, :conditions => { :assignment_id => assignment.id })
-            assignment.course_id.to_s + ',' + assignment.course.full_name.to_s
-          end
+        unless Classplan.find(:first,:conditions => {:assignment_id => assignment.id,:period_id => session[:period_id]})
+          assignment.course_id.to_s + ',' + assignment.course.full_name.to_s
+        end
         end
         courses = courses.compact # nil'lerden kurtulsun
         unless courses == []
@@ -33,9 +37,9 @@ module ScheduleHelper
   def scheduleadd
     @assignment = Assignment.find(:first,
                                   :conditions => {
-                                      :period_id => session[:period_id],
-                                      :lecturer_id => params['lecturer_id'],
-                                      :course_id => params['course_id']
+                                      :lecturer_id => params[:lecturer_id],
+                                      :course_id => params[:course_id],
+                                      :period_id => session[:period_id]
                                   })
     # @assignment.id
     schedule = []
@@ -140,15 +144,22 @@ module ScheduleHelper
   def scheduleshow
     session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
     session[:course_ids] = {}
-    assignments = Assignment.find(:all, :conditions => { :period_id => session[:period_id], :lecturer_id => session[:lecturer_id] })
+    assignments = Assignment.find(:all,
+                                  :conditions => {
+                                    :lecturer_id => session[:lecturer_id],
+                                    :period_id => session[:period_id]
+                                  })
     assignments.each do |assignment|
       if Classplan.find(:first, :conditions => { :period_id => session[:period_id], :assignment_id => assignment.id })
-        classplans = Classplan.find(:all, :conditions => { :period_id => session[:period_id], :assignment_id => assignment.id })
-
+        classplans = Classplan.find(:all,
+                                    :conditions => {
+                                      :assignment_id => assignment.id,
+                                      :period_id => session[:period_id]
+                                  })
         courses = classplans.collect { |classplan| classplan.day + classplan.begin_time }
         courses = courses.join(';')
         unless courses == ""
-          courses += '#' + assignment.course_id.to_s
+          courses += '#' + assignment.id.to_s
           session[:course_ids][courses] = assignment.course.full_name
         end
       end
@@ -158,10 +169,14 @@ module ScheduleHelper
     lecturers = Lecturer.find(:all, :conditions => { :department_id => session[:department_id] })
     @classplans = {}
     lecturers.each do |lecturer|
-      if Assignment.find(:first, :conditions => { :period_id => session[:period_id], :lecturer_id => lecturer.id })
-        assignments = Assignment.find(:all, :conditions => { :period_id => session[:period_id], :lecturer_id => lecturer.id })
+      if Assignment.find(:first, :conditions => { :lecturer_id => lecturer.id, :period_id => session[:period_id] })
+        assignments = Assignment.find(:all,
+                                      :conditions => {
+                                        :lecturer_id => lecturer.id,
+                                        :period_id => session[:period_id]
+                                      })
         courses = assignments.collect do |assignment|
-          if Classplan.find(:first, :conditions => { :assignment_id => assignment.id })
+         if Classplan.find(:first, :conditions => { :assignment_id => assignment.id,:period_id => session[:period_id] })
             assignment.course_id
           end
         end
@@ -173,8 +188,33 @@ module ScheduleHelper
     end
   end
   def scheduleedit
+    assignment = Assignment.find(params[:assignment_id])
+    Classplan.delete_all ({
+                          :assignment_id => params[:assignment_id],
+                          :period_id => session[:period_id]
+                        })
+    session[:notice] = "#{assignment.lecturer.full_name} isimli öğretim görevlisinin ders programından " +
+                      "#{assignment.course.full_name} ile ilgili olan tüm alanlar bu dönemlik silinmiştir. " +
+                      "Bu öğretim görevlisinin bu dersi için şimdi tekrardan ders/sınıf seçebilirsiniz."
+    redirect_to '/user/schedulenew'
   end
   def scheduledel
+    session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
+    assignments = Assignment.find(:all,
+                                  :conditions => {
+                                    :lecturer_id => session[:lecturer_id],
+                                    :period_id => session[:period_id]
+                                  })
+    assignments.each do |assignment|
+    Classplan.delete_all({
+                          :assignment_id => assignment.id,
+                          :period_id => session[:period_id]
+                        })
+    end
+
+    session[:notice] = "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim görevlisinin " +
+                       "dönemlik tüm dersleri silindi"
+    redirect_to '/user/schedulereview'
   end
   def scheduleupdate
   end

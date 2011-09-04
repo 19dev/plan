@@ -38,10 +38,10 @@
             <%= hidden_field_tag :lecturer_id, lecturer.id %>
             <%= submit_tag "",:id => "review_button" %>
           <% end %>
-          <%= form_tag :action => 'scheduleedit' do %>
+          <!--<%= form_tag :action => 'scheduleedit' do %>
             <%= hidden_field_tag :lecturer_id, lecturer.id %>
             <%= submit_tag "",:id => "edit_button" %>
-          <% end %>
+          <% end %>-->
           <%= form_tag :action => 'scheduledel' do %>
             <%= hidden_field_tag :lecturer_id, lecturer.id %>
             <%= submit_tag "", :id => "delete_button",

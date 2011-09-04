@@ -32,7 +32,7 @@
           </select>
         </td>
       </tr>
-      <p id="lecturer_id" name="lecturer_id"></p>
+      <p id="select_lecturer_id"></p>
       <tr>
         <td class="label">Verdiği ders</td>
         <td>
@@ -147,7 +147,7 @@
         dersler +=  "<option value='"+ ders[0] +"'>" + ders[1] + "</option>";
       }
       $("#course_id").html(dersler);
-      $("#lecturer_id").html("<input type='hidden' id='lecturer_id' name='lecturer_id' value='" + lecturer_id + "'/>'");
+      $("#select_lecturer_id").html("<input type='hidden' id='lecturer_id' name='lecturer_id' value='" + lecturer_id + "'/>");
     }
   })
   .trigger('change');

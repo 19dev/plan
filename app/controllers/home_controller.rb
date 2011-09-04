@@ -23,8 +23,30 @@ class HomeController < ApplicationController
     end
   end
 
-  def program
-    # TODO
+  def schedule
+    session[:period_id] = Period.find(:first, :conditions => { :status => 1 })
+    session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
+    session[:course_ids] = {}
+    assignments = Assignment.find(:all,
+                                  :conditions => {
+                                    :lecturer_id => session[:lecturer_id],
+                                    :period_id => session[:period_id]
+                                  })
+    assignments.each do |assignment|
+      if Classplan.find(:first, :conditions => { :period_id => session[:period_id], :assignment_id => assignment.id })
+        classplans = Classplan.find(:all,
+                                    :conditions => {
+                                      :assignment_id => assignment.id,
+                                      :period_id => session[:period_id]
+                                  })
+        courses = classplans.collect { |classplan| classplan.day + classplan.begin_time }
+        courses = courses.join(';')
+        unless courses == ""
+          courses += '#' + assignment.id.to_s
+          session[:course_ids][courses] = assignment.course.full_name
+        end
+      end
+    end
   end
 
   def show
