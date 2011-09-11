@@ -32,6 +32,7 @@ class UserController < ApplicationController
           session[:department] = user.department.name
           session[:username] = user.first_name
           session[:userpassword] = user.password
+          session[:period] = Period.find(session[:period_id]).full_name
 
           return redirect_to '/user/home'
         end
