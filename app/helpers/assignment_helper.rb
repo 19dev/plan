@@ -34,7 +34,11 @@ module AssignmentHelper
   end
   def assignmentshow
     session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
-    unless @assignment = Assignment.find(:all, :conditions => { :lecturer_id => session[:lecturer_id] })
+    unless @assignment = Assignment.find(:all,
+                                         :conditions => {
+                                            :lecturer_id => session[:lecturer_id],
+                                            :period_id => session[:period_id]
+                        })
       session[:error] = "Böyle bir kayıt bulunmamaktadır"
       redirect_to '/user/assignmentreview'
     end
