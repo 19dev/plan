@@ -29,7 +29,7 @@ class AdminController < ApplicationController
         session[:escape] = ["created_at", "updated_at", "cell_phone", "work_phone"]
         # session[:escape] = ["id", "department_id", "period_id", "created_at", "updated_at", "status"]
 
-        unless session[:period_id] = Period.find( :first, :conditions => { :status => 1 })
+        unless session[:period_id] = Period.find( :first, :conditions => { :status => true })
           session[:error] = "Dikkat! aktif bir güz/bahar yılı yok. Bu problemin düzeltilmesi için asıl yönetici ile irtibata geçin"
         end
 
