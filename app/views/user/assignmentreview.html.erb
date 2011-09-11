@@ -29,7 +29,7 @@
         <td class="label"><%= image_tag lecturer.photo, :width => 75, :height => 75 %></td>
         <td class="label"><%= lecturer.full_name %></td>
         <td class="field">
-        <% Assignment.find(:all, :conditions => { :lecturer_id => lecturer.id }).each do |ass| %>
+          <% Assignment.find(:all, :conditions => { :lecturer_id => lecturer.id, :period_id => session[:period_id] }).each do |ass| %>
           <ul><%= ass.course.full_name %></ul>
         <% end %>
         </td>
