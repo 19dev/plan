@@ -47,14 +47,13 @@
                           "Friday" => "Cuma"}
               %>
               <% days.each do |day_en, day_tr| %>
-                <th colspan=2><%= day_tr %></th>
+                <th colspan=1><%= day_tr %></th>
               <% end %>
             </tr>
             <tr>
               <th class="clock"></th>
               <% days.length.times do %>
                 <th class='course'>Ders</td>
-                <th class='class'>Sınıf</td>
               <% end %>
             </tr>
             <% assignments = Assignment.find(:all,
@@ -69,6 +68,7 @@
               <% days.each do |day_en, day_tr| %>
                 <% classplan = Classplan.find(:first,
                                               :conditions => {
+                                                :classroom_id => session[:classroom_id],
                                                 :period_id => session[:period_id],
                                                 :day => day_en,
                                                 :begin_time => hour.to_s+'-15'
@@ -88,9 +88,6 @@
                     </p>
                   <% end %>
                 </th>
-                <th class='class' id="<%= day_en + hour.to_s+'-15class' %>">
-                  <%= classplan.classroom.name if state %>
-                </th>
               <% end %>
             </tr>
             <% end %>
@@ -101,6 +98,7 @@
               <% days.each do |day_en, day_tr| %>
                 <% classplan = Classplan.find(:first,
                                   :conditions => {
+                                    :classroom_id => session[:classroom_id],
                                     :period_id => session[:period_id],
                                     :day => day_en,
                                     :begin_time => hour.to_s+'-00'
@@ -118,9 +116,6 @@
                       <%= classplan.assignment.lecturer.full_name %>
                     </p>
                   <% end %>
-                </th>
-                <th class='class' id="<%= day_en + hour.to_s+'-00class' %>">
-                  <%= classplan.classroom.name if state %>
                 </th>
               <% end %>
             </tr>
