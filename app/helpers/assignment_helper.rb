@@ -100,7 +100,7 @@ module AssignmentHelper
         # yeni isteklerde, eski isteklerden biri yok ise
         # eski isteği sil(sınıf planınıda dahil).
 
-        unless params[:course_ids].include?(assignment.course_id)
+        unless params[:course_ids].include?(assignment.course_id.to_s)
           Classplan.delete_all({
                       :assignment_id => assignment.id,
                       :period_id => session[:period_id]
@@ -121,6 +121,7 @@ module AssignmentHelper
         end
       end
       session[:notice] = "#{Lecturer.find(session[:lecturer_id]).full_name} öğretim görevlisinin dersleri güncellendi"
+
   else
       session[:error] = "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim görevlisinin dönemlik tüm derslerini ve " +
                         "tüm ders atamalarını silmeye çalışıyorsunuz. Bunu yapmak istediğinizden emin misiniz ? Eğer öyle ise " +
