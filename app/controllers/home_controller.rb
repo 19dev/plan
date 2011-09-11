@@ -6,8 +6,13 @@ class HomeController < ApplicationController
 
   def review
     session[:department_id] = params[:department_id] if params[:department_id]
+    session[:period_id] = params[:period_id] if params[:period_id]
     unless session[:department_id]
       session[:error] = "Bölüm adı boş bırakılamaz"
+      return redirect_to '/home/find'
+    end
+    unless session[:period_id]
+      session[:error] = "Period boş bırakılamaz"
       return redirect_to '/home/find'
     end
 
@@ -25,7 +30,6 @@ class HomeController < ApplicationController
   end
 
   def schedule
-    session[:period_id] = Period.find(:first, :conditions => { :status => 1 })
     session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
     session[:course_ids] = {}
     assignments = Assignment.find(:all,
