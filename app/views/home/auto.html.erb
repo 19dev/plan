@@ -38,6 +38,10 @@
   <%= form_tag :action => 'show' do %>
   <table class="custom">
     <tr>
+      <td class="label"> Dönem: </td>
+      <td class="field"><%= select_tag(:period_id, options_from_collection_for_select(Period.all, :id, :full_name)) %></td>
+    </tr>
+    <tr>
       <td class="label">Öğretim görevlisi adı:</td>
       <td class="field"><input id="autocomplete" style="width:350px;height:25px;"/></td>
     </tr>

@@ -60,11 +60,56 @@ class HomeController < ApplicationController
   end
 
   def show
+    session[:period_id] = params[:period_id] if params[:period_id]
+    unless params[:period_id]
+      session[:error] = "Period boş bırakılamaz"
+      return render '/home/auto'
+    end
     unless params[:lecturer_id]
       session[:error] = "Bu isme ait bir öğretim görevlisi bulunamadı"
       return render '/home/auto'
     end
 
     @lecturer = Lecturer.find params[:lecturer_id]
+  end
+
+  def classplan
+    session[:period_id] = params[:period_id] if params[:period_id]
+    session[:classroom_id] = params[:classroom_id] if params[:classroom_id]
+    unless params[:period_id]
+      session[:error] = "Period boş bırakılamaz"
+      return render '/home/class'
+    end
+    unless params[:classroom_id]
+      session[:error] = "Sınıf boş bırakılamaz"
+      return render '/home/class'
+    end
+
+    session[:course_ids] = {}
+    assignments = Assignment.find(:all,
+                                  :conditions => {
+                                    :period_id => session[:period_id]
+                                  })
+    assignments.each do |assignment|
+      if Classplan.find(:first, :conditions => { :period_id => session[:period_id], :assignment_id => assignment.id })
+        classplans = Classplan.find(:all,
+                                    :conditions => {
+                                      :assignment_id => assignment.id,
+                                      :classroom_id => session[:classroom_id],
+                                      :period_id => session[:period_id]
+                                  })
+        courses = classplans.collect { |classplan| classplan.day + classplan.begin_time }
+        courses = courses.join(';')
+        unless courses == ""
+          courses += '#' + assignment.id.to_s
+          session[:course_ids][courses] = assignment.course.full_name
+        end
+      end
+    end
+    if session[:course_ids] == {}
+      session[:error] = "bu dönemlik ders programı tablosu henüz hazır değil."
+      session[:error] = session[:course_ids]
+      return render '/home/class'
+    end
   end
 end
