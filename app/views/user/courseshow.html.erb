@@ -34,7 +34,7 @@
         <%= form_tag({ :action => 'coursedel' }, :multipart => true) do %>
             <%= submit_tag "Sil", :id => "submit_button",
               :confirm => "#{Course.find(@course.id).full_name} dersini " +
-                        "silerseniz, bu dersi vermiş/vermekte olan hocaların; " +
+                        "silerseniz, tüm dönemlik bu dersi vermiş/vermekte olan hocaların; " +
                         "verdikleri derslerin bilgileri de(dönemlik ders atamaların) "+
                         "silinmiş olacaktır. " +
                         "Silmek istediğinizden emin misiniz ?" %>

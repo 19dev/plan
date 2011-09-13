@@ -30,10 +30,18 @@ module CourseHelper
     session[:notice] = "#{Course.find(session[:course_id]).full_name} dersi başarıyla silindi"
     Course.delete session[:course_id]
     # bu derse ait tüm atamaları da silelim
-    Assignment.delete_all ({
-                  :course_id => session[:course_id],
-                  :period_id => session[:period_id]
-                })
+    assignments = Assignment.find(:all,
+                                  :conditions => {
+                                    :course_id => session[:course_id],
+                                  })
+    assignments.each do |assignment|
+      Classplan.delete_all({
+                            :assignment_id => assignment.id,
+                          })
+    end
+    Assignment.delete_all({
+                            :course_id => session[:course_id],
+                          })
     session[:course_id] = nil # dersin oturumunu öldürelim
     redirect_to '/user/coursereview'
   end

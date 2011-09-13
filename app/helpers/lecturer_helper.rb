@@ -41,11 +41,19 @@ module LecturerHelper
   def lecturerdel
     session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
     Lecturer.delete session[:lecturer_id]
-    # bu hocaya ait tüm dersleri silelim
-    Assignment.delete_all ({
-                  :lecturer_id => session[:lecturer_id],
-                  :period_id => session[:period_id]
-                })
+    # bu hocaya ait tüm dönemlik bilgileri silelim
+    assignments = Assignment.find(:all,
+                                  :conditions => {
+                                    :lecturer_id => session[:lecturer_id],
+                                  })
+    assignments.each do |assignment|
+      Classplan.delete_all({
+                            :assignment_id => assignment.id,
+                          })
+    end
+    Assignment.delete_all({
+                            :lecturer_id => session[:lecturer_id],
+                          })
     Image.delete 'Lecturer', "#{session[:lecturer_id]}.jpg"
     session[:notice] = "Öğretim görevlisi başarıyla silindi"
     session[:lecturer_id] = nil # kişinin oturumunu öldürelim

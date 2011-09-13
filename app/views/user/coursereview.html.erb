@@ -49,7 +49,7 @@
             <!--<%= submit_tag "", :id => "delete_button", :confirm => 'Silmek istediğinizden emin misiniz?' %>-->
             <%= submit_tag "", :id => "delete_button",
               :onClick => "return confirm('#{Course.find(course.id).full_name} dersini " +
-                                          "silerseniz, bu dersi vermiş/vermekte olan hocaların; " +
+                                          "silerseniz, tüm dönemlik bu dersi vermiş/vermekte olan hocaların; " +
                                           "verdikleri derslerin bilgileri de(dönemlik ders atamaları) "+
                                           "silinmiş olacaktır. " +
                                           "Silmek istediğinizden emin misiniz ?');" %>

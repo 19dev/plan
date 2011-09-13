@@ -51,8 +51,8 @@
             <!--<%= submit_tag "", :id => "delete_button", :confirm => 'Silmek istediğinizden emin misiniz?' %>-->
           <%= submit_tag "", :id => "delete_button",
             :onClick => "return confirm('#{Lecturer.find(lecturer.id).full_name} isimli öğretim görevlisini " +
-                        "silmek üzeresiniz. Eğer silerseniz ona ait olan tüm dönemlik ders atamaları da silinmiş " +
-                        "olacaktır. Silmek istediğinizden emin misiniz ?');" %>
+            "silmek üzeresiniz. Eğer silerseniz ona ait olan tüm dönemlik ders atamaları, ders " +
+            "programları da silinmiş olacaktır. Silmek istediğinizden emin misiniz ?');" %>
           <% end %>
         </td>
       </tr>

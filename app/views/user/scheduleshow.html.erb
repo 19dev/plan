@@ -133,15 +133,15 @@
           <%= form_tag({ :action => 'scheduleedit' }, :multipart => true) do %>
             <p id="select_assignment_id"></p>
             <%= submit_tag "Seçili dersi sil", :id => "submit_button",
-              :confirm => "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim görevlisinin " +
-                          "tabloadan seçtiğiniz dersi silmek üzeresiniz. " +
-                          "Silmek istediğinizden emin misiniz ?" %>
+              :onClick => "return confirm('#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim " +
+                          "görevlisinin tabloadan seçtiğiniz dersi silmek üzeresiniz. " +
+                          "Silmek istediğinizden emin misiniz ?');" %>
           <% end %>
           <%= form_tag({ :action => 'scheduledel' }, :multipart => true) do %>
             <%= submit_tag "Tüm dersi sil", :id => "submit_button",
-              :confirm => "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim görevlisini " +
-                          "silmek üzeresiniz. Eğer silerseniz ona ait olan tüm dönemlik ders atamaları da silinmiş " +
-                          "olacaktır. Silmek istediğinizden emin misiniz ?" %>
+              :onClick => "return confirm('#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim " +
+                          "görevlisinin bu dönemlik verdiği tüm dersleri silmek üzeresiniz. " +
+                          "Silmek istediğinizden emin misiniz ?');" %>
           <% end %>
         </td>
       </tr>

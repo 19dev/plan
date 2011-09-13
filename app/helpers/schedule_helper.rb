@@ -206,10 +206,10 @@ module ScheduleHelper
                                     :period_id => session[:period_id]
                                   })
     assignments.each do |assignment|
-    Classplan.delete_all({
-                          :assignment_id => assignment.id,
-                          :period_id => session[:period_id]
-                        })
+      Classplan.delete_all({
+                            :assignment_id => assignment.id,
+                            :period_id => session[:period_id]
+                          })
     end
 
     session[:notice] = "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim görevlisinin " +
