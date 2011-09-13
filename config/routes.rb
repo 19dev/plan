@@ -85,6 +85,7 @@ Schedule::Application.routes.draw do
   post "home/schedule"
   get  "home/class"
   post "home/classplan"
+  get  "home/info"
   # ---------------------
 
   # The priority is based upon order of creation:

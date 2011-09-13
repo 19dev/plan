@@ -42,7 +42,7 @@
   <!--PLATFORM BAR END-->
 
   <div id="logo">
-    <%= image_tag "/images/mf-256x256.png", :width=> 150, :height=>150%>
+    <%= image_tag "/images/mf-256x256.png", :width => 150, :height => 150 %>
     <h1 style="font-family:'Proxima';font-weight:bold;color:#555;font-size:15px;height:45px;margin-top:-50px;margin-left:250px;">
       OMÜ Mühendislik Fakültesi Program Arama Sistemi
     </h1>
@@ -69,6 +69,11 @@
         <li class="<%= 'current' if ["class"].include?(page) %>">
         <a href="/home/class">
           Sınıf planı
+        </a>
+        </li>
+        <li class="<%= 'current' if ["info"].include?(page) %>">
+        <a href="/home/info">
+          Hakkında
         </a>
         </li>
       </ul>

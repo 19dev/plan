@@ -43,16 +43,22 @@
       <tr>
         <td class="info" colspan=2>
           <style>
-            #table {margin-left:-20px;}
-            #table th {border:1px solid #cccccc;}
-            #table th.clock{font-size:10px;border:1px solid #cccccc;min-width:60px;width:60px;}
-            #table th.course{font-size:10px;border:1px solid #cccccc;min-height:25px;height:25px;min-width:40px;width:40px;}
-            #table th.class{font-size:10px;border:1px solid #cccccc;min-height:25px;height:25px;min-width:85px;width:85px;}
+          #table {margin-left:-30px;}
+          #table th{
+            font-size:10px;
+            padding:0em;
+            border:1px solid #ddd;
+          }
+
+          #table th.courseclass{min-height:20px;height:20px;min-width:30px;width:30px;}
+          #table th.class{min-height:25px;height:25px;min-width:137px;width:137px;}
+          #table th.clock{min-height:20px;height:20px;min-width:60px;width:60px;}
+          #table th.course{min-height:55px;height:55px;min-width:30px;width:30px;}
           </style>
           <div id="table">
             <table>
               <tr>
-                <th class="col">Saatler/Günler</th>
+                <th class="clock">Saatler/Günler</th>
                 <% days = {"Sunday" => "Pazartesi",
                            "Tuesday" => "Salı",
                            "Wednesday" => "Çarşamba",
@@ -60,14 +66,14 @@
                            "Friday" => "Cuma"}
                 %>
                 <% days.each do |day_en, day_tr| %>
-                  <th class="col" colspan=2><%= day_tr %></th>
+                  <th class="clock" colspan=2><%= day_tr %></th>
                 <% end %>
               </tr>
               <tr>
                 <th class="clock"></th>
                 <% days.length.times do %>
-                  <th class='course'>Ders</td>
-                  <th class='class'>Sınıf</td>
+                  <th class='courseclass'>Ders</td>
+                  <th class='courseclass'>Sınıf</td>
                 <% end %>
               </tr>
               <% (8..11).each do |hour| %>
