@@ -8,7 +8,7 @@ module CourseHelper
     course.save
     session[:course_id] = course.id
 
-    session[:notice] = "#{course.full_name} dersi başarıyla eklendi"
+    session[:success] = "#{course.full_name} dersi başarıyla eklendi"
     redirect_to '/user/courseshow'
   end
   def courseshow
@@ -27,7 +27,7 @@ module CourseHelper
   end
   def coursedel
     session[:course_id] = params[:course_id] if params[:course_id] # uniq veriyi oturuma gömelim
-    session[:notice] = "#{Course.find(session[:course_id]).full_name} dersi başarıyla silindi"
+    session[:success] = "#{Course.find(session[:course_id]).full_name} dersi başarıyla silindi"
     Course.delete session[:course_id]
     # bu derse ait tüm atamaları da silelim
     assignments = Assignment.find(:all,
@@ -49,7 +49,7 @@ module CourseHelper
     params.select! { |k, v| Course.columns.collect {|c| c.name}.include?(k) }
 
     Course.update(session[:course_id], params)
-    session[:notice] = "#{Course.find(session[:course_id]).full_name} dersi başarıyla güncellendi"
+    session[:success] = "#{Course.find(session[:course_id]).full_name} dersi başarıyla güncellendi"
 
     redirect_to '/user/courseshow'
    end

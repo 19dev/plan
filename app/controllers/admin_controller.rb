@@ -55,7 +55,7 @@ class AdminController < ApplicationController
 
   def table
     table = if params[:table]; params[:table] else session[:TABLE_INIT] end
-    session[:notice] = "#{table} tablosu başarıyla seçildi"
+    session[:success] = "#{table} tablosu başarıyla seçildi"
     session[:TABLE] = table
     session[:SAVE] = eval table.capitalize + ".count"
     session[:KEY] = session[:TABLES][table]
@@ -88,7 +88,7 @@ class AdminController < ApplicationController
       data[:photo] = "/images/default.png"
       data.save
     end
-    session[:notice] = "#{session[:_key]} bilgisine sahip kişi #{session[:TABLE]} tablosuna başarıyla eklendi"
+    session[:success] = "#{session[:_key]} bilgisine sahip kişi #{session[:TABLE]} tablosuna başarıyla eklendi"
 
     redirect_to '/admin/show'# göster
   end
@@ -120,7 +120,7 @@ class AdminController < ApplicationController
 
     Image.delete session[:TABLE], "#{session[:_key]}.jpg"
     session[:SAVE] -= 1
-    session[:notice] = "#{session[:_key]} bilgisine sahip kişi #{session[:TABLE]} tablosundan başarıyla silindi"
+    session[:success] = "#{session[:_key]} bilgisine sahip kişi #{session[:TABLE]} tablosundan başarıyla silindi"
     session[:_key] = nil # kişinin oturumunu öldürelim
 
     redirect_to '/admin/review'
@@ -142,7 +142,7 @@ class AdminController < ApplicationController
         session[:error] = response[1]
       end
     end
-    session[:notice] = "#{session[:_key]} bilgisine sahip kişi #{session[:TABLE]} tablosunda başariyla güncellendi"
+    session[:success] = "#{session[:_key]} bilgisine sahip kişi #{session[:TABLE]} tablosunda başariyla güncellendi"
 
     redirect_to '/admin/show'# göster
   end

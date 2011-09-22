@@ -193,7 +193,7 @@ module ScheduleHelper
                           :assignment_id => params[:assignment_id],
                           :period_id => session[:period_id]
                         })
-    session[:notice] = "#{assignment.lecturer.full_name} isimli öğretim görevlisinin ders programından " +
+    session[:success] = "#{assignment.lecturer.full_name} isimli öğretim görevlisinin ders programından " +
                       "#{assignment.course.full_name} ile ilgili olan tüm alanlar bu dönemlik silinmiştir. " +
                       "Bu öğretim görevlisinin bu dersi için şimdi tekrardan ders/sınıf seçebilirsiniz."
     redirect_to '/user/schedulenew'
@@ -212,7 +212,7 @@ module ScheduleHelper
                           })
     end
 
-    session[:notice] = "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim görevlisinin " +
+    session[:success] = "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim görevlisinin " +
                        "dönemlik tüm dersleri silindi"
     redirect_to '/user/schedulereview'
   end

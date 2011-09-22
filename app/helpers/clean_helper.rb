@@ -4,6 +4,6 @@ module CleanHelper
     session[:error] = nil
   end
   def clean_notice
-    session[:notice] = nil
+    session[:success] = nil
   end
 end

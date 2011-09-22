@@ -21,7 +21,7 @@ module LecturerHelper
       lecturer[:photo] = "/images/default.png"
       lecturer.save
     end
-    session[:notice] = "#{lecturer.full_name} isimli kişi öğretim görevlisi olarak eklendi"
+    session[:success] = "#{lecturer.full_name} isimli kişi öğretim görevlisi olarak eklendi"
     redirect_to '/user/lecturershow'
   end
   def lecturershow
@@ -55,7 +55,7 @@ module LecturerHelper
                             :lecturer_id => session[:lecturer_id],
                           })
     Image.delete 'Lecturer', "#{session[:lecturer_id]}.jpg"
-    session[:notice] = "Öğretim görevlisi başarıyla silindi"
+    session[:success] = "Öğretim görevlisi başarıyla silindi"
     session[:lecturer_id] = nil # kişinin oturumunu öldürelim
 
     redirect_to '/user/lecturerreview'
@@ -74,7 +74,7 @@ module LecturerHelper
         session[:error] = response[1]
       end
     end
-    session[:notice] = "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim görevlisi başarıyla güncellendi"
+    session[:success] = "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim görevlisi başarıyla güncellendi"
     redirect_to '/user/lecturershow'
    end
 # end Lecturer -------------------------------------------------------

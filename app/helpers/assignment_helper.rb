@@ -29,7 +29,7 @@ module AssignmentHelper
       assignment.save
     end
     session[:lecturer_id] = params[:lecturer_id]
-    session[:notice] = "#{Lecturer.find(params[:lecturer_id]).full_name} öğretim görevlisinin dersleri atandı"
+    session[:success] = "#{Lecturer.find(params[:lecturer_id]).full_name} öğretim görevlisinin dersleri atandı"
     redirect_to '/user/assignmentshow'
   end
   def assignmentshow
@@ -83,7 +83,7 @@ module AssignmentHelper
                   :lecturer_id => session[:lecturer_id],
                   :period_id => session[:period_id]
                 })
-    session[:notice] = "#{Lecturer.find(session[:lecturer_id]).full_name} öğretim görevlisinin dersleri silindi"
+    session[:success] = "#{Lecturer.find(session[:lecturer_id]).full_name} öğretim görevlisinin dersleri silindi"
     session[:lecturer_id] = nil # kişinin oturumunu öldürelim
     redirect_to '/user/assignmentreview'
   end
@@ -120,7 +120,7 @@ module AssignmentHelper
           assignment.save
         end
       end
-      session[:notice] = "#{Lecturer.find(session[:lecturer_id]).full_name} öğretim görevlisinin dersleri güncellendi"
+      session[:success] = "#{Lecturer.find(session[:lecturer_id]).full_name} öğretim görevlisinin dersleri güncellendi"
 
   else
       session[:error] = "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim görevlisinin dönemlik tüm derslerini ve " +

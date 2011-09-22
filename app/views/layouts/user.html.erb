@@ -7,13 +7,13 @@
   <%= csrf_meta_tag %>
 
   <style>
-    #column {width:925px;}
-    #column tr img {width:75px;}
-    #column td {width:100px;}
-    .page{margin-top:125px;margin-left:0px;width:930px}
+    #column {width:920px;}
+    #column tr img {width:35px;}
+    #column td {width:350px;}
+    .page{margin-top:125px;margin-left:0px;width:920px}
   </style>
 </head>
-<body style="background:white">
+<body>
   <% if session[:user] %>
 
     <!--PLATFORM BAR-->
@@ -47,13 +47,25 @@
 
   <% end %>
 
+
   <% if session[:error] %>
-    <div class="error"><h3 id="errorline">Bir problemimiz var</h3><%= session[:error] %></div>
+    <div id="notice">
+      <div class="error">
+        <h3 id="errorline">Bir problemimiz var!</h3>
+        <%= session[:error] %>
+      </div>
+    </div>
   <% end %>
 
-  <% if session[:notice] %>
-    <div class="notice"><h3 id="noticeline">Bir başarı iletisi var</h3><%= session[:notice] %></div>
+  <% if session[:success] %>
+    <div id="notice">
+      <div class="success">
+        <h3 id="successline">Bir başarı iletisi var</h3>
+        <%= session[:success] %>
+      </div>
+    </div>
   <% end %>
+
   <div id="content">
     <% if session[:user] %>
       <div id="column">

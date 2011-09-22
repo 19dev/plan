@@ -10,7 +10,7 @@
     #logo td {width:70px;}
   </style>
 </head>
-<body style="background-color:white;">
+<body>
 
   <!--PLATFORM BAR-->
   <div class="platform-bar">
@@ -48,7 +48,7 @@
     </h1>
   </div>
   <% page = File.basename request.fullpath %>
-  <div style="margin-left:205px;">
+  <div id="notice">
     <div class="row">
       <ul class="sub-nav">
         <li class="<%= 'current' if ["index"].include?(page) %>">
@@ -81,11 +81,19 @@
   </div>
 
   <% if session[:error] %>
-    <div class="error2"><%= session[:error] %></div>
+    <div id="notice">
+      <div class="error2">
+        <%= session[:error] %>
+      </div>
+    </div>
   <% end %>
 
-  <% if session[:notice] %>
-    <div class="notice2"><%= session[:notice] %></div>
+  <% if session[:success] %>
+    <div id="notice">
+      <div class="success2">
+        <%= session[:success] %>
+      </div>
+    </div>
   <% end %>
 
   <div id="content">
