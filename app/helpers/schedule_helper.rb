@@ -100,7 +100,7 @@ module ScheduleHelper
                   session[:error] = day_tr + " " + hour.to_s + ":15 " + "de "+
                     "#{classplan.classroom.name} sınıfında kaydetmeye çalıştığınız "+
                     "#{classplan.assignment.lecturer.department.name} bölümünden "+
-                    "#{classplan.assignment.lecturer.full_name} isimli öğretim görevlisinin "+
+                    "#{classplan.assignment.lecturer.full_name} isimli öğretim görevlisi "+
                     "#{classplan.assignment.course.full_name} dersini vermektedir. Bu "+
                     "bilginin düzeltilmesini istiyorsanız; "+
                     "bu verdiği dersin gününü veya saatini değiştiriniz."
@@ -157,7 +157,7 @@ module ScheduleHelper
                   session[:error] = day_tr + " " + hour.to_s + ":00 " + "de "+
                     "#{classplan.classroom.name} sınıfında kaydetmeye çalıştığınız "+
                     "#{classplan.assignment.lecturer.department.name} bölümünden "+
-                    "#{classplan.assignment.lecturer.full_name} isimli öğretim görevlisinin "+
+                    "#{classplan.assignment.lecturer.full_name} isimli öğretim görevlisi "+
                     "#{classplan.assignment.course.full_name} dersini vermektedir. Bu "+
                     "bilginin düzeltilmesini istiyorsanız; "+
                     "bu verdiği dersin gününü veya saatini değiştiriniz."
