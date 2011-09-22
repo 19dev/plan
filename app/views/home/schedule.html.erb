@@ -70,7 +70,8 @@
                                                 :period_id => session[:period_id]
                                             })
             assignments = assignments.collect { |assignment| assignment.id }
-            %>
+          %>
+          <%= assignments %>
             <% (8..11).each do |hour| %>
             <tr>
               <th class="clock"><%= time=(hour).to_s+':15'+' '+(hour+1).to_s+':00' %></th>
