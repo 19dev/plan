@@ -88,7 +88,7 @@
                   end
                 %>
                 <th class='course' id="<%= day_en + hour.to_s+'-15course' %>">
-                  <%= classplan %>
+                  <%= classplan.assignment.course.full_name %>
                   <%= classplan.assignment.course.full_name if state %>
                 </th>
                 <th class='class' id="<%= day_en + hour.to_s+'-15class' %>">
