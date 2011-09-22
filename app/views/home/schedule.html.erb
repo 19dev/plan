@@ -65,11 +65,11 @@
               <% end %>
             </tr>
             <% assignments = Assignment.find(:all,
-                                                :conditions => {
-                                                    :lecturer_id => session[:lecturer_id],
-                                                    :period_id => session[:period_id]
+                                             :conditions => {
+                                                :lecturer_id => session[:lecturer_id],
+                                                :period_id => session[:period_id]
                                             })
-            assignments = assignments.collect {|assignment| assignment.id }
+            assignments = assignments.collect { |assignment| assignment.id }
             %>
             <% (8..11).each do |hour| %>
             <tr>
@@ -80,15 +80,15 @@
                                                 :period_id => session[:period_id],
                                                 :day => day_en,
                                                 :begin_time => hour.to_s+'-15'
-                })
-
-                if classplan and assignments.include?(classplan.assignment_id)
+                  })
+                  if classplan and assignments.include?(classplan.assignment_id)
                     state = true
                   else
                     state = false
                   end
-              %>
+                %>
                 <th class='course' id="<%= day_en + hour.to_s+'-15course' %>">
+                  <%= classplan %>
                   <%= classplan.assignment.course.full_name if state %>
                 </th>
                 <th class='class' id="<%= day_en + hour.to_s+'-15class' %>">
@@ -107,13 +107,13 @@
                                     :period_id => session[:period_id],
                                     :day => day_en,
                                     :begin_time => hour.to_s+'-00'
-                })
-                if classplan and assignments.include?(classplan.assignment_id)
+                  })
+                  if classplan and assignments.include?(classplan.assignment_id)
                     state = true
                   else
                     state = false
                   end
-              %>
+                %>
                 <th class='course' id="<%= day_en + hour.to_s+'-00course' %>">
                   <%= classplan.assignment.course.full_name if state %>
                 </th>
