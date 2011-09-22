@@ -97,11 +97,11 @@ module ScheduleHelper
                                                 'begin_time' => part[0],
                                             })
                 if @assignments.include?(classplan.assignment_id)
-                  session[:error] = day_tr + " " + hour.to_s + ":15" + "de "+
+                  session[:error] = day_tr + " " + hour.to_s + ":15 " + "de "+
                     "#{classplan.classroom.name} sınıfında kaydetmeye çalıştığınız "+
                     "#{classplan.assignment.lecturer.department.name} bölümünden "+
-                    "#{classplan.assignment.lecturer.full_name} öğretim görevlisi zaten "+
-                    "#{classplan.assignment.course.full_name} dersi vermektedir. Bu "+
+                    "#{classplan.assignment.lecturer.full_name} isimli öğretim görevlisinin "+
+                    "#{classplan.assignment.course.full_name} dersini vermektedir. Bu "+
                     "bilginin düzeltilmesini istiyorsanız; "+
                     "bu verdiği dersin gününü veya saatini değiştiriniz."
                   return redirect_to "/user/schedulenew"
@@ -154,11 +154,11 @@ module ScheduleHelper
                                                 'begin_time' => part[0],
                                             })
                 if @assignments.include?(classplan.assignment_id)
-                  session[:error] = day_tr + " " + hour.to_s + ":00" + "de "+
+                  session[:error] = day_tr + " " + hour.to_s + ":00 " + "de "+
                     "#{classplan.classroom.name} sınıfında kaydetmeye çalıştığınız "+
                     "#{classplan.assignment.lecturer.department.name} bölümünden "+
-                    "#{classplan.assignment.lecturer.full_name} öğretim görevlisi zaten "+
-                    "#{classplan.assignment.course.full_name} dersi vermektedir. Bu "+
+                    "#{classplan.assignment.lecturer.full_name} isimli öğretim görevlisinin "+
+                    "#{classplan.assignment.course.full_name} dersini vermektedir. Bu "+
                     "bilginin düzeltilmesini istiyorsanız; "+
                     "bu verdiği dersin gününü veya saatini değiştiriniz."
                   return redirect_to "/user/schedulenew"
