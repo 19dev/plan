@@ -24,6 +24,7 @@ class HomeController < ApplicationController
   end
 
   def auto
+    session[:period_id] = params[:period_id] if params[:period_id]
     @auto_lecturers = Lecturer.all.collect do |lecturer|
       { lecturer.id => ["#{lecturer.first_name} #{lecturer.last_name}", lecturer.photo, lecturer.department.name] }
     end
