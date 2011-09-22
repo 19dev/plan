@@ -71,7 +71,6 @@
                                             })
             assignments = assignments.collect { |assignment| assignment.id }
           %>
-          <%= assignments %>
             <% (8..11).each do |hour| %>
             <tr>
               <th class="clock"><%= time=(hour).to_s+':15'+' '+(hour+1).to_s+':00' %></th>
@@ -89,8 +88,6 @@
                   end
                 %>
                 <th class='course' id="<%= day_en + hour.to_s+'-15course' %>">
-                  <%= classplan %>
-                  <%= state %>
                   <%= classplan.assignment.course.full_name if state %>
                 </th>
                 <th class='class' id="<%= day_en + hour.to_s+'-15class' %>">

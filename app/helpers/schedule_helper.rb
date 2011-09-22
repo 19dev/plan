@@ -41,6 +41,12 @@ module ScheduleHelper
                                       :course_id => params[:course_id],
                                       :period_id => session[:period_id]
                                   })
+    @assignments = Assignment.find(:all,
+                                  :conditions => {
+                                      :lecturer_id => params[:lecturer_id],
+                                      :period_id => session[:period_id]
+                                  })
+    @assignments = @assignments.collect { |assignment| assignment.id }
     # @assignment.id
     schedule = []
     days = {"Sunday" => "Pazartesi",
@@ -84,6 +90,22 @@ module ScheduleHelper
                 "bilginin düzeltilmesini istiyorsanız; "+
                 "#{classplan.assignment.lecturer.department.name} bölümünün yöneticileri ile irtibata geçin."
               return redirect_to "/user/schedulenew"
+            elsif classplan = Classplan.find(:first,
+                                          :conditions => {
+                                                'period_id' => session[:period_id],
+                                                'day' => day_en,
+                                                'begin_time' => part[0],
+                                            })
+                if @assignments.include?(classplan.assignment_id)
+                  session[:error] = day_tr + " " + hour.to_s + ":15" + "de "+
+                    "#{classplan.classroom.name} sınıfında kaydetmeye çalıştığınız "+
+                    "#{classplan.assignment.lecturer.department.name} bölümünden "+
+                    "#{classplan.assignment.lecturer.full_name} öğretim görevlisi zaten "+
+                    "#{classplan.assignment.course.full_name} dersi vermektedir. Bu "+
+                    "bilginin düzeltilmesini istiyorsanız; "+
+                    "bu verdiği dersin gününü veya saatini değiştiriniz."
+                  return redirect_to "/user/schedulenew"
+                end
             end
 
             schedule << choice
@@ -125,6 +147,22 @@ module ScheduleHelper
                 "bilginin düzeltilmesini istiyorsanız; "+
                 "#{classplan.assignment.lecturer.department.name} bölümünün yöneticileri ile irtibata geçin."
               return redirect_to "/user/schedulenew"
+            elsif classplan = Classplan.find(:first,
+                                          :conditions => {
+                                                'period_id' => session[:period_id],
+                                                'day' => day_en,
+                                                'begin_time' => part[0],
+                                            })
+                if @assignments.include?(classplan.assignment_id)
+                  session[:error] = day_tr + " " + hour.to_s + ":00" + "de "+
+                    "#{classplan.classroom.name} sınıfında kaydetmeye çalıştığınız "+
+                    "#{classplan.assignment.lecturer.department.name} bölümünden "+
+                    "#{classplan.assignment.lecturer.full_name} öğretim görevlisi zaten "+
+                    "#{classplan.assignment.course.full_name} dersi vermektedir. Bu "+
+                    "bilginin düzeltilmesini istiyorsanız; "+
+                    "bu verdiği dersin gününü veya saatini değiştiriniz."
+                  return redirect_to "/user/schedulenew"
+                end
             end
 
             schedule << choice
