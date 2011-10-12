@@ -38,7 +38,7 @@ task :table do
       "department_id:integer " +
       "code:string " +
       "name:string " +
-      "class:integer " +
+      "year:integer " +
       "theoretical:integer " +
       "practice:integer " +
       "lab:integer " +
