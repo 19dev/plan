@@ -2,6 +2,10 @@
   <h2 id="headline"><%= session[:department] %> bölümünün öğretim görevlisi bilgileri</h2>
   <table class="custom">
     <tr>
+      <td class="label">Sınıf</td>
+      <td class="field"><%= @course.class %></td>
+    </tr>
+    <tr>
       <td class="label">Kod Adı</td>
       <td class="field"><%= @course.code %></td>
     </tr>

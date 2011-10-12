@@ -3,6 +3,10 @@
   <%= form_tag({ :action => 'courseadd' }, :multipart => true) do %>
     <table class="custom">
     <tr>
+      <td class="label">Sınıf</td>
+      <td class="field"><%= text_field_tag :class %></td>
+    </tr>
+    <tr>
       <td class="label">Kod Adı</td>
       <td class="field"><%= text_field_tag :code %></td>
     </tr>

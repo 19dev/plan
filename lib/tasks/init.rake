@@ -41,7 +41,7 @@ task :table do
       "class:integer " +
       "theoretical:integer " +
       "practice:integer " +
-      "lab:string " +
+      "lab:integer " +
       "credit:integer ",
 
     "period " +
