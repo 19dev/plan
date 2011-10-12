@@ -4,16 +4,18 @@ one:
   department_id: 1
   code: MyString
   name: MyString
-  theoretical: MyString
-  practice: MyString
-  lab: MyString
+  class: 1
+  theoretical: 1
+  practice: 1
+  lab: 1
   credit: 1
 
 two:
   department_id: 1
   code: MyString
   name: MyString
-  theoretical: MyString
-  practice: MyString
-  lab: MyString
+  class: 1
+  theoretical: 1
+  practice: 1
+  lab: 1
   credit: 1

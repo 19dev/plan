@@ -2,10 +2,10 @@
 
 one:
   name: MyString
-  year: 2011-07-29
-  status: 1
+  year: 1
+  status: false
 
 two:
   name: MyString
-  year: 2011-07-29
-  status: 1
+  year: 1
+  status: false
