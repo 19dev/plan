@@ -4,14 +4,13 @@
     <table class="custom">
       <% eval(session[:TABLE] + ".columns").map do |c| %>
         <tr>
-          <% unless session[:escape].include?(c.name) %> <!-- kısıtlamalar -->
-            <td class="label"><%= c.name %></td>
-            <td class="field">
-              <% if c.name == "photo" %><%= file_field_tag :file %>
-              <% else %>                <%= text_field_tag c.name %>
-              <% end %>
-            </td>
-          <% end %>
+          <td class="label"><%= c.name %></td>
+          <td class="field">
+            <% if c.name == "photo" %>     <%= file_field_tag :file %>
+            <% elsif c.name == "content" %><textarea name="<%= c.name %>"></textarea>
+            <% else %>                     <%= text_field_tag c.name %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
       <tr>

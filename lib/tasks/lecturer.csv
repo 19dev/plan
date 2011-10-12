@@ -1,0 +1,7 @@
+department_id,first_name,last_name,email,status
+1,Nurettin,Şenyer,nurettin.seyyah@bil.omu.edu.tr,1
+1,Recai,Oktaş,roktas@bil.omu.edu.tr,0
+1,Erdal,Kılıç,erdal.kilic@bil.omu.edu.tr,0
+1,Onur,Baran,onur.baran@bil.omu.edu.tr,0
+2,foo,bar,foo@elk.omu.edu.tr,1
+2,baz,baz,baz@elk.omu.edu.tr,0

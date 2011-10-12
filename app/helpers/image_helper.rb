@@ -9,6 +9,10 @@ module ImageHelper
     # sesli başarılı çıkış için : [true, "bla bla"]
     # sessiz hatalı çıkış için : nil
     def self.upload directory, savename, uploaded, overwrite = false
+
+      # yüklenen dosya yok ise sessiz çık
+      return nil unless File.exist? uploaded.path
+
       savename += @extension
       destination = @uploaddir.join directory # hedef dizin
       image = destination.join savename  # resmin tam yolu
@@ -24,9 +28,6 @@ module ImageHelper
         FileUtils.mkdir_p destination, :mode => 0777
         FileUtils.chmod_R 0777, destination
       end
-
-      # yüklenen dosya yok ise sessiz çık
-      return nil unless File.exist? uploaded.path
 
       if uploaded.size > 550000;                 return [false, "Resim çok büyük"]
       elsif !(uploaded.content_type =~ /jpe?g/); return [false, "Resim jpg formatında olmalıdır"]

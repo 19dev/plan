@@ -11,7 +11,13 @@
     </tr>
     <tr>
       <td class="label">Fotoğraf</td>
-      <td class="field"><img src="<%= @lecturer.photo %>"/></td>
+      <td class="field">
+        <% if @lecturer.photo %>
+          <img src="<%= @lecturer.photo %>" width="128" height="128"/>
+        <% else %>
+          <img src="/images/default.png" width="128" height="128"/>
+        <% end %>
+      </td>
     </tr>
     <tr>
       <td class="label">Email</td>

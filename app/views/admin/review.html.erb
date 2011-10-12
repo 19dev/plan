@@ -15,45 +15,45 @@
    <div class="dt_example module">
    <table cellpadding="0" cellspacing="0" border="0" class="display" 
        id="example">
-   <thead>
-    <tr>
-      <% eval(session[:TABLE] + ".columns").map do |c| %>
-        <% unless session[:escape].include?(c.name) %> <!-- kısıtlamalar -->
-          <th><%= c.name %></th>
-        <% end %>
-      <% end %>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @data.each do |kisi| %>
+    <thead>
       <tr>
         <% eval(session[:TABLE] + ".columns").map do |c| %>
-          <% unless session[:escape].include?(c.name) %> <!-- kısıtlamalar -->
-            <% if c.name == 'photo' %>
-              <td class="label"><img src="<%= kisi.attributes[c.name] %>" width="50" height="50"/></td>
-            <% else %>
-              <td class="label"><%= kisi.attributes[c.name] %></td>
-            <% end %>
+          <% if in?(c.name, session[:FIELDS]) %> <!-- kısıtlamalar -->
+            <th><%= c.name %></th>
           <% end %>
         <% end %>
-        <td class="label" style="float:left;width:92px">
-          <%= form_tag :action => 'show' do %>
-            <%= hidden_field_tag :_key,  kisi.attributes[session[:KEY]] %>
-            <%= submit_tag "",:id => "review_button" %>
-          <% end %>
-          <%= form_tag :action => 'edit' do %>
-            <%= hidden_field_tag :_key,  kisi.attributes[session[:KEY]] %>
-            <%= submit_tag "",:id => "edit_button" %>
-          <% end %>
-          <%= form_tag :action => 'del' do %>
-            <%= hidden_field_tag :_key,  kisi.attributes[session[:KEY]] %>
-            <%= submit_tag "", :id => "delete_button", :confirm => 'Silmek istediğinizden emin misiniz?' %>
-          <% end %>
-        </td>
+        <th>İşlemler</th>
       </tr>
-    <% end %>
-  </tbody>
+    </thead>
+    <tbody>
+      <% @data.each do |row| %>
+        <tr>
+          <% eval(session[:TABLE] + ".columns").map do |c| %>
+            <% if in?(c.name, session[:FIELDS]) %> <!-- kısıtlamalar -->
+              <td class="label">
+                <% if c.name == 'photo' %><img src="<%= row.attributes[c.name] %>" width="26" height="26"/>
+                <% else %>                <%= substr?(row.attributes[c.name].to_s, 40) %>
+                <% end %>
+              </td>
+            <% end %>
+          <% end %>
+          <td class="label" style="float:left;width:92px">
+            <%= form_tag :action => 'show' do %>
+              <%= hidden_field_tag :_key,  row.attributes[session[:KEY]] %>
+              <%= submit_tag "",:id => "review_button" %>
+            <% end %>
+            <%= form_tag :action => 'edit' do %>
+              <%= hidden_field_tag :_key,  row.attributes[session[:KEY]] %>
+              <%= submit_tag "",:id => "edit_button" %>
+            <% end %>
+            <%= form_tag :action => 'del' do %>
+              <%= hidden_field_tag :_key,  row.attributes[session[:KEY]] %>
+              <%= submit_tag "", :id => "delete_button", :onClick => "return confirm('Silmek istediğinizden emin misiniz?');" %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
   </table>
   </div>
 </div>

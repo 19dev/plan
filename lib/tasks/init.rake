@@ -2,12 +2,12 @@
 # encoding: utf-8
 # LOCAL bir tablo oluşturma, örnek yükleme eklentisi
 
-EXAMPLE_FILE = 'lib/tasks/insert'
+EXAMPLE_FILE = 'lib/tasks/example_insert'
 MODEL = 'rails g model' # rails generate model
 MIGRATE = 'db/migrate'
 CONSOLE = 'rails c' # rails console
 
-task :init => [:db, :table, :example]
+task :init => [:db, :table]
 task :reex => [:db, :retable, :example]
 task :table => [:retable]
 
@@ -38,6 +38,7 @@ task :table do
       "department_id:integer " +
       "code:string " +
       "name:string " +
+      "class:integer " +
       "theoretical:integer " +
       "practice:integer " +
       "lab:string " +

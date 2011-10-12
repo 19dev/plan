@@ -1,5 +1,7 @@
 # encoding: utf-8
 class UserController < ApplicationController
+  include AccountHelper # hesap güncelleme için
+  include InitHelper # temizlik birimi
   include CleanHelper # temizlik birimi
 
   # gerekli yardımcı menümünüz
@@ -25,17 +27,21 @@ class UserController < ApplicationController
     redirect_to '/user/home' if session[:user]
 
     if session[:period_id]
-      if user = People.find(:first, :conditions => { :first_name => params[:first_name], :password => params[:password] })
-        if user.department_id != 0 and user.status == 1
-          session[:user] = true
-          session[:department_id] = user.department_id
-          session[:department] = user.department.name
-          session[:username] = user.first_name
-          session[:userpassword] = user.password
-          session[:period] = Period.find(session[:period_id]).full_name
+      if user = People.find(:first, :conditions => {
+                                                    :first_name => params[:first_name],
+                                                    :password => params[:password],
+                                                    :status => 1
+                                                    }
+        )
+        session[:user] = true
+        session[:user_id] = user.id # update for password
+        session[:department_id] = user.department_id
+        session[:department] = user.department.name
+        session[:username] = user.first_name
+        session[:userpassword] = user.password
+        session[:period] = Period.find(session[:period_id]).full_name
 
-          return redirect_to '/user/home'
-        end
+        return redirect_to '/user/home'
       end
       if params[:first_name] or params[:password]
         session[:error] = "Oops! İsminiz veya şifreniz hatalı, belkide bunlardan sadece biri hatalıdır?"

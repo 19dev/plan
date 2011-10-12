@@ -1,0 +1,29 @@
+<div class="page">
+  <h2 id="headline">Hesab Bilgileri</h2>
+  <table class="custom">
+    <tr>
+      <td class="label">Fotoğraf</td>
+      <td><%= image_tag @people.photo, :width => 56, :height => 56 %></td>
+    </tr>
+    <tr>
+      <td class="label">Ad</td>
+      <td class="field"><%= @people.first_name %></td>
+    </tr>
+    <tr>
+      <td class="label">Soyad</td>
+      <td class="field"><%= @people.last_name %></td>
+    </tr>
+    <tr>
+      <td class="label">Şifre</td>
+      <td class="field"><%= @people.password %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <%= form_tag({ :action => 'accountedit' }, :multipart => true) do %>
+          <%= submit_tag "Düzenle", :id => "submit_button" %>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+</div>

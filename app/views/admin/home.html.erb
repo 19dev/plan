@@ -1,14 +1,13 @@
-<div class="page">
-  <h2 id="headline">HOŞGELDİNİZ</h2>
-  Veritabanının ilgili tablosunu seçiniz.
-  <%= form_tag :action => 'table' do %>
-    <table class="custom">
-      <tr>
-        <td class="label">tablo:</td>
-        <td class="field">
-          <%= select_tag :table, options_for_select(session[:TABLES].keys.map {|key| key.to_s}), :onchange => 'this.form.submit()' %>
-        </td>
-      </tr>
-    </table>
-  <% end %>
-</div>
+<h2 id="headline">HOŞGELDİNİZ</h2>
+Veritabanının ilgili tablosunu seçiniz.
+<%= form_tag :action => 'table' do %>
+  <table class="custom">
+    <tr>
+      <td class="label">tablo:</td>
+      <td class="field">
+        <%= select_tag :table, options_for_select(session[:TABLES].keys.map {|key| key.to_s}, session[:TABLE]),
+          :onchange => 'this.form.submit()' %>
+      </td>
+    </tr>
+  </table>
+<% end %>
