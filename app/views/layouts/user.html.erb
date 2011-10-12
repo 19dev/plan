@@ -21,15 +21,10 @@
       <div class="row bar-content" style="margin-left:205px;">
         <span class="title">
           <a href="/home">
-            ONDOKUZ MAYIS ÜNİVERSİTESİ MÜHENDİSLİK FAKÜLTESİ - <%= session[:department] %>
+            <%= session[:department] %> / <%= session[:period] %>
           </a>
         </span>
         <ul class="related">
-          <li class="title">
-            <a href="/user/home">
-              <%= session[:period] %>
-            </a>
-          </li>
           <li class="title">
             <a href="/user/home">
               <%= session[:username] %>
