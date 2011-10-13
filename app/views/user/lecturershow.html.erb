@@ -34,8 +34,8 @@
     <tr>
       <td class="label">Bölüm başkanı mı?</td>
       <td class="field">
-        <% if @lecturer.status == 1 %> evet
-        <% else %>                  hayır
+        <% if @lecturer.status %> evet
+        <% else %>                hayır
         <% end %>
       </td>
     </tr>

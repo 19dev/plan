@@ -3,11 +3,11 @@
   <%= form_tag({ :action => 'lectureradd' }, :multipart => true) do %>
     <table class="custom">
     <tr>
-      <td class="label">Ad</td>
+      <td class="label">Ad(*)</td>
       <td class="field"><%= text_field_tag :first_name %></td>
     </tr>
     <tr>
-      <td class="label">Soyad</td>
+      <td class="label">Soyad(*)</td>
       <td class="field"><%= text_field_tag :last_name %></td>
     </tr>
     <tr>
@@ -15,7 +15,7 @@
       <td class="field"><%= file_field_tag :file %></td>
     </tr>
     <tr>
-      <td class="label">Email</td>
+      <td class="label">Email(*)</td>
       <td class="field"><%= text_field_tag :email %></td>
     </tr>
     <tr>

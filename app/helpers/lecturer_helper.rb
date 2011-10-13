@@ -5,6 +5,16 @@ module LecturerHelper
   def lectureradd
     photo = params[:file]
     params.select! { |k, v| Lecturer.columns.collect {|c| c.name}.include?(k) }
+    if hata = control({
+                      params[:first_name]=>"Öğretim görevlisi adı",
+                      params[:last_name]=>"Öğretim görevlisi soyadı",
+                      params[:email]=>"Öğretim görevlisi email"
+                      }
+    )
+      session[:error] = hata
+      return redirect_to '/user/lecturernew'
+    end
+
     params[:department_id] = session[:department_id]
     lecturer = Lecturer.new params
     lecturer.save
