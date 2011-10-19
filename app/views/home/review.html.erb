@@ -1,7 +1,7 @@
 <style>
   .page{margin-bottom:-125px;}
 </style>
-<h2 id="headline"><%= Department.find(session[:department_id]).name %> Arama sonuçları</h2>
+<h2 id="headline"><%= Department.find(session[:department_id]).name %> Arama Sonuçları</h2>
 <% @lecturers.each do |lecturer| %>
   <div id="info">
     <div id="image-box">

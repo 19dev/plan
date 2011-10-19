@@ -23,9 +23,9 @@
 <!-- end jlistbox -->
 </head>
 <div class="page">
-  <h2 id="headline"><%= session[:department] %> bölümünden öğretim görevlilerine ders atama</h2>
+  <h2><%= session[:department] %> Bölümünden Öğretim Elamanlarını Ders Atama</h2>
   <%= form_tag({ :action => 'assignmentadd' }, :multipart => true, :html => {:id => 'real-form'}) do %>
-    <table class="custom">
+    <table class="login">
       <tr>
         <td class="label">Hoca seçiniz</td>
         <td>

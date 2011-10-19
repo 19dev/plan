@@ -1,26 +1,19 @@
-<style>
-  #content{margin-top:8%;width:400px;min-height:240px;}
-  .success, .error{ margin:50px auto -84px;}
-</style>
+<link href="/stylesheets/login.css" rel="stylesheet" type="text/css">
 
 <h2 id="boxline">Admin girişi</h2>
-<div id="login">
-  <%= form_tag :action => 'login' do %>
-    <table class="login">
-      <tr>
-        <td class="label"> Kullanıcı Adı: </td>
-        <td class="field"><%= text_field_tag :first_name %></td>
-      </tr>
-      <tr>
-        <td class="label"> Parola: </td>
-        <td class="field"><%= password_field_tag :password %></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td><%= submit_tag "Giriş Yap", :id => "submit_button" %></td>
-      </tr>
-    </table>
-  <% end %>
-</div>
-
-
+<%= form_tag :action => 'login' do %>
+  <table class="login">
+    <tr>
+      <td class="label"> Kullanıcı Adı: </td>
+      <td class="field"><%= text_field_tag :first_name %></td>
+    </tr>
+    <tr>
+      <td class="label"> Parola: </td>
+      <td class="field"><%= password_field_tag :password %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><%= submit_tag "Giriş Yap", :id => "submit_button" %></td>
+    </tr>
+  </table>
+<% end %>

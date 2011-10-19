@@ -18,7 +18,7 @@
     <div id="wrapper">
       <div id="container">
         <ul class="tabs" id="mainNav">
-          <li class="home">
+          <li class="home current">
             <a href="/admin/home" title="Kullanıcı adınız"><%= session[:adminusername] %></a>
           </li>
           <li class="magenta">
@@ -53,7 +53,11 @@
 
   <div id="content">
     <% if session[:admin] %>
-      <div id="panel">
+      <style>
+        #admin-panel ul li {width:100px;margin-left:50px;}
+        #admin-panel ul li img {width:40px;height:40px;margin:0 34px;}
+      </style>
+      <div id="admin-panel">
           <ul>
             <li>
                 <img src="/images/accept_database.png"/><%= session[:TABLE] %>

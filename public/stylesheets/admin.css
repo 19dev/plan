@@ -1,14 +1,3 @@
-#column {
-    height:auto;
-    width:130px; /* width:930px */
-    float:left;
-    font-size:13px;
-    background: #fff;
-    border-bottom:1px solid #ccc;
-}
-#column tr img {width:35px;} /*75*/
-#column tr{font-size:12px;font-weight:bold;}
-
 .page {
     width: 770px;
     height: auto;
@@ -17,22 +6,30 @@
     min-height:340px;
 }
 
-/* ---------------------------------------------------------- */
+#admin-panel {width:920px;height:70px;border-bottom:1px solid #ddd;margin-top:-20px;}
+#admin-panel ul {font-size:12px;font-weight:bold;list-style-type:none;margin-left:-20px;}
+#admin-panel ul li {float:left;width:200px;color:#3072B3;text-align:center;margin-left:20px;}
+#admin-panel ul li a {color:#3072B3;}
+#admin-panel ul li img {width:50px;height:50px;margin:0 34px;}
+
+/* ------------------------ custom table form ----------------------------- */
+table.custom {
+    width:599px;
+    margin:0 auto;
+    border-spacing: 5px;
+    border-collapse: separate;
+}
+
 table.custom th,
 table.custom td {
-    padding: 8px;
+    padding: 4px;
     font-size: 12px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
 }
 
-table.custom {
-    border-spacing: 5px;
-    border-collapse: separate;
-}
-
-table.custom textarea{height:70px;}
+table.custom textarea {height:150px;}
 table.custom textarea,
 table.custom input[type=text],
 table.custom input[type=password]{
@@ -52,9 +49,10 @@ table.custom select {
     border:1px solid #bdc7d8;
     font:   13px Arial, Helvetica, sans-serif;
     padding:3px;
+    padding-top:5px;
     background:#fff;
-    width:  350px;
-    height: 27px;
+    width:  368px;
+    height: 30px;
     color:  #585858;
 }
 
@@ -62,11 +60,6 @@ table.custom input[type=text]:focus,
 table.custom input[type=password]:focus {
     outline: 0;
     border: 1px solid #35addf;
-}
-
-table.custom td.info {
-    font-size:13px;
-    width: 1000px;/*label + field*/
 }
 
 table.custom td.label {
@@ -86,6 +79,7 @@ table.custom td.field {
     width: 350px;
     background: #ededed;
 }
+table.custom td.field span{float:left;margin:4px;}
 
 table.custom td.captcha {
     float: right;
@@ -93,3 +87,10 @@ table.custom td.captcha {
     margin-top: -6em;
     margin-right: -14em;
 }
+
+table.custom td.info {
+    font-size:13px;
+    width: 1000px;/*label + field*/
+}
+
+/* -------------------------------------------------------------------- */

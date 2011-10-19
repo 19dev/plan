@@ -1,5 +1,5 @@
 <div class="page">
-  <h2 id="headline"><%= session[:department] %> bölümü ders düzenle</h2>
+  <h2><%= session[:department] %> Bölümü Ders Düzenle</h2>
   <%= form_tag({ :action => 'courseupdate' }, :multipart => true) do %>
     <table class="custom">
     <tr>

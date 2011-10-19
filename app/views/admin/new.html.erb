@@ -1,22 +1,20 @@
-<div class="page">
-  <h2 id="headline">Kayıt Ekle</h2>
-  <%= form_tag({ :action => 'add' }, :multipart => true) do %>
-    <table class="custom">
-      <% eval(session[:TABLE] + ".columns").map do |c| %>
-        <tr>
-          <td class="label"><%= c.name %></td>
-          <td class="field">
-            <% if c.name == "photo" %>     <%= file_field_tag :file %>
-            <% elsif c.name == "content" %><textarea name="<%= c.name %>"></textarea>
-            <% else %>                     <%= text_field_tag c.name %>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
+<h2>Kayıt Ekle</h2>
+<%= form_tag({ :action => 'add' }, :multipart => true) do %>
+  <table class="custom">
+    <% eval(session[:TABLE] + ".columns").map do |c| %>
       <tr>
-        <td></td>
-        <td><%= submit_tag "Kaydet", :id => "submit_button" %></td>
+        <td class="label"><%= c.name %></td>
+        <td class="field">
+          <% if c.name == "photo" %>     <%= file_field_tag :file %>
+          <% elsif c.name == "content" %><textarea name="<%= c.name %>"></textarea>
+          <% else %>                     <%= text_field_tag c.name %>
+          <% end %>
+        </td>
       </tr>
-    </table>
-  <% end %>
-</div>
+    <% end %>
+    <tr>
+      <td></td>
+      <td><%= submit_tag "Kaydet", :id => "submit_button" %></td>
+    </tr>
+  </table>
+<% end %>

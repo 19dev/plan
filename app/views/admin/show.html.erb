@@ -1,29 +1,27 @@
-<div class="page">
-  <h2 id="headline">İnceleme Sonuçları</h2>
-  <table class="custom">
-    <strong><%= session[:_key] %></strong> id'sine ait tüm bilgiler</p>
-    <% eval(session[:TABLE] + ".columns").map do |c| %>
-      <tr>
-        <% if c.name != session[:KEY] %>
-            <td class="label"><%= c.name %></td>
-            <td class="field">
-            <% if c.name == "photo" %><img src="<%= @data.attributes[c.name] %>" width="100" height="100"/>
-              <% else %><%= @data.attributes[c.name] %>
-              <% end %>
-            </td>
-        <% end %>
-      </tr>
-    <% end %>
+<h2>İnceleme Sonuçları</h2>
+<table class="custom">
+  <strong><%= session[:_key] %></strong> id'sine ait tüm bilgiler</p>
+  <% eval(session[:TABLE] + ".columns").map do |c| %>
     <tr>
-      <td></td>
-      <td>
-        <%= form_tag :action => 'edit' do %>
-          <%= submit_tag "Düzenle", :id => "submit_button" %>
-        <% end %>
-        <%= form_tag :action => 'del' do %>
-          <%= submit_tag "Sil", :id => "submit_button", :confirm => 'Silmek istediğinizden emin misiniz?' %>
-        <% end %>
-      </td>
+      <% if c.name != session[:KEY] %>
+          <td class="label"><%= c.name %></td>
+          <td class="field">
+          <% if c.name == "photo" %><img src="<%= @data.attributes[c.name] %>" width="100" height="100"/>
+            <% else %><%= @data.attributes[c.name] %>
+            <% end %>
+          </td>
+      <% end %>
     </tr>
-  </table>
-</div>
+  <% end %>
+  <tr>
+    <td></td>
+    <td>
+      <%= form_tag :action => 'edit' do %>
+        <%= submit_tag "Düzenle", :id => "submit_button" %>
+      <% end %>
+      <%= form_tag :action => 'del' do %>
+        <%= submit_tag "Sil", :id => "submit_button", :confirm => 'Silmek istediğinizden emin misiniz?' %>
+      <% end %>
+    </td>
+  </tr>
+</table>

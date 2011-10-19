@@ -8,9 +8,9 @@
 <% end %>
 <!-- end multiselect -->
 <div class="page">
-  <h2 id="headline"><%= session[:department] %> bölümü <%= @lecturer.full_name %> isimli öğretim görevlisinin verdiği derslerini düzenle</h2>
+  <h2><%= session[:department] %> Bölümü Öğretim Elamanının Verdiği Dersleri Düzenle</h2>
   <%= form_tag({ :action => 'assignmentupdate' }, :multipart => true) do %>
-    <table class="custom">
+    <table class="login">
     <tr>
       <td class="label">Fotoğraf</td>
       <td><%= image_tag @lecturer.photo %></td>

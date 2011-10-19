@@ -24,6 +24,17 @@ body {
     text-align: center;
 }
 
+#title{
+    font-family: "Helvetica Neue", Helvetica, Corbel, Arial, sans-serif;
+    color: #ccc;
+    font-size: 13px;
+    line-height: 18px;
+    word-spacing: 1px;
+    font-weight: bold;
+    letter-spacing:0.4px;
+    text-align: center;
+}
+
 #content {
     width: 920px;
     margin: 30px auto 30px;;
@@ -45,7 +56,13 @@ body {
 
 }
 
-h2 {margin-bottom:30px;}
+#content h2 {
+  color: #3072b3;
+  border-bottom:1px solid #ddd;
+  padding:0 5px 8px 5px;
+  margin:5px 0 25px;
+  width:770px;
+}
 
 a {
     color: #3b5998;
@@ -55,8 +72,7 @@ a {
 }
 
 /* ------------- wrapper - header ------------------------- */
-
-div#wrapper {border-top:4px solid #2daebf;clear:left;}
+div#wrapper {border-top:4px solid #3072b3;clear:left;}
 div#container {
     position:relative;
     width:960px;
@@ -71,7 +87,7 @@ ul.tabs li {display:block;float:left;line-height:1}
 ul.tabs li a {display:block;font-weight:bold;margin:9px 0 0 -1px;margin-right:10px;padding:2px 5px 11px 15px;border-left:1px solid #eee;text-decoration:none;color:#333;cursor:pointer}
 ul.tabs li a:hover,
 ul.tabs li.current a {
-    background:#2daebf;
+    background:#3072b3;
     color:#fff;
     border:0;
     margin:0;
@@ -85,21 +101,19 @@ ul.tabs li.current a {
     z-index:2;
 }
 
-ul.tabs li.home a:hover {background:#2daebf}
+ul.tabs li.home a:hover {background:#3072b3}
 ul.tabs li.green a:hover {background:#b8d30b}
 ul.tabs li.magenta a:hover {background:#a9014b}
 ul.tabs li.orange a:hover {background:#ff6908}
 ul.tabs li.yellow a:hover {background:#fc9200}
 
 
-h2.home {color:#007d9a}
+h2.home {color:#3072b3}
 h2.green, h3.green{color:#95a105}
 h2.magenta {color:#a9014b}
 h2.orange {color:#d45500}
 h2.yellow {color:#fc9200;color:#d17200;}
 /* ------------------------------------------------------- */
-
-
 
 
 /* --------------------- button ------------------------- */
