@@ -2,127 +2,127 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <!-- end dual listbox -->
 
-<h2 id="headline">Sınıf Programı</h2>
-  <table class="custom">
-    <tr>
-      <td class="label">Sınıf</td>
-      <td>
-        <%= Classroom.find(session[:classroom_id]).name %>
-      </td>
-    </tr>
-    <tr>
-      <td class="label">Kapasite</td>
-      <td>
-        <%= Classroom.find(session[:classroom_id]).capacity %>
-      </td>
-    </tr>
-    <tr>
-      <td class="label">Verilen dersler</td>
-      <td>
-        <select id="course_ids" name="course_ids">
-          <% session[:course_ids].each do |k, v| %>
-            <option value="<%= k %>" selected>
-              <%= v %>
-            </option>
-          <% end %>
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <td class="info" colspan=2>
-        <style>
-          #table {margin-left:35px;}
-          #table th{
-            font-size:10px;
-            padding:0em;
-            border:1px solid #ddd;
-          }
-          #table th.clock{min-height:20px;height:20px;min-width:60px;width:60px;}
-          #table th.course{min-height:55px;height:55px;min-width:140px;width:140px;}
-        </style>
-        <div id="table">
-          <table>
-            <tr>
-              <th class="clock">Saat/Gün</th>
-              <% days = {"Sunday" => "Pazartesi",
-                          "Tuesday" => "Salı",
-                          "Wednesday" => "Çarşamba",
-                          "Thursday" => "Perşembe",
-                          "Friday" => "Cuma"}
-              %>
-              <% days.each do |day_en, day_tr| %>
-                <th colspan=1><%= day_tr %></th>
-              <% end %>
-            </tr>
-            <% assignments = Assignment.find(:all,
-                                                :conditions => {
-                                                    :period_id => session[:period_id]
-                                            })
-            assignments = assignments.collect {|assignment| assignment.id }
+<h2>Sınıf Programı</h2>
+<table class="custom">
+  <tr>
+    <td class="label">Sınıf</td>
+    <td>
+      <%= Classroom.find(session[:classroom_id]).name %>
+    </td>
+  </tr>
+  <tr>
+    <td class="label">Kapasite</td>
+    <td>
+      <%= Classroom.find(session[:classroom_id]).capacity %>
+    </td>
+  </tr>
+  <tr>
+    <td class="label">Verilen dersler</td>
+    <td>
+      <select id="course_ids" name="course_ids">
+        <% session[:course_ids].each do |k, v| %>
+          <option value="<%= k %>" selected>
+            <%= v %>
+          </option>
+        <% end %>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td class="info" colspan=2>
+      <style>
+        #table {margin-left:35px;}
+        #table th{
+          font-size:10px;
+          padding:0em;
+          border:1px solid #ddd;
+        }
+        #table th.clock{min-height:20px;height:20px;min-width:60px;width:60px;}
+        #table th.course{min-height:55px;height:55px;min-width:140px;width:140px;}
+      </style>
+      <div id="table">
+        <table>
+          <tr>
+            <th class="clock">Saat/Gün</th>
+            <% days = {"Sunday" => "Pazartesi",
+                        "Tuesday" => "Salı",
+                        "Wednesday" => "Çarşamba",
+                        "Thursday" => "Perşembe",
+                        "Friday" => "Cuma"}
             %>
-            <% (8..11).each do |hour| %>
-            <tr>
-              <th class="clock"><%= time=(hour).to_s+':15'+' '+(hour+1).to_s+':00' %></th>
-              <% days.each do |day_en, day_tr| %>
-                <% classplan = Classplan.find(:first,
+            <% days.each do |day_en, day_tr| %>
+              <th colspan=1><%= day_tr %></th>
+            <% end %>
+          </tr>
+          <% assignments = Assignment.find(:all,
                                               :conditions => {
-                                                :classroom_id => session[:classroom_id],
-                                                :period_id => session[:period_id],
-                                                :day => day_en,
-                                                :begin_time => hour.to_s+'-15'
-                })
+                                                  :period_id => session[:period_id]
+                                          })
+          assignments = assignments.collect {|assignment| assignment.id }
+          %>
+          <% (8..11).each do |hour| %>
+          <tr>
+            <th class="clock"><%= time=(hour).to_s+':15'+' '+(hour+1).to_s+':00' %></th>
+            <% days.each do |day_en, day_tr| %>
+              <% classplan = Classplan.find(:first,
+                                            :conditions => {
+                                              :classroom_id => session[:classroom_id],
+                                              :period_id => session[:period_id],
+                                              :day => day_en,
+                                              :begin_time => hour.to_s+'-15'
+              })
 
-                if classplan and assignments.include?(classplan.assignment_id)
-                    state = true
-                  else
-                    state = false
-                  end
-              %>
-                <th class='course' id="<%= day_en + hour.to_s+'-15course' %>">
-                  <% if state %>
-                    <%= classplan.assignment.course.full_name %>
-                    <p style="border-top:1px solid #ddd;">
-                      <%= classplan.assignment.lecturer.full_name %>
-                    </p>
-                  <% end %>
-                </th>
-              <% end %>
-            </tr>
+              if classplan and assignments.include?(classplan.assignment_id)
+                  state = true
+                else
+                  state = false
+                end
+            %>
+              <th class='course' id="<%= day_en + hour.to_s+'-15course' %>">
+                <% if state %>
+                  <%= classplan.assignment.course.full_name %>
+                  <p style="border-top:1px solid #ddd;">
+                    <%= classplan.assignment.lecturer.full_name %>
+                  </p>
+                <% end %>
+              </th>
             <% end %>
+          </tr>
+          <% end %>
 
-            <%(13..22).each do |hour| %>
-            <tr>
-              <th class="clock"><%= time=(hour).to_s+':00'+' '+(hour+1).to_s+':00' %></th>
-              <% days.each do |day_en, day_tr| %>
-                <% classplan = Classplan.find(:first,
-                                  :conditions => {
-                                    :classroom_id => session[:classroom_id],
-                                    :period_id => session[:period_id],
-                                    :day => day_en,
-                                    :begin_time => hour.to_s+'-00'
-                })
-                if classplan and assignments.include?(classplan.assignment_id)
-                    state = true
-                  else
-                    state = false
-                  end
-              %>
-                <th class='course' id="<%= day_en + hour.to_s+'-00course' %>">
-                  <% if state %>
-                    <%= classplan.assignment.course.full_name %>
-                    <p style="border-top:1px solid #ddd;">
-                      <%= classplan.assignment.lecturer.full_name %>
-                    </p>
-                  <% end %>
-                </th>
-              <% end %>
-            </tr>
+          <%(13..22).each do |hour| %>
+          <tr>
+            <th class="clock"><%= time=(hour).to_s+':00'+' '+(hour+1).to_s+':00' %></th>
+            <% days.each do |day_en, day_tr| %>
+              <% classplan = Classplan.find(:first,
+                                :conditions => {
+                                  :classroom_id => session[:classroom_id],
+                                  :period_id => session[:period_id],
+                                  :day => day_en,
+                                  :begin_time => hour.to_s+'-00'
+              })
+              if classplan and assignments.include?(classplan.assignment_id)
+                  state = true
+                else
+                  state = false
+                end
+            %>
+              <th class='course' id="<%= day_en + hour.to_s+'-00course' %>">
+                <% if state %>
+                  <%= classplan.assignment.course.full_name %>
+                  <p style="border-top:1px solid #ddd;">
+                    <%= classplan.assignment.lecturer.full_name %>
+                  </p>
+                <% end %>
+              </th>
             <% end %>
-          </table>
-        </div>
-      </td>
-    </tr>
-  </table>
+          </tr>
+          <% end %>
+        </table>
+      </div>
+    </td>
+  </tr>
+</table>
 
 <!-- dual listbox -->
 <script>

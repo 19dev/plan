@@ -1,19 +1,17 @@
-<div id="login">
-  <h2 id="headline">Sınıf Programı Arama</h2>
-  <%= form_tag :action => 'classplan' do %>
-    <table class="custom">
-      <tr>
-        <td class="label"> Dönem: </td>
-        <td class="field"><%= select_tag(:period_id, options_from_collection_for_select(Period.all, :id, :full_name)) %></td>
-      </tr>
-      <tr>
-        <td class="label"> Sınıflar: </td>
-        <td class="field"><%= select_tag(:classroom_id, options_from_collection_for_select(Classroom.all, :id, :name)) %></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td><%= submit_tag "arama yap", :id => "submit_button" %></td>
-      </tr>
-    </table>
-  <% end %>
-</div>
+<h2>Sınıf Programı Arama</h2>
+<%= form_tag :action => 'classplan' do %>
+  <table class="custom">
+    <tr>
+      <td class="label"> Dönem: </td>
+      <td class="field"><%= select_tag(:period_id, options_from_collection_for_select(Period.all, :id, :full_name)) %></td>
+    </tr>
+    <tr>
+      <td class="label"> Sınıflar: </td>
+      <td class="field"><%= select_tag(:classroom_id, options_from_collection_for_select(Classroom.all, :id, :name)) %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><%= submit_tag "arama yap", :id => "submit_button" %></td>
+    </tr>
+  </table>
+<% end %>
