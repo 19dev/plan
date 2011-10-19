@@ -1,27 +1,25 @@
-<div class="page">
-  <h2 id="headline">Hesap Bilgilerini Düzenle</h2>
-  <%= form_tag({ :action => 'accountupdate' }, :multipart => true) do %>
-    <table class="custom">
-      <tr>
-        <td class="label">Fotoğraf</td>
-        <td><%= image_tag @people.photo, :width => 56, :height => 56 %></td>
-      </tr>
-      <tr>
-        <td class="label"> Ad: </td>
-        <td><%= @people.first_name %></td>
-      </tr>
-      <tr>
-        <td class="label"> Soyad: </td>
-        <td><%= @people.last_name %></td>
-      </tr>
-      <tr>
-        <td class="label"> Parola: </td>
-        <td><%= text_field_tag :password, @people.password %></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td><%= submit_tag "Güncelle", :id => "submit_button" %></td>
-      </tr>
-    </table>
-  <% end %>
-</div>
+<h2>Hesap Bilgilerini Düzenle</h2>
+<%= form_tag({ :action => 'accountupdate' }, :multipart => true) do %>
+  <table class="custom">
+    <tr>
+      <td class="label">Fotoğraf</td>
+      <td><%= image_tag @people.photo, :width => 56, :height => 56 %></td>
+    </tr>
+    <tr>
+      <td class="label"> Ad: </td>
+      <td><%= @people.first_name %></td>
+    </tr>
+    <tr>
+      <td class="label"> Soyad: </td>
+      <td><%= @people.last_name %></td>
+    </tr>
+    <tr>
+      <td class="label"> Parola: </td>
+      <td><%= text_field_tag :password, @people.password %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><%= submit_tag "Güncelle", :id => "submit_button" %></td>
+    </tr>
+  </table>
+<% end %>
