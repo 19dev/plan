@@ -1,0 +1,25 @@
+<div class="page">
+  <h2>Duyuru</h2>
+  <table class="custom">
+    <tr>
+      <td class="label">Başlık</td>
+      <td class="field"><%= @notice.title %></td>
+    </tr>
+    <tr>
+      <td class="label">İçerik</td>
+      <td class="field"><%= @notice.content %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <%= form_tag({ :action => 'noticeedit' }, :multipart => true) do %>
+          <%= submit_tag "Düzenle", :id => "submit_button" %>
+        <% end %>
+        <%= form_tag({ :action => 'noticedel' }, :multipart => true) do %>
+            <%= submit_tag "Sil", :id => "submit_button",
+              :confirm => "Silmek istediğinizden emin misiniz ?" %>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+</div>

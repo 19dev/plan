@@ -1,0 +1,19 @@
+<div class="page">
+  <h2>Duyuru Düzenle</h2>
+  <%= form_tag({ :action => 'noticeupdate' }, :multipart => true) do %>
+    <table class="custom">
+    <tr>
+      <td class="label">Başlık</td>
+      <td class="field"><%= text_field_tag :year, @notice.title %></td>
+    </tr>
+    <tr>
+      <td class="label">İçerik</td>
+      <td class="field"><%= text_field_tag :code, @notice.content %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><%= submit_tag "Güncelle", :id => "submit_button" %></td>
+    </tr>
+    </table>
+  <% end %>
+</div>

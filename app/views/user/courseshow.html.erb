@@ -7,7 +7,7 @@
     </tr>
     <tr>
       <td class="label">Kod Adı</td>
-      <td class="field"><%= @course.code %></td>
+      <td class="field"><%= session[:departmentcode] + @course.code %></td>
     </tr>
     <tr>
       <td class="label">Soyadı</td>

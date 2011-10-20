@@ -17,6 +17,7 @@ module CourseHelper
       return redirect_to '/user/coursenew'
     end
     params[:department_id] = session[:department_id]
+
     course = Course.new params
     course.save
     session[:course_id] = course.id

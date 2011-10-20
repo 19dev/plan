@@ -1,0 +1,54 @@
+<link type="text/css" rel="stylesheet" href="/stylesheets/datatable.css"/>
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
+<script type="text/javascript" src="/javascripts/jquery.dataTables.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function() {
+      oTable = $('#example').dataTable({
+        "bJQueryUI": true,
+        "sPaginationType": "full_numbers"
+      });
+  });
+</script>
+<div class="page">
+  <h2>Duyurular İnceleniyor...</h2>
+    <a href="/user/noticenew">
+      <%= image_tag "/images/notice.png", :width => 56, :height => 56 %>
+      Duyuru ekle
+    </a>
+   <div class="dt_example module">
+   <table cellpadding="0" cellspacing="0" border="0" class="display" 
+       id="example">
+   <thead>
+    <tr>
+      <th class="label">Başlık</th>
+      <th class="label">İçerik</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% Notice.find(:all).each do |notice| %>
+      <tr>
+        <td class="label"><%= notice.title %></td>
+        <td class="label"><%= substr?(notice.content, 40) %></td>
+        <td class="label" style="float:left;width:92px">
+          <%= form_tag :action => 'noticeshow' do %>
+            <%= hidden_field_tag :notice_id, notice.id %>
+            <%= submit_tag "",:id => "review_button" %>
+          <% end %>
+          <%= form_tag :action => 'noticeedit' do %>
+            <%= hidden_field_tag :notice_id, notice.id %>
+            <%= submit_tag "",:id => "edit_button" %>
+          <% end %>
+          <%= form_tag :action => 'noticedel' do %>
+            <%= hidden_field_tag :notice_id, notice.id %>
+            <%= submit_tag "", :id => "delete_button",
+              :onClick => "return confirm('Silmek istediğinizden emin misiniz ?');" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+  </table>
+  </div>
+</div>

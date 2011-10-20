@@ -30,6 +30,7 @@ class AdminController < ApplicationController
                           "Course" => 'id',
                           "Department" => 'id',
                           "Period" => 'id',
+                          "Notice" => 'id',
                           }
       session[:TABLE_INIT] = "People"
       session[:FIELDS] = {

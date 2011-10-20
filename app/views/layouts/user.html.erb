@@ -22,13 +22,24 @@
         </span>
         <ul class="related">
           <li class="title">
-            <a href="/user/home">
-              <%= session[:username] %>
-            </a>
+            <% if session[:usersuper] %>
+              <a href="/user/home">
+                Ana Sayfa
+              </a>
+            <% else %>
+              <a href="/user/noticereview">
+                Ana Sayfa
+              </a>
+            <% end %>
           </li>
           <li class="title">
             <a href="/user/accountshow">
               Kişisel Bilgiler
+            </a>
+          </li>
+          <li class="title">
+            <a href="">
+              <%= session[:username] %>
             </a>
           </li>
           <li class="title">
@@ -63,7 +74,7 @@
   <% end %>
 
   <div id="content">
-    <% if session[:user] %>
+    <% if session[:usersuper] %>
       <div id="admin-panel">
         <ul>
             <li>

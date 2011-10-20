@@ -8,6 +8,16 @@ Schedule::Application.routes.draw do
   get  "user/home"
   # --------------------
 
+  get  "user/noticenew"
+  post "user/noticeadd"
+  get  "user/noticeshow"
+  post "user/noticeshow"
+  post "user/noticeedit"
+  get  "user/noticereview"
+  post "user/noticedel"
+  post "user/noticeupdate"
+  # --------------------
+
   get  "user/accountedit"
   post "user/accountedit"
   post "user/accountupdate"

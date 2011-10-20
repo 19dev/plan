@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111012134926) do
+ActiveRecord::Schema.define(:version => 20111020204743) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "period_id"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(:version => 20111012134926) do
   end
 
   create_table "departments", :force => true do |t|
+    t.string   "code"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -67,6 +68,13 @@ ActiveRecord::Schema.define(:version => 20111012134926) do
     t.string   "work_phone"
     t.boolean  "status"
     t.string   "photo"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "notices", :force => true do |t|
+    t.string   "title"
+    t.string   "content"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

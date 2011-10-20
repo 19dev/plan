@@ -31,7 +31,7 @@
     <% @courses.each do |course| %>
       <tr>
         <td class="label"><%= course.year %></td>
-        <td class="label"><%= course.code %></td>
+        <td class="label"><%= session[:departmentcode] + course.code %></td>
         <td class="label"><%= course.name %></td>
         <td class="label"><%= course.theoretical %></td>
         <td class="label"><%= course.practice %></td>
