@@ -12,9 +12,19 @@
 <body>
   <% if session[:user] %>
 
+  <style>
+    .platform-bar {
+      width: 960px;
+      margin: auto;
+      margin-bottom:-20px;
+      padding: 0px;
+      border-top-left-radius:5px;
+      border-top-right-radius:5px;
+    }
+  </style>
     <!--PLATFORM BAR-->
     <div class="platform-bar">
-      <div class="row bar-content" style="margin-left:205px;">
+      <div class="row bar-content" style="margin-left:19px;">
         <span class="title">
           <a href="/home">
             <%= session[:department] %> / <%= session[:period] %>
