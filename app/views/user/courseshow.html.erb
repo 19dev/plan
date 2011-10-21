@@ -1,49 +1,44 @@
-<div class="page">
-  <h2><%= session[:department] %> Bölümünün Öğretim Elamanı Bilgileri</h2>
-  <table class="custom">
-    <tr>
-      <td class="label">Sınıf</td>
-      <td class="field"><%= @course.year %></td>
-    </tr>
-    <tr>
-      <td class="label">Kod Adı</td>
-      <td class="field"><%= session[:departmentcode] + @course.code %></td>
-    </tr>
-    <tr>
-      <td class="label">Soyadı</td>
-      <td class="field"><%= @course.name %></td>
-    </tr>
-    <tr>
-      <td class="label">Teorik ders sayısı</td>
-      <td class="field"><%= @course.theoretical %></td>
-    </tr>
-    <tr>
-      <td class="label">Pratik ders sayısı</td>
-      <td class="field"><%= @course.practice %></td>
-    </tr>
-    <tr>
-      <td class="label">Lab ders sayısı</td>
-      <td class="field"><%= @course.lab %></td>
-    </tr>
-    <tr>
-      <td class="label">Kredi</td>
-      <td class="field"><%= @course.credit %></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>
-        <%= form_tag({ :action => 'courseedit' }, :multipart => true) do %>
-          <%= submit_tag "Düzenle", :id => "submit_button" %>
-        <% end %>
-        <%= form_tag({ :action => 'coursedel' }, :multipart => true) do %>
-            <%= submit_tag "Sil", :id => "submit_button",
-              :confirm => "#{Course.find(@course.id).full_name} dersini " +
-                        "silerseniz, tüm dönemlik bu dersi vermiş/vermekte olan hocaların; " +
-                        "verdikleri derslerin bilgileri de(dönemlik ders atamaların) "+
-                        "silinmiş olacaktır. " +
+<h2><%= session[:department] %> Bölümünün Öğretim Elamanı Bilgileri</h2>
+<table class="custom">
+  <tr>
+    <td class="label">Sınıf</td>
+    <td class="field"><%= @course.year %></td>
+  </tr>
+  <tr>
+    <td class="label">Kod Adı</td>
+    <td class="field"><%= session[:departmentcode] + @course.code %></td>
+  </tr>
+  <tr>
+    <td class="label">Soyadı</td>
+    <td class="field"><%= @course.name %></td>
+  </tr>
+  <tr>
+    <td class="label">Teorik ders sayısı</td>
+    <td class="field"><%= @course.theoretical %></td>
+  </tr>
+  <tr>
+    <td class="label">Pratik ders sayısı</td>
+    <td class="field"><%= @course.practice %></td>
+  </tr>
+  <tr>
+    <td class="label">Lab ders sayısı</td>
+    <td class="field"><%= @course.lab %></td>
+  </tr>
+  <tr>
+    <td class="label">Kredi</td>
+    <td class="field"><%= @course.credit %></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>
+      <%= form_tag({ :action => 'courseedit' }, :multipart => true) do %>
+        <%= submit_tag "Düzenle", :id => "submit_button" %>
+      <% end %>
+      <%= form_tag({ :action => 'coursedel' }, :multipart => true) do %>
+          <%= submit_tag "Sil", :id => "submit_button",
+            :confirm => "#{Course.find(@course.id).full_name} dersini silmek üzeresiniz. " +
                         "Silmek istediğinizden emin misiniz ?" %>
-        <% end %>
-      </td>
-    </tr>
-  </table>
-</div>
+      <% end %>
+    </td>
+  </tr>
+</table>

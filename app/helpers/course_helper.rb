@@ -41,21 +41,34 @@ module CourseHelper
   end
   def coursedel
     session[:course_id] = params[:course_id] if params[:course_id] # uniq veriyi oturuma gömelim
-    session[:success] = "#{Course.find(session[:course_id]).full_name} dersi başarıyla silindi"
-    Course.delete session[:course_id]
-    # bu derse ait tüm atamaları da silelim
+
     assignments = Assignment.find(:all,
                                   :conditions => {
                                     :course_id => session[:course_id],
                                   })
-    assignments.each do |assignment|
-      Classplan.delete_all({
-                            :assignment_id => assignment.id,
-                          })
+    if assignments != []
+      session[:error] = "Bu ders, ders atamalarında kullanılıyor, bu yüzden silemezsiniz. " +
+                        "Eğer silmek istiyorsanız, ders atamalarını siliniz. Bu da tam çözüm vermez " +
+                        "ise; yönetici ile irtibata geçiniz "
+      return redirect_to '/user/coursereview'
     end
-    Assignment.delete_all({
-                            :course_id => session[:course_id],
-                          })
+
+    # # bu derse ait tüm atamaları da silelim
+    # assignments = Assignment.find(:all,
+    #                               :conditions => {
+    #                                 :course_id => session[:course_id],
+    #                               })
+    # assignments.each do |assignment|
+    #   Classplan.delete_all({
+    #                         :assignment_id => assignment.id,
+    #                       })
+    # end
+    # Assignment.delete_all({
+    #                         :course_id => session[:course_id],
+    #                       })
+
+    session[:success] = "#{Course.find(session[:course_id]).full_name} dersi başarıyla silindi"
+    Course.delete session[:course_id]
     session[:course_id] = nil # dersin oturumunu öldürelim
     redirect_to '/user/coursereview'
   end

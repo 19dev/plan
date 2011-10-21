@@ -10,9 +10,13 @@
       });
   });
 </script>
-<div class="page">
-  <h2><%= session[:department] %> Bölümünün Ders Atamaları İnceleniyor...</h2>
-   <div class="dt_example module">
+<h2><%= session[:department] %> Bölümünün Ders Atamaları İnceleniyor...</h2>
+<style>
+  .module {
+    margin-top:-15px;
+  }
+</style>
+<div class="dt_example module">
    <table cellpadding="0" cellspacing="0" border="0" class="display" 
        id="example">
    <thead>
@@ -26,7 +30,7 @@
    <tbody>
     <% @assignment_lecturers.each do |lecturer| %>
       <tr>
-        <td class="label"><%= image_tag lecturer.photo, :width => 75, :height => 75 %></td>
+        <td class="label"><%= image_tag lecturer.photo, :width => 26, :height => 26 %></td>
         <td class="label"><%= lecturer.full_name %></td>
         <td class="field">
           <% Assignment.find(:all, :conditions => { :lecturer_id => lecturer.id, :period_id => session[:period_id] }).each do |ass| %>
@@ -54,5 +58,4 @@
     <% end %>
   </tbody>
   </table>
-  </div>
 </div>

@@ -10,9 +10,13 @@
       });
   });
 </script>
-<div class="page">
-  <h2><%= session[:department] %> Bölümünün Dersleri İnceleniyor...</h2>
-   <div class="dt_example module">
+<h2><%= session[:department] %> Bölümünün Dersleri İnceleniyor...</h2>
+<style>
+  .module {
+    margin-top:-15px;
+  }
+</style>
+<div class="dt_example module">
    <table cellpadding="0" cellspacing="0" border="0" class="display" 
        id="example">
    <thead>
@@ -48,12 +52,8 @@
           <% end %>
           <%= form_tag :action => 'coursedel' do %>
             <%= hidden_field_tag :course_id, course.id %>
-            <!--<%= submit_tag "", :id => "delete_button", :confirm => 'Silmek istediğinizden emin misiniz?' %>-->
             <%= submit_tag "", :id => "delete_button",
-              :onClick => "return confirm('#{Course.find(course.id).full_name} dersini " +
-                                          "silerseniz, tüm dönemlik bu dersi vermiş/vermekte olan hocaların; " +
-                                          "verdikleri derslerin bilgileri de(dönemlik ders atamaları) "+
-                                          "silinmiş olacaktır. " +
+              :onClick => "return confirm('#{Course.find(course.id).full_name} dersini silmek üzeresiniz. " +
                                           "Silmek istediğinizden emin misiniz ?');" %>
           <% end %>
         </td>
@@ -61,5 +61,4 @@
     <% end %>
   </tbody>
   </table>
-  </div>
 </div>

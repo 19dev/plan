@@ -19,8 +19,9 @@ class UserController < ApplicationController
                                                   :assignmentshow, :assignmentupdate, :assignmentreview,
                                                   :schedulenew, :scheduleshow, :scheduleupdate, :schedulereview
                                           ] # temiz sayfa
-  before_filter :clean_error, :except => [:login, :noticenew, :lecturernew, :coursenew, :lecturerfind, :lecturershow,
-                                                  :coursefind, :courseshow,
+  before_filter :clean_error, :except => [:login, :noticenew,
+                                                  :lecturernew, :coursenew, :lecturerfind, :lecturershow, :lecturerreview,
+                                                  :coursefind, :courseshow, :coursereview,
                                                   :assignmentnew, :assignmentfind, :assignmentshow,
                                                   :schedulenew, :schedulefind, :scheduleshow
                                         ] # temiz sayfa

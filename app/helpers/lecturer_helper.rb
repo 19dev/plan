@@ -50,20 +50,31 @@ module LecturerHelper
   end
   def lecturerdel
     session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
-    Lecturer.delete session[:lecturer_id]
-    # bu hocaya ait tüm dönemlik bilgileri silelim
+
     assignments = Assignment.find(:all,
                                   :conditions => {
-                                    :lecturer_id => session[:lecturer_id],
-                                  })
-    assignments.each do |assignment|
-      Classplan.delete_all({
-                            :assignment_id => assignment.id,
-                          })
+                                     :lecturer_id => session[:lecturer_id],
+                                   })
+    if assignments != []
+      session[:error] = "Bu öğretim görevlisinin ders ataması vardır, bu yüzden silemezsiniz. " +
+                        "Eğer silmek istiyorsanız, ders atamalarını siliniz. Bu da tam çözüm vermez " +
+                        "ise; yönetici ile irtibata geçiniz "
+      return redirect_to '/user/lecturerreview'
     end
-    Assignment.delete_all({
-                            :lecturer_id => session[:lecturer_id],
-                          })
+    Lecturer.delete session[:lecturer_id]
+    # # bu hocaya ait tüm dönemlik bilgileri silelim
+    # assignments = Assignment.find(:all,
+    #                               :conditions => {
+    #                                 :lecturer_id => session[:lecturer_id],
+    #                               })
+    # assignments.each do |assignment|
+    #   Classplan.delete_all({
+    #                         :assignment_id => assignment.id,
+    #                       })
+    # end
+    # Assignment.delete_all({
+    #                         :lecturer_id => session[:lecturer_id],
+    #                       })
     Image.delete 'Lecturer', "#{session[:lecturer_id]}.jpg"
     session[:success] = "Öğretim görevlisi başarıyla silindi"
     session[:lecturer_id] = nil # kişinin oturumunu öldürelim
