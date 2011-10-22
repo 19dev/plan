@@ -108,7 +108,9 @@ class HomeController < ApplicationController
       end
     end
     if session[:course_ids] == {}
-      session[:error] = "Bu sınıfın, bu dönemlik ders programı tablosu henüz hazır değil."
+      session[:error] = "#{Classroom.find(session[:classroom_id]).name} sınıfın, " +
+                        "#{Period.find(session[:period_id]).full_name} dönemlik ders " +
+                        "programı tablosu henüz hazır değil."
       return render '/home/class'
     end
   end
