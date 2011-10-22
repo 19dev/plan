@@ -22,37 +22,35 @@
 </script>
 <!-- end jlistbox -->
 </head>
-<div class="page">
-  <h2><%= session[:department] %> Bölümünden Öğretim Elamanlarını Ders Atama</h2>
-  <%= form_tag({ :action => 'assignmentadd' }, :multipart => true, :html => {:id => 'real-form'}) do %>
-    <table class="login">
-      <tr>
-        <td class="label">Hoca seçiniz</td>
-        <td>
-            <select id="lecturer_id" name="lecturer_id">
-            <%= @unassignment_lecturers.each do |lecturer| %>
-              <option rel="<img width='56' height='56' src='<%= lecturer.photo %>'/>" value="<%= lecturer.id %>">
-                <%= lecturer.full_name %>
-              </option>
-            <%end%>
-            </select>
-        </td>
-      </tr>
-      <tr>
-        <td class="label">Dersleri seçiniz</td>
-        <td>
-          <%= select_tag 'course_ids[]',
-                options_from_collection_for_select(@unassignment_courses, :id, :full_name),
-                :multiple => true, :class => 'multiselect, callbacks', :id => 'callback'
-          %>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>
-          <input id="submit_button" type='submit' value='Kaydet' />
-        </td>
-      </tr>
-    </table>
-  <% end %>
-</div>
+<h2><%= session[:department] %> Bölümünden Öğretim Elamanlarını Ders Atama</h2>
+<%= form_tag({ :action => 'assignmentadd' }, :multipart => true, :html => {:id => 'real-form'}) do %>
+  <table class="login">
+    <tr>
+      <td class="label">Hoca seçiniz</td>
+      <td>
+          <select id="lecturer_id" name="lecturer_id">
+          <%= @unassignment_lecturers.each do |lecturer| %>
+            <option rel="<img width='56' height='56' src='<%= lecturer.photo %>'/>" value="<%= lecturer.id %>">
+              <%= lecturer.full_name %>
+            </option>
+          <%end%>
+          </select>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Dersleri seçiniz</td>
+      <td>
+        <%= select_tag 'course_ids[]',
+              options_from_collection_for_select(@unassignment_courses, :id, :full_name),
+              :multiple => true, :class => 'multiselect, callbacks', :id => 'callback'
+        %>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <input id="submit_button" type='submit' value='Kaydet' />
+      </td>
+    </tr>
+  </table>
+<% end %>

@@ -1,37 +1,35 @@
-<div class="page">
-  <h2 id="headline"><%= session[:department] %> Bölümü <%= @lecturer.full_name %> İsimli Öğretim Elamanın Verdiği Dersler</h2>
-  <table class="custom">
-    <tr>
-      <td class="label">Fotoğraf</td>
-      <td class="field"><%= image_tag @lecturer.photo %></td>
-    </tr>
-    <tr>
-      <td class="label">Ad</td>
-      <td class="field"><%= @lecturer.full_name %></td>
-    </tr>
-    <tr>
-      <td class="label">Dersler</td>
-      <td></td>
-    </tr>
-    <% @assignment.each do |ass| %>
-      <tr>
-        <td></td>
-        <td class="field"><%= ass.course.full_name %></td>
-      </tr>
-    <% end %>
+<h2><%= session[:department] %> Bölümü <%= @lecturer.full_name %> İsimli Öğretim Elamanın Verdiği Dersler</h2>
+<table class="custom">
+  <tr>
+    <td class="label">Fotoğraf</td>
+    <td class="field"><%= image_tag @lecturer.photo %></td>
+  </tr>
+  <tr>
+    <td class="label">Ad</td>
+    <td class="field"><%= @lecturer.full_name %></td>
+  </tr>
+  <tr>
+    <td class="label">Dersler</td>
+    <td></td>
+  </tr>
+  <% @assignment.each do |ass| %>
     <tr>
       <td></td>
-      <td>
-        <%= form_tag({ :action => 'assignmentedit' }, :multipart => true) do %>
-          <%= submit_tag "Düzenle", :id => "submit_button" %>
-        <% end %>
-        <%= form_tag({ :action => 'assignmentdel' }, :multipart => true) do %>
-          <%= submit_tag "Sil", :id => "submit_button",
-            :confirm => "#{@lecturer.full_name} isimli öğretim görevlisinin verdiği dersleri " +
-                        "silmek üzeresiniz. Eğer silerseniz, bu dönemlik ders atamaları " +
-                        "silinmiş olacaktır. Silmek istediğinizden emin misiniz ?" %>
-        <% end %>
-      </td>
+      <td class="field"><%= ass.course.full_name %></td>
     </tr>
-  </table>
-</div>
+  <% end %>
+  <tr>
+    <td></td>
+    <td>
+      <%= form_tag({ :action => 'assignmentedit' }, :multipart => true) do %>
+        <%= submit_tag "Düzenle", :id => "submit_button" %>
+      <% end %>
+      <%= form_tag({ :action => 'assignmentdel' }, :multipart => true) do %>
+        <%= submit_tag "Sil", :id => "submit_button",
+          :confirm => "#{@lecturer.full_name} isimli öğretim görevlisinin verdiği dersleri " +
+                      "silmek üzeresiniz. Eğer silerseniz, bu dönemlik ders atamaları " +
+                      "silinmiş olacaktır. Silmek istediğinizden emin misiniz ?" %>
+      <% end %>
+    </td>
+  </tr>
+</table>

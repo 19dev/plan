@@ -2,151 +2,149 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <!-- end dual listbox -->
 
-<div class="page">
-  <h2><%= session[:department] %> Bölümü Öğretim Elamanı Programı</h2>
-    <table class="custom">
-      <tr>
-        <td class="label">Fotoğraf</td>
-        <td>
-          <%= image_tag Lecturer.find(session[:lecturer_id]).photo %>
-        </td>
-      </tr>
-      <tr>
-        <td class="label">Öğretim görevlisi</td>
-        <td>
-          <%= Lecturer.find(session[:lecturer_id]).full_name %>
-        </td>
-      </tr>
-      <tr>
-        <td class="label">Verdiği ders</td>
-        <td>
-          <select id="course_ids" name="course_ids">
-            <% session[:course_ids].each do |k, v| %>
-              <option value="<%= k %>" selected>
-                <%= v %>
-              </option>
+<h2><%= session[:department] %> Bölümü Öğretim Elamanı Programı</h2>
+<table class="custom" style="margin-left:5px">
+  <tr>
+    <td class="label">Fotoğraf</td>
+    <td>
+      <%= image_tag Lecturer.find(session[:lecturer_id]).photo %>
+    </td>
+  </tr>
+  <tr>
+    <td class="label">Öğretim görevlisi</td>
+    <td>
+      <%= Lecturer.find(session[:lecturer_id]).full_name %>
+    </td>
+  </tr>
+  <tr>
+    <td class="label">Verdiği ders</td>
+    <td>
+      <select id="course_ids" name="course_ids">
+        <% session[:course_ids].each do |k, v| %>
+          <option value="<%= k %>" selected>
+            <%= v %>
+          </option>
+        <% end %>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td class="info" colspan=2>
+      <style>
+      #table {margin-left:-30px;}
+      #table th{
+        font-size:10px;
+        padding:0em;
+        border:1px solid #ddd;
+      }
+      #table th.courseclass{min-height:20px;height:20px;min-width:30px;width:30px;}
+      #table th.course{min-height:25px;height:25px;min-width:140px;width:140px;}
+      #table th.clock{min-height:20px;height:20px;min-width:60px;width:60px;}
+      #table th.class{min-height:55px;height:55px;min-width:30px;width:30px;}
+      </style>
+      <div id="table">
+        <table>
+          <tr>
+            <th class="clock">Saat/Gün</th>
+            <% days = {"Sunday" => "Pazartesi",
+                        "Tuesday" => "Salı",
+                        "Wednesday" => "Çarşamba",
+                        "Thursday" => "Perşembe",
+                        "Friday" => "Cuma"}
+            %>
+            <% days.each do |day_en, day_tr| %>
+              <th colspan=2><%= day_tr %></th>
             <% end %>
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <td class="info" colspan=2>
-          <style>
-          #table {margin-left:-30px;}
-          #table th{
-            font-size:10px;
-            padding:0em;
-            border:1px solid #ddd;
-          }
-          #table th.courseclass{min-height:20px;height:20px;min-width:30px;width:30px;}
-          #table th.course{min-height:25px;height:25px;min-width:140px;width:140px;}
-          #table th.clock{min-height:20px;height:20px;min-width:60px;width:60px;}
-          #table th.class{min-height:55px;height:55px;min-width:30px;width:30px;}
-          </style>
-          <div id="table">
-            <table>
-              <tr>
-                <th class="clock">Saat/Gün</th>
-                <% days = {"Sunday" => "Pazartesi",
-                           "Tuesday" => "Salı",
-                           "Wednesday" => "Çarşamba",
-                           "Thursday" => "Perşembe",
-                           "Friday" => "Cuma"}
-                %>
-                <% days.each do |day_en, day_tr| %>
-                  <th colspan=2><%= day_tr %></th>
-                <% end %>
-              </tr>
-              <tr>
-                <th class="clock"></th>
-                <% days.length.times do %>
-                  <th class='courseclass'>Ders</td>
-                  <th class='courseclass'>Sınıf</td>
-                <% end %>
-              </tr>
-              <% assignments = Assignment.find(:all,
-                                                  :conditions => {
-                                                      :lecturer_id => session[:lecturer_id],
-                                                      :period_id => session[:period_id]
-                                              })
-              assignments = assignments.collect {|assignment| assignment.id }
-              %>
-              <% (8..11).each do |hour| %>
-              <tr>
-                <th class="clock"><%= time=(hour).to_s+':15'+' '+(hour+1).to_s+':00' %></th>
-                <% days.each do |day_en, day_tr| %>
-                  <% classplan = Classplan.find(:first,
-                                                :conditions => {
-                                                  :period_id => session[:period_id],
-                                                  :day => day_en,
-                                                  :begin_time => hour.to_s+'-15'
-                  })
+          </tr>
+          <tr>
+            <th class="clock"></th>
+            <% days.length.times do %>
+              <th class='courseclass'>Ders</td>
+              <th class='courseclass'>Sınıf</td>
+            <% end %>
+          </tr>
+          <% assignments = Assignment.find(:all,
+                                              :conditions => {
+                                                  :lecturer_id => session[:lecturer_id],
+                                                  :period_id => session[:period_id]
+                                          })
+          assignments = assignments.collect {|assignment| assignment.id }
+          %>
+          <% (8..11).each do |hour| %>
+          <tr>
+            <th class="clock"><%= time=(hour).to_s+':15'+' '+(hour+1).to_s+':00' %></th>
+            <% days.each do |day_en, day_tr| %>
+              <% classplan = Classplan.find(:first,
+                                            :conditions => {
+                                              :period_id => session[:period_id],
+                                              :day => day_en,
+                                              :begin_time => hour.to_s+'-15'
+              })
 
-                  if classplan and assignments.include?(classplan.assignment_id)
-                      state = true
-                    else
-                      state = false
-                    end
-                %>
-                  <th class='course' id="<%= day_en + hour.to_s+'-15course' %>">
-                    <%= classplan.assignment.course.full_name if state %>
-                  </th>
-                  <th class='class' id="<%= day_en + hour.to_s+'-15class' %>">
-                    <%= classplan.classroom.name if state %>
-                  </th>
-                <% end %>
-              </tr>
-              <% end %>
+              if classplan and assignments.include?(classplan.assignment_id)
+                  state = true
+                else
+                  state = false
+                end
+            %>
+              <th class='course' id="<%= day_en + hour.to_s+'-15course' %>">
+                <%= classplan.assignment.course.full_name if state %>
+              </th>
+              <th class='class' id="<%= day_en + hour.to_s+'-15class' %>">
+                <%= classplan.classroom.name if state %>
+              </th>
+            <% end %>
+          </tr>
+          <% end %>
 
-              <%(13..22).each do |hour| %>
-              <tr>
-                <th class="clock"><%= time=(hour).to_s+':00'+' '+(hour+1).to_s+':00' %></th>
-                <% days.each do |day_en, day_tr| %>
-                  <% classplan = Classplan.find(:first,
-                                    :conditions => {
-                                      :period_id => session[:period_id],
-                                      :day => day_en,
-                                      :begin_time => hour.to_s+'-00'
-                  })
-                  if classplan and assignments.include?(classplan.assignment_id)
-                      state = true
-                    else
-                      state = false
-                    end
-                %>
-                  <th class='course' id="<%= day_en + hour.to_s+'-00course' %>">
-                    <%= classplan.assignment.course.full_name if state %>
-                  </th>
-                  <th class='class' id="<%= day_en + hour.to_s+'-00class' %>">
-                    <%= classplan.classroom.name if state %>
-                  </th>
-                <% end %>
-              </tr>
-              <% end %>
-            </table>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>
-          <%= form_tag({ :action => 'scheduleedit' }, :multipart => true) do %>
-            <p id="select_assignment_id"></p>
-            <%= submit_tag "Seçili dersi sil", :id => "submit_button",
-              :onClick => "return confirm('#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim " +
-                          "görevlisinin tabloadan seçtiğiniz dersi silmek üzeresiniz. " +
-                          "Silmek istediğinizden emin misiniz ?');" %>
+          <%(13..22).each do |hour| %>
+          <tr>
+            <th class="clock"><%= time=(hour).to_s+':00'+' '+(hour+1).to_s+':00' %></th>
+            <% days.each do |day_en, day_tr| %>
+              <% classplan = Classplan.find(:first,
+                                :conditions => {
+                                  :period_id => session[:period_id],
+                                  :day => day_en,
+                                  :begin_time => hour.to_s+'-00'
+              })
+              if classplan and assignments.include?(classplan.assignment_id)
+                  state = true
+                else
+                  state = false
+                end
+            %>
+              <th class='course' id="<%= day_en + hour.to_s+'-00course' %>">
+                <%= classplan.assignment.course.full_name if state %>
+              </th>
+              <th class='class' id="<%= day_en + hour.to_s+'-00class' %>">
+                <%= classplan.classroom.name if state %>
+              </th>
+            <% end %>
+          </tr>
           <% end %>
-          <%= form_tag({ :action => 'scheduledel' }, :multipart => true) do %>
-            <%= submit_tag "Tüm dersi sil", :id => "submit_button",
-              :onClick => "return confirm('#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim " +
-                          "görevlisinin bu dönemlik verdiği tüm dersleri silmek üzeresiniz. " +
-                          "Silmek istediğinizden emin misiniz ?');" %>
-          <% end %>
-        </td>
-      </tr>
-    </table>
-</div>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>
+      <%= form_tag({ :action => 'scheduleedit' }, :multipart => true) do %>
+        <p id="select_assignment_id"></p>
+        <%= submit_tag "Seçili dersi sil", :id => "submit_button",
+          :onClick => "return confirm('#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim " +
+                      "görevlisinin tabloadan seçtiğiniz dersi silmek üzeresiniz. " +
+                      "Silmek istediğinizden emin misiniz ?');" %>
+      <% end %>
+      <%= form_tag({ :action => 'scheduledel' }, :multipart => true) do %>
+        <%= submit_tag "Tüm dersi sil", :id => "submit_button",
+          :onClick => "return confirm('#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim " +
+                      "görevlisinin bu dönemlik verdiği tüm dersleri silmek üzeresiniz. " +
+                      "Silmek istediğinizden emin misiniz ?');" %>
+      <% end %>
+    </td>
+  </tr>
+</table>
 
 <!-- dual listbox -->
 <script>

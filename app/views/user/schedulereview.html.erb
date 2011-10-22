@@ -10,9 +10,8 @@
       });
   });
 </script>
-<div class="page">
-  <h2><%= session[:department] %> Bölümünün Ders Programları İnceleniyor...</h2>
-   <div class="dt_example module">
+<h2><%= session[:department] %> Bölümünün Ders Programları İnceleniyor...</h2>
+<div class="dt_example module">
    <table cellpadding="0" cellspacing="0" border="0" class="display" 
        id="example">
    <thead>
@@ -20,7 +19,7 @@
       <th>Fotoğraf</th>
       <th>Ad Soyad</th>
       <th>Dersler</th>
-      <th></th>
+      <th>İşlemler</th>
     </tr>
    </thead>
    <tbody>
@@ -54,5 +53,4 @@
     <% end %>
   </tbody>
   </table>
-  </div>
 </div>
