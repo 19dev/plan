@@ -108,8 +108,7 @@ class HomeController < ApplicationController
       end
     end
     if session[:course_ids] == {}
-      session[:error] = "bu dönemlik ders programı tablosu henüz hazır değil."
-      session[:error] = session[:course_ids]
+      session[:error] = "Bu sınıfın, bu dönemlik ders programı tablosu henüz hazır değil."
       return render '/home/class'
     end
   end
