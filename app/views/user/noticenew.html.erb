@@ -1,19 +1,13 @@
-<div class="page">
-  <h2>Duyuru Ekle</h2>
-  <%= form_tag({ :action => 'noticeadd' }, :multipart => true) do %>
-    <table class="custom">
-    <tr>
-      <td class="label">Başlık</td>
-      <td class="field"><input type="text" name="title"/></td>
-    </tr>
-    <tr>
-      <td class="label">İçerik</td>
-      <td class="field"><textarea name="content"></textarea></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><%= submit_tag "Kaydet", :id => "submit_button" %></td>
-    </tr>
-    </table>
-  <% end %>
-</div>
+<h2>Duyuru Ekle</h2>
+<%= form_tag({ :action => 'noticeadd' }, :multipart => true) do %>
+  <table class="custom">
+  <tr>
+    <td class="label">İçerik</td>
+    <td class="field"><textarea name="content"></textarea></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><%= submit_tag "Kaydet", :id => "submit_button" %></td>
+  </tr>
+  </table>
+<% end %>

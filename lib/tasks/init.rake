@@ -22,7 +22,6 @@ end
 task :table do
   tables = [
     "notice " +
-      "title:string " +
       "content:string",
 
     "department " +

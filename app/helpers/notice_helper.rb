@@ -4,7 +4,6 @@ module NoticeHelper
   def noticeadd
     params.select! { |k, v| Notice.columns.collect {|c| c.name}.include?(k) }
     if hata = control({
-                      params[:title]=>"Başlık",
                       params[:content]=>"İçerik",
                       }
     )
