@@ -22,7 +22,7 @@ class UserController < ApplicationController
   before_filter :clean_error, :except => [:login, :noticenew,
                                                   :lecturernew, :coursenew, :lecturerfind, :lecturershow, :lecturerreview,
                                                   :coursefind, :courseshow, :coursereview,
-                                                  :assignmentnew, :assignmentfind, :assignmentshow,
+                                                  :assignmentnew, :assignmentfind, :assignmentshow, :accountedit,
                                                   :schedulenew, :schedulefind, :scheduleshow
                                         ] # temiz sayfa
   def login

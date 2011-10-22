@@ -8,6 +8,9 @@ module AccountHelper
   end
   def accountupdate
     params.select! { |k, v| People.columns.collect {|c| c.name}.include?(k) }
+    if session[:error] = control({ params[:password] => "Parola" })
+      return redirect_to '/user/accountedit'
+    end
     People.update(session[:user_id], params)
     return redirect_to '/user/accountshow'
   end
