@@ -6,9 +6,9 @@ module LecturerHelper
     photo = params[:file]
     params.select! { |k, v| Lecturer.columns.collect {|c| c.name}.include?(k) }
     if hata = control({
-                      params[:first_name]=>"Öğretim görevlisi adı",
-                      params[:last_name]=>"Öğretim görevlisi soyadı",
-                      params[:email]=>"Öğretim görevlisi email"
+                      params[:first_name]=>"Öğretim elamanı adı",
+                      params[:last_name]=>"Öğretim elamanı soyadı",
+                      params[:email]=>"Öğretim elamanı email"
                       }
     )
       session[:error] = hata
@@ -31,7 +31,7 @@ module LecturerHelper
       lecturer[:photo] = "/images/default.png"
       lecturer.save
     end
-    session[:success] = "#{lecturer.full_name} isimli kişi öğretim görevlisi olarak eklendi"
+    session[:success] = "#{lecturer.full_name} isimli kişi öğretim elamanı olarak eklendi"
     redirect_to '/user/lecturershow'
   end
   def lecturershow
@@ -56,7 +56,7 @@ module LecturerHelper
                                      :lecturer_id => session[:lecturer_id],
                                    })
     if assignments != []
-      session[:error] = "Bu öğretim görevlisinin ders ataması vardır, bu yüzden silemezsiniz. " +
+      session[:error] = "Bu öğretim elamanının ders ataması vardır, bu yüzden silemezsiniz. " +
                         "Eğer silmek istiyorsanız, ders atamalarını siliniz. Bu da tam çözüm vermez " +
                         "ise; yönetici ile irtibata geçiniz "
       return redirect_to '/user/lecturerreview'
@@ -76,7 +76,7 @@ module LecturerHelper
     #                         :lecturer_id => session[:lecturer_id],
     #                       })
     Image.delete 'Lecturer', "#{session[:lecturer_id]}.jpg"
-    session[:success] = "Öğretim görevlisi başarıyla silindi"
+    session[:success] = "Öğretim elamanı başarıyla silindi"
     session[:lecturer_id] = nil # kişinin oturumunu öldürelim
 
     redirect_to '/user/lecturerreview'
@@ -95,7 +95,7 @@ module LecturerHelper
         session[:error] = response[1]
       end
     end
-    session[:success] = "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim görevlisi başarıyla güncellendi"
+    session[:success] = "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim elamanı başarıyla güncellendi"
     redirect_to '/user/lecturershow'
    end
 # end Lecturer -------------------------------------------------------

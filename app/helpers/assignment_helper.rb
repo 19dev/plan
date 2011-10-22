@@ -29,7 +29,7 @@ module AssignmentHelper
       assignment.save
     end
     session[:lecturer_id] = params[:lecturer_id]
-    session[:success] = "#{Lecturer.find(params[:lecturer_id]).full_name} öğretim görevlisinin dersleri atandı"
+    session[:success] = "#{Lecturer.find(params[:lecturer_id]).full_name} öğretim elamanının dersleri atandı"
     redirect_to '/user/assignmentshow'
   end
   def assignmentshow
@@ -83,19 +83,19 @@ module AssignmentHelper
                   :lecturer_id => session[:lecturer_id],
                   :period_id => session[:period_id]
                 })
-    session[:success] = "#{Lecturer.find(session[:lecturer_id]).full_name} öğretim görevlisinin dersleri silindi"
+    session[:success] = "#{Lecturer.find(session[:lecturer_id]).full_name} öğretim elamanının dersleri silindi"
     session[:lecturer_id] = nil # kişinin oturumunu öldürelim
     redirect_to '/user/assignmentreview'
   end
   def assignmentupdate
     if params[:course_ids]
-      # o dönemki öğretim görevlisinin tüm atamalarını alalım
+      # o dönemki öğretim elamanınin tüm atamalarını alalım
       assignments = Assignment.find(:all,
                       :conditions => {
                           :lecturer_id => session[:lecturer_id],
                           :period_id => session[:period_id]
                       })
-      # öğretim görevlisinin verdiği derslere erişmek için.
+      # öğretim elamanınin verdiği derslere erişmek için.
       assignments.each do |assignment|
         # yeni isteklerde, eski isteklerden biri yok ise
         # eski isteği sil(sınıf planınıda dahil).
@@ -120,10 +120,10 @@ module AssignmentHelper
           assignment.save
         end
       end
-      session[:success] = "#{Lecturer.find(session[:lecturer_id]).full_name} öğretim görevlisinin dersleri güncellendi"
+      session[:success] = "#{Lecturer.find(session[:lecturer_id]).full_name} öğretim elamanının dersleri güncellendi"
 
   else
-      session[:error] = "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim görevlisinin dönemlik tüm derslerini ve " +
+      session[:error] = "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim elamanının dönemlik tüm derslerini ve " +
                         "tüm ders atamalarını silmeye çalışıyorsunuz. Bunu yapmak istediğinizden emin misiniz ? Eğer öyle ise " +
                         "İncele/Düzenle kısmından sil seçeneğini seçin "
   end
