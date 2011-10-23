@@ -38,6 +38,8 @@ class AdminController < ApplicationController
                           'id' => true,
                           'name' => true,
                           'photo' => false,
+                          'content' => false,
+                          'code' => false,
       }
       unless session[:period_id] = Period.find( :first, :conditions => { :status => true })
         session[:error] = "Dikkat! aktif bir güz/bahar yılı yok. Bu problemin düzeltilmesi için asıl yönetici ile irtibata geçin"
