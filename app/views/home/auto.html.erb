@@ -35,7 +35,7 @@
   .page {margin-left:0px;width:930px;}
 </style>
 
-<h2>Hızlı Arama</h2>
+<h2>Öğretim Elamanı Hızlı Arama</h2>
 <%= form_tag :action => 'show' do %>
   <table class="custom">
     <tr>
@@ -43,13 +43,13 @@
       <td class="field"><%= select_tag(:period_id, options_from_collection_for_select(Period.all, :id, :full_name)) %></td>
     </tr>
     <tr>
-      <td class="label">Öğretim görevlisi adı:</td>
+      <td class="label">Öğretim Elamanı Adı:</td>
       <td class="field"><input id="autocomplete" style="width:365px;height:25px;"/></td>
     </tr>
     <div id="post"></div>
     <tr>
       <td></td>
-      <td><%= submit_tag "göster", :id => "submit_button" %></td>
+      <td><%= submit_tag "Göster", :id => "submit_button" %></td>
     </tr>
   </table>
 <% end %>
