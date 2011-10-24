@@ -15,6 +15,9 @@ module LecturerHelper
       return redirect_to '/user/lecturernew'
     end
 
+    params[:first_name] = UnicodeUtils.titlecase(params[:first_name], :tr)
+    params[:last_name] = UnicodeUtils.titlecase(params[:last_name], :tr)
+
     params[:department_id] = session[:department_id]
     lecturer = Lecturer.new params
     lecturer.save
@@ -94,6 +97,9 @@ module LecturerHelper
       session[:error] = hata
       return redirect_to '/user/lecturershow'
     end
+
+    params[:first_name] = UnicodeUtils.titlecase(params[:first_name], :tr)
+    params[:last_name] = UnicodeUtils.titlecase(params[:last_name], :tr)
 
     Lecturer.update(session[:lecturer_id], params)
     lecturer = Lecturer.find session[:lecturer_id]
