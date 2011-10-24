@@ -11,13 +11,13 @@
       </td>
     </tr>
     <tr>
-      <td class="label">Öğretim görevlisi</td>
+      <td class="label">Öğretim Elamanı</td>
       <td>
         <%= Lecturer.find(session[:lecturer_id]).full_name %>
       </td>
     </tr>
     <tr>
-      <td class="label">Verdiği ders</td>
+      <td class="label">Verdiği Ders</td>
       <td>
         <select id="course_ids" name="course_ids">
           <% session[:course_ids].each do |k, v| %>
