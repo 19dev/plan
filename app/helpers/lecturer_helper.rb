@@ -85,6 +85,16 @@ module LecturerHelper
     photo = params[:file] if params[:file]
     params.select! { |k, v| Lecturer.columns.collect {|c| c.name}.include?(k) }
 
+    if hata = control({
+                      params[:first_name]=>"Öğretim elamanı adı",
+                      params[:last_name]=>"Öğretim elamanı soyadı",
+                      params[:email]=>"Öğretim elamanı email"
+                      }
+    )
+      session[:error] = hata
+      return redirect_to '/user/lecturershow'
+    end
+
     Lecturer.update(session[:lecturer_id], params)
     lecturer = Lecturer.find session[:lecturer_id]
     if photo and response = Image.upload('Lecturer', "#{session[:lecturer_id]}", photo, true) # üzerine yazma olsun

@@ -19,7 +19,7 @@ module InitHelper
   def control(hash)
     hash.each do |key, value|
       if key == "" or key == nil
-        return "#{value} değeri boş bırakılamaz"
+        return "#{value} boş bırakılamaz"
       end
     end
     return nil

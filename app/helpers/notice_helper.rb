@@ -42,6 +42,14 @@ module NoticeHelper
   def noticeupdate
     params.select! { |k, v| Notice.columns.collect {|c| c.name}.include?(k) }
 
+    if hata = control({
+                      params[:content]=>"İçerik",
+                      }
+    )
+      session[:error] = hata
+      return redirect_to '/user/noticeshow'
+    end
+
     Notice.update(session[:notice_id], params)
     session[:success] = "duyuru başarıyla güncellendi"
 

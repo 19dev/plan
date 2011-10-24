@@ -18,6 +18,9 @@ module CourseHelper
     end
     params[:department_id] = session[:department_id]
 
+    params[:code] = UnicodeUtils.upcase(params[:code])      # i => I (ör : BIL yazılıyor genelde)
+    params[:name] = UnicodeUtils.upcase(params[:name], :tr) # i => İ (ör : BİLGİSAYAR GİRİŞ - I)
+
     course = Course.new params
     course.save
     session[:course_id] = course.id
@@ -74,6 +77,23 @@ module CourseHelper
   end
   def courseupdate
     params.select! { |k, v| Course.columns.collect {|c| c.name}.include?(k) }
+
+    if hata = control({
+                      params[:year]=>"Ders yılı",
+                      params[:code]=>"Ders kodu",
+                      params[:name]=>"Ders adı",
+                      params[:theoretical]=>"Ders teroik saati",
+                      params[:practice]=>"Ders pratik saati",
+                      params[:lab]=>"Ders lab saati",
+                      params[:credit]=>"Ders kredisi"
+                      }
+    )
+      session[:error] = hata
+      return redirect_to '/user/courseshow'
+    end
+
+    params[:code] = UnicodeUtils.upcase(params[:code])      # i => I (ör : BIL yazılıyor genelde)
+    params[:name] = UnicodeUtils.upcase(params[:name], :tr) # i => İ (ör : BİLGİSAYAR GİRİŞ - I)
 
     Course.update(session[:course_id], params)
     session[:success] = "#{Course.find(session[:course_id]).full_name} dersi başarıyla güncellendi"

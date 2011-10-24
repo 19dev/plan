@@ -1,4 +1,5 @@
 # encoding: utf-8
+require 'unicode_utils' # http://unicode-utils.rubyforge.org/
 class UserController < ApplicationController
   include NoticeHelper  # duyurular için
   include AccountHelper # hesap güncelleme için
@@ -53,7 +54,6 @@ class UserController < ApplicationController
         session[:user_id] = user.id # update for password
         session[:department_id] = user.department_id
         session[:department] = user.department.name
-        session[:departmentcode] = user.department.code
         session[:username] = user.first_name
         session[:userpassword] = user.password
         session[:period] = Period.find(session[:period_id]).full_name
