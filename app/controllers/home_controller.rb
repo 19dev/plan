@@ -16,7 +16,7 @@ class HomeController < ApplicationController
       return redirect_to '/home/find'
     end
 
-    @lecturers = Lecturer.find(:all, :conditions => { :department_id => session[:department_id] })
+    @lecturers = Lecturer.find(:all, :conditions => { :department_id => session[:department_id] }, :order => 'first_name, last_name')
     if @lecturers.empty?
       session[:error] = Department.find(session[:department_id]).name + " bölümünde henüz öğretim görevlisi yok"
       return render '/home/find'
