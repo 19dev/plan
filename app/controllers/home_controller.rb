@@ -77,6 +77,7 @@ class HomeController < ApplicationController
   def classplan
     session[:period_id] = params[:period_id] if params[:period_id]
     session[:classroom_id] = params[:classroom_id] if params[:classroom_id]
+    all_department = true if params[:department_id] == ""
     unless params[:period_id]
       session[:error] = "Period boş bırakılamaz"
       return render '/home/class'
@@ -91,8 +92,11 @@ class HomeController < ApplicationController
                                   :conditions => {
                                     :period_id => session[:period_id]
                                   })
+    @assignments = []
     assignments.each do |assignment|
-      if Classplan.find(:first, :conditions => { :period_id => session[:period_id], :assignment_id => assignment.id })
+      if Classplan.find(:first, :conditions => { :period_id => session[:period_id], :assignment_id => assignment.id }) and
+        assignment.lecturer.department_id == params[:department_id].to_i or all_department
+
         classplans = Classplan.find(:all,
                                     :conditions => {
                                       :assignment_id => assignment.id,
@@ -102,6 +106,7 @@ class HomeController < ApplicationController
         courses = classplans.collect { |classplan| classplan.day + classplan.begin_time }
         courses = courses.join(';')
         unless courses == ""
+          @assignments << assignment.id
           courses += '#' + assignment.id.to_s
           session[:course_ids][courses] = assignment.course.full_name
         end

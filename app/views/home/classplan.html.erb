@@ -38,7 +38,7 @@
           border:1px solid #ddd;
         }
         #table th.clock{min-height:20px;height:20px;min-width:60px;width:60px;}
-        #table th.course{min-height:55px;height:55px;min-width:140px;width:140px;}
+        #table th.course{min-height:80px;height:80px;min-width:140px;width:140px;}
       </style>
       <div id="table">
         <table>
@@ -54,12 +54,6 @@
               <th colspan=1><%= day_tr %></th>
             <% end %>
           </tr>
-          <% assignments = Assignment.find(:all,
-                                              :conditions => {
-                                                  :period_id => session[:period_id]
-                                          })
-          assignments = assignments.collect {|assignment| assignment.id }
-          %>
           <% (8..11).each do |hour| %>
           <tr>
             <th class="clock"><%= time=(hour).to_s+':15'+' '+(hour+1).to_s+':00' %></th>
@@ -71,18 +65,20 @@
                                               :day => day_en,
                                               :begin_time => hour.to_s+'-15'
               })
-
-              if classplan and assignments.include?(classplan.assignment_id)
+              if classplan and @assignments.include?(classplan.assignment_id)
                   state = true
-                else
+              else
                   state = false
-                end
+              end
             %>
               <th class='course' id="<%= day_en + hour.to_s+'-15course' %>">
                 <% if state %>
                   <%= classplan.assignment.course.full_name %>
                   <p style="border-top:1px solid #ddd;">
                     <%= classplan.assignment.lecturer.full_name %>
+                  </p>
+                  <p style="border-top:1px solid #ddd;">
+                    <%= classplan.assignment.lecturer.department.name %>
                   </p>
                 <% end %>
               </th>
@@ -101,11 +97,11 @@
                                   :day => day_en,
                                   :begin_time => hour.to_s+'-00'
               })
-              if classplan and assignments.include?(classplan.assignment_id)
+              if classplan and @assignments.include?(classplan.assignment_id)
                   state = true
-                else
+              else
                   state = false
-                end
+              end
             %>
               <th class='course' id="<%= day_en + hour.to_s+'-00course' %>">
                 <% if state %>
