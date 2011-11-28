@@ -39,16 +39,19 @@
         }
         #table th.clock{min-height:20px;height:20px;min-width:60px;width:60px;}
         #table th.course{min-height:80px;height:80px;min-width:140px;width:140px;}
+        #table th { font-weight:lighter }
       </style>
       <div id="table">
         <table>
           <tr>
             <th class="clock">Saat/Gün</th>
-            <% days = {"Sunday" => "Pazartesi",
+            <% days = {
+                        "Sunday" => "Pazartesi",
                         "Tuesday" => "Salı",
                         "Wednesday" => "Çarşamba",
                         "Thursday" => "Perşembe",
-                        "Friday" => "Cuma"}
+                        "Friday" => "Cuma"
+                      }
             %>
             <% days.each do |day_en, day_tr| %>
               <th colspan=1><%= day_tr %></th>
