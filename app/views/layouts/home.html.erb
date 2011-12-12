@@ -62,38 +62,43 @@
       <h1>Ondokuz Mayıs Üniversitesi</h1>
       <h2>Mühendislik Fakültesi Program Arama Sistemi</h2>
     </div>
-  <% page = File.basename request.fullpath %>
-  <div id="notice" style="margin-top:-30px;">
-    <div class="row">
-      <ul class="sub-nav" id="title">
-        <li class="<%= 'current' if ["index"].include?(page) %>">
-        <a href="/home/index" title="Ana Sayfa">
-          Ana Sayfa
-        </a>
-        </li>
-        <li class="<%= 'current' if ["find", "review"].include?(page) %>">
-        <a href="/home/find">
-          Arama
-        </a>
-        </li>
-        <li class="<%= 'current' if ["auto", "show"].include?(page) %>">
-        <a href="/home/auto">
-          Hızlı Arama
-        </a>
-        </li>
-        <li class="<%= 'current' if ["class"].include?(page) %>">
-        <a href="/home/class">
-          Sınıf Planı
-        </a>
-        </li>
-        <li class="<%= 'current' if ["info"].include?(page) %>">
-        <a href="/home/info">
-          Hakkında
-        </a>
-        </li>
-      </ul>
+    <% page = File.basename request.fullpath %>
+    <div id="notice" style="margin-top:-30px;">
+      <div class="row">
+        <ul class="sub-nav" id="title">
+          <li class="<%= 'current' if ["index"].include?(page) %>">
+          <a href="/home/index" title="Ana Sayfa">
+            Ana Sayfa
+          </a>
+          </li>
+          <li class="<%= 'current' if ["find", "review"].include?(page) %>">
+          <a href="/home/find">
+            Arama
+          </a>
+          </li>
+          <li class="<%= 'current' if ["auto", "show"].include?(page) %>">
+          <a href="/home/auto">
+            Hızlı Arama
+          </a>
+          </li>
+          <li class="<%= 'current' if ["class"].include?(page) %>">
+          <a href="/home/class">
+            Sınıf Planı
+          </a>
+          </li>
+          <li class="<%= 'current' if ["department"].include?(page) %>">
+          <a href="/home/department">
+            Bölüm Planı
+          </a>
+          </li>
+          <li class="<%= 'current' if ["info"].include?(page) %>">
+          <a href="/home/info">
+            Hakkında
+          </a>
+          </li>
+        </ul>
+      </div>
     </div>
-  </div>
   </div>
 
 

@@ -1,6 +1,9 @@
 # encoding: utf-8
+require 'prawn' # http://cracklabs.com/prawnto
+
 class HomeController < ApplicationController
   include CleanHelper # temizlik birimi
+
   before_filter :clean_notice # temiz sayfa
   before_filter :clean_error, :except => [:review] # temiz sayfa
 
@@ -77,7 +80,6 @@ class HomeController < ApplicationController
   def classplan
     session[:period_id] = params[:period_id] if params[:period_id]
     session[:classroom_id] = params[:classroom_id] if params[:classroom_id]
-    all_department = true if params[:department_id] == ""
     unless params[:period_id]
       session[:error] = "Period boş bırakılamaz"
       return render '/home/class'
@@ -94,8 +96,7 @@ class HomeController < ApplicationController
                                   })
     @assignments = []
     assignments.each do |assignment|
-      if Classplan.find(:first, :conditions => { :period_id => session[:period_id], :assignment_id => assignment.id }) and
-        assignment.lecturer.department_id == params[:department_id].to_i or all_department
+      if Classplan.find(:first, :conditions => { :period_id => session[:period_id], :assignment_id => assignment.id })
 
         classplans = Classplan.find(:all,
                                     :conditions => {
@@ -112,11 +113,126 @@ class HomeController < ApplicationController
         end
       end
     end
+    session[:assignments] = @assignments
     if session[:course_ids] == {}
       session[:error] = "#{Classroom.find(session[:classroom_id]).name} sınıfın, " +
                         "#{Period.find(session[:period_id]).full_name} dönemlik ders " +
                         "programı tablosu henüz hazır değil."
       return render '/home/class'
     end
+  end
+  def classplanpdf
+    @assignments = session[:assignments]
+
+    days = {
+      "Sunday" => "Pazartesi",
+      "Tuesday" => "Salı",
+      "Wednesday" => "Çarşamba",
+      "Thursday" => "Perşembe",
+      "Friday" => "Cuma"
+    }
+    class_name = Classroom.find(session[:classroom_id]).name
+    period_name = Period.find(session[:period_id]).full_name
+
+    header = [["Saat / Gün"] + days.values,]
+    day = []
+    launch = [["12:00 / 13:00", "", "", "", "", ""]]
+    evening = []
+
+    (8..11).each do |hour|
+      column = [(hour).to_s+':15'+' / '+(hour+1).to_s+':00',]
+      days.each do |day_en, day_tr|
+        classplan = Classplan.find(:first,
+                                   :conditions => {
+          :classroom_id => session[:classroom_id],
+          :period_id => session[:period_id],
+          :day => day_en,
+          :begin_time => hour.to_s+'-15'
+        })
+        if classplan and @assignments.include?(classplan.assignment_id)
+          state = true
+        else
+          state = false
+        end
+        if state
+          column << classplan.assignment.course.full_name + "\n" +
+                    classplan.assignment.lecturer.full_name + "\n" +
+                    classplan.assignment.lecturer.department.name
+        else
+          column << ""
+        end
+      end
+      day << column
+    end
+
+    (13..22).each do |hour|
+      column = [(hour).to_s+':00'+' / '+(hour+1).to_s+':00',]
+      days.each do |day_en, day_tr|
+        classplan = Classplan.find(:first,
+                                   :conditions => {
+          :classroom_id => session[:classroom_id],
+          :period_id => session[:period_id],
+          :day => day_en,
+          :begin_time => hour.to_s+'-00'
+        })
+        if classplan and @assignments.include?(classplan.assignment_id)
+          state = true
+        else
+          state = false
+        end
+        if state
+          column << classplan.assignment.course.full_name + "\n" +
+                    classplan.assignment.lecturer.full_name + "\n" +
+                    classplan.assignment.lecturer.department.name
+        else
+          column << ""
+        end
+      end
+      evening << column
+    end
+
+    pdf = Prawn::Document.new(:page_size => 'A4', :layout => 'portrait') do
+      font "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf", :size => 8
+      text period_name + " / " + class_name, :size => 18,  :align => :center
+      stroke do
+        rectangle [0,740], 525, 0.025
+      end
+      move_down(20)
+
+      table header,
+        :position => :center,
+        :row_colors => ["cccccc"],
+        :column_widths => { 0 => 87, 1 => 87, 2 => 87, 3 => 87, 4 => 87 , 5 => 87 },
+        :cell_style => { :size => 5, :text_color => "000000", :height => 18, :border_width => 0.5 }
+      table day,
+        :position => :center,
+        :column_widths => { 0 => 87, 1 => 87, 2 => 87, 3 => 87, 4 => 87 , 5 => 87 },
+        :cell_style => { :size => 5, :text_color => "000000", :height => 40, :border_width => 0.5 }
+      table launch,
+        :position => :center,
+        :row_colors => ["cccccc"],
+        :column_widths => { 0 => 87, 1 => 87, 2 => 87, 3 => 87, 4 => 87 , 5 => 87 },
+        :cell_style => { :size => 5, :text_color => "000000", :height => 40, :border_width => 0.5 }
+      table evening,
+        :position => :center,
+        :column_widths => { 0 => 87, 1 => 87, 2 => 87, 3 => 87, 4 => 87 , 5 => 87 },
+        :cell_style => { :size => 5, :text_color => "000000", :height => 40, :border_width => 0.5 }
+    end
+    send_data(pdf.render(), :filename => class_name + ".pdf")
+
+  end
+  def foo
+    # EXAMPLE PDF EXPORT
+    pdf = Prawn::Document.new(:page_size => 'A4', :layout => 'portrait') do
+      text "bölüm", :size => 21,  :align => :center
+      stroke do
+        rectangle [0,740], 525, 1
+      end
+      move_down(20)
+      font "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
+      text "A Ruby On Rails Developer based in India", :size => 32
+      text "Email: san2821@gmail.com", :size => 21
+    end
+    send_data(pdf.render(), :filename => 'pdfexport.pdf')
   end
 end

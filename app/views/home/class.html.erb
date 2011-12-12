@@ -6,19 +6,6 @@
       <td class="field"><%= select_tag(:period_id, options_from_collection_for_select(Period.all, :id, :full_name)) %></td>
     </tr>
     <tr>
-      <td class="label"> Bölüm: </td>
-      <td class="field">
-        <select id="department_id" name="department_id">
-          <option value="" selected>Tüm Bölümler</option>
-          <% Department.find(:all, :order => 'name').each do |department| %>
-            <option value="<%= department.id %>">
-              <%= department.name %>
-            </option>
-          <% end %>
-        </select>
-      </td>
-    </tr>
-    <tr>
       <td class="label"> Sınıf: </td>
       <td class="field"><%= select_tag(:classroom_id, options_from_collection_for_select(Classroom.find(:all, :order => 'name'), :id, :name)) %></td>
     </tr>

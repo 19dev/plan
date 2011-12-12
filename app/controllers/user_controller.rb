@@ -1,9 +1,8 @@
 # encoding: utf-8
 require 'unicode_utils' # http://unicode-utils.rubyforge.org/
 class UserController < ApplicationController
-  include NoticeHelper  # duyurular için
   include AccountHelper # hesap güncelleme için
-  include InitHelper    # temizlik birimi
+  include InitHelper    # gerekli ortak şeyler
   include CleanHelper   # temizlik birimi
 
   # gerekli yardımcı menümünüz
@@ -11,6 +10,7 @@ class UserController < ApplicationController
   include CourseHelper
   include AssignmentHelper
   include ScheduleHelper
+  include NoticeHelper  # duyurular için
   # --------------------------
 
   before_filter :period # rubysiz olmadığı gibi periodsuz da sahaya çıkmayız.
