@@ -25,6 +25,7 @@ task :table do
       "content:string",
 
     "department " +
+      "code:string " +
       "name:string",
 
     "lecturer " +

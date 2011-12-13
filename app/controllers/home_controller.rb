@@ -152,7 +152,7 @@ class HomeController < ApplicationController
         if state
           column << classplan.assignment.course.full_name + "\n" +
                     classplan.assignment.lecturer.full_name + "\n" +
-                    classplan.assignment.lecturer.department.name
+                    classplan.assignment.lecturer.department.code
         else
           column << ""
         end
@@ -178,7 +178,7 @@ class HomeController < ApplicationController
         if state
           column << classplan.assignment.course.full_name + "\n" +
                     classplan.assignment.lecturer.full_name + "\n" +
-                    classplan.assignment.lecturer.department.name
+                    classplan.assignment.lecturer.department.code
         else
           column << ""
         end
