@@ -31,23 +31,25 @@
     <tr>
       <td class="info" colspan=2>
         <style>
-          #table {margin-left:-30px;}
+          #table {margin-left:-34px;}
           #table th{
             font-size:10px;
             padding:0em;
             border:1px solid #ddd;
+            font-weight:lighter 
           }
-
           #table th.courseclass{min-height:20px;height:20px;min-width:30px;width:30px;}
           #table th.course{min-height:25px;height:25px;min-width:140px;width:140px;}
           #table th.clock{min-height:20px;height:20px;min-width:60px;width:60px;}
           #table th.class{min-height:55px;height:55px;min-width:30px;width:30px;}
-          #table th { font-weight:lighter }
+		  #table th.header{min-height:20px;height:20px;background-color:#ccc;}
+		  #table th.launch{min-height:60px;height:60px;background-color:#ccc;}
+		  #table th.kose{background-color:#ccc;min-height:20px;height:20px;min-width:65px;width:65px;}
         </style>
         <div id="table">
           <table>
             <tr>
-              <th class="clock">Saat/Gün</th>
+              <th class="kose" rowspan=2>Saat/Gün</th>
               <% days = {"Sunday" => "Pazartesi",
                           "Tuesday" => "Salı",
                           "Wednesday" => "Çarşamba",
@@ -55,14 +57,13 @@
                           "Friday" => "Cuma"}
               %>
               <% days.each do |day_en, day_tr| %>
-                <th colspan=2><%= day_tr %></th>
+                <th class="header" colspan=2><%= day_tr %></th>
               <% end %>
             </tr>
             <tr>
-              <th class="clock"></th>
               <% days.length.times do %>
-                <th class='courseclass'>Ders</td>
-                <th class='courseclass'>Sınıf</td>
+                <th class='courseclass, header'>Ders</td>
+                <th class='courseclass, header'>Sınıf</td>
               <% end %>
             </tr>
             <% assignments = Assignment.find(:all,
@@ -97,7 +98,7 @@
               <% end %>
             </tr>
             <% end %>
-
+            
             <%(13..22).each do |hour| %>
             <tr>
               <th class="clock"><%= time=(hour).to_s+':00'+' '+(hour+1).to_s+':00' %></th>

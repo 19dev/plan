@@ -33,6 +33,70 @@ module ScheduleHelper
     # @unschedule_courses = courses.select do |course|
     #   !Assignment.find(:first, :conditions => { :course_id => course.id, :period_id => session[:period_id] })
     # end
+    @days = days = {
+      "Sunday" => "Pazartesi",
+      "Tuesday" => "Salı",
+      "Wednesday" => "Çarşamba",
+      "Thursday" => "Perşembe",
+      "Friday" => "Cuma"
+    }
+
+    @header = [["Saat / Gün"] + days.values,]
+    @day = []
+    @launch = [["12-00 / 13-00", "", "", "", "", ""]]
+    @evening = []
+
+    ["08","09","10","11"].each do |hour|
+      column = [hour + '-15' + ' / ' + (hour.to_i+1).to_s + '-00']
+      days.each do |day_en, day_tr|
+        classplan = Classplan.find(:first,
+                                   :conditions => {
+          :classroom_id => session[:classroom_id],
+          :period_id => session[:period_id],
+          :day => day_en,
+          :begin_time => hour+'-15'
+        })
+        if classplan and @assignments.include?(classplan.assignment_id)
+          state = true
+        else
+          state = false
+        end
+        if state
+          column << classplan.assignment.course.full_name + "\n" +
+                    classplan.assignment.lecturer.full_name + "\n" +
+                    classplan.assignment.lecturer.department.name
+        else
+          column << ""
+        end
+      end
+      @day << column
+    end
+
+    ["13","14","15","16","17","18","19","20","21","22"].each do |hour|
+      column = [hour + '-00' + ' / ' + (hour.to_i+1).to_s + '-00']
+      days.each do |day_en, day_tr|
+        classplan = Classplan.find(:first,
+                                   :conditions => {
+          :classroom_id => session[:classroom_id],
+          :period_id => session[:period_id],
+          :day => day_en,
+          :begin_time => hour+'-00'
+        })
+        if classplan and @assignments.include?(classplan.assignment_id)
+          state = true
+        else
+          state = false
+        end
+        if state
+          column << classplan.assignment.course.full_name + "\n" +
+                    classplan.assignment.lecturer.full_name + "\n" +
+                    classplan.assignment.lecturer.department.name
+        else
+          column << ""
+        end
+      end
+      @evening << column
+    end
   end
   def scheduleadd
     @assignment = Assignment.find(:first,
@@ -56,15 +120,15 @@ module ScheduleHelper
             "Friday" => "Cuma"}
 
     # sabah
-    (8..11).each do |hour|
+    ["08","09","10","11"].each do |hour|
       days.each do |day_en, day_tr|
-        sec = day_en + hour.to_s + "-15"
+        sec = day_en + hour + "-15"
         part = params[sec]
         if part.length == 2 and part[1] == ""
-            session[:error] = day_tr+hour.to_s+":15"+" bölümünde sınıf işaretlenmemiş"
+            session[:error] = day_tr+hour+":15"+" bölümünde sınıf işaretlenmemiş"
             return redirect_to "/user/schedulenew"
         elsif part.length == 1 and part[0] != ""
-            session[:error] = day_tr+hour.to_s+":15"+" bölümünde saat işaretlenmemiş"
+            session[:error] = day_tr+hour+":15"+" bölümünde saat işaretlenmemiş"
             return redirect_to "/user/schedulenew"
         elsif part[0] != "" and part[1] != ""
             choice = {
@@ -82,7 +146,7 @@ module ScheduleHelper
                                                 'classroom_id' => part[1],
                                             })
 
-              session[:error] = day_tr + " " + hour.to_s + ":15" + "de "+
+              session[:error] = day_tr + " " + hour + ":15" + "de "+
                 "#{classplan.classroom.name} sınıfında "+
                 "#{classplan.assignment.lecturer.department.name} bölümünden "+
                 "öğretim elamanı #{classplan.assignment.lecturer.full_name} tarafından "+
@@ -97,7 +161,7 @@ module ScheduleHelper
                                                 'begin_time' => part[0],
                                             })
                 if @assignments.include?(classplan.assignment_id)
-                  session[:error] = day_tr + " " + hour.to_s + ":15 " + "de "+
+                  session[:error] = day_tr + " " + hour + ":15 " + "de "+
                     "#{classplan.classroom.name} sınıfında kaydetmeye çalıştığınız "+
                     "#{classplan.assignment.lecturer.department.name} bölümünden "+
                     "#{classplan.assignment.lecturer.full_name} isimli öğretim elamanı "+
@@ -113,15 +177,15 @@ module ScheduleHelper
       end
     end
     # akşam
-    (13..22).each do |hour|
+    ["13","14","15","16","17","18","19","20","21","22"].each do |hour|
       days.each do |day_en, day_tr|
-        sec = day_en + hour.to_s + "-00"
+        sec = day_en + hour + "-00"
         part = params[sec]
         if part.length == 2 and part[1] == ""
-            session[:error] = day_tr+hour.to_s+":00"+" bölümünde sınıf işaretlenmemiş"
+            session[:error] = day_tr+hour+":00"+" bölümünde sınıf işaretlenmemiş"
             return redirect_to "/user/schedulenew"
         elsif part.length == 1 and part[0] != ""
-            session[:error] = day_tr+hour.to_s+":00"+" bölümünde saat işaretlenmemiş"
+            session[:error] = day_tr+hour+":00"+" bölümünde saat işaretlenmemiş"
             return redirect_to "/user/schedulenew"
         elsif part[0] != "" and part[1] != ""
             choice = {
@@ -139,7 +203,7 @@ module ScheduleHelper
                                                 'classroom_id' => part[1],
                                             })
 
-              session[:error] = day_tr + " " + hour.to_s + ":00" + "de "+
+              session[:error] = day_tr + " " + hour + ":00" + "de "+
                 "#{classplan.classroom.name} sınıfında "+
                 "#{classplan.assignment.lecturer.department.name} bölümünden "+
                 "öğretim elamanı #{classplan.assignment.lecturer.full_name} tarafından "+
@@ -154,7 +218,7 @@ module ScheduleHelper
                                                 'begin_time' => part[0],
                                             })
                 if @assignments.include?(classplan.assignment_id)
-                  session[:error] = day_tr + " " + hour.to_s + ":00 " + "de "+
+                  session[:error] = day_tr + " " + hour + ":00 " + "de "+
                     "#{classplan.classroom.name} sınıfında kaydetmeye çalıştığınız "+
                     "#{classplan.assignment.lecturer.department.name} bölümünden "+
                     "#{classplan.assignment.lecturer.full_name} isimli öğretim elamanı "+
@@ -180,6 +244,19 @@ module ScheduleHelper
     redirect_to '/user/scheduleshow'
   end
   def scheduleshow
+	@days = days = {
+      "Sunday" => "Pazartesi",
+      "Tuesday" => "Salı",
+      "Wednesday" => "Çarşamba",
+      "Thursday" => "Perşembe",
+      "Friday" => "Cuma"
+    }
+
+    @header = [["Saat / Gün"] + days.values,]
+    @day = []
+    @launch = [["12-00 / 13-00", "", "", "", "", ""]]
+    @evening = []
+
     session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
     session[:course_ids] = {}
     assignments = Assignment.find(:all,
@@ -202,6 +279,7 @@ module ScheduleHelper
         end
       end
     end
+
   end
   def schedulereview
     lecturers = Lecturer.find(:all, :conditions => { :department_id => session[:department_id] })
