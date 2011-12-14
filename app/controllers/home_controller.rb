@@ -28,7 +28,7 @@ class HomeController < ApplicationController
     end
   end
 
-  def auto
+  def find
     session[:period_id] = params[:period_id] if params[:period_id]
     @auto_lecturers = Lecturer.all.collect do |lecturer|
       { lecturer.id => ["#{lecturer.first_name} #{lecturer.last_name}", lecturer.photo, lecturer.department.name] }
@@ -68,7 +68,7 @@ class HomeController < ApplicationController
     @assignments = @assignments.collect { |assignment| assignment.id }
 
     ["08","09","10","11"].each do |hour|
-      column = [hour+':15'+' '+(hour.to_i+1).to_s+':00']
+      column = [hour+'-15'+' / '+(hour.to_i+1).to_s+'-00']
       @day.each do |day_en, day_tr|
         classplan = Classplan.find(:first,
                                    :conditions => {
@@ -89,7 +89,7 @@ class HomeController < ApplicationController
     end
 
     ["13","14","15","16","17","18","19","20","21","22"].each do |hour|
-      column = [hour+':00'+' '+(hour.to_i+1).to_s+':00']
+      column = [hour+'-00'+' / '+(hour.to_i+1).to_s+'-00']
       @day.each do |day_en, day_tr|
         classplan = Classplan.find(:first,
                                    :conditions => {
@@ -188,18 +188,7 @@ class HomeController < ApplicationController
       return render '/home/class'
     end
 
-    @day = {
-      "Sunday" => "Pazartesi",
-      "Tuesday" => "Salı",
-      "Wednesday" => "Çarşamba",
-      "Thursday" => "Perşembe",
-      "Friday" => "Cuma"
-    }
-
-    @header = [["Saat / Gün"] + @day.values]
-    @morning = []
-    @launch = [["12-00 / 13-00", "", "", "", "", "", "", "", "", "", ""]]
-    @evening = []
+    @day, @header, @morning, @launch, @evening = table_schema # standart tablo şeması
 
     ["08","09","10","11"].each do |hour|
       column = [hour + '-15' + ' / ' + (hour.to_i+1).to_s + '-00']
@@ -266,7 +255,12 @@ class HomeController < ApplicationController
     period_name = Period.find(session[:period_id]).full_name
     title = period_name + " / " + class_name
 
-    pdf = pdf_schema title, nil, nil, header, "Ders", "Bölüm", morning, launch, evening
+    info = [
+            ["Sınıf", class_name],
+            ["Dönem", period_name],
+    ]
+
+    pdf = pdf_schema title, nil, info, header, "Ders", "Bölüm", morning, launch, evening
     send_data(pdf.render(), :filename => period_name + "-" + class_name + ".pdf")
   end
 

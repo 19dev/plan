@@ -5,26 +5,28 @@ module PdfHelper
       font "#{Prawn::BASEDIR}/data/fonts/Dustismo_Roman.ttf", :size => 8
       # font "#{Dir.pwd}/public/fonts/monaco.ttf", :size => 8
       # text title, :size => 18,  :align => :center
+      text "Ondokuz Mayıs Üniversitesi", :size => 16,  :align => :center
+      text "Mühendislik Fakültesi Program Arama Sistemi", :size => 12,  :align => :center
+
+      image "#{Dir.pwd}/public/images/omu-logo.jpg", :width => 64, :height => 64, :position => 0, :vposition => 10
+      image "#{Dir.pwd}/public/images/mf-128x128.png", :width => 64, :height => 64, :position => 460, :vposition => 10
+
+      move_up(105)
+      table info,
+        :position => 130,
+        :row_colors => ["00a0ff"],
+        :column_widths => { 0 => 43.2,1 => 159},
+        :cell_style => { :size => 6, :text_color => "000000", :height => 21, :border_width => 0.3 }
+      move_down(5)
       if photo
-        text "Ondokuz Mayıs Üniversitesi", :size => 16,  :align => :center
-        text "Mühendislik Fakültesi Program Arama Sistemi", :size => 12,  :align => :center
-
-        image "#{Dir.pwd}/public/images/omu-logo.jpg", :width => 64, :height => 64, :position => 0, :vposition => 10
-        image "#{Dir.pwd}/public/images/mf-128x128.png", :width => 64, :height => 64, :position => 460, :vposition => 10
-
-        move_up(105)
-        table info,
-          :position => 130,
-          :row_colors => ["00a0ff"],
-          :column_widths => { 0 => 43.2,1 => 159},
-          :cell_style => { :size => 6, :text_color => "000000", :height => 21, :border_width => 0.3 }
-        move_down(5)
         image "#{Dir.pwd}/public#{photo}", :width => 64, :height => 64, :position => 333, :vposition => 50
+        move_up(50)
       end
+
       # stroke do
       #   rectangle [0,740], 525, 0.025
       # end
-      move_up(50)
+
 
       font "#{Prawn::BASEDIR}/data/fonts/comicsans.ttf", :size => 8
       table header,

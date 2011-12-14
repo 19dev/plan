@@ -96,14 +96,13 @@ Schedule::Application.routes.draw do
   post "home/find"
   get  "home/review"
   post "home/review"
-  get  "home/auto"
-  post "home/auto"
   post "home/show"
   post "home/schedule"
   get  "home/schedulepdf"
   get  "home/class"
   post "home/classplan"
   get  "home/classplanpdf"
+  get  "home/department"
   get  "home/info"
   # ---------------------
 

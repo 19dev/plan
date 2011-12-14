@@ -1,0 +1,17 @@
+<h2>Öğretim Elamanı Manual Arama</h2>
+<%= form_tag :action => 'review' do %>
+  <table class="custom">
+    <tr>
+      <td class="label"> Dönem: </td>
+      <td class="field"><%= select_tag(:period_id, options_from_collection_for_select(Period.all, :id, :full_name)) %></td>
+    </tr>
+    <tr>
+      <td class="label"> Bölüm: </td>
+      <td class="field"><%= select_tag(:department_id, options_from_collection_for_select(Department.all, :id, :name)) %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><%= submit_tag "Arama Yap", :id => "submit_button" %></td>
+    </tr>
+  </table>
+<% end %>
