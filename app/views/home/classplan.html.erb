@@ -3,21 +3,15 @@
 <!-- end dual listbox -->
 
 <h2>Sınıf Programı</h2>
-<p style="margin-left:800px;margin-top:-80px;">
-  <%= link_to "","classplanpdf", :id => "pdf_button" %>
-</p>
+<p style="margin-left:800px;margin-top:-80px;"><%= link_to "", "classplanpdf", :id => "pdf_button" %></p>
 <table class="custom">
   <tr>
     <td class="label">Sınıf</td>
-    <td>
-      <%= Classroom.find(session[:classroom_id]).name %>
-    </td>
+    <td><%= Classroom.find(session[:classroom_id]).name %></td>
   </tr>
   <tr>
     <td class="label">Kapasite</td>
-    <td>
-      <%= Classroom.find(session[:classroom_id]).capacity %>
-    </td>
+    <td><%= Classroom.find(session[:classroom_id]).capacity %></td>
   </tr>
   <tr>
     <td class="label">Verilen Ders</td>
@@ -35,56 +29,97 @@
   <tr>
     <td class="info" colspan=2>
       <style>
-        #table { margin-left:-20px;}
-        #table th{
-          font-size:10px;
+        #table { margin-left:-30px;}
+        #table th {
+          font-size:9px;
           padding:0em;
+          font-weight:lighter;
           border:1px solid #ddd;
         }
-        #table th.clock{min-height:20px;height:20px;min-width:65px;width:65px;}
-        #table th.course{min-height:80px;height:80px;min-width:170px;width:170px;}
         #table th.header{min-height:20px;height:20px;background-color:#ccc;}
+        #table th.x{background-color:#ccc;min-height:20px;height:20px;min-width:65px;width:65px;}
+        #table th.clock{min-height:20px;height:20px;min-width:60px;width:60px;}
+        #table th.field1{min-height:25px;height:25px;min-width:140px;width:140px;}
+        #table th.field2{min-height:65px;height:65px;min-width:30px;width:30px;}
+
         #table th.launch{min-height:20px;height:20px;background-color:#ccc;}
-        #table th { font-weight:lighter }
+
       </style>
       <div id="table">
         <table>
           <tr>
-            <th class="clock, header"><%= @header[0][0] %></th>
+            <th class="x" rowspan=2><%= @header[0][0] %></th>
             <% @header[0].slice(1..-1).each do |day| %>
-              <th class="header"><%= day %></th>
+              <th class="header" colspan=2><%= day %></th>
             <% end %>
           </tr>
+          <tr>
+            <% (@header[0].length-1).times do %>
+              <th class='header'>Ders</td>
+              <th class='header'>Bölüm</td>
+            <% end %>
+          </tr>
+
           <% @morning.each do |col| %>
           <tr>
             <th class="clock"><%= col[0].gsub('-', ':') %></th>
+            <% index = 0 %>
             <% col.slice(1..-1).each_with_index do |c, i| %>
-              <th class='course' id="<%= @day.keys[i] + col[0].slice(0..4) %>">
-                <%= c %>
-              </th>
+              <% if i % 2 == 0 %>
+                <th class='field1' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
+                  <% c = c.split("\n") %>
+                  <p style="text-align:left"> <%= c[0] %></p>
+                  <p style="text-align:left"> <%= c[1] %></p>
+                  <p style="text-align:right"><%= c[2] %></p>
+                </th>
+              <% else %>
+                <th class='field2' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
+                <% index = index + 1 %>
+              <% end %>
             <% end %>
           </tr>
           <% end %>
+
           <% @launch.each do |col| %>
           <tr>
             <th class="clock, launch"><%= col[0].gsub('-', ':') %></th>
+            <% index = 0 %>
             <% col.slice(1..-1).each_with_index do |c, i| %>
-              <th class='launch' id="<%= @day.keys[i] + col[0].slice(0..4) %>">
-                <%= c %>
+              <% if i % 2 == 0 %>
+                <th class='field1, launch' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1"><%= c %></th>
+                <% c = c.split("\n") %>
+                <p style="text-align:left"> <%= c[0] %></p>
+                <p style="text-align:left"> <%= c[1] %></p>
+                <p style="text-align:right"><%= c[2] %></p>
               </th>
+            <% else %>
+              <th class='field2, launch' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
+              <% index = index + 1 %>
             <% end %>
+          <% end %>
           </tr>
           <% end %>
+
           <% @evening.each do |col| %>
           <tr>
             <th class="clock"><%= col[0].gsub('-', ':') %></th>
+            <% index = 0 %>
             <% col.slice(1..-1).each_with_index do |c, i| %>
-              <th class='course' id="<%= @day.keys[i] + col[0].slice(0..4) %>">
-                <%= c %>
-              </th>
+              <% if i % 2 == 0 %>
+                <th class='field1' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
+                  <% c = c.split("\n") %>
+                  <p style="text-align:left"> <%= c[0] %></p>
+                  <p style="text-align:left"> <%= c[1] %></p>
+                  <p style="text-align:right"><%= c[2] %></p>
+                </th>
+              <% else %>
+                <th class='field2' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
+                <% index = index + 1 %>
+              <% end %>
             <% end %>
           </tr>
           <% end %>
+
         </table>
       </div>
     </td>
@@ -105,9 +140,9 @@
       var assignment_id = part[1];
       $('th').css('border', "1px solid #ddd");
       for (var i = 0; i < days.length; i++) {
-        $('#' + days[i]).css('border', "1px solid #35addf");
+        $('#' + days[i] + 'field1').css('border', "1px solid #35addf");
+        $('#' + days[i] + 'field2').css('border', "1px solid #35addf");
       }
-
       $("#select_assignment_id").html("<input type='hidden' id='assignment_id' name='assignment_id' value='" + assignment_id + "'/>");
     }
   })

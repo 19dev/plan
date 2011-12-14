@@ -24,4 +24,19 @@ module InitHelper
     end
     return nil
   end
+  def table_schema
+    @day = {
+      "Sunday" => "Pazartesi",
+      "Tuesday" => "Salı",
+      "Wednesday" => "Çarşamba",
+      "Thursday" => "Perşembe",
+      "Friday" => "Cuma"
+    }
+
+    @header = [["Saat / Gün"] + @day.values]
+    @morning = []
+    @launch = [["12-00 / 13-00", "", "", "", "", "", "", "", "", "", ""]]
+    @evening = []
+    return [@day, @header, @morning, @launch, @evening]
+  end
 end

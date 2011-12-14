@@ -2,7 +2,9 @@
 require 'prawn' # http://cracklabs.com/prawnto
 
 class HomeController < ApplicationController
+  include InitHelper
   include CleanHelper # temizlik birimi
+  include PdfHelper   # pdf birimi
 
   before_filter :clean_notice # temiz sayfa
   before_filter :clean_error, :except => [:review] # temiz sayfa
@@ -36,12 +38,12 @@ class HomeController < ApplicationController
   def schedule
     session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
     session[:course_ids] = {}
-    assignments = Assignment.find(:all,
+    @assignments = Assignment.find(:all,
                                   :conditions => {
                                     :lecturer_id => session[:lecturer_id],
                                     :period_id => session[:period_id]
                                   })
-    assignments.each do |assignment|
+    @assignments.each do |assignment|
       if Classplan.find(:first, :conditions => { :period_id => session[:period_id], :assignment_id => assignment.id })
         classplans = Classplan.find(:all,
                                     :conditions => {
@@ -61,6 +63,71 @@ class HomeController < ApplicationController
                         "bu dönemlik ders programı tablosu henüz hazır değil."
       redirect_to '/home/review'
     end
+
+    @day, @header, @morning, @launch, @evening = table_schema # standart tablo şeması
+    @assignments = @assignments.collect { |assignment| assignment.id }
+
+    ["08","09","10","11"].each do |hour|
+      column = [hour+':15'+' '+(hour.to_i+1).to_s+':00']
+      @day.each do |day_en, day_tr|
+        classplan = Classplan.find(:first,
+                                   :conditions => {
+          :period_id => session[:period_id],
+          :day => day_en,
+          :begin_time => hour+'-15'
+        })
+        if classplan and @assignments.include?(classplan.assignment_id)
+          column << classplan.assignment.course.code + "\n" +
+                    classplan.assignment.course.name
+          column << classplan.classroom.name
+        else
+          column << ""
+          column << ""
+        end
+      end
+      @morning << column
+    end
+
+    ["13","14","15","16","17","18","19","20","21","22"].each do |hour|
+      column = [hour+':00'+' '+(hour.to_i+1).to_s+':00']
+      @day.each do |day_en, day_tr|
+        classplan = Classplan.find(:first,
+                                   :conditions => {
+          :period_id => session[:period_id],
+          :day => day_en,
+          :begin_time => hour+'-00'
+        })
+        if classplan and @assignments.include?(classplan.assignment_id)
+          column << classplan.assignment.course.code + "\n" +
+                    classplan.assignment.course.name
+          column << classplan.classroom.name
+        else
+          column << ""
+          column << ""
+        end
+      end
+      @evening << column
+    end
+    session[:tablo] = [@header, @morning, @launch, @evening] # for pdf
+  end
+
+  def schedulepdf
+    header, morning, launch, evening = session[:tablo]
+
+    lecturer_name = Lecturer.find(session[:lecturer_id]).full_name
+    lecturer_photo = Lecturer.find(session[:lecturer_id]).photo
+    department_name = Lecturer.find(session[:lecturer_id]).department.name
+    period_name = Period.find(session[:period_id]).full_name
+
+    title = period_name + " / " + department_name + " / " + lecturer_name
+    info = [
+            ["Ad Soyad", lecturer_name],
+            ["Bölüm",    department_name],
+            ["Dönem",    period_name],
+    ]
+
+    pdf = pdf_schema title, "#{lecturer_photo}", info, header, "Ders", "Sınıf", morning, launch, evening
+    send_data(pdf.render(), :filename => period_name + "-" + lecturer_name + ".pdf")
   end
 
   def show
@@ -131,7 +198,7 @@ class HomeController < ApplicationController
 
     @header = [["Saat / Gün"] + @day.values]
     @morning = []
-    @launch = [["12-00 / 13-00", "", "", "", "", ""]]
+    @launch = [["12-00 / 13-00", "", "", "", "", "", "", "", "", "", ""]]
     @evening = []
 
     ["08","09","10","11"].each do |hour|
@@ -150,10 +217,12 @@ class HomeController < ApplicationController
           state = false
         end
         if state
-          column << classplan.assignment.course.full_name + "\n" +
-                    classplan.assignment.lecturer.full_name + "\n" +
-                    classplan.assignment.lecturer.department.code
+          column << classplan.assignment.course.code + "\n" +
+                    classplan.assignment.course.name + "\n" +
+                    classplan.assignment.lecturer.full_name
+          column << classplan.assignment.lecturer.department.code
         else
+          column << ""
           column << ""
         end
       end
@@ -165,21 +234,23 @@ class HomeController < ApplicationController
       @day.each do |day_en, day_tr|
         classplan = Classplan.find(:first,
                                    :conditions => {
-          :classroom_id => session[:classroom_id],
-          :period_id => session[:period_id],
-          :day => day_en,
-          :begin_time => hour+'-00'
-        })
+                                                    :classroom_id => session[:classroom_id],
+                                                    :period_id => session[:period_id],
+                                                    :day => day_en,
+                                                    :begin_time => hour+'-00'
+		})
         if classplan and @assignments.include?(classplan.assignment_id)
           state = true
         else
           state = false
         end
         if state
-          column << classplan.assignment.course.full_name + "\n" +
-                    classplan.assignment.lecturer.full_name + "\n" +
-                    classplan.assignment.lecturer.department.code
+          column << classplan.assignment.course.code + "\n" +
+                    classplan.assignment.course.name + "\n" +
+                    classplan.assignment.lecturer.full_name
+          column << classplan.assignment.lecturer.department.code
         else
+          column << ""
           column << ""
         end
       end
@@ -187,45 +258,18 @@ class HomeController < ApplicationController
     end
     session[:tablo] = [@header, @morning, @launch, @evening] # for pdf
   end
+
   def classplanpdf
-    header = session[:tablo][0]
-    morning = session[:tablo][1]
-    launch = session[:tablo][2]
-    evening = session[:tablo][3]
+    header, morning, launch, evening = session[:tablo]
 
     class_name = Classroom.find(session[:classroom_id]).name
     period_name = Period.find(session[:period_id]).full_name
+    title = period_name + " / " + class_name
 
-    pdf = Prawn::Document.new(:page_size => 'A4', :layout => 'portrait') do
-      font "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf", :size => 8
-      text period_name + " / " + class_name, :size => 18,  :align => :center
-      stroke do
-        rectangle [0,740], 525, 0.025
-      end
-      move_down(20)
-
-      table header,
-        :position => :center,
-        :row_colors => ["cccccc"],
-        :column_widths => { 0 => 87, 1 => 87, 2 => 87, 3 => 87, 4 => 87 , 5 => 87 },
-        :cell_style => { :size => 5, :text_color => "000000", :height => 18, :border_width => 0.5 }
-      table morning,
-        :position => :center,
-        :column_widths => { 0 => 87, 1 => 87, 2 => 87, 3 => 87, 4 => 87 , 5 => 87 },
-        :cell_style => { :size => 5, :text_color => "000000", :height => 40, :border_width => 0.5 }
-      table launch,
-        :position => :center,
-        :row_colors => ["cccccc"],
-        :column_widths => { 0 => 87, 1 => 87, 2 => 87, 3 => 87, 4 => 87 , 5 => 87 },
-        :cell_style => { :size => 5, :text_color => "000000", :height => 18, :border_width => 0.5 }
-      table evening,
-        :position => :center,
-        :column_widths => { 0 => 87, 1 => 87, 2 => 87, 3 => 87, 4 => 87 , 5 => 87 },
-        :cell_style => { :size => 5, :text_color => "000000", :height => 40, :border_width => 0.5 }
-    end
-    send_data(pdf.render(), :filename => class_name + ".pdf")
-
+    pdf = pdf_schema title, nil, nil, header, "Ders", "Bölüm", morning, launch, evening
+    send_data(pdf.render(), :filename => period_name + "-" + class_name + ".pdf")
   end
+
   def foo
     # EXAMPLE PDF EXPORT
     pdf = Prawn::Document.new(:page_size => 'A4', :layout => 'portrait') do

@@ -100,6 +100,7 @@ Schedule::Application.routes.draw do
   post "home/auto"
   post "home/show"
   post "home/schedule"
+  get  "home/schedulepdf"
   get  "home/class"
   post "home/classplan"
   get  "home/classplanpdf"
