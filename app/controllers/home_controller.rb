@@ -4,6 +4,7 @@ require 'prawn' # http://cracklabs.com/prawnto
 class HomeController < ApplicationController
   include InitHelper
   include CleanHelper # temizlik birimi
+  include SchemaHelper   # pdf birimi
   include PdfHelper   # pdf birimi
 
   before_filter :clean_notice # temiz sayfa
@@ -35,7 +36,7 @@ class HomeController < ApplicationController
     end
   end
 
-  def schedule
+  def lecturerplan
     session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
     session[:course_ids] = {}
     @assignments = Assignment.find(:all,
@@ -111,7 +112,7 @@ class HomeController < ApplicationController
     session[:tablo] = [@header, @morning, @launch, @evening] # for pdf
   end
 
-  def schedulepdf
+  def lecturerplanpdf
     header, morning, launch, evening = session[:tablo]
 
     lecturer_name = Lecturer.find(session[:lecturer_id]).full_name
@@ -264,18 +265,79 @@ class HomeController < ApplicationController
     send_data(pdf.render(), :filename => period_name + "-" + class_name + ".pdf")
   end
 
-  def foo
-    # EXAMPLE PDF EXPORT
-    pdf = Prawn::Document.new(:page_size => 'A4', :layout => 'portrait') do
-      text "bölüm", :size => 21,  :align => :center
-      stroke do
-        rectangle [0,740], 525, 1
-      end
-      move_down(20)
-      font "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
-      text "A Ruby On Rails Developer based in India", :size => 32
-      text "Email: san2821@gmail.com", :size => 21
+  def departmentplan
+    session[:period_id] = params[:period_id] if params[:period_id]
+    session[:department_id] = params[:department_id] if params[:department_id]
+    session[:section1] = if params[:section1]
+                           params[:section1]
+                         else
+                           nil
+                         end
+    session[:section2] = if params[:section2]
+                           params[:section2]
+                         else
+                           nil
+                         end
+
+    unless params[:period_id]
+      session[:error] = "Period boş bırakılamaz"
+      return render '/home/department'
     end
-    send_data(pdf.render(), :filename => 'pdfexport.pdf')
+    unless params[:department_id]
+      session[:error] = "Bu isme ait bir bölüm bulunamadı"
+      return render '/home/department'
+    end
+    unless params[:section1] or params[:section2]
+      session[:error] = "Bu 1. öğretim veya 2.öğretim seçilmelidir"
+      return render '/home/department'
+    end
+
+    @day,@header,@morning1,@launch1,@evening1 = department_schema(session[:department_id],1,[session[:section1],session[:section2]])
+    @day,@header,@morning2,@launch2,@evening2 = department_schema(session[:department_id],2,[session[:section1],session[:section2]])
+    @day,@header,@morning3,@launch3,@evening3 = department_schema(session[:department_id],3,[session[:section1],session[:section2]])
+    @day,@header,@morning4,@launch4,@evening4 = department_schema(session[:department_id],4,[session[:section1],session[:section2]])
+
+  end
+  def departmentplanpdf
+    day,header,morning1,launch1,evening1 = department_schema(session[:department_id],1,[session[:section1],session[:section2]])
+    day,header,morning2,launch2,evening2 = department_schema(session[:department_id],2,[session[:section1],session[:section2]])
+    day,header,morning3,launch3,evening3 = department_schema(session[:department_id],3,[session[:section1],session[:section2]])
+    day,header,morning4,launch4,evening4 = department_schema(session[:department_id],4,[session[:section1],session[:section2]])
+
+    morning = [morning1, morning2, morning3, morning4]
+    launch =  [launch1, launch2, launch3, launch4]
+    evening = [evening1, evening2, evening3, evening4]
+
+    department_name = Department.find(session[:department_id]).name
+    period_name = Period.find(session[:period_id]).full_name
+    title = period_name + " / " + department_name
+
+    info = [
+            ["Bölüm", department_name],
+            ["Dönem", period_name],
+    ]
+
+    pdf = departmentpdf_schema title, nil, info, header, "Ders", "Bölüm", morning, launch, evening
+    send_data(pdf.render(), :filename => period_name + "-" + department_name + ".pdf")
+  end
+  def departmentyearpdf
+    day, header, morning, launch, evening = department_schema(
+      session[:department_id],
+      params[:year].to_i,
+      [session[:section1], session[:section2]]
+    )
+
+    department_name = Department.find(session[:department_id]).name
+    period_name = Period.find(session[:period_id]).full_name
+    title = period_name + " / " + department_name
+
+    info = [
+            ["Bölüm", department_name],
+            ["Sınıf", params[:year]],
+            ["Dönem", period_name],
+    ]
+
+    pdf = pdf_schema title, nil, info, header, "Ders", "Sınıf", morning, launch, evening
+    send_data(pdf.render(), :filename => period_name + "-" + department_name + "-" + params[:year] + ".pdf")
   end
 end

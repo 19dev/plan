@@ -3,7 +3,7 @@
 <div id="textslide">
   <h2>Duyurular</h2>
   <ul id="ticker" class="ticker">
-    <% Notice.find(:all).each do |notice| %>
+    <% Notice.all.each do |notice| %>
       <li><%= notice.content %></li>
     <% end %>
   </ul>

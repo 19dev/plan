@@ -38,7 +38,7 @@
         <tr>
           <td></td>
           <td>
-            <% form_tag :action => 'schedule' do %>
+            <% form_tag :action => 'lecturerplan' do %>
               <%= hidden_field_tag :lecturer_id,  @lecturer.id %>
               <%= submit_tag "Ders Programı", :id => "submit_button" %>
             <% end %>
