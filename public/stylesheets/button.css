@@ -46,10 +46,9 @@
 #pdf_buttonx32 {
     height:32px;
     width:32px;
-    text-align:center;
-    padding-top:6px;
     background:url(../images/pdf-32x32.png) no-repeat top;
     display:block;
     cursor:pointer;
     border:none;
+    text-decoration: none;
 }
