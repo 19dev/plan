@@ -127,7 +127,7 @@ class HomeController < ApplicationController
             ["Dönem",    period_name],
     ]
 
-    pdf = pdf_schema title, "#{lecturer_photo}", info, header, "Ders", "Sınıf", morning, launch, evening
+    pdf = lecturerpdf_schema title, "#{lecturer_photo}", info, header, "Ders", "Sınıf", morning, launch, evening
     send_data(pdf.render(), :filename => period_name + "-" + lecturer_name + ".pdf")
   end
 
@@ -261,7 +261,7 @@ class HomeController < ApplicationController
             ["Dönem", period_name],
     ]
 
-    pdf = pdf_schema title, nil, info, header, "Ders", "Bölüm", morning, launch, evening
+    pdf = pdf_schema title, info, header, "Ders", "Bölüm", morning, launch, evening
     send_data(pdf.render(), :filename => period_name + "-" + class_name + ".pdf")
   end
 
@@ -317,7 +317,7 @@ class HomeController < ApplicationController
             ["Dönem", period_name],
     ]
 
-    pdf = departmentpdf_schema title, nil, info, header, "Ders", "Bölüm", morning, launch, evening
+    pdf = departmentpdf_schema title, info, header, "Ders", "Bölüm", morning, launch, evening
     send_data(pdf.render(), :filename => period_name + "-" + department_name + ".pdf")
   end
   def departmentyearpdf
@@ -337,7 +337,7 @@ class HomeController < ApplicationController
             ["Dönem", period_name],
     ]
 
-    pdf = pdf_schema title, nil, info, header, "Ders", "Sınıf", morning, launch, evening
+    pdf = pdf_schema title, info, header, "Ders", "Sınıf", morning, launch, evening
     send_data(pdf.render(), :filename => period_name + "-" + department_name + "-" + params[:year] + ".pdf")
   end
 end

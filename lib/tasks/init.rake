@@ -24,6 +24,9 @@ task :table do
     "notice " +
       "content:string",
 
+    "faculty " +
+      "name:string",
+
     "department " +
       "code:string " +
       "name:string",
