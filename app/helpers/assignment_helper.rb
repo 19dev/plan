@@ -2,6 +2,9 @@
 module AssignmentHelper
 # Assignment -------------------------------------------------------
   def assignmentnew
+    @auto_lecturers = Lecturer.all.collect do |lecturer|
+      { lecturer.id => ["#{lecturer.first_name} #{lecturer.last_name}", lecturer.photo, lecturer.department.name] }
+    end
     lecturers = Lecturer.find(:all, :conditions => {:department_id => session[:department_id]})
     @unassignment_lecturers = lecturers.select do |lecturer|
       !Assignment.find(:first, :conditions => { :lecturer_id => lecturer.id, :period_id => session[:period_id] })

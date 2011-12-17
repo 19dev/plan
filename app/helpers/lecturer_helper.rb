@@ -18,7 +18,9 @@ module LecturerHelper
     params[:first_name] = UnicodeUtils.titlecase(params[:first_name], :tr)
     params[:last_name] = UnicodeUtils.titlecase(params[:last_name], :tr)
 
-    params[:department_id] = session[:department_id]
+    # params[:department_id] = session[:department_id] # doğrusu böyle olmalı
+    params[:department_id] = params[:department_id] # şimdilik diğer bölümlere ekleyecek şekilde yapıyoruz.
+
     lecturer = Lecturer.new params
     lecturer.save
     session[:lecturer_id] = lecturer.id

@@ -2,6 +2,14 @@
 <%= form_tag({ :action => 'lectureradd' }, :multipart => true) do %>
   <table class="custom">
   <tr>
+    <td class="label"> Bölüm: </td>
+    <td class="field">
+      <%= select_tag(:department_id, options_from_collection_for_select(Department.all, :id, :name, session[:department_id])) %>
+
+    </td>
+
+  </tr>
+  <tr>
     <td class="label">Ad(*)</td>
     <td class="field"><%= text_field_tag :first_name %></td>
   </tr>
