@@ -80,7 +80,7 @@ div#container {
     font-size:11px;
     position:relative;
     height:25px;
-    margin:0 auto 16px
+    margin:0 auto -15px
 }
 ul.tabs {float:right;margin:0}
 ul.tabs li {display:block;float:left;line-height:1}
