@@ -350,13 +350,19 @@ module ScheduleHelper
 
   end
   def schedulereview
-    lecturers = Lecturer.find(:all, :conditions => { :department_id => session[:department_id] })
+    assignments = Assignment.joins(:course).where(
+      'courses.department_id' => session[:department_id],
+      'assignments.period_id' => session[:period_id]
+    )
+    lecturer_ids = assignments.collect { |assignment| assignment.lecturer_id }
+    lecturer_ids.uniq!
+
     @classplans = {}
-    lecturers.each do |lecturer|
-      if Assignment.find(:first, :conditions => { :lecturer_id => lecturer.id, :period_id => session[:period_id] })
+    lecturer_ids.each do |lecturer_id|
+      if Assignment.find(:first, :conditions => { :lecturer_id => lecturer_id, :period_id => session[:period_id] })
         assignments = Assignment.find(:all,
                                       :conditions => {
-          :lecturer_id => lecturer.id,
+          :lecturer_id => lecturer_id,
           :period_id => session[:period_id]
         })
         courses = assignments.collect do |assignment|
@@ -366,7 +372,7 @@ module ScheduleHelper
         end
         courses = courses.compact
         if courses != []
-          @classplans[lecturer] = courses
+          @classplans[Lecturer.find(lecturer_id)] = courses
         end
       end
     end
