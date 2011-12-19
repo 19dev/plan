@@ -13,113 +13,87 @@
       $("#lecturer_ids, #test").jListbox();
       $("#showcode2").click(function() { $("#code2").toggle(); });
       });
-    </script>
-    <!-- end jlistbox -->
+</script>
+<!-- end jlistbox -->
 
-    <h2><%= session[:department] %> Bölümü Öğretim Elamanı Programını Ayarla</h2>
-    <%= form_tag({ :action => 'scheduleadd' }) do %>
-      <table class="custom" style="margin-left:5px">
-        <tr>
-          <td class="label">Öğretim görevlisi</td>
-          <td>
-            <select id="lecturer_ids" name="lecturer_ids">
-              <% @assignments.each do |k, lecturer| %>
-                <option  rel="<img width='56' height='56' src='<%= lecturer.photo %>'/>" value="<%= k %>" selected>
-                <%= lecturer.full_name %>
-                </option>
+<h2><%= session[:department] %> Bölümü Öğretim Elamanı Programını Ayarla</h2>
+<%= form_tag({ :action => 'scheduleadd' }) do %>
+  <table class="custom" style="margin-left:5px">
+    <tr>
+      <td class="label">Öğretim görevlisi</td>
+      <td>
+        <select id="lecturer_ids" name="lecturer_ids">
+          <% @assignments.each do |k, lecturer| %>
+            <option  rel="<img width='56' height='56' src='<%= lecturer.photo %>'/>" value="<%= k %>" selected>
+            <%= lecturer.full_name %>
+            </option>
+          <% end %>
+        </select>
+      </td>
+    </tr>
+    <p id="select_lecturer_id"></p>
+    <tr>
+      <td class="label">Verdiği ders</td>
+      <td>
+        <select id="course_id" name="course_id">
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td class="info" colspan=2>
+        <style>
+          #table { margin-left:-30px;}
+          #table th {
+            font-size:9px;
+            padding:0em;
+            font-weight:lighter;
+            border:1px solid #ddd;
+          }
+          #table th.header{min-height:20px;height:20px;background-color:#ccc;}
+          #table th.x{background-color:#ccc;min-height:20px;height:20px;min-width:65px;width:65px;}
+          #table th.clock{min-height:20px;height:20px;min-width:60px;width:60px;}
+          #table th.field1{min-height:25px;height:25px;min-width:140px;width:140px;}
+          #table th.field2{min-height:65px;height:65px;min-width:30px;width:30px;}
+
+          #table th.launch{min-height:20px;height:20px;background-color:#ccc;}
+        </style>
+        <div id="table">
+          <table>
+
+            <tr>
+              <th class="x" rowspan=2><%= @header[0][0] %></th>
+              <% @header[0].slice(1..-1).each do |day| %>
+                <th class="header" colspan=2><%= day %></th>
               <% end %>
-            </select>
-          </td>
-        </tr>
-        <p id="select_lecturer_id"></p>
-        <tr>
-          <td class="label">Verdiği ders</td>
-          <td>
-            <select id="course_id" name="course_id">
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td class="info" colspan=2>
-            <style>
-              #table { margin-left:-30px;}
-              #table th {
-                font-size:9px;
-                padding:0em;
-                font-weight:lighter;
-                border:1px solid #ddd;
-              }
-              #table th.header{min-height:20px;height:20px;background-color:#ccc;}
-              #table th.x{background-color:#ccc;min-height:20px;height:20px;min-width:65px;width:65px;}
-              #table th.clock{min-height:20px;height:20px;min-width:60px;width:60px;}
-              #table th.field1{min-height:25px;height:25px;min-width:140px;width:140px;}
-              #table th.field2{min-height:65px;height:65px;min-width:30px;width:30px;}
+            </tr>
 
-              #table th.launch{min-height:20px;height:20px;background-color:#ccc;}
-            </style>
-            <div id="table">
-              <table>
-
-                <tr>
-                  <th class="x" rowspan=2><%= @header[0][0] %></th>
-                  <% @header[0].slice(1..-1).each do |day| %>
-                    <th class="header" colspan=2><%= day %></th>
-                  <% end %>
-                </tr>
-
-                <tr>
-                  <% @header[0].slice(1..-1).length.times do %>
-                    <th class='header'>Ders</td>
-                    <th class='header'>Sınıf</td>
-                  <% end %>
-                </tr>
-
-                <% @morning.each do |col| %>
-                  <tr>
-                    <th class='clock<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'><%= col[0].gsub('-', ':') %></th>
-                    <% col.slice(1..-1).each_with_index do |c, i| %>
-                      <th class='field2<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'>
-                        <% if col[0].slice(0..1) == @launch[0].slice(0..1)%>
-                          <input type="checkbox" name="<%= @day.keys[i] + col[0].slice(0..4) %>[]"
-                          id="<%= 'seçim : '+@day.values[i]+' - '+col[0] %>"
-                          value="<%= col[0].slice(0..4) %>" onchange="alert(this.id)" disabled/>
-                        <% else %>
-                          <input type="checkbox" name="<%= @day.keys[i] + col[0].slice(0..4) %>[]"
-                          id="<%= 'seçim : '+@day.values[i]+' - '+col[0] %>"
-                          value="<%= col[0].slice(0..4) %>" onchange="alert(this.id)"/>
-                        </th>
-                      <% end %>
-                    </th>
-                    <th class='field1<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'>
-                      <% if col[0].slice(0..1) == @launch[0].slice(0..1)%>
-                        <input type="checkbox" id="classroom_id" name="<%= @day.keys[i] + col[0].slice(0..4) %>[]" value="" disabled>
-                      <% else %>
-                        <select id="classroom_id" name="<%= @day.keys[i] + col[0].slice(0..4) %>[]" style="width:75px">
-                          <option value="" selected>
-                          </option>
-                          <% @class.each do |k| %>
-                            <option value="<%= k.id %>">
-                            <%= k.name %>
-                            </option>
-                          <% end %>
-                        </select>
-                      <% end %>
-                    </th>
-                  <% end %>
-                </tr>
+            <tr>
+              <% @header[0].slice(1..-1).length.times do %>
+                <th class='header'>Ders</td>
+                <th class='header'>Sınıf</td>
               <% end %>
+            </tr>
 
-              <% @evening.each do |col| %>
-                <tr>
-                  <th><%= col[0].gsub('-', ':') %></th>
-                  <% col.slice(1..-1).each_with_index do |c, i| %>
-                    <th class='field2'>
+            <% @morning.each do |col| %>
+              <tr>
+                <th class='clock<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'><%= col[0].gsub('-', ':') %></th>
+                <% col.slice(1..-1).each_with_index do |c, i| %>
+                  <th class='field2<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'>
+                    <% if col[0].slice(0..1) == @launch[0].slice(0..1)%>
+                      <input type="checkbox" name="<%= @day.keys[i] + col[0].slice(0..4) %>[]"
+                      id="<%= 'seçim : '+@day.values[i]+' - '+col[0] %>"
+                      value="<%= col[0].slice(0..4) %>" onchange="alert(this.id)" disabled/>
+                    <% else %>
                       <input type="checkbox" name="<%= @day.keys[i] + col[0].slice(0..4) %>[]"
                       id="<%= 'seçim : '+@day.values[i]+' - '+col[0] %>"
                       value="<%= col[0].slice(0..4) %>" onchange="alert(this.id)"/>
                     </th>
-                  </th>
-                  <th class="field1">
+                  <% end %>
+                </th>
+                <th class='field1<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'>
+                  <% if col[0].slice(0..1) == @launch[0].slice(0..1)%>
+                    <input type="checkbox" id="classroom_id" name="<%= @day.keys[i] + col[0].slice(0..4) %>[]" value="" disabled>
+                  <% else %>
                     <select id="classroom_id" name="<%= @day.keys[i] + col[0].slice(0..4) %>[]" style="width:75px">
                       <option value="" selected>
                       </option>
@@ -129,21 +103,47 @@
                         </option>
                       <% end %>
                     </select>
-                  </th>
-                <% end %>
-              </tr>
-            <% end %>
+                  <% end %>
+                </th>
+              <% end %>
+            </tr>
+          <% end %>
 
-        </table>
-      </div>
-    </th>
-  </tr>
-  <tr>
-    <td></td>
-    <td>
-      <input id="submit_button" type='submit' value='Kaydet'/>
-    </td>
-  </tr>
+          <% @evening.each do |col| %>
+            <tr>
+              <th><%= col[0].gsub('-', ':') %></th>
+              <% col.slice(1..-1).each_with_index do |c, i| %>
+                <th class='field2'>
+                  <input type="checkbox" name="<%= @day.keys[i] + col[0].slice(0..4) %>[]"
+                  id="<%= 'seçim : '+@day.values[i]+' - '+col[0] %>"
+                  value="<%= col[0].slice(0..4) %>" onchange="alert(this.id)"/>
+                </th>
+              </th>
+              <th class="field1">
+                <select id="classroom_id" name="<%= @day.keys[i] + col[0].slice(0..4) %>[]" style="width:75px">
+                  <option value="" selected>
+                  </option>
+                  <% @class.each do |k| %>
+                    <option value="<%= k.id %>">
+                    <%= k.name %>
+                    </option>
+                  <% end %>
+                </select>
+              </th>
+            <% end %>
+          </tr>
+        <% end %>
+
+      </table>
+    </div>
+  </th>
+</tr>
+<tr>
+  <td></td>
+  <td>
+    <input id="submit_button" type='submit' value='Kaydet'/>
+  </td>
+</tr>
 </table>
 <% end %>
 

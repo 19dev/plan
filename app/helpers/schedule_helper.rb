@@ -316,7 +316,8 @@ module ScheduleHelper
             :begin_time => hour
           })
           if classplan and @assignments.include?(classplan.assignment_id)
-            column << classplan.assignment.course.full_name
+            column << classplan.assignment.course.code + "\n" +
+                      classplan.assignment.course.name
             column << classplan.classroom.name
           else
             column << ""
@@ -338,7 +339,8 @@ module ScheduleHelper
           :begin_time => hour
         })
         if classplan and @assignments.include?(classplan.assignment_id)
-          column << classplan.assignment.course.full_name
+          column << classplan.assignment.course.code + "\n" +
+                    classplan.assignment.course.name
           column << classplan.classroom.name
         else
           column << ""

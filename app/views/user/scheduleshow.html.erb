@@ -69,7 +69,9 @@
               <% if i % 2 == 0 %>
                 <th class='field1<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
                   id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
-                  <%= c%>
+                  <% c = c.split("\n") %>
+                  <p style="text-align:left">  <%= c[0] %></p>
+                  <p style="text-align:right"> <%= c[1] %></p>
                 </th>
               <% else %>
                 <th class='field2<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
@@ -88,7 +90,9 @@
               <% if i % 2 == 0 %>
                 <th class='field1'
                   id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
-                  <%= c%>
+                  <% c = c.split("\n") %>
+                  <p style="text-align:left">  <%= c[0] %></p>
+                  <p style="text-align:right"> <%= c[1] %></p>
                 </th>
               <% else %>
                 <th class='field2'
