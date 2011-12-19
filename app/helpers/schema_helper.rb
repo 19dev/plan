@@ -28,12 +28,14 @@ module SchemaHelper
     @day, @header, @launch, @morning, @evening, morning_time, evening_time = table_schema # standart tablo şeması
     if section[0]
       morning_time.each do |hour|
-        column = if hour.to_i < 13
-                   [hour + '-15' + ' / ' + (hour.to_i+1).to_s + '-00']
-                 else
-                   [hour + '-00' + ' / ' + (hour.to_i+1).to_s + '-00']
-                 end
-        if hour == @launch[0]
+        if hour.to_i < 13
+          column = [hour + '-15' + ' / ' + (hour.to_i+1).to_s + '-00']
+          hour = hour + '-15'
+        else
+          column = [hour + '-00' + ' / ' + (hour.to_i+1).to_s + '-00']
+          hour = hour + '-00'
+        end
+        if hour.slice(0..1) == @launch[0]
           @launch.slice(1..-1).each {|l| column << l }
           @launch = column
           @morning << column
@@ -103,7 +105,7 @@ module SchemaHelper
         column = [hour + '-00' + ' / ' + (hour.to_i+1).to_s + '-00']
         hour = hour + '-00'
       end
-      if hour == @launch[0]
+      if hour.slice(0..1) == @launch[0]
         @launch.slice(1..-1).each {|l| column << l }
         @launch = column
         @morning << column
@@ -159,12 +161,14 @@ module SchemaHelper
 
     @day, @header, @launch, @morning, @evening, morning_time, evening_time = table_schema # standart tablo şeması
     morning_time.each do |hour|
-      column = if hour.to_i < 13
-                 [hour + '-15' + ' / ' + (hour.to_i+1).to_s + '-00']
-               else
-                 [hour + '-00' + ' / ' + (hour.to_i+1).to_s + '-00']
-               end
-      if hour == @launch[0]
+      if hour.to_i < 13
+        column = [hour + '-15' + ' / ' + (hour.to_i+1).to_s + '-00']
+        hour = hour + '-15'
+      else
+        column = [hour + '-00' + ' / ' + (hour.to_i+1).to_s + '-00']
+        hour = hour + '-00'
+      end
+      if hour.slice(0..1) == @launch[0]
         @launch.slice(1..-1).each {|l| column << l }
         @launch = column
         @morning << column
@@ -174,7 +178,7 @@ module SchemaHelper
                                      :conditions => {
             :period_id => session[:period_id],
             :day => day_en,
-            :begin_time => hour+'-15'
+            :begin_time => hour
           })
           if classplan and assignments.include?(classplan.assignment_id)
             column << classplan.assignment.course.code + "\n" +
