@@ -49,12 +49,12 @@ class HomeController < ApplicationController
   def lecturerplan
     session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
     session[:course_ids] = {}
-    @assignments = Assignment.find(:all,
+    assignments = Assignment.find(:all,
                                    :conditions => {
       :lecturer_id => session[:lecturer_id],
       :period_id => session[:period_id]
     })
-    @assignments.each do |assignment|
+    assignments.each do |assignment|
       if Classplan.find(:first, :conditions => { :period_id => session[:period_id], :assignment_id => assignment.id })
         classplans = Classplan.find(:all,
                                     :conditions => {
@@ -76,7 +76,7 @@ class HomeController < ApplicationController
     end
 
     @day, @header, @launch, @morning, @evening, morning_time, evening_time = table_schema # standart tablo şeması
-    @assignments = @assignments.collect { |assignment| assignment.id }
+    @assignments = assignments.collect { |assignment| assignment.id }
 
     session[:lecturerplan] = @assignments
     @day, @header, @launch, @morning, @evening = lecturerplan_schema(session[:lecturerplan])
