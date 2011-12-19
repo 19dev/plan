@@ -1,0 +1,8 @@
+id,department_id,code,name,,year,theoretical,practice,lab,credit
+1,1,BIL405,BİLGİSAYAR AĞLARI - 1,4,4,0,0,4
+2,1,BIL471,MÜHENDİSLİK EKONOMİSİ,4,2,0,0,2
+3,1,BIL401,GÖRÜNTÜ İŞLEME,4,3,0,0,3
+4,1,BIL403,GÖRÜNTÜ İŞLEME LAB,4,0,0,2,2
+5,1,BIL305,VERİ TABANI YÖNETİMİ,3,3,0,0,3
+6,1,BIL303,BİLGİSAYAR MİMARİSİ,3,4,0,0,4
+7,1,BIL301,SİSTEM PROGRAMLAMA,3,3,0,0,3
