@@ -42,7 +42,13 @@ module AssignmentHelper
     @lecturer = Lecturer.find(session[:lecturer_id])
   end
   def assignmentreview
-    lecturers = Lecturer.find(:all, :conditions => {:department_id => session[:department_id]})
+    assignments = Assignment.joins(:course).where(
+      'courses.department_id' => session[:department_id],
+      'assignments.period_id' => session[:period_id]
+    )
+    lecturer_ids = assignments.collect { |assignment| assignment.lecturer_id }
+    lecturer_ids.uniq!
+    lecturers = Lecturer.find(lecturer_ids)
     @assignment_lecturers = lecturers.select do |lecturer|
       Assignment.find(:first, :conditions => { :lecturer_id => lecturer.id, :period_id => session[:period_id] })
     end
