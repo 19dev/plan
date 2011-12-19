@@ -303,7 +303,7 @@ module ScheduleHelper
         column = [hour + '-00' + ' / ' + (hour.to_i+1).to_s + '-00']
         hour = hour + '-00'
       end
-      if hour == @launch[0]
+      if hour.slice(0..1) == @launch[0]
         @launch.slice(1..-1).each {|l| column << l }
         @launch = column
         @morning << column
