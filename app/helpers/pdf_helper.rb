@@ -1,6 +1,6 @@
 # encoding: utf-8
 module PdfHelper
-  def pdf_schema title, info, header, field1, field2, morning, launch, evening
+  def pdf_schema title, info, header, field1, field2, launch, morning, evening
     pdf = Prawn::Document.new(:page_size => 'A4', :layout => 'portrait') do
       font "#{Prawn::BASEDIR}/data/fonts/Dustismo_Roman.ttf", :size => 8
 
@@ -29,17 +29,28 @@ module PdfHelper
         :column_widths => { 0=>43.2,1=>73.3,2=>22.7,3=>73.3,4=>22.7,5=>73.3,6=>22.7,7=>73.3,8=>22.7,9=>73.3,10=>22.7},
         :cell_style => { :size => 5, :text_color => "000000", :height => 18, :border_width => 0.3 }
       if morning
-        table morning,
+        launch_time = nil
+        morning.each_with_index do |row, index|
+          if row[0].slice(0..1) == launch[0].slice(0..1)
+            launch_time = index
+            break
+          end
+        end
+        table morning.slice(0..launch_time-1),
           :position => :center,
           :column_widths => { 0=>43.2,1=>73.3,2=>22.7,3=>73.3,4=>22.7,5=>73.3,6=>22.7,7=>73.3,8=>22.7,9=>73.3,10=>22.7},
           :cell_style => { :size => 5, :text_color => "000000", :height => 30, :border_width => 0.3 }
-      end
-      if launch
-        table launch,
+
+        table [launch],
           :position => :center,
           :row_colors => ["cccccc"],
           :column_widths => { 0=>43.2,1=>73.3,2=>22.7,3=>73.3,4=>22.7,5=>73.3,6=>22.7,7=>73.3,8=>22.7,9=>73.3,10=>22.7},
           :cell_style => { :size => 5, :text_color => "000000", :height => 18, :border_width => 0.3 }
+
+        table morning.slice(launch_time+1..-1),
+          :position => :center,
+          :column_widths => { 0=>43.2,1=>73.3,2=>22.7,3=>73.3,4=>22.7,5=>73.3,6=>22.7,7=>73.3,8=>22.7,9=>73.3,10=>22.7},
+          :cell_style => { :size => 5, :text_color => "000000", :height => 30, :border_width => 0.3 }
       end
       if evening
         table evening,
@@ -50,13 +61,13 @@ module PdfHelper
     end
     pdf
   end
-  def lecturerpdf_schema title, photo, info, header, field1, field2, morning, launch, evening
+  def lecturerpdf_schema title, photo, info, header, field1, field2, launch, morning, evening
     pdf = Prawn::Document.new(:page_size => 'A4', :layout => 'portrait') do
       font "#{Prawn::BASEDIR}/data/fonts/Dustismo_Roman.ttf", :size => 8
 
       move_up(30)
       text "Ondokuz Mayıs Üniversitesi", :size => 16,  :align => :center
-      text "Mühendislik Fakültesi Program Arama Sistemi", :size => 12,  :align => :center
+      text "Mühendislik Fakültesi Program Arama Sistemi", :size => 12, :align => :center
 
       image "#{Dir.pwd}/public/images/omu-logo.jpg", :width => 64, :height => 64, :position => 0, :vposition => -30
       image "#{Dir.pwd}/public/images/mf-128x128.png", :width => 64, :height => 64, :position => 460, :vposition => -30
@@ -83,17 +94,28 @@ module PdfHelper
         :column_widths => { 0=>43.2,1=>73.3,2=>22.7,3=>73.3,4=>22.7,5=>73.3,6=>22.7,7=>73.3,8=>22.7,9=>73.3,10=>22.7},
         :cell_style => { :size => 5, :text_color => "000000", :height => 18, :border_width => 0.3 }
       if morning
-        table morning,
+        launch_time = nil
+        morning.each_with_index do |row, index|
+          if row[0].slice(0..1) == launch[0].slice(0..1)
+            launch_time = index
+            break
+          end
+        end
+        table morning.slice(0..launch_time-1),
           :position => :center,
           :column_widths => { 0=>43.2,1=>73.3,2=>22.7,3=>73.3,4=>22.7,5=>73.3,6=>22.7,7=>73.3,8=>22.7,9=>73.3,10=>22.7},
-          :cell_style => { :size => 5, :text_color => "000000", :height => 25, :border_width => 0.3 }
-      end
-      if launch
-        table launch,
+          :cell_style => { :size => 5, :text_color => "000000", :height => 30, :border_width => 0.3 }
+
+        table [launch],
           :position => :center,
           :row_colors => ["cccccc"],
           :column_widths => { 0=>43.2,1=>73.3,2=>22.7,3=>73.3,4=>22.7,5=>73.3,6=>22.7,7=>73.3,8=>22.7,9=>73.3,10=>22.7},
           :cell_style => { :size => 5, :text_color => "000000", :height => 18, :border_width => 0.3 }
+
+        table morning.slice(launch_time+1..-1),
+          :position => :center,
+          :column_widths => { 0=>43.2,1=>73.3,2=>22.7,3=>73.3,4=>22.7,5=>73.3,6=>22.7,7=>73.3,8=>22.7,9=>73.3,10=>22.7},
+          :cell_style => { :size => 5, :text_color => "000000", :height => 30, :border_width => 0.3 }
       end
       if evening
         table evening,
@@ -104,9 +126,8 @@ module PdfHelper
     end
     pdf
   end
-  def departmentpdf_schema title, info, header, field1, field2, morning, launch, evening
+  def departmentpdf_schema title, info, header, field1, field2, launch, morning, evening
     morning1, morning2, morning3, morning4 = morning
-    launch1, launch2, launch3, launch4 = launch
     evening1, evening2, evening3, evening4 = evening
 
     pdf = Prawn::Document.new(:page_size => 'A4', :layout => 'portrait') do
@@ -124,11 +145,6 @@ module PdfHelper
         :position => 139,
         :column_widths => { 0 => 43.2, 1 => 202},
         :cell_style => { :size => 6, :text_color => "000000", :height => 18, :border_width => 0.3 }
-
-      # stroke do
-      #   rectangle [0,740], 525, 0.025
-      # end
-
 
       font "#{Prawn::BASEDIR}/data/fonts/comicsans.ttf", :size => 8
       (1..4).each do |year|
@@ -148,18 +164,30 @@ module PdfHelper
           :column_widths => { 0=>43.2,1=>73.3,2=>22.7,3=>73.3,4=>22.7,5=>73.3,6=>22.7,7=>73.3,8=>22.7,9=>73.3,10=>22.7},
           :cell_style => { :size => 5, :text_color => "000000", :height => 18, :border_width => 0.3 }
         if eval("morning#{year}")
-          table eval("morning#{year}"),
+          launch_time = nil
+          eval("morning#{year}").each_with_index do |row, index|
+            if row[0].slice(0..1) == launch[0].slice(0..1)
+              launch_time = index
+              break
+            end
+          end
+          table eval("morning#{year}").slice(0..launch_time-1),
             :position => :center,
             :column_widths => { 0=>43.2,1=>73.3,2=>22.7,3=>73.3,4=>22.7,5=>73.3,6=>22.7,7=>73.3,8=>22.7,9=>73.3,10=>22.7},
             :cell_style => { :size => 5, :text_color => "000000", :height => 30, :border_width => 0.3 }
-        end
-        if eval("launch#{year}")
-          table eval("launch#{year}"),
+
+          table [launch],
             :position => :center,
             :row_colors => ["cccccc"],
             :column_widths => { 0=>43.2,1=>73.3,2=>22.7,3=>73.3,4=>22.7,5=>73.3,6=>22.7,7=>73.3,8=>22.7,9=>73.3,10=>22.7},
             :cell_style => { :size => 5, :text_color => "000000", :height => 18, :border_width => 0.3 }
+
+          table eval("morning#{year}").slice(launch_time+1..-1),
+            :position => :center,
+            :column_widths => { 0=>43.2,1=>73.3,2=>22.7,3=>73.3,4=>22.7,5=>73.3,6=>22.7,7=>73.3,8=>22.7,9=>73.3,10=>22.7},
+            :cell_style => { :size => 5, :text_color => "000000", :height => 30, :border_width => 0.3 }
         end
+
         if eval("evening#{year}")
           table eval("evening#{year}"),
             :position => :center,
@@ -167,11 +195,11 @@ module PdfHelper
             :cell_style => { :size => 5, :text_color => "000000", :height => 30, :border_width => 0.3 }
         end
         if eval("morning#{year}") and eval("evening#{year}")
-          move_down(250)
+          move_down(260)
         elsif eval("morning#{year}")
-          move_down(7)
+          move_down(46)
         elsif eval("evening#{year}")
-          move_down(380)
+          move_down(130)
         end
       end
     end

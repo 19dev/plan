@@ -2,7 +2,7 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <!-- end dual listbox -->
 
-<h2>Sınıf Planı</h2>
+<h2>Sınıf Planı / <%= Classroom.find(session[:classroom_id]).name%></h2>
 <p style="margin-left:800px;margin-top:-80px;"><%= link_to "", "classplanpdf", :id => "pdf_button" %></p>
 <table class="custom">
   <tr>
@@ -62,62 +62,44 @@
 
           <% @morning.each do |col| %>
           <tr>
-            <th class="clock"><%= col[0].gsub('-', ':') %></th>
+            <th class="clock <%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>"><%= col[0].gsub('-', ':') %></th>
             <% index = 0 %>
             <% col.slice(1..-1).each_with_index do |c, i| %>
               <% if i % 2 == 0 %>
-                <th class='field1' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
+                <th class='field1 <%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
+                  id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
                   <% c = c.split("\n") %>
                   <p style="text-align:left"> <%= c[0] %></p>
                   <p style="text-align:left"> <%= c[1] %></p>
                   <p style="text-align:right"><%= c[2] %></p>
                 </th>
               <% else %>
-                <th class='field2' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
+                <th class='field2 <%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
+                  id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
                 <% index = index + 1 %>
               <% end %>
             <% end %>
-          </tr>
-          <% end %>
-
-          <% @launch.each do |col| %>
-          <tr>
-            <th class="clock, launch"><%= col[0].gsub('-', ':') %></th>
-            <% index = 0 %>
-            <% col.slice(1..-1).each_with_index do |c, i| %>
-              <% if i % 2 == 0 %>
-                <th class='field1, launch' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1"><%= c %></th>
-                <% c = c.split("\n") %>
-                <p style="text-align:left"> <%= c[0] %></p>
-                <p style="text-align:left"> <%= c[1] %></p>
-                <p style="text-align:right"><%= c[2] %></p>
-              </th>
-            <% else %>
-              <th class='field2, launch' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
-              <% index = index + 1 %>
-            <% end %>
-          <% end %>
           </tr>
           <% end %>
 
           <% @evening.each do |col| %>
-          <tr>
-            <th class="clock"><%= col[0].gsub('-', ':') %></th>
-            <% index = 0 %>
-            <% col.slice(1..-1).each_with_index do |c, i| %>
-              <% if i % 2 == 0 %>
-                <th class='field1' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
-                  <% c = c.split("\n") %>
-                  <p style="text-align:left"> <%= c[0] %></p>
-                  <p style="text-align:left"> <%= c[1] %></p>
-                  <p style="text-align:right"><%= c[2] %></p>
-                </th>
-              <% else %>
-                <th class='field2' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
-                <% index = index + 1 %>
+            <tr>
+              <th class="clock"><%= col[0].gsub('-', ':') %></th>
+              <% index = 0 %>
+              <% col.slice(1..-1).each_with_index do |c, i| %>
+                <% if i % 2 == 0 %>
+                  <th class='field1' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
+                    <% c = c.split("\n") %>
+                    <p style="text-align:left"> <%= c[0] %></p>
+                    <p style="text-align:left"> <%= c[1] %></p>
+                    <p style="text-align:right"><%= c[2] %></p>
+                  </th>
+                <% else %>
+                  <th class='field2' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
+                  <% index = index + 1 %>
+                <% end %>
               <% end %>
-            <% end %>
-          </tr>
+            </tr>
           <% end %>
 
         </table>

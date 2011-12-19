@@ -2,7 +2,7 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <!-- end dual listbox -->
 <div class="page">
-  <h2><%= session[:department] %> Bölümü Öğretim Elamanı Planı</h2>
+  <h2><%= Lecturer.find(session[:lecturer_id]).department.name %> Bölümü Öğretim Elamanı Planı</h2>
   <p style="margin-left:800px;margin-top:-80px;"><%= link_to "", "lecturerplanpdf", :id => "pdf_button" %></p>
   <table class="custom">
     <tr>
@@ -23,7 +23,7 @@
         <select id="course_ids" name="course_ids">
           <% session[:course_ids].each do |k, v| %>
             <option value="<%= k %>" selected>
-              <%= v %>
+            <%= v %>
             </option>
           <% end %>
         </select>
@@ -50,79 +50,62 @@
         <div id="table">
           <table>
             <tr>
-            <th class="x" rowspan=2><%= @header[0][0] %></th>
-            <% @header[0].slice(1..-1).each do |day| %>
-              <th class="header" colspan=2><%= day %></th>
-            <% end %>
-          </tr>
-          <tr>
-            <% (@header[0].length-1).times do %>
-              <th class='header'>Ders</td>
-              <th class='header'>Sınıf</td>
-            <% end %>
-          </tr>
-
-        <% @morning.each do |col| %>
-          <tr>
-            <th class="clock"><%= col[0].gsub('-', ':') %></th>
-            <% index = 0 %>
-            <% col.slice(1..-1).each_with_index do |c, i| %>
-              <% if i % 2 == 0 %>
-                <th class='field1' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
-                  <% c = c.split("\n") %>
-                  <p style="text-align:left"> <%= c[0] %></p>
-                  <p style="text-align:right"><%= c[1] %></p>
-                </th>
-              <% else %>
-                <th class='field2' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
-                <% index = index + 1 %>
+              <th class="x" rowspan=2><%= @header[0][0] %></th>
+              <% @header[0].slice(1..-1).each do |day| %>
+                <th class="header" colspan=2><%= day %></th>
               <% end %>
-            <% end %>
-          </tr>
-        <% end %>
-
-        <% @launch.each do |col| %>
-          <tr>
-            <th class="clock, launch"><%= col[0].gsub('-', ':') %></th>
-            <% index = 0 %>
-            <% col.slice(1..-1).each_with_index do |c, i| %>
-              <% if i % 2 == 0 %>
-                <th class='field1, launch' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
-                  <% c = c.split("\n") %>
-                  <p style="text-align:left"> <%= c[0] %></p>
-                  <p style="text-align:right"><%= c[1] %></p>
-                </th>
-              <% else %>
-                <th class='field2, launch' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
-                <% index = index + 1 %>
+            </tr>
+            <tr>
+              <% (@header[0].length-1).times do %>
+                <th class='header'>Ders</td>
+                <th class='header'>Sınıf</td>
               <% end %>
-            <% end %>
-          </tr>
-        <% end %>
+            </tr>
 
-        <% @evening.each do |col| %>
-          <tr>
-            <th class="clock"><%= col[0].gsub('-', ':') %></th>
-            <% index = 0 %>
-            <% col.slice(1..-1).each_with_index do |c, i| %>
-              <% if i % 2 == 0 %>
-                <th class='field1' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
-                  <% c = c.split("\n") %>
-                  <p style="text-align:left"> <%= c[0] %></p>
-                  <p style="text-align:right"><%= c[1] %></p>
-                </th>
-              <% else %>
-                <th class='field2' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
-                <% index = index + 1 %>
+            <% @morning.each do |col| %>
+            <tr>
+              <th class="clock <%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>"><%= col[0].gsub('-', ':') %></th>
+              <% index = 0 %>
+              <% col.slice(1..-1).each_with_index do |c, i| %>
+                <% if i % 2 == 0 %>
+                  <th class='field1 <%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
+                    id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
+                    <% c = c.split("\n") %>
+                    <p style="text-align:left"> <%= c[0] %></p>
+                    <p style="text-align:right"> <%= c[1] %></p>
+                  </th>
+                <% else %>
+                  <th class='field2 <%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
+                    id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
+                  <% index = index + 1 %>
+                <% end %>
               <% end %>
+            </tr>
             <% end %>
-          </tr>
-        <% end %>
 
-      </table>
-    </div>
-  </td>
-</tr>
+            <% @evening.each do |col| %>
+              <tr>
+                <th class="clock"><%= col[0].gsub('-', ':') %></th>
+                <% index = 0 %>
+                <% col.slice(1..-1).each_with_index do |c, i| %>
+                  <% if i % 2 == 0 %>
+                    <th class='field1' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
+                      <% c = c.split("\n") %>
+                      <p style="text-align:left"> <%= c[0] %></p>
+                      <p style="text-align:right"><%= c[1] %></p>
+                    </th>
+                  <% else %>
+                    <th class='field2' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
+                    <% index = index + 1 %>
+                  <% end %>
+                <% end %>
+              </tr>
+            <% end %>
+
+          </table>
+        </div>
+      </td>
+    </tr>
   </table>
 </div>
 
@@ -132,9 +115,9 @@
     var part = $(this).val().split('#');
     if (part[0] != "") {
       if (part[0].indexOf(';') >= 0)
-        var days = part[0].split(';');
+      var days = part[0].split(';');
       else
-        var days = [part[0]];
+      var days = [part[0]];
       var assignment_id = part[1];
       $('th').css('border', "1px solid #ddd");
       for (var i = 0; i < days.length; i++) {

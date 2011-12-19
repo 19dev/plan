@@ -1,4 +1,4 @@
-<h2>Sınıf Planı</h2>
+<h2>Bölüm Planı / <%= Department.find(session[:department_id]).name%></h2>
 <p style="margin-left:800px;margin-top:-80px;"><%= link_to "", "departmentplanpdf", :id => "pdf_button" %></p>
 <table class="custom">
   <tr>
@@ -22,358 +22,76 @@
       </style>
       <div id="table">
         <table>
-          <tr>
-            <td id="headline" colspan=2>1. Sınıf</td>
-            <td colspan=4>
-              <%= form_tag :action => 'departmentyearpdf' do %>
-                <%= hidden_field_tag :year, 1 %>
-                <%= submit_tag "", :id => "pdf_buttonx32" %>
-              <% end %>
-            </td>
-          </tr>
-          <tr>
-            <th class="x" rowspan=2><%= @header[0][0] %></th>
-            <% @header[0].slice(1..-1).each do |day| %>
-              <th class="header" colspan=2><%= day %></th>
-            <% end %>
-          </tr>
-          <tr>
-            <% (@header[0].length-1).times do %>
-              <th class='header'>Ders</td>
-              <th class='header'>Sınıf</td>
-            <% end %>
-          </tr>
-
-          <% if @morning1 %>
-            <% @morning1.each do |col| %>
+          <% (1..4).each do |year| %>
             <tr>
-              <th class="clock"><%= col[0].gsub('-', ':') %></th>
-              <% index = 0 %>
-              <% col.slice(1..-1).each_with_index do |c, i| %>
-                <% if i % 2 == 0 %>
-                  <th class='field1' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
-                    <% c = c.split("\n") %>
-                    <p style="text-align:left"> <%= c[0] %></p>
-                    <p style="text-align:left"> <%= c[1] %></p>
-                    <p style="text-align:right"><%= c[2] %></p>
-                  </th>
-                <% else %>
-                  <th class='field2' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
-                  <% index = index + 1 %>
+              <td id="headline" colspan=2><%= year %>. Sınıf</td>
+              <td colspan=4>
+                <%= form_tag :action => 'departmentyearpdf' do %>
+                  <%= hidden_field_tag :year, year %>
+                  <%= submit_tag "", :id => "pdf_buttonx32" %>
                 <% end %>
-              <% end %>
+              </td>
             </tr>
-            <% end %>
-          <% end %>
-
-          <% if @launch1 %>
-            <% @launch1.each do |col| %>
             <tr>
-              <th class="clock, launch"><%= col[0].gsub('-', ':') %></th>
-              <% index = 0 %>
-              <% col.slice(1..-1).each_with_index do |c, i| %>
-                <% if i % 2 == 0 %>
-                  <th class='field1, launch' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1"><%= c %></th>
-                  <% c = c.split("\n") %>
-                  <p style="text-align:left"> <%= c[0] %></p>
-                  <p style="text-align:left"> <%= c[1] %></p>
-                  <p style="text-align:right"><%= c[2] %></p>
-                </th>
-              <% else %>
-                <th class='field2, launch' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
-                <% index = index + 1 %>
+              <th class='x' rowspan=2><%= @header[0][0] %></th>
+              <% @header[0].slice(1..-1).each do |day| %>
+                <th class='header' colspan=2><%= day %></th>
               <% end %>
-            <% end %>
             </tr>
-            <% end %>
-          <% end %>
-
-          <% if @evening1 %>
-            <% @evening1.each do |col| %>
             <tr>
-              <th class="clock"><%= col[0].gsub('-', ':') %></th>
-              <% index = 0 %>
-              <% col.slice(1..-1).each_with_index do |c, i| %>
-                <% if i % 2 == 0 %>
-                  <th class='field1' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
-                    <% c = c.split("\n") %>
-                    <p style="text-align:left"> <%= c[0] %></p>
-                    <p style="text-align:left"> <%= c[1] %></p>
-                    <p style="text-align:right"><%= c[2] %></p>
-                  </th>
-                <% else %>
-                  <th class='field2' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
-                  <% index = index + 1 %>
-                <% end %>
+              <% (@header[0].length-1).times do %>
+                <th class='header'>Ders</td>
+                <th class='header'>Sınıf</td>
               <% end %>
             </tr>
+
+            <% if eval("@morning#{year}") %>
+              <% eval("@morning#{year}").each do |col| %>
+                <tr>
+                  <th class='clock<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'><%= col[0].gsub('-', ':') %></th>
+                  <% index = 0 %>
+                  <% col.slice(1..-1).each_with_index do |c, i| %>
+                    <% if i % 2 == 0 %>
+                      <th class='field1<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
+                        id='<%= @day.keys[index] + col[0].slice(0..4) %>field1'>
+                        <% c = c.split("\n") %>
+                        <p style='text-align:left'> <%= c[0] %></p>
+                        <p style='text-align:left'> <%= c[1] %></p>
+                        <p style='text-align:right'><%= c[2] %></p>
+                      </th>
+                    <% else %>
+                      <th class='field2<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
+                        id='<%= @day.keys[index] + col[0].slice(0..4) %>field2'><%= c %></th>
+                      <% index = index + 1 %>
+                    <% end %>
+                  <% end %>
+                </tr>
+              <% end %>
             <% end %>
+
+            <% if eval("@evening#{year}") %>
+              <% eval("@evening#{year}").each do |col| %>
+                <tr>
+                  <th class='clock'><%= col[0].gsub('-', ':') %></th>
+                  <% index = 0 %>
+                  <% col.slice(1..-1).each_with_index do |c, i| %>
+                    <% if i % 2 == 0 %>
+                      <th class='field1' id='<%= @day.keys[index] + col[0].slice(0..4) %>field1'>
+                        <% c = c.split("\n") %>
+                        <p style='text-align:left'> <%= c[0] %></p>
+                        <p style='text-align:left'> <%= c[1] %></p>
+                        <p style='text-align:right'><%= c[2] %></p>
+                      </th>
+                    <% else %>
+                      <th class='field2' id='<%= @day.keys[index] + col[0].slice(0..4) %>field2'><%= c %></th>
+                      <% index = index + 1 %>
+                    <% end %>
+                  <% end %>
+                </tr>
+              <% end %>
+            <% end %>
+
           <% end %>
-
-          <tr>
-            <td id="headline" colspan=2>2. Sınıf</td>
-            <td colspan=4>
-              <%= form_tag :action => 'departmentyearpdf' do %>
-                <%= hidden_field_tag :year, 2 %>
-                <%= submit_tag "", :id => "pdf_buttonx32" %>
-              <% end %>
-            </td>
-          </tr>
-          <tr>
-            <th class="x" rowspan=2><%= @header[0][0] %></th>
-            <% @header[0].slice(1..-1).each do |day| %>
-              <th class="header" colspan=2><%= day %></th>
-            <% end %>
-          </tr>
-          <tr>
-            <% (@header[0].length-1).times do %>
-              <th class='header'>Ders</td>
-              <th class='header'>Sınıf</td>
-            <% end %>
-          </tr>
-
-          <% if @morning2 %>
-            <% @morning2.each do |col| %>
-            <tr>
-              <th class="clock"><%= col[0].gsub('-', ':') %></th>
-              <% index = 0 %>
-              <% col.slice(1..-1).each_with_index do |c, i| %>
-                <% if i % 2 == 0 %>
-                  <th class='field1' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
-                    <% c = c.split("\n") %>
-                    <p style="text-align:left"> <%= c[0] %></p>
-                    <p style="text-align:left"> <%= c[1] %></p>
-                    <p style="text-align:right"><%= c[2] %></p>
-                  </th>
-                <% else %>
-                  <th class='field2' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
-                  <% index = index + 1 %>
-                <% end %>
-              <% end %>
-            </tr>
-            <% end %>
-          <% end %>
-
-          <% if @launch2 %>
-            <% @launch2.each do |col| %>
-            <tr>
-              <th class="clock, launch"><%= col[0].gsub('-', ':') %></th>
-              <% index = 0 %>
-              <% col.slice(1..-1).each_with_index do |c, i| %>
-                <% if i % 2 == 0 %>
-                  <th class='field1, launch' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1"><%= c %></th>
-                  <% c = c.split("\n") %>
-                  <p style="text-align:left"> <%= c[0] %></p>
-                  <p style="text-align:left"> <%= c[1] %></p>
-                  <p style="text-align:right"><%= c[2] %></p>
-                </th>
-              <% else %>
-                <th class='field2, launch' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
-                <% index = index + 1 %>
-              <% end %>
-            <% end %>
-            </tr>
-            <% end %>
-          <% end %>
-
-          <% if @evening2 %>
-            <% @evening2.each do |col| %>
-            <tr>
-              <th class="clock"><%= col[0].gsub('-', ':') %></th>
-              <% index = 0 %>
-              <% col.slice(1..-1).each_with_index do |c, i| %>
-                <% if i % 2 == 0 %>
-                  <th class='field1' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
-                    <% c = c.split("\n") %>
-                    <p style="text-align:left"> <%= c[0] %></p>
-                    <p style="text-align:left"> <%= c[1] %></p>
-                    <p style="text-align:right"><%= c[2] %></p>
-                  </th>
-                <% else %>
-                  <th class='field2' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
-                  <% index = index + 1 %>
-                <% end %>
-              <% end %>
-            </tr>
-            <% end %>
-          <% end %>
-
-          <tr>
-            <td id="headline" colspan=2>3. Sınıf</td>
-            <td colspan=4>
-              <%= form_tag :action => 'departmentyearpdf' do %>
-                <%= hidden_field_tag :year, 3 %>
-                <%= submit_tag "", :id => "pdf_buttonx32" %>
-              <% end %>
-            </td>
-          </tr>
-          <tr>
-            <th class="x" rowspan=2><%= @header[0][0] %></th>
-            <% @header[0].slice(1..-1).each do |day| %>
-              <th class="header" colspan=2><%= day %></th>
-            <% end %>
-          </tr>
-          <tr>
-            <% (@header[0].length-1).times do %>
-              <th class='header'>Ders</td>
-              <th class='header'>Sınıf</td>
-            <% end %>
-          </tr>
-
-          <% if @morning3 %>
-            <% @morning3.each do |col| %>
-            <tr>
-              <th class="clock"><%= col[0].gsub('-', ':') %></th>
-              <% index = 0 %>
-              <% col.slice(1..-1).each_with_index do |c, i| %>
-                <% if i % 2 == 0 %>
-                  <th class='field1' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
-                    <% c = c.split("\n") %>
-                    <p style="text-align:left"> <%= c[0] %></p>
-                    <p style="text-align:left"> <%= c[1] %></p>
-                    <p style="text-align:right"><%= c[2] %></p>
-                  </th>
-                <% else %>
-                  <th class='field2' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
-                  <% index = index + 1 %>
-                <% end %>
-              <% end %>
-            </tr>
-            <% end %>
-          <% end %>
-
-          <% if @launch3 %>
-            <% @launch3.each do |col| %>
-            <tr>
-              <th class="clock, launch"><%= col[0].gsub('-', ':') %></th>
-              <% index = 0 %>
-              <% col.slice(1..-1).each_with_index do |c, i| %>
-                <% if i % 2 == 0 %>
-                  <th class='field1, launch' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1"><%= c %></th>
-                  <% c = c.split("\n") %>
-                  <p style="text-align:left"> <%= c[0] %></p>
-                  <p style="text-align:left"> <%= c[1] %></p>
-                  <p style="text-align:right"><%= c[2] %></p>
-                </th>
-              <% else %>
-                <th class='field2, launch' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
-                <% index = index + 1 %>
-              <% end %>
-            <% end %>
-            </tr>
-            <% end %>
-          <% end %>
-
-          <% if @evening3 %>
-            <% @evening3.each do |col| %>
-            <tr>
-              <th class="clock"><%= col[0].gsub('-', ':') %></th>
-              <% index = 0 %>
-              <% col.slice(1..-1).each_with_index do |c, i| %>
-                <% if i % 2 == 0 %>
-                  <th class='field1' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
-                    <% c = c.split("\n") %>
-                    <p style="text-align:left"> <%= c[0] %></p>
-                    <p style="text-align:left"> <%= c[1] %></p>
-                    <p style="text-align:right"><%= c[2] %></p>
-                  </th>
-                <% else %>
-                  <th class='field2' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
-                  <% index = index + 1 %>
-                <% end %>
-              <% end %>
-            </tr>
-            <% end %>
-          <% end %>
-
-          <tr>
-            <td id="headline" colspan=2>4. Sınıf</td>
-            <td colspan=4>
-              <%= form_tag :action => 'departmentyearpdf' do %>
-                <%= hidden_field_tag :year, 4 %>
-                <%= submit_tag "", :id => "pdf_buttonx32" %>
-              <% end %>
-            </td>
-          </tr>
-          <tr>
-            <th class="x" rowspan=2><%= @header[0][0] %></th>
-            <% @header[0].slice(1..-1).each do |day| %>
-              <th class="header" colspan=2><%= day %></th>
-            <% end %>
-          </tr>
-          <tr>
-            <% (@header[0].length-1).times do %>
-              <th class='header'>Ders</td>
-              <th class='header'>Sınıf</td>
-            <% end %>
-          </tr>
-
-          <% if @morning4 %>
-            <% @morning4.each do |col| %>
-            <tr>
-              <th class="clock"><%= col[0].gsub('-', ':') %></th>
-              <% index = 0 %>
-              <% col.slice(1..-1).each_with_index do |c, i| %>
-                <% if i % 2 == 0 %>
-                  <th class='field1' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
-                    <% c = c.split("\n") %>
-                    <p style="text-align:left"> <%= c[0] %></p>
-                    <p style="text-align:left"> <%= c[1] %></p>
-                    <p style="text-align:right"><%= c[2] %></p>
-                  </th>
-                <% else %>
-                  <th class='field2' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
-                  <% index = index + 1 %>
-                <% end %>
-              <% end %>
-            </tr>
-            <% end %>
-          <% end %>
-
-          <% if @launch4 %>
-            <% @launch4.each do |col| %>
-            <tr>
-              <th class="clock, launch"><%= col[0].gsub('-', ':') %></th>
-              <% index = 0 %>
-              <% col.slice(1..-1).each_with_index do |c, i| %>
-                <% if i % 2 == 0 %>
-                  <th class='field1, launch' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1"><%= c %></th>
-                  <% c = c.split("\n") %>
-                  <p style="text-align:left"> <%= c[0] %></p>
-                  <p style="text-align:left"> <%= c[1] %></p>
-                  <p style="text-align:right"><%= c[2] %></p>
-                </th>
-              <% else %>
-                <th class='field2, launch' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
-                <% index = index + 1 %>
-              <% end %>
-            <% end %>
-            </tr>
-            <% end %>
-          <% end %>
-
-          <% if @evening4 %>
-            <% @evening4.each do |col| %>
-            <tr>
-              <th class="clock"><%= col[0].gsub('-', ':') %></th>
-              <% index = 0 %>
-              <% col.slice(1..-1).each_with_index do |c, i| %>
-                <% if i % 2 == 0 %>
-                  <th class='field1' id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
-                    <% c = c.split("\n") %>
-                    <p style="text-align:left"> <%= c[0] %></p>
-                    <p style="text-align:left"> <%= c[1] %></p>
-                    <p style="text-align:right"><%= c[2] %></p>
-                  </th>
-                <% else %>
-                  <th class='field2' id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
-                  <% index = index + 1 %>
-                <% end %>
-              <% end %>
-            </tr>
-            <% end %>
-          <% end %>
-
         </table>
       </div>
     </td>

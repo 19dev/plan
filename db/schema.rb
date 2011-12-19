@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111217104210) do
+ActiveRecord::Schema.define(:version => 20111218203015) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "period_id"

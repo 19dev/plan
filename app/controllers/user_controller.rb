@@ -1,11 +1,12 @@
 # encoding: utf-8
-require 'unicode_utils' # http://unicode-utils.rubyforge.org/
+require 'unicode_utils' # http://unicode-utils.rubyforge.org/ turkish-char=utf8
+
 class UserController < ApplicationController
-  include AccountHelper # hesap güncelleme için
   include InitHelper    # gerekli ortak şeyler
   include CleanHelper   # temizlik birimi
 
   # gerekli yardımcı menümünüz
+  include AccountHelper # hesap güncelleme için
   include LecturerHelper
   include CourseHelper
   include AssignmentHelper
@@ -25,16 +26,15 @@ class UserController < ApplicationController
                                                   :coursefind, :courseshow, :coursereview,
                                                   :assignmentnew, :assignmentfind, :assignmentshow, :accountedit,
                                                   :schedulenew, :schedulefind, :scheduleshow
-                                        ] # temiz sayfa
+                                         ] # temiz sayfa
   def login
     return redirect_to '/user/home' if session[:user]
 
     if user = People.find(:first, :conditions => {
                                                   :first_name => params[:first_name],
                                                   :password => params[:password],
-                                                  :status => 2
-                                                  }
-      )
+                                                  :status => 2,
+                                                  })
         session[:user] = true
         session[:user_id] = user.id # update for password
         session[:username] = user.first_name
@@ -46,9 +46,8 @@ class UserController < ApplicationController
       if user = People.find(:first, :conditions => {
                                                     :first_name => params[:first_name],
                                                     :password => params[:password],
-                                                    :status => 1
-                                                    }
-        )
+                                                    :status => 1,
+                                                    })
         session[:user] = true
         session[:usersuper] = true
         session[:user_id] = user.id # update for password

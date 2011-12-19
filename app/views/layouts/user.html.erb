@@ -1,181 +1,158 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title><%= @title %></title>
-  <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag :defaults %>
-  <%= csrf_meta_tag %>
-</head>
-<body>
-  <% if session[:user] %>
+  <head>
+    <title><%= @title %></title>
+    <%= stylesheet_link_tag "style-user" %>
+    <%= javascript_include_tag :defaults %>
+    <%= csrf_meta_tag %>
+  </head>
+  <body>
+    <% if session[:user] %>
 
-  <style>
-    .platform-bar {
-      width: 960px;
-      margin: auto;
-      padding: 0px;
-      border-top-left-radius:5px;
-      border-top-right-radius:5px;
-    }
-  </style>
-    <!--PLATFORM BAR-->
-    <div class="platform-bar">
-      <div class="row bar-content" style="margin-left:19px;">
-        <span class="title">
-          <a href="/home">
-            <%= session[:department] %> / <%= session[:period] %>
-          </a>
-        </span>
-        <ul class="related">
-          <li class="title">
+      <style>
+        .platform-bar {
+          width: 960px;
+          margin: auto;
+          padding: 0px;
+          border-top-left-radius:5px;
+          border-top-right-radius:5px;
+        }
+      </style>
+      <!--PLATFORM BAR-->
+      <div class="platform-bar">
+        <div class="row bar-content" style="margin-left:19px;">
+          <span class="title">
+            <a href="/home">
+              <%= session[:department] %> / <%= session[:period] %>
+            </a>
+          </span>
+          <ul class="related">
             <% if session[:usersuper] %>
+              <li class="title">
               <a href="/user/home">
                 Ana Sayfa
               </a>
+              </li>
             <% else %>
-              <a href="/user/noticereview">
+              <li class="title">
+              <a href="/user/home">
                 Ana Sayfa
               </a>
+              </li>
+              <li class="title">
+              <a href="/user/noticereview">
+                Duyurular
+              </a>
+              </li>
             <% end %>
-          </li>
-          <li class="title">
+
+            <li class="title">
             <a href="/user/accountshow">
               Kişisel Bilgiler
             </a>
-          </li>
-          <li class="title">
-            <a href="">
-              <%= session[:username] %>
-            </a>
-          </li>
-          <li class="title">
+            </li>
+            <li class="title">
             <a href="logout">
               Çıkış
             </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <!--PLATFORM BAR END-->
-
-  <% end %>
-
-
-  <% if session[:error] %>
-    <div id="notice">
-      <div class="error">
-        <h3 id="errorline">Bir problemimiz var!</h3>
-        <%= session[:error] %>
-      </div>
-    </div>
-  <% end %>
-
-  <% if session[:success] %>
-    <div id="notice">
-      <div class="success">
-        <h3 id="successline">Bir başarı iletisi var</h3>
-        <%= session[:success] %>
-      </div>
-    </div>
-  <% end %>
-
-  <div id="content">
-    <% if session[:usersuper] %>
-      <div id="admin-panel">
-        <ul>
-            <li>
-              <ul class="menu">
-                <li class="menuhead">
-                  <img src="/images/default.png"/><p id="manuname">Öğretim görevlisi</p>
-                  <ul>
-                    <li><a href="lecturernew" class="menu-1" style=""><b>Ekle</b></a></li>
-                    <li class="lastli"><a href="lecturerreview" class="menu-2" style=""><b>İncele</b></a></li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <ul class="menu">
-                <li class="menuhead">
-                  <img src="/images/lesson.png"/><p id="manuname">Ders</p>
-                  <ul>
-                    <li><a href="coursenew" class="menu-1" style=""><b>Ekle</b></a></li>
-                    <li class="lastli"><a href="coursereview" class="menu-2" style=""><b>İncele</b></a></li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <ul class="menu">
-                <li class="menuhead">
-                  <img src="/images/assignment.png"/><p id="manuname">Ders Atama</p>
-                  <ul>
-                    <li><a href="assignmentnew" class="menu-1" style=""><b>Ekle</b></a></li>
-                    <li class="lastli"><a href="assignmentreview" class="menu-2" style=""><b>İncele</b></a></li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <ul class="menu">
-                <li class="menuhead">
-                  <img src="/images/schedule.png"/><p id="manuname">Ders Programı</p>
-                  <ul>
-                    <li><a href="schedulenew" class="menu-1" style=""><b>Ekle</b></a></li>
-                    <li class="lastli"><a href="schedulereview" class="menu-2" style=""><b>İncele</b></a></li>
-                  </ul>
-                </li>
-              </ul>
             </li>
           </ul>
-          <!--
-          <tr>
-            <td>
-                <a href="lecturernew" title="">
-                  <img src="/images/default.png"/>Hoca Ekle</a>
-            </td>
-            <td>
-                <a href="lecturerreview" title="">
-                  <img src="/images/review.png"/>Hoca İncele</a>
-            </td>
-            <td>
-                <a href="coursenew" title="">
-                  <img src="/images/lesson.png"/>Ders Ekle</a>
-            </td>
-            <td>
-                <a href="coursereview" title="">
-                  <img src="/images/review.png"/>Ders İncele</a>
-            </td>
-            <td>
-                <a href="assignmentnew" title="">
-                  <img src="/images/assignment.png"/>Ders Ataması</a>
-            </td>
-            <td>
-                <a href="assignmentreview" title="">
-                  <img src="/images/assignmentreview.png"/>Ders Ataması İncele</a>
-            </td>
-            <td>
-                <a href="schedulenew" title="">
-                  <img src="/images/schedule.png"/>Ders Programı</a>
-            </td>
-            <td>
-                <a href="schedulereview" title="">
-                  <img src="/images/review.png"/>Ders Programı İncele</a>
-            </td>
-          </tr>
-          -->
-          <!--
-          <tr><td>
-              <a href="csv" title="">
-                <img src="/images/csv.png"/>Csv Çıktı</a>
-          </td></tr>
-          -->
-        </tr>
-      </table>
+        </div>
+      </div>
+      <!--PLATFORM BAR END-->
+
+    <% end %>
+
+
+    <% if session[:error] %>
+      <div id="notice">
+        <div class="error">
+          <h3 id="errorline">Bir problemimiz var!</h3>
+          <%= session[:error] %>
+        </div>
       </div>
     <% end %>
 
-    <%= yield %>
+    <% if session[:success] %>
+      <div id="notice">
+        <div class="success">
+          <h3 id="successline">Bir başarı iletisi var</h3>
+          <%= session[:success] %>
+        </div>
+      </div>
+    <% end %>
+
+    <div id="content">
+      <% if session[:usersuper] %>
+        <div id="admin-panel">
+          <ul>
+            <li>
+            <ul class="menu">
+              <li class="menuhead">
+              <img src="/images/default.png"/><p id="manuname">Öğretim görevlisi</p>
+              <ul>
+                <li><a href="lecturernew" class="menu-1" style=""><b>Ekle</b></a></li>
+                <li class="lastli"><a href="lecturerreview" class="menu-2" style=""><b>İncele</b></a></li>
+              </ul>
+              </li>
+            </ul>
+            </li>
+            <li>
+            <ul class="menu">
+              <li class="menuhead">
+              <img src="/images/lesson.png"/><p id="manuname">Ders</p>
+              <ul>
+                <li><a href="coursenew" class="menu-1" style=""><b>Ekle</b></a></li>
+                <li class="lastli"><a href="coursereview" class="menu-2" style=""><b>İncele</b></a></li>
+              </ul>
+              </li>
+            </ul>
+            </li>
+            <li>
+            <ul class="menu">
+              <li class="menuhead">
+              <img src="/images/assignment.png"/><p id="manuname">Ders Atama</p>
+              <ul>
+                <li><a href="assignmentnew" class="menu-1" style=""><b>Ekle</b></a></li>
+                <li class="lastli"><a href="assignmentreview" class="menu-2" style=""><b>İncele</b></a></li>
+              </ul>
+              </li>
+            </ul>
+            </li>
+            <li>
+            <ul class="menu">
+              <li class="menuhead">
+              <img src="/images/schedule.png"/><p id="manuname">Ders Programı</p>
+              <ul>
+                <li><a href="schedulenew" class="menu-1" style=""><b>Ekle</b></a></li>
+                <li class="lastli"><a href="schedulereview" class="menu-2" style=""><b>İncele</b></a></li>
+              </ul>
+              </li>
+            </ul>
+            </li>
+          </ul>
+        </tr>
+      </table>
+    </div>
+  <% end %>
+
+  <%= yield %>
+
+</div>
+
+<div id="footer">
+  <ul class="recent photos" style="float:left;">
+    <li>
+    <a href="http://ce.omu.edu.tr" title="Bilgisayar Mühendisliği">
+      <%= image_tag "/images/19-normal-57x57.png", :width => 26, :height => 26 %>
+    </a>
+    </li>
+  </ul>
+  <div style="margin-left:60px;margin-top:5px">
+    copyright &copy; 2011 Mühendislik Fakültesi Program Arama Sistemi<br/>
+    <b>irtibat</b> : <code id="errorline">web@bil.omu.edu.tr</code>
   </div>
+</div>
+
 </body>
 </html>

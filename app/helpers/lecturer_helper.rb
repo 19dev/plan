@@ -1,17 +1,14 @@
 # encoding: utf-8
 module LecturerHelper
   include ImageHelper
-# Lecturer --------------------------------------------------------------------
   def lectureradd
     photo = params[:file]
     params.select! { |k, v| Lecturer.columns.collect {|c| c.name}.include?(k) }
-    if hata = control({
-                      params[:first_name]=>"Öğretim elamanı adı",
-                      params[:last_name]=>"Öğretim elamanı soyadı",
-                      params[:email]=>"Öğretim elamanı email"
-                      }
-    )
-      session[:error] = hata
+    if session[:error] = control({
+      params[:first_name] => "Öğretim elamanı adı",
+      params[:last_name] => "Öğretim elamanı soyadı",
+      params[:email] => "Öğretim elamanı email",
+    })
       return redirect_to '/user/lecturernew'
     end
 
@@ -58,12 +55,12 @@ module LecturerHelper
 
     assignments = Assignment.find(:all,
                                   :conditions => {
-                                     :lecturer_id => session[:lecturer_id],
-                                   })
+      :lecturer_id => session[:lecturer_id],
+    })
     if assignments != []
       session[:error] = "Bu öğretim elamanının ders ataması vardır, bu yüzden silemezsiniz. " +
-                        "Eğer silmek istiyorsanız, ders atamalarını siliniz. Bu da tam çözüm vermez " +
-                        "ise; yönetici ile irtibata geçiniz "
+        "Eğer silmek istiyorsanız, ders atamalarını siliniz. Bu da tam çözüm vermez " +
+        "ise; yönetici ile irtibata geçiniz "
       return redirect_to '/user/lecturerreview'
     end
     Lecturer.delete session[:lecturer_id]
@@ -90,13 +87,11 @@ module LecturerHelper
     photo = params[:file] if params[:file]
     params.select! { |k, v| Lecturer.columns.collect {|c| c.name}.include?(k) }
 
-    if hata = control({
-                      params[:first_name]=>"Öğretim elamanı adı",
-                      params[:last_name]=>"Öğretim elamanı soyadı",
-                      params[:email]=>"Öğretim elamanı email"
-                      }
-    )
-      session[:error] = hata
+    if session[:error] = control({
+      params[:first_name] => "Öğretim elamanı adı",
+      params[:last_name] => "Öğretim elamanı soyadı",
+      params[:email] => "Öğretim elamanı email",
+    })
       return redirect_to '/user/lecturershow'
     end
 
@@ -115,6 +110,5 @@ module LecturerHelper
     end
     session[:success] = "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim elamanı başarıyla güncellendi"
     redirect_to '/user/lecturershow'
-   end
-# end Lecturer -------------------------------------------------------
+  end
 end

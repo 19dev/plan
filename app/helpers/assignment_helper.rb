@@ -1,6 +1,5 @@
 # encoding: utf-8
 module AssignmentHelper
-# Assignment -------------------------------------------------------
   def assignmentnew
     @auto_lecturers = Lecturer.all.collect do |lecturer|
       { lecturer.id => ["#{lecturer.first_name} #{lecturer.last_name}", lecturer.photo, lecturer.department.name] }
@@ -15,12 +14,7 @@ module AssignmentHelper
     end
   end
   def assignmentadd
-    unless params[:lecturer_id]
-      session[:error] = "Dersi atanmamış hoca kalmamis!"
-      return redirect_to '/user/assignmentnew'
-    end
-    unless params[:course_ids]
-      session[:error] = "Atanacak hic ders kalmamış!"
+    if session[:error] = control({ params[:course_ids] => "Atanacak ders", params[:lecturer_id] => "Dersi atanacak hoca",})
       return redirect_to '/user/assignmentnew'
     end
     params[:course_ids].each do |course_id|
@@ -133,5 +127,4 @@ module AssignmentHelper
 
   redirect_to '/user/assignmentshow'
   end
-# end Assignment  -------------------------------------------------------
 end

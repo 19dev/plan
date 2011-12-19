@@ -8,21 +8,15 @@ module InitHelper
 	return true if field == item
       end
     end
-    return false
+    false
   end
   def substr?(text, text_length)
-    if text.length > text_length
-      text = text.slice(0..text_length) + "..."
-    end
-    return text
+    return text.slice(0..text_length) + "..." if text.length > text_length
+    text
   end
   def control(hash)
-    hash.each do |key, value|
-      if key == "" or key == nil
-        return "#{value} boş bırakılamaz"
-      end
-    end
-    return nil
+    error_message = "boş bırakılamaz"
+    hash.each { |key, value| return "#{value} #{error_message}" if key == "" or key == nil }
+    nil
   end
-
 end

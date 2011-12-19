@@ -31,101 +31,74 @@
   <tr>
     <td class="info" colspan=2>
       <style>
-      #table {margin-left:-30px;}
-      #table th{
-        font-size:10px;
-        padding:0em;
-        border:1px solid #ddd;
-      }
-      #table th.courseclass{min-height:20px;height:20px;min-width:30px;width:30px;}
-      #table th.course{min-height:25px;height:25px;min-width:140px;width:140px;}
-      #table th.clock{min-height:20px;height:20px;min-width:60px;width:60px;}
-      #table th.class{min-height:55px;height:55px;min-width:30px;width:30px;}
-      #table th.header{min-height:20px;height:20px;background-color:#ccc;}
-      #table th.launch{min-height:60px;height:60px;background-color:#ccc;}
-      #table th.kose{background-color:#ccc;min-height:20px;height:20px;min-width:65px;width:65px;}
+        #table { margin-left:-30px;}
+        #table th {
+          font-size:9px;
+          padding:0em;
+          font-weight:lighter;
+          border:1px solid #ddd;
+        }
+        #table th.header{min-height:20px;height:20px;background-color:#ccc;}
+        #table th.x{background-color:#ccc;min-height:20px;height:20px;min-width:65px;width:65px;}
+        #table th.clock{min-height:20px;height:20px;min-width:60px;width:60px;}
+        #table th.field1{min-height:25px;height:25px;min-width:140px;width:140px;}
+        #table th.field2{min-height:65px;height:65px;min-width:30px;width:30px;}
+
+        #table th.launch{min-height:20px;height:20px;background-color:#ccc;}
       </style>
       <div id="table">
         <table>
           <tr>
-            <th class="kose" rowspan=2><%= @header[0][0] %></th>
+            <th class="x" rowspan=2><%= @header[0][0] %></th>
             <% @header[0].slice(1..-1).each do |day| %>
               <th class="header" colspan=2><%= day %></th>
             <% end %>
           </tr>
-
           <tr>
             <% @header[0].slice(1..-1).length.times do %>
-              <th class='courseclass, header'>Ders</td>
-              <th class='courseclass, header'>Sınıf</td>
+              <th class='header'>Ders</td>
+              <th class='header'>Sınıf</td>
             <% end %>
           </tr>
-            <% days = {"Sunday" => "Pazartesi",
-                        "Tuesday" => "Salı",
-                        "Wednesday" => "Çarşamba",
-                        "Thursday" => "Perşembe",
-                        "Friday" => "Cuma"}
-            %>
-          
-          <% assignments = Assignment.find(:all,
-                                              :conditions => {
-                                                  :lecturer_id => session[:lecturer_id],
-                                                  :period_id => session[:period_id]
-                                          })
-          assignments = assignments.collect {|assignment| assignment.id }
-          %>
-          <% ["08","09","10","11"].each do |hour| %>
-          <tr>
-            <th class="clock"><%= time=(hour)+':15'+' '+(hour.to_i+1).to_s+':00' %></th>
-            <% days.each do |day_en, day_tr| %>
-              <% classplan = Classplan.find(:first,
-                                            :conditions => {
-                                              :period_id => session[:period_id],
-                                              :day => day_en,
-                                              :begin_time => hour+'-15'
-              })
 
-              if classplan and assignments.include?(classplan.assignment_id)
-                  state = true
-                else
-                  state = false
-                end
-            %>
-              <th class='course' id="<%= day_en + hour+'-15course' %>">
-                <%= classplan.assignment.course.full_name if state %>
-              </th>
-              <th class='class' id="<%= day_en + hour+'-15class' %>">
-                <%= classplan.classroom.name if state %>
-              </th>
-            <% end %>
-          </tr>
-          <% end %>
-
-          <%["13","14","15","16","17","18","19","20","21","22"].each do |hour| %>
+          <% @morning.each do |col| %>
           <tr>
-            <th class="clock"><%= time=(hour)+':00'+' '+(hour.to_i+1).to_s+':00' %></th>
-            <% days.each do |day_en, day_tr| %>
-              <% classplan = Classplan.find(:first,
-                                :conditions => {
-                                  :period_id => session[:period_id],
-                                  :day => day_en,
-                                  :begin_time => hour+'-00'
-              })
-              if classplan and assignments.include?(classplan.assignment_id)
-                  state = true
-                else
-                  state = false
-                end
-            %>
-              <th class='course' id="<%= day_en + hour+'-00course' %>">
-                <%= classplan.assignment.course.full_name if state %>
-              </th>
-              <th class='class' id="<%= day_en + hour+'-00class' %>">
-                <%= classplan.classroom.name if state %>
-              </th>
+            <th class="clock <%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>"><%= col[0].gsub('-', ':') %></th>
+            <% index = 0 %>
+            <% col.slice(1..-1).each_with_index do |c, i| %>
+              <% if i % 2 == 0 %>
+                <th class='field1<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
+                  id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
+                  <%= c%>
+                </th>
+              <% else %>
+                <th class='field2<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
+                  id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
+                <% index = index + 1 %>
+              <% end %>
             <% end %>
           </tr>
-          <% end %>
+        <% end %>
+
+          <% @evening.each do |col| %>
+          <tr>
+            <th class="clock"><%= col[0].gsub('-', ':') %></th>
+            <% index = 0 %>
+            <% col.slice(1..-1).each_with_index do |c, i| %>
+              <% if i % 2 == 0 %>
+                <th class='field1'
+                  id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
+                  <%= c%>
+                </th>
+              <% else %>
+                <th class='field2'
+                  id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
+                <% index = index + 1 %>
+              <% end %>
+            <% end %>
+          </tr>
+        <% end %>
+
         </table>
       </div>
     </td>
@@ -162,8 +135,8 @@
       var assignment_id = part[1];
       $('th').css('border', "1px solid #ddd");
       for (var i = 0; i < days.length; i++) {
-        $('#' + days[i] + 'course').css('border', "1px solid #35addf");
-        $('#' + days[i] + 'class').css('border', "1px solid #35addf");
+        $('#' + days[i] + 'field1').css('border', "1px solid #35addf");
+        $('#' + days[i] + 'field2').css('border', "1px solid #35addf");
       }
 
       $("#select_assignment_id").html("<input type='hidden' id='assignment_id' name='assignment_id' value='" + assignment_id + "'/>");

@@ -62,7 +62,6 @@ Schedule::Application.routes.draw do
   post "user/scheduleedit"
   get  "user/schedulereview"
   post "user/scheduledel"
-  post "user/scheduleupdate"
   # --------------------
   # end USER -----------
 

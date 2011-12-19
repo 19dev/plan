@@ -4,7 +4,7 @@
   <h2>Duyurular</h2>
   <ul id="ticker" class="ticker">
     <% Notice.all.each do |notice| %>
-      <li><%= notice.content %></li>
+      <li><%= substr?(notice.content, 89) %></li>
     <% end %>
   </ul>
 </div>

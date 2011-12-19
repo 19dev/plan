@@ -1,13 +1,8 @@
 # encoding: utf-8
 module NoticeHelper
-# Notice --------------------------------------------------------------------
   def noticeadd
     params.select! { |k, v| Notice.columns.collect {|c| c.name}.include?(k) }
-    if hata = control({
-                      params[:content]=>"İçerik",
-                      }
-    )
-      session[:error] = hata
+    if session[:error] = control({params[:content] => "İçerik",})
       return redirect_to '/user/noticenew'
     end
 
@@ -42,11 +37,7 @@ module NoticeHelper
   def noticeupdate
     params.select! { |k, v| Notice.columns.collect {|c| c.name}.include?(k) }
 
-    if hata = control({
-                      params[:content]=>"İçerik",
-                      }
-    )
-      session[:error] = hata
+    if session[:error] = control({params[:content] => "İçerik",})
       return redirect_to '/user/noticeshow'
     end
 
@@ -54,6 +45,5 @@ module NoticeHelper
     session[:success] = "duyuru başarıyla güncellendi"
 
     redirect_to '/user/noticeshow'
-   end
-# end Notice -------------------------------------------------------
+  end
 end
