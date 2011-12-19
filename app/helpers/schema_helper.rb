@@ -45,7 +45,7 @@ module SchemaHelper
                                        :conditions => {
               :period_id => session[:period_id],
               :day => day_en,
-              :begin_time => hour+'-15'
+              :begin_time => hour
             })
             if classplan and classplan.assignment.course.year == year and
               @assignments.include?(classplan.assignment_id)
