@@ -3,5 +3,8 @@ department_id,first_name,last_name,email,status,photo
 1,Recai,Oktaş,roktas@bil.omu.edu.tr,0,/images/default.png
 1,Erdal,Kılıç,erdal.kilic@bil.omu.edu.tr,0,/images/default.png
 1,Onur,Baran,onur.baran@bil.omu.edu.tr,0,/images/default.png
-2,foo,bar,foo@elk.omu.edu.tr,1,/images/default.png
-2,baz,baz,baz@elk.omu.edu.tr,0,/images/default.png
+1,Kerem,Erzurumlu,kerem.erzurumlu@bil.omu.edu.tr,0,/images/default.png
+1,Sedat,Akleylek,sedat.akleylek@bil.omu.edu.tr,0,/images/default.png
+1,Erhan,Ergün,erhan.ergun@bil.omu.edu.tr,0,/images/default.png
+1,İsmail,İşeri,ismail.iseri@bil.omu.edu.tr,0,/images/default.png
+4,Birol,Elevli,birol.elevli@bil.omu.edu.tr,0,/images/default.png

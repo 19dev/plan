@@ -1,4 +1,4 @@
-id,department_id,code,name,,year,theoretical,practice,lab,credit
+id,department_id,code,name,year,theoretical,practice,lab,credit
 1,1,BIL405,BİLGİSAYAR AĞLARI - 1,4,4,0,0,4
 2,1,BIL471,MÜHENDİSLİK EKONOMİSİ,4,2,0,0,2
 3,1,BIL401,GÖRÜNTÜ İŞLEME,4,3,0,0,3
