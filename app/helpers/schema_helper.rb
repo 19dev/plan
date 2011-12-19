@@ -122,7 +122,7 @@ module SchemaHelper
             column << classplan.assignment.course.code + "\n" +
               classplan.assignment.course.name + "\n" +
               classplan.assignment.lecturer.full_name
-            column << classplan.assignment.lecturer.department.code
+            column << classplan.assignment.course.department.code
           else
             column << ""
             column << ""
@@ -147,7 +147,7 @@ module SchemaHelper
           column << classplan.assignment.course.code + "\n" +
             classplan.assignment.course.name + "\n" +
             classplan.assignment.lecturer.full_name
-          column << classplan.assignment.lecturer.department.code
+          column << classplan.assignment.course.department.code
         else
           column << ""
           column << ""
