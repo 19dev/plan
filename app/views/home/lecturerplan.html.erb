@@ -1,7 +1,6 @@
 <!-- dual listbox -->
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <!-- end dual listbox -->
-<%= @assignments %>
 <div class="page">
   <h2><%= Lecturer.find(session[:lecturer_id]).department.name %> Bölümü Öğretim Elamanı Planı</h2>
   <p style="margin-left:800px;margin-top:-80px;"><%= link_to "", "lecturerplanpdf", :id => "pdf_button" %></p>
