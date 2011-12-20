@@ -7,7 +7,11 @@
     </tr>
     <tr>
       <td class="label"> Sınıf: </td>
-      <td class="field"><%= select_tag(:classroom_id, options_from_collection_for_select(Classroom.find(:all, :order => 'name'), :id, :name)) %></td>
+      <td class="field">
+        <%= select_tag(:classroom_id,
+          options_from_collection_for_select(Classroom.find(:all, :conditions => {'faculty_id' => 1 }, :order => 'name'), :id, :name))
+        %>
+      </td>
     </tr>
     <tr>
       <td></td>

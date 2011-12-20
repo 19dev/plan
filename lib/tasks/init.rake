@@ -28,6 +28,7 @@ task :table do
       "name:string",
 
     "department " +
+      "faculty_id:integer " +
       "code:string " +
       "name:string",
 
@@ -57,6 +58,7 @@ task :table do
       "status:boolean ",
 
     "classroom " +
+      "faculty_id:integer " +
       "name:string " +
       "floor:string " +
       "capacity:integer " +

@@ -61,7 +61,7 @@ module ScheduleHelper
       end
     end
 
-    @class = Classroom.find(:all, :order => 'name')
+    @class = Classroom.find(:all, :conditions => {'faculty_id' => 1 }, :order => 'name')
 
     # courses = Course.find(:all, :conditions => {:department_id => session[:department_id]})
     # @unschedule_courses = courses.select do |course|

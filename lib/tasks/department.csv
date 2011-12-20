@@ -1,11 +1,11 @@
-id,code,name
-1,BIL,Bilgisayar Mühendisliği
-2,CEV,Çevre Mühendisliği
-3,ELK,Elektrik ve Elektronik Mühendisliği
-4,END,Endüstri Mühendisliği
-5,GDA,Gıda Mühendisliği
-6,HRT,Harita Mühendisliği
-7,INS,İnşaat Mühendisliği
-8,KIM,Kimya Mühendisliği
-9,MAK,Makina Mühendisliği
-10,MLZ,Malzeme Bilimi ve Mühendisliği
+id,faculty_id,code,name
+1,1,BIL,Bilgisayar Mühendisliği
+2,1,CEV,Çevre Mühendisliği
+3,1,ELK,Elektrik ve Elektronik Mühendisliği
+4,1,END,Endüstri Mühendisliği
+5,1,GDA,Gıda Mühendisliği
+6,1,HRT,Harita Mühendisliği
+7,1,INS,İnşaat Mühendisliği
+8,1,KIM,Kimya Mühendisliği
+9,1,MAK,Makina Mühendisliği
+10,1,MLZ,Malzeme Bilimi ve Mühendisliği
