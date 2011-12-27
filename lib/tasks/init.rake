@@ -57,7 +57,7 @@ task :table do
       "name:string " +
       "floor:string " +
       "capacity:integer " +
-      "type:string ",
+      "description:string ",
 
     "assignment " +
       "period_id:integer " +
