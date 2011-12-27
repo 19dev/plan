@@ -2,19 +2,19 @@
 
 - sistem ilklendirme
 
-$ rake init # kök dizinde çalıştır!
+	  $ rake init # kök dizinde çalıştır!
 
           Tabloları tekrardan ilklendirmeye/oluşturmaya yarar.
 
 - sisteme örnek girdi
 
-$ rake reex # kök dizinde çalıştır!
+	  $ rake reex # kök dizinde çalıştır!
 
           lib/task/example_insert dosyasındaki örnek girdileri girmesini sağlar.
 
 - sisteme csv girdisi
 
-$ rake push # kök dizinde çalıştır!
+	  $ rake push # kök dizinde çalıştır!
 
           lib/task/csv/ altındaki csv dosyalarının ismindeki tablolara,
           verilen sütunlardaki bilgilerin doldurmasını yapar.
