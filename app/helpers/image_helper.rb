@@ -2,7 +2,7 @@
 module ImageHelper
   class Image
     @dir = 'upload'
-    @uploaddir = Rails.root.join 'public', @dir # <ana_dizin>
+    @uploaddir = Rails.root.join 'app/assets', @dir # <ana_dizin>
     @extension = '.jpg'
 
     # sesli hatalı çıkış için : [false,"bla bla"]

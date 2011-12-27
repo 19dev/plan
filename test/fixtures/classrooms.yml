@@ -1,13 +1,13 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
   name: MyString
   floor: MyString
   capacity: 1
-  type: MyString
+  description: MyString
 
 two:
   name: MyString
   floor: MyString
   capacity: 1
-  type: MyString
+  description: MyString

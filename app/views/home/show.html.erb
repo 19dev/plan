@@ -6,7 +6,7 @@
       <table>
         <tr>
           <td>
-          <% if File::exists? RAILS_ROOT + "/public/#{@lecturer.photo}" %>
+          <% if File::exists? Rails.root + "app/assets/#{@lecturer.photo}" %>
             <%= image_tag @lecturer.photo %>
           <% end %>
           </td>

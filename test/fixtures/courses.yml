@@ -1,10 +1,10 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
   department_id: 1
   code: MyString
   name: MyString
-  class: 1
+  year: 1
   theoretical: 1
   practice: 1
   lab: 1
@@ -14,7 +14,7 @@ two:
   department_id: 1
   code: MyString
   name: MyString
-  class: 1
+  year: 1
   theoretical: 1
   practice: 1
   lab: 1
