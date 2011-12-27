@@ -39,7 +39,7 @@ module PdfHelper
         table morning.slice(0..launch_time-1),
           :position => :center,
           :column_widths => { 0=>43.2,1=>73.3,2=>22.7,3=>73.3,4=>22.7,5=>73.3,6=>22.7,7=>73.3,8=>22.7,9=>73.3,10=>22.7},
-          :cell_style => { :size => 5, :text_color => "000000", :height => 30, :border_width => 0.3 }
+          :cell_style => { :size => 5, :text_color => "000000", :height => 35, :border_width => 0.3 }
 
         table [launch],
           :position => :center,
@@ -50,13 +50,13 @@ module PdfHelper
         table morning.slice(launch_time+1..-1),
           :position => :center,
           :column_widths => { 0=>43.2,1=>73.3,2=>22.7,3=>73.3,4=>22.7,5=>73.3,6=>22.7,7=>73.3,8=>22.7,9=>73.3,10=>22.7},
-          :cell_style => { :size => 5, :text_color => "000000", :height => 30, :border_width => 0.3 }
+          :cell_style => { :size => 5, :text_color => "000000", :height => 35, :border_width => 0.3 }
       end
       if evening
         table evening,
           :position => :center,
           :column_widths => { 0=>43.2,1=>73.3,2=>22.7,3=>73.3,4=>22.7,5=>73.3,6=>22.7,7=>73.3,8=>22.7,9=>73.3,10=>22.7},
-          :cell_style => { :size => 5, :text_color => "000000", :height => 30, :border_width => 0.3 }
+          :cell_style => { :size => 5, :text_color => "000000", :height => 35, :border_width => 0.3 }
       end
     end
     pdf
@@ -174,7 +174,7 @@ module PdfHelper
           table eval("morning#{year}").slice(0..launch_time-1),
             :position => :center,
             :column_widths => { 0=>43.2,1=>73.3,2=>22.7,3=>73.3,4=>22.7,5=>73.3,6=>22.7,7=>73.3,8=>22.7,9=>73.3,10=>22.7},
-            :cell_style => { :size => 5, :text_color => "000000", :height => 30, :border_width => 0.3 }
+            :cell_style => { :size => 5, :text_color => "000000", :height => 35, :border_width => 0.3 }
 
           table [launch],
             :position => :center,
@@ -185,7 +185,7 @@ module PdfHelper
           table eval("morning#{year}").slice(launch_time+1..-1),
             :position => :center,
             :column_widths => { 0=>43.2,1=>73.3,2=>22.7,3=>73.3,4=>22.7,5=>73.3,6=>22.7,7=>73.3,8=>22.7,9=>73.3,10=>22.7},
-            :cell_style => { :size => 5, :text_color => "000000", :height => 30, :border_width => 0.3 }
+            :cell_style => { :size => 5, :text_color => "000000", :height => 35, :border_width => 0.3 }
         end
 
         if eval("evening#{year}")
@@ -197,7 +197,7 @@ module PdfHelper
         if eval("morning#{year}") and eval("evening#{year}")
           move_down(260)
         elsif eval("morning#{year}")
-          move_down(46)
+          move_down(10)
         elsif eval("evening#{year}")
           move_down(130)
         end

@@ -1,0 +1,4 @@
+department_id,first_name,last_name,password,status,photo
+1,bil,bil,bil,1,/images/default.png
+4,end,end,end,1,/images/default.png
+0,duyuru,duyuru,duyuru,0,/images/default.png

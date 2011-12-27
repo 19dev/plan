@@ -5,16 +5,17 @@ require 'csv'
 
 TASKS_DIR = 'lib/tasks'
 TEMP_FILE = TASKS_DIR + '/temp'
+CSV_DIR = TASKS_DIR + '/csv'
 CONSOLE = 'rails c' # rails console
 
 task :push do
-  Dir["#{TASKS_DIR}/*"].each do |file|
+  Dir["#{CSV_DIR}/*"].each do |file|
     @kayitlar = []
     file = File.basename file
     if file =~ /.csv/
       table = file.split(".")[0].capitalize
       begin
-        rows = CSV.open("#{TASKS_DIR}/#{file}", 'r')
+        rows = CSV.open("#{CSV_DIR}/#{file}", 'r')
       rescue Exception => e
         puts "CSV dosya okuma veya yazmada hata: #{e}"
       end
@@ -29,7 +30,7 @@ task :push do
       end
 
       texts = []
-      puts "#{table} tablosuna örnekler yükleniyor..."
+      puts "#{table} tablosuna bilgiler yükleniyor..."
       @kayitlar.each do |kayit|
         texts << "yeni_kayit = #{table}.new"
         kayit.each { |field, value| texts << "yeni_kayit.#{field} = '#{value}'" }

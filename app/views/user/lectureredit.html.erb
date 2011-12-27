@@ -11,7 +11,10 @@
   </tr>
   <tr>
     <td class="label">Fotoğraf</td>
-    <td class="field"><%= file_field_tag :file %></td>
+    <td class="field">
+      <%= file_field_tag :file %>
+      <%= image_tag @lecturer.photo, :width => 64, :height => 64 %>
+    </td>
   </tr>
   <tr>
     <td class="label">Email</td>

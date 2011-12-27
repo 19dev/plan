@@ -29,7 +29,7 @@ class HomeController < ApplicationController
 
   def find
     session[:period_id] = params[:period_id] if params[:period_id]
-    @auto_lecturers = Lecturer.joins(:department).where('departments.faculty_id' => 1).collect do |lecturer|
+    @auto_lecturers = Lecturer.all.collect do |lecturer|
       { lecturer.id => ["#{lecturer.first_name} #{lecturer.last_name}", lecturer.photo, lecturer.department.name] }
     end
   end

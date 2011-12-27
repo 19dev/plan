@@ -1,5 +1,5 @@
 <!-- dual listbox -->
-<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="/javascripts/jquery-latest.js"></script>
 <!-- end dual listbox -->
 
 <!-- jlistbox -->
@@ -18,7 +18,7 @@
 
 <h2><%= session[:department] %> Bölümü Öğretim Elamanı Programını Ayarla</h2>
 <%= form_tag({ :action => 'scheduleadd' }) do %>
-  <table class="custom" style="margin-left:5px">
+  <table class="custom" style="margin-left:15px">
     <tr>
       <td class="label">Öğretim görevlisi</td>
       <td>
@@ -37,6 +37,7 @@
       <td>
         <select id="course_id" name="course_id">
         </select>
+        <input class="button" type='submit' value='Programı Kaydet'/>
       </td>
     </tr>
     <tr>
@@ -52,8 +53,8 @@
           #table th.header{min-height:20px;height:20px;background-color:#ccc;}
           #table th.x{background-color:#ccc;min-height:20px;height:20px;min-width:65px;width:65px;}
           #table th.clock{min-height:20px;height:20px;min-width:60px;width:60px;}
-          #table th.field1{min-height:25px;height:25px;min-width:140px;width:140px;}
-          #table th.field2{min-height:65px;height:65px;min-width:30px;width:30px;}
+          #table th.field1{min-height:20px;height:20px;min-width:135px;width:140px;}
+          #table th.field2{min-height:35px;height:35px;min-width:30px;width:30px;padding:-10em;}
 
           #table th.launch{min-height:20px;height:20px;background-color:#ccc;}
         </style>
@@ -94,7 +95,7 @@
                   <% if col[0].slice(0..1) == @launch[0].slice(0..1)%>
                     <input type="checkbox" id="classroom_id" name="<%= @day.keys[i] + col[0].slice(0..4) %>[]" value="" disabled>
                   <% else %>
-                    <select id="classroom_id" name="<%= @day.keys[i] + col[0].slice(0..4) %>[]" style="width:75px">
+                    <select id="classroom_id" name="<%= @day.keys[i] + col[0].slice(0..4) %>[]" style="width:125px">
                       <option value="" selected>
                       </option>
                       <% @class.each do |k| %>
@@ -120,7 +121,7 @@
                 </th>
               </th>
               <th class="field1">
-                <select id="classroom_id" name="<%= @day.keys[i] + col[0].slice(0..4) %>[]" style="width:75px">
+                <select id="classroom_id" name="<%= @day.keys[i] + col[0].slice(0..4) %>[]" style="width:125px">
                   <option value="" selected>
                   </option>
                   <% @class.each do |k| %>
@@ -137,12 +138,6 @@
       </table>
     </div>
   </th>
-</tr>
-<tr>
-  <td></td>
-  <td>
-    <input id="submit_button" type='submit' value='Kaydet'/>
-  </td>
 </tr>
 </table>
 <% end %>

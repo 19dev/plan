@@ -49,7 +49,8 @@
           <%= form_tag :action => 'assignmentdel' do %>
             <%= hidden_field_tag :lecturer_id, lecturer.id %>
             <%= submit_tag "", :id => "delete_button",
-              :onClick => "return confirm('#{lecturer.full_name} isimli öğretim görevlisinin verdiği dersleri " +
+              :onClick => "return confirm('#{lecturer.full_name} isimli öğretim görevlisinin " +
+                          "#{session[:department]} bölümüne verdiği dersleri " +
                           "silmek üzeresiniz. Eğer silerseniz, bu dönemlik ders atamaları " +
                           "silinmiş olacaktır. Silmek istediğinizden emin misiniz ?');" %>
           <% end %>

@@ -1,5 +1,5 @@
 <!-- dual listbox -->
-<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="/javascripts/jquery-latest.js"></script>
 <!-- end dual listbox -->
 
 <h2><%= session[:department] %> Bölümü Öğretim Elamanı Programı</h2>
@@ -31,7 +31,7 @@
   <tr>
     <td class="info" colspan=2>
       <style>
-        #table { margin-left:-30px;}
+        #table { margin-left:-35px;}
         #table th {
           font-size:9px;
           padding:0em;
@@ -80,7 +80,7 @@
               <% end %>
             <% end %>
           </tr>
-        <% end %>
+          <% end %>
 
           <% @evening.each do |col| %>
           <tr>
@@ -101,26 +101,28 @@
               <% end %>
             <% end %>
           </tr>
-        <% end %>
+          <% end %>
 
         </table>
       </div>
     </td>
   </tr>
   <tr>
-    <td></td>
     <td>
       <%= form_tag({ :action => 'scheduleedit' }, :multipart => true) do %>
         <p id="select_assignment_id"></p>
-        <%= submit_tag "Seçili dersi sil", :id => "submit_button",
+        <%= submit_tag "Seçili dersi sil", :class => "button",
           :onClick => "return confirm('#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim " +
-                      "görevlisinin tabloadan seçtiğiniz dersi silmek üzeresiniz. " +
+                      "görevlisinin tablodan seçtiğiniz dersi silmek üzeresiniz. " +
                       "Silmek istediğinizden emin misiniz ?');" %>
       <% end %>
+    </td>
+    <td>
       <%= form_tag({ :action => 'scheduledel' }, :multipart => true) do %>
-        <%= submit_tag "Tüm dersi sil", :id => "submit_button",
+        <%= submit_tag "Tüm dersi sil", :class => "button danger",
           :onClick => "return confirm('#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim " +
-                      "görevlisinin bu dönemlik verdiği tüm dersleri silmek üzeresiniz. " +
+                      "görevlisinin bu dönemlik #{session[:department]} bölümüne verdiği tüm dersleri " +
+                      "silmek üzeresiniz. " +
                       "Silmek istediğinizden emin misiniz ?');" %>
       <% end %>
     </td>

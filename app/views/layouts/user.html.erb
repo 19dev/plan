@@ -27,25 +27,18 @@
             </a>
           </span>
           <ul class="related">
-            <% if session[:usersuper] %>
-              <li class="title">
-              <a href="/user/home">
-                Ana Sayfa
-              </a>
-              </li>
-            <% else %>
-              <li class="title">
-              <a href="/user/home">
-                Ana Sayfa
-              </a>
-              </li>
+            <li class="title">
+            <a href="/user/home">
+              Ana Sayfa
+            </a>
+            </li>
+            <% unless session[:usersuper] %>
               <li class="title">
               <a href="/user/noticereview">
                 Duyurular
               </a>
               </li>
             <% end %>
-
             <li class="title">
             <a href="/user/accountshow">
               Kişisel Bilgiler

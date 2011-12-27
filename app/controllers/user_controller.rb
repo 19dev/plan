@@ -15,18 +15,25 @@ class UserController < ApplicationController
   # --------------------------
 
   before_filter :period # rubysiz olmadığı gibi periodsuz da sahaya çıkmayız.
+
   before_filter :require_login, :except => [:login, :logout] # loginsiz asla!
+  before_filter :require_user, :only => [
+                                              :noticenew, :noticereview, :noticeshow, :noticeedit,
+                                            ] # for notice : loginsiz asla!
+
   before_filter :clean_notice, :except => [:home, :lecturershow, :lecturerupdate, :lecturerreview,
                                                   :courseshow, :courseupdate, :coursereview,
                                                   :assignmentshow, :assignmentupdate, :assignmentreview,
                                                   :schedulenew, :scheduleshow, :scheduleupdate, :schedulereview
                                           ] # temiz sayfa
+
   before_filter :clean_error, :except => [:login, :noticenew,
                                                   :lecturernew, :coursenew, :lecturerfind, :lecturershow, :lecturerreview,
                                                   :coursefind, :courseshow, :coursereview,
                                                   :assignmentnew, :assignmentfind, :assignmentshow, :accountedit,
                                                   :schedulenew, :schedulefind, :scheduleshow
                                          ] # temiz sayfa
+
   def login
     return redirect_to '/user/home' if session[:user]
 
@@ -72,6 +79,14 @@ class UserController < ApplicationController
     redirect_to '/user/'
   end
 
+  private
+
+  def period
+    if period = Period.find( :first, :conditions => { :status => true })
+      session[:period_id] = period.id
+    end
+  end
+
   def require_login
     unless session[:user]
       session[:error] = "Lütfen hesabınıza girişi yapın!"
@@ -79,10 +94,11 @@ class UserController < ApplicationController
     end
   end
 
-  private
-  def period
-    if period = Period.find( :first, :conditions => { :status => true })
-      session[:period_id] = period.id
+  def require_user
+    if session[:usersuper]
+      session[:error] = "Lütfen hesabınıza girişi yapın!"
+      redirect_to '/user/'
     end
   end
+
 end

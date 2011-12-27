@@ -20,9 +20,6 @@ module NoticeHelper
       redirect_to '/user/noticereview'
     end
   end
-  def noticereview
-    @notices = Notice.find :all
-  end
   def noticeedit
     session[:notice_id] = params[:notice_id] if params[:notice_id] # uniq veriyi oturuma gömelim
     @notice = Notice.find session[:notice_id]

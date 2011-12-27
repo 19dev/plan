@@ -7,11 +7,7 @@
     </tr>
     <tr>
       <td class="label"> Bölüm: </td>
-      <td class="field">
-        <%= select_tag(:department_id,
-          options_from_collection_for_select(Department.where('faculty_id' => 1), :id, :name))
-        %>
-      </td>
+      <td class="field"><%= select_tag(:department_id, options_from_collection_for_select(Department.all, :id, :name)) %></td>
     </tr>
       <td class="label"> Bölüm: </td>
       <td class="field">

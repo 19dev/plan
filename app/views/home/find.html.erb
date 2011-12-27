@@ -59,17 +59,11 @@
   <table class="custom">
     <tr>
       <td class="label"> Dönem: </td>
-      <td class="field">
-        <%= select_tag(:period_id, options_from_collection_for_select(Period.all, :id, :full_name)) %>
-      </td>
+      <td class="field"><%= select_tag(:period_id, options_from_collection_for_select(Period.all, :id, :full_name)) %></td>
     </tr>
     <tr>
       <td class="label"> Bölüm: </td>
-      <td class="field">
-        <%= select_tag(:department_id,
-          options_from_collection_for_select(Department.where('faculty_id' => 1), :id, :name))
-        %>
-      </td>
+      <td class="field"><%= select_tag(:department_id, options_from_collection_for_select(Department.all, :id, :name)) %></td>
     </tr>
     <tr>
       <td></td>

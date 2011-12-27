@@ -69,23 +69,25 @@ module AssignmentHelper
   def assignmentdel
     session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
     # o dönemki ataması olan hocanın atamalarını bul
-    assignments = Assignment.find(:all,
-                                 :conditions => {
-                                    :lecturer_id => session[:lecturer_id],
-                                    :period_id => session[:period_id]
-                                  })
+    assignments = Assignment.joins(:lecturer).where(
+      'lecturers.id' => session[:lecturer_id],
+      'assignments.period_id' => session[:period_id]
+    ).joins(:course).where(
+      'courses.department_id' => session[:department_id],
+    )
     # o dönemki bu atamaların dersleri saatleri belli ise onlarıda sil
+    # o dönemki ataması olan hocanın atamalarını sil
     assignments.each do |assignment|
       Classplan.delete_all({
-                  :assignment_id => assignment.id,
-                  :period_id => session[:period_id]
-                })
+        :assignment_id => assignment.id,
+        :period_id => session[:period_id]
+      })
+      Assignment.delete_all({
+        :id => assignment.id,
+        :period_id => session[:period_id]
+      })
     end
-    # o dönemki ataması olan hocanın atamalarını sil
-    Assignment.delete_all({
-                  :lecturer_id => session[:lecturer_id],
-                  :period_id => session[:period_id]
-                })
+
     session[:success] = "#{Lecturer.find(session[:lecturer_id]).full_name} öğretim elamanının dersleri silindi"
     session[:lecturer_id] = nil # kişinin oturumunu öldürelim
     redirect_to '/user/assignmentreview'

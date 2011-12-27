@@ -61,7 +61,7 @@ module ScheduleHelper
       end
     end
 
-    @class = Classroom.find(:all, :conditions => {'faculty_id' => 1 }, :order => 'name')
+    @class = Classroom.find(:all, :order => 'name')
 
     # courses = Course.find(:all, :conditions => {:department_id => session[:department_id]})
     # @unschedule_courses = courses.select do |course|
@@ -275,7 +275,15 @@ module ScheduleHelper
       :lecturer_id => session[:lecturer_id],
       :period_id => session[:period_id]
     })
+
     @assignments = assignments.collect {|assignment| assignment.id }
+
+    assignments = Assignment.joins(:lecturer).where(
+      'lecturers.id' => session[:lecturer_id],
+      'assignments.period_id' => session[:period_id]
+    ).joins(:course).where(
+      'courses.department_id' => session[:department_id],
+    )
 
     assignments.each do |assignment|
       if Classplan.find(:first, :conditions => { :period_id => session[:period_id], :assignment_id => assignment.id })
@@ -356,8 +364,15 @@ module ScheduleHelper
       'courses.department_id' => session[:department_id],
       'assignments.period_id' => session[:period_id]
     )
-    lecturer_ids = assignments.collect { |assignment| assignment.lecturer_id }
+
+    lecturer_ids = []
+    assignments.each do |assignment|
+      if Classplan.find(:first, :conditions => { 'assignment_id' => assignment.id })
+        lecturer_ids << assignment.lecturer_id
+      end
+    end
     lecturer_ids.uniq!
+
 
     @classplans = {}
     lecturer_ids.each do |lecturer_id|
@@ -392,11 +407,13 @@ module ScheduleHelper
   end
   def scheduledel
     session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
-    assignments = Assignment.find(:all,
-                                  :conditions => {
-      :lecturer_id => session[:lecturer_id],
-      :period_id => session[:period_id]
-    })
+
+    assignments = Assignment.joins(:lecturer).where(
+      'lecturers.id' => session[:lecturer_id],
+      'assignments.period_id' => session[:period_id]
+    ).joins(:course).where(
+      'courses.department_id' => session[:department_id],
+    )
     assignments.each do |assignment|
       Classplan.delete_all({
         :assignment_id => assignment.id,
@@ -405,7 +422,7 @@ module ScheduleHelper
     end
 
     session[:success] = "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim elamanının " +
-      "dönemlik tüm dersleri silindi"
+      "bu dönemlik #{session[:department]} bölümüne verdiği tüm dersler silindi"
     redirect_to '/user/schedulereview'
   end
 end
