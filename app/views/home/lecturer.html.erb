@@ -9,21 +9,21 @@
     $(function() {
       $( "#autocomplete" ).autocomplete({
         source: [
-                <% @auto_lecturers.each do |l|  %>
-                  {
-                    <% l.each do |k, v| %>
-                      label: "<img src='/assets/<%= raw v[1] %>' width='50'; height='50'/><%= raw v[0]+' - '+v[2] %>",
-                      value: "<%= v[0] %>",
-                      deger: "<%= raw k %>"
-                    <% end %>
-                  },
-                <% end %>
-                ],
+        <% @auto_lecturers.each do |l|  %>
+          {
+            <% l.each do |k, v| %>
+              label: "<img src='/assets/<%= raw v[1] %>' width='50'; height='50'/><%= raw v[0]+' - '+v[2] %>",
+              value: "<%= v[0] %>",
+              deger: "<%= raw k %>"
+            <% end %>
+          },
+        <% end %>
+        ],
         select: function( event, ui ) {
-                  $("#post").html(
-                          "<input type='hidden'name='lecturer_id' value='" + ui.item.deger + "'/>"
-                  );
-                },
+          $("#post").html(
+          "<input type='hidden'name='lecturer_id' value='" + ui.item.deger + "'/>"
+          );
+        },
         html: true
       });
     });

@@ -4,7 +4,7 @@
 
 <h2><%= Period.find(session[:period_id]).full_name + " / " + Classroom.find(session[:classroom_id]).name %></h2>
 <p style="margin-left:800px;margin-top:-80px;">
-	<%= link_to "", "/home/classplanpdf/#{session[:period_id]}/#{session[:classroom_id]}", :id=>"pdf_button" %>
+<%= link_to "", "/home/classplanpdf/#{session[:period_id]}/#{session[:classroom_id]}", :id=>"pdf_button" %>
 </p>
 <table class="custom">
   <tr>
@@ -21,7 +21,7 @@
       <select id="course_ids" name="course_ids">
         <% session[:course_ids].each do |k, v| %>
           <option value="<%= k %>" selected>
-            <%= v %>
+          <%= v %>
           </option>
         <% end %>
       </select>
@@ -63,25 +63,25 @@
           </tr>
 
           <% @morning.each do |col| %>
-          <tr>
-            <th class="clock <%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>"><%= col[0].gsub('-', ':') %></th>
-            <% index = 0 %>
-            <% col.slice(1..-1).each_with_index do |c, i| %>
-              <% if i % 2 == 0 %>
-                <th class='field1 <%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
-                  id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
-                  <% c = c.split("\n") %>
-                  <p style="text-align:left"> <%= c[0] %></p>
-                  <p style="text-align:left"> <%= c[1] %></p>
-                  <p style="text-align:right"><%= c[2] %></p>
-                </th>
-              <% else %>
-                <th class='field2 <%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
-                  id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
-                <% index = index + 1 %>
+            <tr>
+              <th class="clock <%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>"><%= col[0].gsub('-', ':') %></th>
+              <% index = 0 %>
+              <% col.slice(1..-1).each_with_index do |c, i| %>
+                <% if i % 2 == 0 %>
+                  <th class='field1 <%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
+                    id="<%= @day.keys[index] + col[0].slice(0..4) %>field1">
+                    <% c = c.split("\n") %>
+                    <p style="text-align:left"> <%= c[0] %></p>
+                    <p style="text-align:left"> <%= c[1] %></p>
+                    <p style="text-align:right"><%= c[2] %></p>
+                  </th>
+                <% else %>
+                  <th class='field2 <%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
+                    id="<%= @day.keys[index] + col[0].slice(0..4) %>field2"><%= c %></th>
+                  <% index = index + 1 %>
+                <% end %>
               <% end %>
-            <% end %>
-          </tr>
+            </tr>
           <% end %>
 
           <% @evening.each do |col| %>
@@ -118,9 +118,9 @@
     var part = $(this).val().split('#');
     if (part[0] != "") {
       if (part[0].indexOf(';') >= 0)
-        var days = part[0].split(';');
+      var days = part[0].split(';');
       else
-        var days = [part[0]];
+      var days = [part[0]];
       var assignment_id = part[1];
       $('th').css('border', "1px solid #ddd");
       for (var i = 0; i < days.length; i++) {

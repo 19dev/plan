@@ -12,7 +12,7 @@ class HomeController < ApplicationController
   before_filter :clean_error, :only => [:index, :info, :lecturerplan, :classplan] # temiz sayfa
 
   def departmentreview
-	session[:department_id] = params[:department_id] if params[:department_id] # uniq veriyi oturuma gömelim
+    session[:department_id] = params[:department_id] if params[:department_id] # uniq veriyi oturuma gömelim
     session[:period_id] = params[:period_id] if params[:period_id] # uniq veriyi oturuma gömelim
 
     unless Department.find(:first, :conditions => { :id => session[:department_id] })
@@ -49,8 +49,8 @@ class HomeController < ApplicationController
 
     session[:period_id] = params[:period_id]
     session[:lecturer_id] = params[:lecturer_id]
-	@lecturer = Lecturer.find(params[:lecturer_id])
-	session[:department_id] = @lecturer.department_id
+    @lecturer = Lecturer.find(params[:lecturer_id])
+    session[:department_id] = @lecturer.department_id
   end
 
   def lecturerplan
@@ -64,8 +64,8 @@ class HomeController < ApplicationController
       return redirect_to "/home/lecturer"
     end
 
-	session[:course_ids], @assignments = lecturer_plan(session[:period_id], session[:lecturer_id])
-	if session[:course_ids] == {}
+    session[:course_ids], @assignments = lecturer_plan(session[:period_id], session[:lecturer_id])
+    if session[:course_ids] == {}
       session[:error] = "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim görevlisinin " +
         "#{Period.find(session[:period_id]).full_name} dönemlik ders programı tablosu henüz hazır değil."
       return redirect_to '/home/lecturer'
@@ -84,16 +84,16 @@ class HomeController < ApplicationController
       return redirect_to "/home/lecturer"
     end
 
-	course_ids, assignments = lecturer_plan(session[:period_id], session[:lecturer_id])
-	if course_ids == {}
+    course_ids, assignments = lecturer_plan(session[:period_id], session[:lecturer_id])
+    if course_ids == {}
       session[:error] = "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim görevlisinin " +
         "#{Period.find(session[:period_id]).full_name} dönemlik ders programı tablosu henüz hazır değil."
       return redirect_to '/home/lecturer'
     end
     day, header, launch, morning, evening = lecturerplan_schema(session[:period_id], assignments)
-    
-	lecturer = Lecturer.find(session[:lecturer_id])
-	
+
+    lecturer = Lecturer.find(session[:lecturer_id])
+
     lecturer_name = lecturer.full_name
     lecturer_photo = lecturer.photo
     department_name = lecturer.department.name
@@ -132,7 +132,7 @@ class HomeController < ApplicationController
   end
 
   def classplanpdf
-	session[:classroom_id] = params[:classroom_id] if params[:classroom_id] # uniq veriyi oturuma gömelim
+    session[:classroom_id] = params[:classroom_id] if params[:classroom_id] # uniq veriyi oturuma gömelim
     session[:period_id] = params[:period_id] if params[:period_id] # uniq veriyi oturuma gömelim
 
     unless Classroom.find(:first, :conditions => {:id => session[:classroom_id] })
@@ -142,8 +142,8 @@ class HomeController < ApplicationController
       return redirect_to "/home/class"
     end
 
-	course_ids, assignments = class_plan(session[:period_id], session[:classroom_id])
-	if course_ids == {}
+    course_ids, assignments = class_plan(session[:period_id], session[:classroom_id])
+    if course_ids == {}
       session[:error] = "#{Classroom.find(session[:classroom_id]).name} sınıfın, " +
         "#{Period.find(session[:period_id]).full_name} dönemlik ders " +
         "programı tablosu henüz hazır değil."
@@ -181,16 +181,16 @@ class HomeController < ApplicationController
     end
 
     if params[:section1] == "1" and params[:section2] == "1";
-		session[:section] = 0
-	elsif params[:section1] == "1"
-		session[:section] = 1
-	elsif params[:section2] == "1"
-		session[:section] = 2
-	elsif session[:section]
-		;# pass
-	else
-		return redirect_to "/home/department"
-	end
+      session[:section] = 0
+    elsif params[:section1] == "1"
+      session[:section] = 1
+    elsif params[:section2] == "1"
+      session[:section] = 2
+    elsif session[:section]
+      ;# pass
+    else
+      return redirect_to "/home/department"
+    end
   end
 
   def departmentplan
@@ -211,18 +211,18 @@ class HomeController < ApplicationController
     unless ["0","1","2"].include?(session[:section])
       return redirect_to "/home/department"
     end
-	@morning, @evening = [], []
-	
-	if session[:year] == "0"
-		@year = (1..4)
-		@day,@header,@launch,@morning[0],@evening[0] = departmentplan_schema(session[:period_id],session[:department_id],1,session[:section])
-		@day,@header,@launch,@morning[1],@evening[1] = departmentplan_schema(session[:period_id],session[:department_id],2,session[:section])
-		@day,@header,@launch,@morning[2],@evening[2] = departmentplan_schema(session[:period_id],session[:department_id],3,session[:section])
-		@day,@header,@launch,@morning[3],@evening[3] = departmentplan_schema(session[:period_id],session[:department_id],4,session[:section])
-	else
-		@year = [session[:year]]
-		@day,@header,@launch,@morning[0],@evening[0] = departmentplan_schema(session[:period_id],session[:department_id],session[:year].to_i,session[:section])
-	end
+    @morning, @evening = [], []
+
+    if session[:year] == "0"
+      @year = (1..4)
+      @day,@header,@launch,@morning[0],@evening[0] = departmentplan_schema(session[:period_id],session[:department_id],1,session[:section])
+      @day,@header,@launch,@morning[1],@evening[1] = departmentplan_schema(session[:period_id],session[:department_id],2,session[:section])
+      @day,@header,@launch,@morning[2],@evening[2] = departmentplan_schema(session[:period_id],session[:department_id],3,session[:section])
+      @day,@header,@launch,@morning[3],@evening[3] = departmentplan_schema(session[:period_id],session[:department_id],4,session[:section])
+    else
+      @year = [session[:year]]
+      @day,@header,@launch,@morning[0],@evening[0] = departmentplan_schema(session[:period_id],session[:department_id],session[:year].to_i,session[:section])
+    end
   end
 
   def departmentplanpdf
@@ -262,7 +262,7 @@ class HomeController < ApplicationController
   end
 
   def departmentyearpdf
-	session[:department_id] = params[:department_id] if params[:department_id] # uniq veriyi oturuma gömelim
+    session[:department_id] = params[:department_id] if params[:department_id] # uniq veriyi oturuma gömelim
     session[:period_id] = params[:period_id] if params[:period_id] # uniq veriyi oturuma gömelim
     session[:year] = params[:year]
     session[:section] = params[:section]

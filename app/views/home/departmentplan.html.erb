@@ -1,12 +1,11 @@
 <h2>
-	<% section = unless session[:section] ==  "0"; " / #{session[:section]}. öğretim" else "" end %>
-	<%= link_to Period.find(session[:period_id]).full_name + " / " + Department.find(session[:department_id]).name + section,
-	 "/home/departmentshow/#{session[:period_id]}/#{session[:department_id]}/#{session[:section]}" %>
-	 
-	 / Plan
+  <% section = unless session[:section] ==  "0"; " / #{session[:section]}. öğretim" else "" end %>
+  <%= link_to Period.find(session[:period_id]).full_name + " / " + Department.find(session[:department_id]).name + section,
+    "/home/departmentshow/#{session[:period_id]}/#{session[:department_id]}/#{session[:section]}" %>
+    / Plan
 </h2>
 <p style="margin-left:800px;margin-top:-80px;">
-	<%= link_to "", "/home/departmentplanpdf/#{session[:period_id]}/#{session[:department_id]}/#{session[:section]}", :id=>"pdf_button" %>
+<%= link_to "", "/home/departmentplanpdf/#{session[:period_id]}/#{session[:department_id]}/#{session[:section]}", :id=>"pdf_button" %>
 </p>
 
 <table class="custom">
@@ -35,10 +34,9 @@
             <tr>
               <td id="headline" colspan=2><%= year %>. Sınıf</td>
               <td colspan=4>
-                <%= form_tag :action => 'departmentyearpdf' do %>
-                  <%= hidden_field_tag :year, year %>
-                  <%= submit_tag "", :id => "pdf_buttonx32" %>
-                <% end %>
+                <%= link_to "",
+                  "/home/departmentyearpdf/#{session[:period_id]}/#{session[:department_id]}/#{year}/#{session[:section]}",
+                :class => "button", :id=>'pdf_buttonx32' %>
               </td>
             </tr>
             <tr>
@@ -78,7 +76,7 @@
               <% end %>
             <% end %>
 
-			<% if @evening[year_index] %>
+            <% if @evening[year_index] %>
               <% @evening[year_index].each do |col| %>
                 <tr>
                   <th class='clock'><%= col[0].gsub('-', ':') %></th>

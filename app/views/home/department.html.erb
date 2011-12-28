@@ -9,11 +9,11 @@
       <td class="label"> Bölüm: </td>
       <td class="field"><%= select_tag(:department_id, options_from_collection_for_select(Department.all, :id, :name)) %></td>
     </tr>
-      <td class="label"> Bölüm: </td>
-      <td class="field">
-        <input type="checkbox" name="section1" value="1" checked> 1. öğretim
-        <input type="checkbox" name="section2" value="1" checked> 2. öğretim
-      </td>
+    <td class="label"> Bölüm: </td>
+    <td class="field">
+      <input type="checkbox" name="section1" value="1" checked> 1. öğretim
+      <input type="checkbox" name="section2" value="1" checked> 2. öğretim
+    </td>
     <tr>
       <td></td>
       <td><%= submit_tag "Arama Yap", :id => "submit_button" %></td>

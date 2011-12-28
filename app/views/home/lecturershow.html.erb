@@ -1,8 +1,8 @@
 <h2>
-	 <%= Period.find(session[:period_id]).full_name %>
-	  <%= link_to " / " + Department.find(session[:department_id]).name,
-	 "/home/departmentreview/#{session[:period_id]}/#{session[:department_id]}" %>
-	 <%= " / " + Lecturer.find(session[:lecturer_id]).full_name %>
+  <%= Period.find(session[:period_id]).full_name %>
+  <%= link_to " / " + Department.find(session[:department_id]).name,
+  "/home/departmentreview/#{session[:period_id]}/#{session[:department_id]}" %>
+  <%= " / " + Lecturer.find(session[:lecturer_id]).full_name %>
 </h2>
 
 <div id="headline">
