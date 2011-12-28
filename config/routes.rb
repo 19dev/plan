@@ -91,20 +91,34 @@ Schedule::Application.routes.draw do
   root :to => 'home#index'
   match "home/" => "home#index"
   get  "home/index"
-  get  "home/find"
-  post "home/find"
-  get  "home/review"
-  post "home/review"
-  post "home/show"
-  post "home/lecturerplan"
-  get  "home/lecturerplanpdf"
+
+  match 'home/lecturershow' => 'home#lecturershow'
+  match 'home/lecturershow/:period_id/:lecturer_id' => 'home#lecturershow'
+
+  match 'home/departmentshow' => 'home#departmentshow'
+  match 'home/departmentshow/:period_id/:department_id/:section' => 'home#departmentshow'
+
+  match 'home/departmentreview' => 'home#departmentreview'
+  match 'home/departmentreview/:period_id/:department_id' => 'home#departmentreview'
+
+  get  "home/lecturer"
+  match 'home/lecturerplan' => 'home#lecturerplan'
+  match 'home/lecturerplan/:period_id/:lecturer_id' => 'home#lecturerplan'
+  match 'home/lecturerplanpdf/:period_id/:lecturer_id' => 'home#lecturerplanpdf'
+
   get  "home/class"
-  post "home/classplan"
-  get  "home/classplanpdf"
+  match 'home/classplan' => 'home#classplan'
+  match 'home/classplan/:period_id/:classroom_id' => 'home#classplan'
+  match 'home/classplanpdf/:period_id/:classroom_id' => 'home#classplanpdf'
+
   get  "home/department"
-  post "home/departmentplan"
-  get  "home/departmentplanpdf"
-  post "home/departmentyearpdf"
+  match 'home/departmentplan' => 'home#departmentplan'
+  match 'home/departmentplan/:period_id/:departmet_id/:year/:section' => 'home#departmentplan'
+  match 'home/departmentplanpdf/:period_id/:department_id/:section' => 'home#departmentplanpdf'
+
+  match 'home/departmentyearpdf' => 'home#departmentyearpdf'
+  match 'home/departmentyearpdf/:period_id/:departmet_id/:year/:section' => 'home#departmentyearpdf'
+
   get  "home/info"
   # ---------------------
 

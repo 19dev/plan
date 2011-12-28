@@ -1,10 +1,10 @@
 <!-- multiselect -->
 <!-- kaynak : http://loudev.com/ -->
 <% if @unassignment_lecturers or @unassignment_courses %>
-  <link href="/stylesheets/multi-select.css" rel="stylesheet" type="text/css" />
-  <script src="/javascripts/jquery.js" type="text/javascript"></script>
-  <script src="/javascripts/jquery.multi-select.js" type="text/javascript"></script>
-  <script src="/javascripts/app.js" type="text/javascript"></script>
+  <link href="/assets/multi-select.css" rel="stylesheet" type="text/css" />
+  <script src="/assets/jquery.js" type="text/javascript"></script>
+  <script src="/assets/jquery.multi-select.js" type="text/javascript"></script>
+  <script src="/assets/app.js" type="text/javascript"></script>
 <% end %>
 <!-- end multiselect -->
 
@@ -12,10 +12,10 @@
 <!-- autocomplete -->
 <!-- kaynak : https://github.com/scottgonzalez/jquery-ui-extensions/tree/master/autocomplete -->
 <% if @auto_lecturers %>
-  <link rel="stylesheet" type="text/css" href="/stylesheets/jquery-ui.css" />
-  <script src="/javascripts/jquery.js"></script>
-  <script src="/javascripts/jquery-ui.js"></script>
-  <script src="/javascripts/jquery.ui.autocomplete.html.js"></script>
+  <link rel="stylesheet" type="text/css" href="/assets/jquery-ui.css" />
+  <script src="/assets/jquery.js"></script>
+  <script src="/assets/jquery-ui.js"></script>
+  <script src="/assets/jquery.ui.autocomplete.html.js"></script>
 
   <script>
     $(function() {
@@ -24,7 +24,7 @@
                 <% @auto_lecturers.each do |l|  %>
                   {
                     <% l.each do |k, v| %>
-                      label: "<img src='<%= raw v[1] %>' width='50'; height='50'/><%= raw v[2]+' - '+v[0] %>",
+                      label: "<img src='/assets/<%= raw v[1] %>' width='50'; height='50'/><%= raw v[2]+' - '+v[0] %>",
                       value: "<%= v[0] %>",
                       deger: "<%= raw k %>"
                     <% end %>

@@ -1,6 +1,6 @@
-<link type="text/css" rel="stylesheet" href="/stylesheets/datatable.css"/>
-<script type="text/javascript" src="/javascripts/jquery.js"></script>
-<script type="text/javascript" src="/javascripts/jquery.dataTables.js"></script>
+<link type="text/css" rel="stylesheet" href="/assets/datatable.css"/>
+<script type="text/javascript" src="/assets/jquery.js"></script>
+<script type="text/javascript" src="/assets/jquery.dataTables.js"></script>
 
 <script type="text/javascript" charset="utf-8">
   $(document).ready(function() {
@@ -28,7 +28,7 @@
       <th class="label">İş telefonu</th>
       <th class="label">Cep telefonu</th>
       <th class="label">Bölüm başkanı mı?</th>
-      <th></th>
+      <th class="label">İşlemler</th>
     </tr>
   </thead>
   <tbody>
@@ -38,7 +38,7 @@
           <% if lecturer.photo %>
             <%= image_tag lecturer.photo, :width => 26, :height => 26 %>
           <% else %>
-            <%= image_tag '/images/default.png', :width => 26, :height => 26 %>
+            <%= image_tag '/assets/default.png', :width => 26, :height => 26 %>
           <% end %>
         </td>
         <td class="label"><%= lecturer.first_name %></td>

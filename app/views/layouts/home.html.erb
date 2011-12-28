@@ -7,7 +7,6 @@
   <style>
     #logo tr img {width:60px;}
     #logo td {width:70px;}
-    .page{margin-left:5px;width:920px}
     #content {min-height:100px}
   </style>
 </head>
@@ -51,8 +50,8 @@
   <!--PLATFORM BAR END-->
 
   <style>
-    div.page-header{
-      background:url(/images/mf-140x140.png) no-repeat 98% top;
+    div.page-header {
+      background:url(/assets/mf-140x140.png) no-repeat 98% top;
       height: 90px;
       background-size: auto;
     }
@@ -72,7 +71,7 @@
           </a>
           </li>
           <li class="<%= 'current' if ["find", "review"].include?(page) %>">
-          <a href="/home/find">
+          <a href="/home/lecturer">
             Öğretim Elamanı Planı
           </a>
           </li>
@@ -95,8 +94,6 @@
       </div>
     </div>
   </div>
-
-
 
   <% if session[:error] %>
     <div id="notice">
@@ -121,7 +118,7 @@
   <div id="footer">
     <ul class="recent photos" style="float:left;">
       <li><a href="http://ce.omu.edu.tr" title="Bilgisayar Mühendisliği">
-        <%= image_tag "/images/19-normal-57x57.png", :width => 26, :height => 26 %>
+        <%= image_tag "/assets/19-normal-57x57.png", :width => 26, :height => 26 %>
       </a></li>
     </ul>
     <div style="margin-left:60px;margin-top:5px">

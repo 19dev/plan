@@ -1,5 +1,5 @@
 <!-- dual listbox -->
-<script src="/javascripts/jquery-latest.js"></script>
+<script src="/assets/jquery-latest.js"></script>
 <!-- end dual listbox -->
 
 <h2><%= session[:department] %> Bölümü Öğretim Elamanı Programı</h2>
@@ -7,7 +7,7 @@
   <tr>
     <td class="label">Fotoğraf</td>
     <td>
-      <%= image_tag Lecturer.find(session[:lecturer_id]).photo %>
+      <%= image_tag "/assets/#{Lecturer.find(session[:lecturer_id]).photo}" %>
     </td>
   </tr>
   <tr>

@@ -1,0 +1,49 @@
+<h2>
+	 <%= Period.find(session[:period_id]).full_name %>
+	  <%= link_to " / " + Department.find(session[:department_id]).name,
+	 "/home/departmentreview/#{session[:period_id]}/#{session[:department_id]}" %>
+	 <%= " / " + Lecturer.find(session[:lecturer_id]).full_name %>
+</h2>
+
+<div id="headline">
+  <div id="image-box">
+    <table>
+      <tr>
+        <td>
+        <% if File::exists? Rails.root + "app/assets/images/#{@lecturer.photo}" %>
+          <%= image_tag "/assets/#{@lecturer.photo}" %>
+        <% end %>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <table class="custom">
+    <tr>
+      <td class="label" style="border:none"> Adı: </td>
+      <td class="field"><%= @lecturer.first_name %></td>
+    </tr>
+    <tr>
+      <td class="label" style="border:none"> Soyadı: </td>
+      <td class="field"><%= @lecturer.last_name %></td>
+    </tr>
+    <tr>
+      <td class="label" style="border:none"> Email: </td>
+      <td class="field"><%= @lecturer.email %></td>
+    </tr>
+    <tr>
+      <td class="label" style="border:none"> Cep telefon: </td>
+      <td class="field"><%= @lecturer.cell_phone %></td>
+    </tr>
+    <tr>
+      <td class="label" style="border:none"> İş telefonu: </td>
+      <td class="field"><%= @lecturer.work_phone %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <%= link_to "Ders Programı İncele", "/home/lecturerplan/#{session[:period_id]}/#{@lecturer.id}", :class=>"button" %>
+        <%= link_to "Pdf Çıktı", "/home/lecturerplanpdf/#{session[:period_id]}/#{@lecturer.id}", :class => "button danger", :id=>"pdf_buttonx32" %>
+      </td>
+    </tr>
+  </table>
+</div>

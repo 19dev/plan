@@ -1,10 +1,19 @@
 <!-- dual listbox -->
-<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="/assets/jquery-latest.js"></script>
 <!-- end dual listbox -->
-<div class="page">
-  <h2><%= Lecturer.find(session[:lecturer_id]).department.name %> Bölümü Öğretim Elamanı Planı</h2>
-  <p style="margin-left:800px;margin-top:-80px;"><%= link_to "", "lecturerplanpdf", :id => "pdf_button" %></p>
-  <table class="custom">
+  <h2>
+	  <%= Period.find(session[:period_id]).full_name %>
+	  <%= link_to " / " + Department.find(session[:department_id]).name,
+	 "/home/departmentreview/#{session[:period_id]}/#{session[:department_id]}" %>
+	 <%= link_to " / " + Lecturer.find(session[:lecturer_id]).full_name,
+	 "/home/lecturershow/#{session[:period_id]}/#{session[:lecturer_id]}"
+	   %>
+	 / Plan
+  </h2>
+  <p style="margin-left:800px;margin-top:-80px;">
+	<%= link_to "", "/home/lecturerplanpdf/#{session[:period_id]}/#{session[:lecturer_id]}", :id=>"pdf_button" %>
+  </p>
+  <table class="custom" style="margin-left:5px;">
     <tr>
       <td class="label">Fotoğraf</td>
       <td>
@@ -107,7 +116,6 @@
       </td>
     </tr>
   </table>
-</div>
 
 <!-- dual listbox -->
 <script>

@@ -1,13 +1,13 @@
 <!-- dual listbox -->
-<script src="/javascripts/jquery-latest.js"></script>
+<script src="/assets/jquery-latest.js"></script>
 <!-- end dual listbox -->
 
 <!-- jlistbox -->
 <!-- kaynak : http://www.senamion.com/blog/jlistbox_demo.html -->
-<link rel="stylesheet" href="/stylesheets/jquery.jListbox.css" type="text/css" media="screen" />
-<script type="text/javascript" src="/javascripts/jquery.js" ></script>
-<script type="text/javascript" src="/javascripts/jquery.bgiframe.js" ></script>
-<script type="text/javascript" src="/javascripts/jquery.jListbox.js" ></script>
+<link rel="stylesheet" href="/assets/jquery.jListbox.css" type="text/css" media="screen" />
+<script type="text/javascript" src="/assets/jquery.js" ></script>
+<script type="text/javascript" src="/assets/jquery.bgiframe.js" ></script>
+<script type="text/javascript" src="/assets/jquery.jListbox.js" ></script>
 <script type="text/javascript">
   $().ready(function() {
       $("#lecturer_ids, #test").jListbox();
@@ -24,7 +24,7 @@
       <td>
         <select id="lecturer_ids" name="lecturer_ids">
           <% @assignments.each do |k, lecturer| %>
-            <option  rel="<img width='56' height='56' src='<%= lecturer.photo %>'/>" value="<%= k %>" selected>
+            <option  rel="<img width='56' height='56' src='<%= "/assets/#{lecturer.photo}" %>'/>" value="<%= k %>" selected>
             <%= lecturer.full_name %>
             </option>
           <% end %>

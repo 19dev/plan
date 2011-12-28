@@ -78,7 +78,7 @@ module PdfHelper
         :column_widths => { 0 => 40,1 => 149},
         :cell_style => { :size => 6, :text_color => "000000", :height => 18, :border_width => 0.3 }
       if photo
-        image "#{Dir.pwd}/app/assets#{photo}", :width => 55, :height => 55, :position => 139, :vposition => 0
+        image "#{Dir.pwd}/app/assets/images/#{photo}", :width => 55, :height => 55, :position => 139, :vposition => 0
         move_up(54)
       end
 

@@ -1,0 +1,36 @@
+<h2>
+	<%= link_to Period.find(session[:period_id]).full_name + " / " + Department.find(session[:department_id]).name,
+	 "/home/departmentreview/#{session[:period_id]}/#{session[:department_id]}" %>
+</h2>
+ <table cellpadding="0" cellspacing="0" border="0" class="custom" 
+      id="example">
+	<thead>
+		<tr id="headline">
+		  <th></th>
+		  <th>Ad</th>
+		  <th>Soyad</th>
+		  <th colspan="3">İşlem</th>
+		</tr>
+	</thead>
+	<tbody>
+	<% @lecturers.each do |lecturer| %>
+      <tr id="headline">
+          <td>
+          <% if File::exists? Rails.root + "app/assets/images/#{lecturer.photo}" %>
+            <%= image_tag "/assets/#{lecturer.photo}", :width => 32, :height => 32, :id=> "image-box"%>
+            
+          <% end %>
+          </td>
+        <td class="field"><%= lecturer.first_name %></td>
+        <td class="field"><%= lecturer.last_name %></td>
+        <td><%= link_to "Bilgi", "/home/lecturershow/#{session[:period_id]}/#{lecturer.id}", :class=>"button" %></td>
+        <td>
+          <%= link_to "Ders Programı", "/home/lecturerplan/#{session[:period_id]}/#{lecturer.id}", :class=>"button" %>
+        </td>
+        <td>
+          <%= link_to "Pdf Çıktı", "/home/lecturerplanpdf/#{session[:period_id]}/#{lecturer.id}", :class => "button danger", :id=>"pdf_buttonx32" %>
+        </td>
+      </tr>
+	<% end %>
+  </tbody>
+</table>

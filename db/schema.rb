@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111227210201) do
+ActiveRecord::Schema.define(:version => 20111228135857) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "period_id"

@@ -1,10 +1,10 @@
 <!-- autocomplete -->
 <!-- kaynak : https://github.com/scottgonzalez/jquery-ui-extensions/tree/master/autocomplete -->
 <% if @auto_lecturers %>
-  <link rel="stylesheet" type="text/css" href="/stylesheets/jquery-ui.css" />
-  <script src="/javascripts/jquery.js"></script>
-  <script src="/javascripts/jquery-ui.js"></script>
-  <script src="/javascripts/jquery.ui.autocomplete.html.js"></script>
+  <link rel="stylesheet" type="text/css" href="/assets/jquery-ui.css" />
+  <script src="/assets/jquery.js"></script>
+  <script src="/assets/jquery-ui.js"></script>
+  <script src="/assets/jquery.ui.autocomplete.html.js"></script>
   <script>
     $(function() {
       $( "#autocomplete" ).autocomplete({
@@ -12,7 +12,7 @@
                 <% @auto_lecturers.each do |l|  %>
                   {
                     <% l.each do |k, v| %>
-                      label: "<img src='<%= raw v[1] %>' width='50'; height='50'/><%= raw v[0]+' - '+v[2] %>",
+                      label: "<img src='/assets/<%= raw v[1] %>' width='50'; height='50'/><%= raw v[0]+' - '+v[2] %>",
                       value: "<%= v[0] %>",
                       deger: "<%= raw k %>"
                     <% end %>
@@ -36,7 +36,7 @@
 </style>
 
 <h2>Öğretim Elamanı Hızlı Arama</h2>
-<%= form_tag :action => 'show' do %>
+<%= form_tag :action => 'lecturershow' do %>
   <table class="custom">
     <tr>
       <td class="label"> Dönem: </td>
@@ -55,7 +55,7 @@
 <% end %>
 
 <h2>Öğretim Elamanı Manual Arama</h2>
-<%= form_tag :action => 'review' do %>
+<%= form_tag :action => 'departmentreview' do %>
   <table class="custom">
     <tr>
       <td class="label"> Dönem: </td>

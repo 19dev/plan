@@ -1,9 +1,11 @@
 <!-- dual listbox -->
-<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="/assets/jquery-latest.js"></script>
 <!-- end dual listbox -->
 
-<h2>Sınıf Planı / <%= Classroom.find(session[:classroom_id]).name%></h2>
-<p style="margin-left:800px;margin-top:-80px;"><%= link_to "", "classplanpdf", :id => "pdf_button" %></p>
+<h2><%= Period.find(session[:period_id]).full_name + " / " + Classroom.find(session[:classroom_id]).name %></h2>
+<p style="margin-left:800px;margin-top:-80px;">
+	<%= link_to "", "/home/classplanpdf/#{session[:period_id]}/#{session[:classroom_id]}", :id=>"pdf_button" %>
+</p>
 <table class="custom">
   <tr>
     <td class="label">Sınıf</td>

@@ -1,5 +1,14 @@
-<h2>Bölüm Planı / <%= Department.find(session[:department_id]).name%></h2>
-<p style="margin-left:800px;margin-top:-80px;"><%= link_to "", "departmentplanpdf", :id => "pdf_button" %></p>
+<h2>
+	<% section = unless session[:section] ==  "0"; " / #{session[:section]}. öğretim" else "" end %>
+	<%= link_to Period.find(session[:period_id]).full_name + " / " + Department.find(session[:department_id]).name + section,
+	 "/home/departmentshow/#{session[:period_id]}/#{session[:department_id]}/#{session[:section]}" %>
+	 
+	 / Plan
+</h2>
+<p style="margin-left:800px;margin-top:-80px;">
+	<%= link_to "", "/home/departmentplanpdf/#{session[:period_id]}/#{session[:department_id]}/#{session[:section]}", :id=>"pdf_button" %>
+</p>
+
 <table class="custom">
   <tr>
     <td class="info" colspan=2>
@@ -22,7 +31,7 @@
       </style>
       <div id="table">
         <table>
-          <% (1..4).each do |year| %>
+          <% @year.each_with_index do |year, year_index| %>
             <tr>
               <td id="headline" colspan=2><%= year %>. Sınıf</td>
               <td colspan=4>
@@ -45,8 +54,8 @@
               <% end %>
             </tr>
 
-            <% if eval("@morning#{year}") %>
-              <% eval("@morning#{year}").each do |col| %>
+            <% if @morning[year_index] %>
+              <% @morning[year_index].each do |col| %>
                 <tr>
                   <th class='clock<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'><%= col[0].gsub('-', ':') %></th>
                   <% index = 0 %>
@@ -69,8 +78,8 @@
               <% end %>
             <% end %>
 
-            <% if eval("@evening#{year}") %>
-              <% eval("@evening#{year}").each do |col| %>
+			<% if @evening[year_index] %>
+              <% @evening[year_index].each do |col| %>
                 <tr>
                   <th class='clock'><%= col[0].gsub('-', ':') %></th>
                   <% index = 0 %>
