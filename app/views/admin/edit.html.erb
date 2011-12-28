@@ -9,7 +9,7 @@
           <td class="field">
             <% if  c.name == "photo" %>
               <%= file_field_tag :file %>
-              <%= image_tag @data.attributes[c.name], :width => 64, :height => 64 %>
+              <%= image_tag "/assets/" + @data.attributes[c.name], :width => 64, :height => 64 %>
             <% elsif c.name == "content" %><textarea name="<%= c.name %>"><%= @data.attributes[c.name] %></textarea>
             <% else %>                     <%= text_field_tag c.name, @data.attributes[c.name] %>
             <% end %>
