@@ -16,10 +16,7 @@
     <% @lecturers.each do |lecturer| %>
       <tr id="headline">
         <td>
-          <% if File::exists? Rails.root + "app/assets/images/#{lecturer.photo}" %>
-            <%= image_tag "/assets/#{lecturer.photo}", :width => 32, :height => 32, :id=> "image-box"%>
-
-          <% end %>
+            <%= image_tag lecturer.photo, :width => 32, :height => 32, :id => "image-box" %>
         </td>
         <td class="field"><%= lecturer.first_name %></td>
         <td class="field"><%= lecturer.last_name %></td>

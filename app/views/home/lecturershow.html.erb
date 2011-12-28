@@ -10,9 +10,7 @@
     <table>
       <tr>
         <td>
-        <% if File::exists? Rails.root + "app/assets/images/#{@lecturer.photo}" %>
-          <%= image_tag "/assets/#{@lecturer.photo}" %>
-        <% end %>
+          <%= image_tag @lecturer.photo %>
         </td>
       </tr>
     </table>

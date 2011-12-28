@@ -373,7 +373,6 @@ module ScheduleHelper
     end
     lecturer_ids.uniq!
 
-
     @classplans = {}
     lecturer_ids.each do |lecturer_id|
       if Assignment.find(:first, :conditions => { :lecturer_id => lecturer_id, :period_id => session[:period_id] })

@@ -2,6 +2,6 @@ a = People.new
 a.department_id = 0 # none çünkü adam admin.
 a.first_name = "19"
 a.password = "ondokuz"
-a.photo = "default.png"
+a.photo = "/default.png"
 a.status = 0
 a.save

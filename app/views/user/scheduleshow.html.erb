@@ -7,13 +7,22 @@
   <tr>
     <td class="label">Fotoğraf</td>
     <td>
-      <%= image_tag "/assets/#{Lecturer.find(session[:lecturer_id]).photo}" %>
+      <%= image_tag Lecturer.find(session[:lecturer_id]).photo %>
     </td>
   </tr>
   <tr>
     <td class="label">Öğretim görevlisi</td>
     <td>
       <%= Lecturer.find(session[:lecturer_id]).full_name %>
+
+    </td>
+  </tr>
+  <tr><td></td>
+    <td>
+
+    </td>
+    <td>
+
     </td>
   </tr>
   <tr>
@@ -26,6 +35,26 @@
           </option>
         <% end %>
       </select>
+      <div class="button-group">
+        <li>
+          <%= form_tag({ :action => 'scheduleedit' }, :multipart => true) do %>
+            <b id="select_assignment_id"></b>
+            <%= submit_tag "Seçili dersi sil", :class => "button",
+              :onClick => "return confirm('#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim " +
+                          "görevlisinin tablodan seçtiğiniz dersi silmek üzeresiniz. " +
+                          "Silmek istediğinizden emin misiniz ?');" %>
+          <% end %>
+        </li>
+        <li>
+          <%= form_tag({ :action => 'scheduledel' }, :multipart => true) do %>
+            <%= submit_tag "Tüm dersi sil", :class => "button danger",
+              :onClick => "return confirm('#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim " +
+                          "görevlisinin bu dönemlik #{session[:department]} bölümüne verdiği tüm dersleri " +
+                          "silmek üzeresiniz. " +
+                          "Silmek istediğinizden emin misiniz ?');" %>
+          <% end %>
+        </li>
+      </div>
     </td>
   </tr>
   <tr>
@@ -107,26 +136,7 @@
       </div>
     </td>
   </tr>
-  <tr>
-    <td>
-      <%= form_tag({ :action => 'scheduleedit' }, :multipart => true) do %>
-        <p id="select_assignment_id"></p>
-        <%= submit_tag "Seçili dersi sil", :class => "button",
-          :onClick => "return confirm('#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim " +
-                      "görevlisinin tablodan seçtiğiniz dersi silmek üzeresiniz. " +
-                      "Silmek istediğinizden emin misiniz ?');" %>
-      <% end %>
-    </td>
-    <td>
-      <%= form_tag({ :action => 'scheduledel' }, :multipart => true) do %>
-        <%= submit_tag "Tüm dersi sil", :class => "button danger",
-          :onClick => "return confirm('#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim " +
-                      "görevlisinin bu dönemlik #{session[:department]} bölümüne verdiği tüm dersleri " +
-                      "silmek üzeresiniz. " +
-                      "Silmek istediğinizden emin misiniz ?');" %>
-      <% end %>
-    </td>
-  </tr>
+
 </table>
 
 <!-- dual listbox -->

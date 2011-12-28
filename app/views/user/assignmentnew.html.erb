@@ -24,7 +24,7 @@
                 <% @auto_lecturers.each do |l|  %>
                   {
                     <% l.each do |k, v| %>
-                      label: "<img src='/assets/<%= raw v[1] %>' width='50'; height='50'/><%= raw v[2]+' - '+v[0] %>",
+                      label: "<img src='<%= raw v[1] %>' width='50'; height='50'/><%= raw v[2]+' - '+v[0] %>",
                       value: "<%= v[0] %>",
                       deger: "<%= raw k %>"
                     <% end %>

@@ -2,13 +2,7 @@
 <table class="custom">
   <tr>
     <td class="label">Fotoğraf</td>
-    <td>
-      <% if @people.photo %>
-        <img src="<%= "/assets/#{@people.photo}" %>" width="56" height="56"/>
-      <% else %>
-        <img src="/assets/default.png" width="56" height="56"/>
-      <% end %>
-    </td>
+    <td><img src="<%= @people.photo %>" width="56" height="56"/></td>
   </tr>
   <tr>
     <td class="label">Ad</td>

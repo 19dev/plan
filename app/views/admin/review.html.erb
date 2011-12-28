@@ -30,7 +30,7 @@
         <% eval(session[:TABLE] + ".columns").map do |c| %>
           <% if in?(c.name, session[:FIELDS]) %> <!-- kısıtlamalar -->
             <td class="label">
-              <% if c.name == 'photo' %><img src="/assets/<%= row.attributes[c.name] %>" width="26" height="26"/>
+              <% if c.name == 'photo' %><img src="<%= row.attributes[c.name] %>" width="26" height="26"/>
               <% else %>                <%= substr?(row.attributes[c.name].to_s, 40) %>
               <% end %>
             </td>
