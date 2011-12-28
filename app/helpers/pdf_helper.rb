@@ -8,8 +8,8 @@ module PdfHelper
       text "Ondokuz Mayıs Üniversitesi", :size => 16,  :align => :center
       text "Mühendislik Fakültesi Program Arama Sistemi", :size => 12,  :align => :center
 
-      image "#{Dir.pwd}/app/assets/images/omu-logo.jpg", :width => 64, :height => 64, :position => 0, :vposition => -30
-      image "#{Dir.pwd}/app/assets/images/mf-128x128.png", :width => 64, :height => 64, :position => 460, :vposition => -30
+      image "#{Rails.root}/app/assets/images/omu-logo.jpg", :width => 64, :height => 64, :position => 0, :vposition => -30
+      image "#{Rails.root}/app/assets/images/mf-128x128.png", :width => 64, :height => 64, :position => 460, :vposition => -30
 
       move_up(125)
       table info,
@@ -69,8 +69,8 @@ module PdfHelper
       text "Ondokuz Mayıs Üniversitesi", :size => 16,  :align => :center
       text "Mühendislik Fakültesi Program Arama Sistemi", :size => 12, :align => :center
 
-      image "#{Dir.pwd}/app/assets/images/omu-logo.jpg", :width => 64, :height => 64, :position => 0, :vposition => -30
-      image "#{Dir.pwd}/app/assets/images/mf-128x128.png", :width => 64, :height => 64, :position => 460, :vposition => -30
+      image "#{Rails.root}/app/assets/images/omu-logo.jpg", :width => 64, :height => 64, :position => 0, :vposition => -30
+      image "#{Rails.root}/app/assets/images/mf-128x128.png", :width => 64, :height => 64, :position => 460, :vposition => -30
 
       move_up(125)
       table info,
@@ -78,7 +78,7 @@ module PdfHelper
         :column_widths => { 0 => 40,1 => 149},
         :cell_style => { :size => 6, :text_color => "000000", :height => 18, :border_width => 0.3 }
       if photo
-        image "#{Dir.pwd}/public#{photo}", :width => 55, :height => 55, :position => 139, :vposition => 0
+        image "#{Rails.root}/public#{photo}", :width => 55, :height => 55, :position => 139, :vposition => 0
         move_up(54)
       end
 
@@ -137,8 +137,8 @@ module PdfHelper
       text "Ondokuz Mayıs Üniversitesi", :size => 16,  :align => :center
       text "Mühendislik Fakültesi Program Arama Sistemi", :size => 12,  :align => :center
 
-      image "#{Dir.pwd}/app/assets/images/omu-logo.jpg", :width => 64, :height => 64, :position => 0, :vposition => -30
-      image "#{Dir.pwd}/app/assets/images/mf-128x128.png", :width => 64, :height => 64, :position => 460, :vposition => -30
+      image "#{Rails.root}/app/assets/images/omu-logo.jpg", :width => 64, :height => 64, :position => 0, :vposition => -30
+      image "#{Rails.root}/app/assets/images/mf-128x128.png", :width => 64, :height => 64, :position => 460, :vposition => -30
 
       move_up(125)
       table info,
