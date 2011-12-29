@@ -4,13 +4,14 @@
 
           $ rake init # kök dizinde çalıştır!
 
-          Tabloları tekrardan ilklendirmeye/oluşturmaya yarar.
+          Veritabanını, tabloları tekrardan ilklendirmeye/oluşturmaya yarar.
 
 - sisteme örnek girdi
 
           $ rake reex # kök dizinde çalıştır!
 
-          lib/task/example_insert dosyasındaki örnek girdileri girmesini sağlar.
+          Veritabanını, tabloları siler, db/migrate 'te oluşturulan tabloları tekrardan
+          sisteme ekler ve lib/task/example_insert dosyasındaki örnek girdileri girmesini sağlar.
 
 - sisteme csv girdisi
 
