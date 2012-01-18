@@ -35,7 +35,7 @@
   .page {margin-left:0px;width:930px;}
 </style>
 
-<h2>Öğretim Elemanı Hızlı Arama</h2>
+<h2>Öğretim Üyesi Hızlı Arama</h2>
 <%= form_tag :action => 'lecturershow' do %>
   <table class="custom">
     <tr>
@@ -43,7 +43,7 @@
       <td class="field"><%= select_tag(:period_id, options_from_collection_for_select(Period.all, :id, :full_name)) %></td>
     </tr>
     <tr>
-      <td class="label">Öğretim Elemanı Adı:</td>
+      <td class="label">Öğretim Üyesi Adı:</td>
       <td class="field"><input id="autocomplete" style="width:365px;height:25px;"/></td>
     </tr>
     <div id="post"></div>
@@ -54,7 +54,7 @@
   </table>
 <% end %>
 
-<h2>Öğretim Elemanı Manual Arama</h2>
+<h2>Öğretim Üyesi Listele</h2>
 <%= form_tag :action => 'departmentreview' do %>
   <table class="custom">
     <tr>

@@ -6,9 +6,8 @@
   <%= link_to " / " + Department.find(session[:department_id]).name,
   "/home/departmentreview/#{session[:period_id]}/#{session[:department_id]}" %>
   <%= link_to " / " + Lecturer.find(session[:lecturer_id]).full_name,
-  "/home/lecturershow/#{session[:period_id]}/#{session[:lecturer_id]}"
-    %>
-    / Plan
+  "/home/lecturershow/#{session[:period_id]}/#{session[:lecturer_id]}"%>
+  / Plan
 </h2>
 <p style="margin-left:800px;margin-top:-80px;">
 <%= link_to "", "/home/lecturerplanpdf/#{session[:period_id]}/#{session[:lecturer_id]}", :id=>"pdf_button" %>
@@ -21,7 +20,7 @@
     </td>
   </tr>
   <tr>
-    <td class="label">Öğretim Elemanı</td>
+    <td class="label">Öğretim Üyesi</td>
     <td>
       <%= Lecturer.find(session[:lecturer_id]).full_name %>
     </td>
