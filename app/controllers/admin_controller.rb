@@ -97,7 +97,7 @@ class AdminController < ApplicationController
         session[:error] = response[1]
       end
     else
-      data[:photo] = "/images/default.png"
+      data[:photo] = "/default.png"
       data.save
     end
     session[:success] = "#{session[:_key]} bilgisine sahip kişi #{session[:TABLE]} tablosuna başarıyla eklendi"
