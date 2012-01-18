@@ -30,7 +30,7 @@ module LecturerHelper
         session[:error] = response[1]
       end
     else
-      lecturer[:photo] = "/images/default.png"
+      lecturer[:photo] = "/default.png"
       lecturer.save
     end
     session[:success] = "#{lecturer.full_name} isimli kişi öğretim elamanı olarak eklendi"
