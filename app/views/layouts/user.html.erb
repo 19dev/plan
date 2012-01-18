@@ -32,10 +32,17 @@
               Ana Sayfa
             </a>
             </li>
-            <% unless session[:usersuper] %>
+            <% if session[:usernotice] %>
               <li class="title">
               <a href="/user/noticereview">
                 Duyurular
+              </a>
+              </li>
+            <% end %>
+            <% if session[:userdig] %>
+              <li class="title">
+              <a href="/user/lecturerreview">
+                Öğretim Elemanı
               </a>
               </li>
             <% end %>

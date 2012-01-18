@@ -17,7 +17,11 @@ class UserController < ApplicationController
   before_filter :period # rubysiz olmadığı gibi periodsuz da sahaya çıkmayız.
 
   before_filter :require_login, :except => [:login, :logout] # loginsiz asla!
-  before_filter :require_user, :only => [
+  before_filter :require_usersuper, :only => [:coursenew, :coursereview, :courseshow, :courseedit,
+                                              :assignmentnew, :assignmentreview, :assignmentshow, :assignmentedit,
+                                              :schedulenew, :schedulereview, :scheduleshow, :scheduleedit,
+                                              ] # for usersuper
+  before_filter :require_usernotice, :only => [
                                               :noticenew, :noticereview, :noticeshow, :noticeedit,
                                             ] # for notice : loginsiz asla!
 
@@ -37,35 +41,31 @@ class UserController < ApplicationController
   def login
     return redirect_to '/user/home' if session[:user]
 
-    if user = People.find(:first, :conditions => {
-                                                  :first_name => params[:first_name],
-                                                  :password => params[:password],
-                                                  :status => 2,
-                                                  })
-        session[:user] = true
-        session[:user_id] = user.id # update for password
-        session[:username] = user.first_name
-        session[:userpassword] = user.password
-        return redirect_to '/user/noticereview'
-    end
-
     if session[:period_id]
       if user = People.find(:first, :conditions => {
-                                                    :first_name => params[:first_name],
-                                                    :password => params[:password],
-                                                    :status => 1,
-                                                    })
+        :first_name => params[:first_name],
+        :password => params[:password],
+        :status => [1, 2, 3],
+      })
         session[:user] = true
-        session[:usersuper] = true
         session[:user_id] = user.id # update for password
         session[:department_id] = user.department_id
         session[:department] = user.department.name
         session[:username] = user.first_name
         session[:userpassword] = user.password
         session[:period] = Period.find(session[:period_id]).full_name
-
-        return redirect_to '/user/home'
+        if user.status == 1
+          session[:usersuper] = true
+          return redirect_to '/user/home'
+        elsif user.status == 2
+          session[:usernotice] = true
+          return redirect_to '/user/noticereview'
+        elsif user.status == 3
+          session[:userdig] = true
+          return redirect_to '/user/lecturerreview'
+        end
       end
+
       if params[:first_name] or params[:password]
         session[:error] = "Oops! İsminiz veya şifreniz hatalı, belkide bunlardan sadece biri hatalıdır?"
       end
@@ -94,8 +94,15 @@ class UserController < ApplicationController
     end
   end
 
-  def require_user
-    if session[:usersuper]
+  def require_usersuper
+    unless session[:usersuper]
+      session[:error] = "Lütfen hesabınıza girişi yapın!"
+      redirect_to '/user/'
+    end
+  end
+
+  def require_usernotice
+    unless session[:usernotice]
       session[:error] = "Lütfen hesabınıza girişi yapın!"
       redirect_to '/user/'
     end
