@@ -170,7 +170,7 @@ module ScheduleHelper
               session[:error] = day_tr + " " + hour + "de "+
                 "#{classplan.classroom.name} sınıfında "+
                 "#{classplan.assignment.lecturer.department.name} bölümünden "+
-                "öğretim elamanı #{classplan.assignment.lecturer.full_name} tarafından "+
+                "öğretim elemanı #{classplan.assignment.lecturer.full_name} tarafından "+
                 "#{classplan.assignment.course.full_name} dersi verilmektedir. Bu "+
                 "bilginin düzeltilmesini istiyorsanız; "+
                 "#{classplan.assignment.lecturer.department.name} bölümünün yöneticileri ile irtibata geçin."
@@ -185,7 +185,7 @@ module ScheduleHelper
                 session[:error] = day_tr + " " + hour + " de "+
                   "#{classplan.classroom.name} sınıfında kaydetmeye çalıştığınız "+
                   "#{classplan.assignment.lecturer.department.name} bölümünden "+
-                  "#{classplan.assignment.lecturer.full_name} isimli öğretim elamanı "+
+                  "#{classplan.assignment.lecturer.full_name} isimli öğretim elemanı "+
                   "#{classplan.assignment.course.full_name} dersini vermektedir. Bu "+
                   "bilginin düzeltilmesini istiyorsanız; "+
                   "bu verdiği dersin gününü veya saatini değiştiriniz."
@@ -228,7 +228,7 @@ module ScheduleHelper
             session[:error] = day_tr + " " + hour + " de "+
               "#{classplan.classroom.name} sınıfında "+
               "#{classplan.assignment.lecturer.department.name} bölümünden "+
-              "öğretim elamanı #{classplan.assignment.lecturer.full_name} tarafından "+
+              "öğretim elemanı #{classplan.assignment.lecturer.full_name} tarafından "+
               "#{classplan.assignment.course.full_name} dersi verilmektedir. Bu "+
               "bilginin düzeltilmesini istiyorsanız; "+
               "#{classplan.assignment.lecturer.department.name} bölümünün yöneticileri ile irtibata geçin."
@@ -243,7 +243,7 @@ module ScheduleHelper
               session[:error] = day_tr + " " + hour + " de "+
                 "#{classplan.classroom.name} sınıfında kaydetmeye çalıştığınız "+
                 "#{classplan.assignment.lecturer.department.name} bölümünden "+
-                "#{classplan.assignment.lecturer.full_name} isimli öğretim elamanı "+
+                "#{classplan.assignment.lecturer.full_name} isimli öğretim elemanı "+
                 "#{classplan.assignment.course.full_name} dersini vermektedir. Bu "+
                 "bilginin düzeltilmesini istiyorsanız; "+
                 "bu verdiği dersin gününü veya saatini değiştiriniz."
@@ -399,9 +399,9 @@ module ScheduleHelper
       :assignment_id => params[:assignment_id],
       :period_id => session[:period_id]
     })
-    session[:success] = "#{assignment.lecturer.full_name} isimli öğretim elamanının ders programından " +
+    session[:success] = "#{assignment.lecturer.full_name} isimli öğretim elemanının ders programından " +
       "#{assignment.course.full_name} ile ilgili olan tüm alanlar bu dönemlik silinmiştir. " +
-      "Bu öğretim elamanının bu dersi için şimdi tekrardan ders/sınıf seçebilirsiniz."
+      "Bu öğretim elemanının bu dersi için şimdi tekrardan ders/sınıf seçebilirsiniz."
     redirect_to '/user/schedulenew'
   end
   def scheduledel
@@ -420,7 +420,7 @@ module ScheduleHelper
       })
     end
 
-    session[:success] = "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim elamanının " +
+    session[:success] = "#{Lecturer.find(session[:lecturer_id]).full_name} isimli öğretim elemanının " +
       "bu dönemlik #{session[:department]} bölümüne verdiği tüm dersler silindi"
     redirect_to '/user/schedulereview'
   end
