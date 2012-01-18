@@ -11,4 +11,4 @@ id,department_id,first_name,last_name,password,status,photo
 10,9,mak,mak,mak,1,/default.png
 11,10,mlz,mlz,mlz,1,/default.png
 12,19,dig,dig,dig,1,/default.png
-13,0,duyuru,duyuru,duyuru,0,/default.png
+13,0,duyuru,duyuru,duyuru,2,/default.png
