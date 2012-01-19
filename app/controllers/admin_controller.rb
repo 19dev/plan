@@ -36,6 +36,7 @@ class AdminController < ApplicationController
       session[:FIELDS] = {
                           '_id' => true,
                           'id' => true,
+                          'status' => true,
                           'name' => true,
                           'photo' => false,
                           'content' => false,
