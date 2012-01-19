@@ -20,15 +20,52 @@
         <h2>Bölüm Bilgileri</h2>
         <div class='description'>
           <table>
-            <colgroup><col width=300 /><col width=100 /></colgroup>
+            <colgroup><col width=200 /><col width=85 /><col width=40 /><col width=90 /></colgroup>
             <tr>
-              <td><b>Bölüm </b></td><th>öğretim üyesi</th><th>ders</th>
+              <td><b>Bölüm </b></td><th>Öğretim Üyesi</th><th>Ders</th><th>Ders Atama</th><th>Ders Programı</th>
             </tr>
             <% Department.all.each do |department| %>
               <tr>
                 <td><%= department.name %> :</td>
-                <th><%= Lecturer.where(:department_id => department.id).count %></th>
-                <th><%= Course.where(:department_id => department.id).count %></th>
+                <th><%= lecturer_count = Lecturer.where(:department_id => department.id).count %></th>
+                <th><%= course_count = Course.where(:department_id => department.id).count %></th>
+                <th>
+                  <%
+                    assignments = Assignment.joins(:course).where(
+                    'courses.department_id' => department.id,
+                    'assignments.period_id' => Period.find(:first, :conditions=>{:status => true})
+                    )
+                    lecturer_ids = assignments.collect { |assignment| assignment.lecturer_id }
+                    lecturer_ids.uniq!
+                    done_lecturer_count = lecturer_ids.count
+                  %>
+                  <% if lecturer_count != 0 %>
+                    %<%= done_lecturer_count * 100 / lecturer_count %>
+                  <% else %>
+                    %0
+                  <% end %>
+                </th>
+                <th>
+                <%
+                  assignments = Assignment.joins(:course).where(
+                  'courses.department_id' => department.id,
+                  'assignments.period_id' => Period.find(:first, :conditions=>{:status => true})
+                  )
+                  lecturer_ids = []
+                  assignments.each do |assignment|
+                    if Classplan.find(:first, :conditions => { 'assignment_id' => assignment.id })
+                      lecturer_ids << assignment.lecturer_id
+                    end
+                  end
+                  lecturer_ids.uniq!
+                  done_schedule_count = lecturer_ids.count
+                %>
+                  <% if lecturer_count != 0 %>
+                    %<%= done_schedule_count * 100 / lecturer_count %>
+                  <% else %>
+                    %0
+                  <% end %>
+                </th>
               </tr>
             <% end %>
           </table>
