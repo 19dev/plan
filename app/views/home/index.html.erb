@@ -44,7 +44,7 @@
       <div class="inner">
         <h2> Duyurular </h2>
         <div id="textslide"  style="width:300px;background-color:#eee;">
-          <ul id="ticker" class="ticker" style="width:300px;height:260px">
+          <ul id="ticker" class="ticker" style="width:300px;height:180px">
             <% Notice.all.each do |notice| %>
               <li><%= substr?(notice.content, 89) %></li>
             <% end %>
@@ -60,7 +60,31 @@
       setInterval(function(){ tick () }, 3000);
     </script>
     <!-- end slide -->
-
+    <div id="realtime">
+        <%
+          if period = Period.find(:first, :conditions=>{:status => true})
+            period_state = "up"
+          elsif Period.find(:first, :conditions=>{:status => false})
+            period_state = "problem"
+          else
+            period_state = "down"
+          end
+          if ["problem", "down"].include?(period_state)
+            user_state = "down"
+          else
+            user_state = "up"
+          end
+        %>
+        <% period_state %>
+      <div class="inner">
+        <div id="git" class="service">
+          <span class="status <%= period_state %>"></span> Aktif Period
+        </div>
+        <div id="downloads" class="service">
+          <span class="status <%= user_state %>"></span> Akademisyen Giriş
+        </div>
+      </div>
+    </div>
     <%= stylesheet_link_tag "global" %>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
     <div class="module">
@@ -68,7 +92,7 @@
         <h2>Sistem Bilgileri</h2>
         <div class='description'>
           <table>
-            <colgroup><col width=180 /><col width=10 /></colgroup>
+            <colgroup><col width=180 /><col width=200 /></colgroup>
             <tr>
               <td>Toplam Bölüm Sayısı:</td><th><%= Department.count-1 %></th>
             </tr>
@@ -79,6 +103,9 @@
               <td>Toplam Ders Sayısı:</td><th><%= Course.count %></th>
             </tr>
             <tr><td><br></td><th></th></tr>
+            <tr>
+              <td>Aktif Period:</td><th><%=  if period; period.full_name else "---" end %></th>
+            </tr>
             <tr>
               <td>Sistem Yöneticisi Sayısı:</td><th><%= People.where(:status => 0).count %></th>
             </tr>
