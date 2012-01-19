@@ -1,33 +1,92 @@
-<!-- slide -->
-<!-- kaynak : http://www.htmldrive.net/items/show/1069/Auto-Scroll-News-Ticker-with-jQuery  -->
-<div id="textslide">
-  <h2>Duyurular</h2>
-  <ul id="ticker" class="ticker">
-    <% Notice.all.each do |notice| %>
-      <li><%= substr?(notice.content, 89) %></li>
-    <% end %>
-  </ul>
-</div>
+<div class="columns generic">
+  <div class="column main">
+    <h2 style="width:600px"><span class="highlight" style="font-size:19px">Program Arama Sistemi</span> Nedir ?</h2>
 
-<script>
-  function tick(){
-    $('#ticker li:first').slideUp( function () { $(this).appendTo($('#ticker')).slideDown(); });
-  }
-  setInterval(function(){ tick () }, 3000);
-</script>
-<!-- end slide -->
+    Program arama sistemi, <%= link_to "akademisyen giriş", "/user" %> paneli ile bilgi girişi sağlar.<br/>
+    Her öğretim üyesi için; haftalık, hangi gün hangi saate dersi olduğu, bilgilerini barındıran ders programı bilgisini sunar.<br/>
+    Her sınıf için; haftalık, hangi dersin kimin tarafından yapılacağı bilgisini sunar.<br/>
 
-<%= stylesheet_link_tag "global" %>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <br />
+    <br />
+    <h2 style="width:600px"><span class="highlight" style="font-size:19px">Akademisyen Giriş Paneli</span> Nedir ?</h2>
 
-<h2><span class="highlight" style="font-size:19px">Program Arama Sistemi</span> Nedir ?</h2>
+    Program arama sistem sayfasının sağ üst köşesinden <b>"Akademisyen Giriş"</b> yazan kısmında giriş yapılır. Bu panele her giren bölüm yöneticisi<br/>
+    kendi bölümüne öğretim üyelerini,  bölümüne ait dersleri ekler. Ve her dönem hangi dersin kimin tarafından  verileceğini<br/>
+    hangi gün saat kaçta olacağını belirler.
+    <br />
+    <br />
+    <div class="module">
+      <div class="inner">
+        <h2>Bölüm Bilgileri</h2>
+        <div class='description'>
+          <table>
+            <colgroup><col width=300 /><col width=100 /></colgroup>
+            <tr>
+              <td><b>Bölüm </b></td><th>öğretim üyesi</th><th>ders</th>
+            </tr>
+            <% Department.all.each do |department| %>
+              <tr>
+                <td><%= department.name %> :</td>
+                <th><%= Lecturer.where(:department_id => department.id).count %></th>
+                <th><%= Course.where(:department_id => department.id).count %></th>
+              </tr>
+            <% end %>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 
-Program arama sistemi, <%= link_to "akademisyen giriş", "/user" %> paneli ile bilgi girişi sağlar.<br/>
-Her öğretim üyesi için; haftalık, hangi gün hangi saate dersi olduğu, bilgilerini barındıran ders programı bilgisini sunar.<br/>
-Her sınıf için; haftalık, hangi dersin kimin tarafından yapılacağı bilgisini sunar.<br/>
+  <div class="column sidebar">
+    <!-- slide -->
+    <!-- kaynak : http://www.htmldrive.net/items/show/1069/Auto-Scroll-News-Ticker-with-jQuery  -->
+    <div class="module">
+      <div class="inner">
+        <h2> Duyurular </h2>
+        <div id="textslide"  style="width:300px;background-color:#eee;">
+          <ul id="ticker" class="ticker" style="width:300px;height:260px">
+            <% Notice.all.each do |notice| %>
+              <li><%= substr?(notice.content, 89) %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
 
-<h2><span class="highlight" style="font-size:19px">Akademisyen Giriş Paneli</span> Nedir ?</h2>
+    <script>
+      function tick(){
+        $('#ticker li:first').slideUp( function () { $(this).appendTo($('#ticker')).slideDown(); });
+      }
+      setInterval(function(){ tick () }, 3000);
+    </script>
+    <!-- end slide -->
 
-Program arama sistem sayfasının sağ üst köşesinden <b>"Akademisyen Giriş"</b> yazan kısmında giriş yapılır. Bu panele her giren bölüm yöneticisi<br/>
-kendi bölümüne öğretim üyelerini,  bölümüne ait dersleri ekler. Ve her dönem hangi dersin kimin tarafından  verileceğini<br/>
-hangi gün saat kaçta olacağını belirler.
+    <%= stylesheet_link_tag "global" %>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <div class="module">
+      <div class="inner">
+        <h2>Sistem Bilgileri</h2>
+        <div class='description'>
+          <table>
+            <colgroup><col width=160 /><col width=10 /></colgroup>
+            <tr>
+              <td>Toplam Bölüm Sayısı:</td><th><%= Department.count-1 %></th>
+            </tr>
+            <tr>
+              <td>Toplam Öğretim Üyesi Sayısı:</td><th><%= Lecturer.count %></th>
+            </tr>
+            <tr><td><br></td><th></th></tr>
+            <tr>
+              <td>Sistem Yöneticisi Sayısı:</td><th><%= People.where(:status => 0).count %></th>
+            </tr>
+            <tr>
+              <td>Sistem Akademisyen Sayısı:</td><th> <%= People.where(:status => [1,2,3]).count %></th>
+            </tr>
+            <tr>
+              <td>Toplam Kullanıcı Sayısı:</td><th><%= People.count %></th>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
