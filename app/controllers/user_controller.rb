@@ -70,7 +70,7 @@ class UserController < ApplicationController
         session[:error] = "Oops! İsminiz veya şifreniz hatalı, belkide bunlardan sadece biri hatalıdır?"
       end
     else
-      session[:error] = "Dikkat! aktif bir güz/bahar yılı yok. Bu problemin düzeltilmesi için asıl yönetici ile irtibata geçin"
+      session[:error] = "Dikkat! aktif bir güz/bahar dönemi yok. Bu problemin düzeltilmesi için asıl yönetici ile irtibata geçin"
     end
   end
 
