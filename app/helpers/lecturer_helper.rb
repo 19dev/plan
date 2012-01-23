@@ -7,7 +7,7 @@ module LecturerHelper
     if session[:error] = control({
       params[:first_name] => "Öğretim üyesini adı",
       params[:last_name] => "Öğretim üyesini soyadı",
-      params[:email] => "Öğretim üyesini email",
+#     params[:email] => "Öğretim üyesini email",
     })
       return redirect_to '/user/lecturernew'
     end
