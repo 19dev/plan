@@ -5,9 +5,9 @@ module LecturerHelper
     photo = params[:file]
     params.select! { |k, v| Lecturer.columns.collect {|c| c.name}.include?(k) }
     if session[:error] = control({
-      params[:first_name] => "Öğretim üyesini adı",
-      params[:last_name] => "Öğretim üyesini soyadı",
-#     params[:email] => "Öğretim üyesini email",
+      params[:first_name] => "Öğretim üyesinin adı",
+      params[:last_name] => "Öğretim üyesinin soyadı",
+#     params[:email] => "Öğretim üyesinin eposta adresi",
     })
       return redirect_to '/user/lecturernew'
     end
