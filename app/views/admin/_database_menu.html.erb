@@ -1,0 +1,30 @@
+<ul class="altnav">
+  <li>
+  <style>
+    .table {
+      width:150px;
+      padding: 4px;
+      font-size: 12px;
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+      border:1px solid #bdc7d8;
+      font:   13px Arial, Helvetica, sans-serif;
+      padding:3px;
+      padding-top:5px;
+      background:#fff;
+      height: 30px;
+      color:  #585858;
+    }
+  </style>
+  <%= form_tag :action => 'table' do %>
+        <%= select_tag :table, options_for_select(session[:TABLES].keys.map {|key| key.to_s}, session[:TABLE]),
+          :onchange => 'this.form.submit()', :class => "table"%>
+    <% end %>
+    </li>
+    <li><a class="review" href="/admin/review">Tablo İncele</a></li>
+    <li><a class="find" href="/admin/find">Ara</a></li>
+    <li><a class="new" href="/admin/new">Ekle</a></li>
+    <li><a class="export" href="">Csv Çıktı</a></li>
+    <li><a class="import" href="">Csv Yükle</a></li>
+</ul>

@@ -1,0 +1,85 @@
+ol, ul {
+	    list-style: none outside none;
+}
+#usermenu {
+    width: 954px;
+    height: 45px;
+    padding: 3px;
+    margin: 15px auto 10px;;
+    background: #fff;
+    webkit-box-shadow:0 0 18px rgba(0,0,0,0.4);
+    moz-box-shadow:0 0 18px rgba(0,0,0,0.4);
+    box-shadow:0 0 18px rgba(0,0,0,0.4);
+}
+
+.usermenulist ul { height:25px;margin-top:5px; margin-left:15px; float:left; padding:5px; margin-right:-5px; font-size:12px; }
+.usermenulist li { float:left; margin-right: 25px; text-align:center; padding:0 auto; }
+.usermenulist li a { float:left; padding-left: 27px; padding-top: 6px; font-weight:bold; height:20px; background-position:left; }
+.usermenulist li a:hover  { border-bottom:1px solid #ddd; }
+.usermenulist li a.home { background:url(/assets/home.png) no-repeat; }
+.usermenulist li a.db { background:url(/assets/database.png) no-repeat; }
+.usermenulist li a.system { background:url(/assets/settings_yellow.png) no-repeat; }
+.usermenulist li a.support { background:url(/assets/support.png) no-repeat; }
+
+#usermenu .userinfo { float:right; width: 160px; margin-left:5px; padding-left:7px; font-size:11px; border-left:1px solid #ddd; }
+#usermenu .userinfo span { width: 110px; margin: 7px 5px 0 55px; display:block; font-size:11px; font-weight:bold; }
+#usermenu .userinfo img { float:left; width: 48px; height:48px; display:block; margin-top:-1px;}
+
+
+.altnav {
+	width: 910px;
+	height: 35px;
+	margin: 0;
+	margin-bottom: 20px;
+	padding: 0px 6px 0;
+	line-height: 100%;
+	display: inline-block;
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0, .4);
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0, .4);
+}
+.altnav li { margin: 0 5px; padding: 0 0 8px; float: left; position: relative; }
+.altnav a { font-weight: bold; display: block; padding: 4px 20px; margin: 0; padding-left:28px; }
+
+/* admin menüsü */
+.altnav a.select  { background:url(/assets/accept_database.png) no-repeat left; }
+.altnav a.save    { background:url(/assets/save.png) no-repeat left; }
+.altnav a.db      { background:url(/assets/database.png) no-repeat left; }
+.altnav a.review  { background:url(/assets/search_database.png) no-repeat left; }
+.altnav a.find    { background:url(/assets/search_page.png) no-repeat left; }
+.altnav a.new     { background:url(/assets/add_to_database.png) no-repeat left; }
+.altnav a.export  { background:url(/assets/download_database.png) no-repeat left; }
+.altnav a.import  { background:url(/assets/database_upload.png) no-repeat left; }
+
+/* yardım menüsü */
+/* .altnav a.puser    { background:url(/assets/database.png) no-repeat left; } */
+/* .altnav a.pedit    { background:url(/assets/database.png) no-repeat left; } */
+
+
+.altnav li a { line-height:27px; }
+.altnav ul li > a { line-height:25px; padding-left:17px; }
+
+.altnav ul li:hover a,
+.altnav li:hover li a { background: #fff; }
+.altnav ul a:hover { background: #3072b3 0 -100px !important; color: #fff !important; }
+.altnav li:hover > ul { display: block; }
+
+/* level 2 list */
+.altnav ul {
+	display: none;
+	margin: 0;
+	padding: 0;
+	min-width: 130px;
+	position: absolute;
+	top: 35px;
+	left: 0;
+	background: #ddd repeat-x 0 0;
+	border: solid 1px #b4b4b4;
+	border-top:none;
+	-webkit-box-shadow: 0 2px 3px rgba(0,0,0, .3);
+	-moz-box-shadow: 0 2px 3px rgba(0,0,0, .3);
+	box-shadow: 0 2px 3px rgba(0,0,0, .3);
+}
+.altnav ul li { float: none; margin: 0; padding: 0; font-size:11px;}
+.altnav ul a { font-weight: normal; text-shadow: 0 1px 0 #fff; }
+.altnav ul a:hover { text-shadow: none; }
+.altnav ul ul { left: 181px; top: -3px; }

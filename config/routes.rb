@@ -74,6 +74,8 @@ Schedule::Application.routes.draw do
   get  "admin/logout"
   # ---------------------
 
+  get  "admin/system"
+  get  "admin/database"
   post "admin/table"
   get  "admin/review"
   get  "admin/show"
@@ -85,6 +87,7 @@ Schedule::Application.routes.draw do
   get  "admin/new"
   post "admin/add"
   get  "admin/info"
+  get  "admin/helper"
   # end ADMIN -----------
 
   # HOME
@@ -120,6 +123,7 @@ Schedule::Application.routes.draw do
   match 'home/departmentyearpdf/:period_id/:departmet_id/:year/:section' => 'home#departmentyearpdf'
 
   get  "home/info"
+  get  "home/helper"
   # ---------------------
 
   # The priority is based upon order of creation:

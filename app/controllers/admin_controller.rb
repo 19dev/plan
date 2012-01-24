@@ -3,6 +3,7 @@ class AdminController < ApplicationController
   include InitHelper
   include ImageHelper
   include CleanHelper # temizlik birimi
+
   before_filter :require_login, :except => [:login, :logout] # loginsiz asla!
   before_filter :clean_notice, :except => [:home, :show, :update, :review] # temiz sayfa
   before_filter :clean_error, :except => [:login, :find, :show] # temiz sayfa
@@ -65,6 +66,21 @@ class AdminController < ApplicationController
     end
   end
 
+  def helper
+    user = "gdemir"
+    repo_wiki = "plan.wiki"
+    markdown_file = "Kullanıcı-Kılavuzu.md"
+    time = Time.now
+
+    FileUtils.rm_rf "#{Rails.root}/#{repo_wiki}"
+    system "git clone git://github.com/#{user}/#{repo_wiki}.git"
+    system "echo '\n<p id='errorline'>Update:#{time}</p>' >> #{Rails.root}/#{repo_wiki}/#{markdown_file}"
+    system "markdown #{Rails.root}/#{repo_wiki}/#{markdown_file} > #{Rails.root}/app/views/home/helper.html.erb"
+
+    session[:success] = "Kullanıcı klavuzu güncellendi : #{time}"
+    redirect_to '/admin/home'
+  end
+
   def table
     table = if params[:table]; params[:table] else session[:TABLE_INIT] end
     session[:success] = "#{table} tablosu başarıyla seçildi"
@@ -72,7 +88,7 @@ class AdminController < ApplicationController
     session[:SAVE] = eval table.capitalize + ".count"
     session[:KEY] = session[:TABLES][table]
 
-    redirect_to '/admin/home'
+    redirect_to '/admin/database'
   end
 
   def new
@@ -160,7 +176,9 @@ class AdminController < ApplicationController
 
     redirect_to '/admin/show'# göster
   end
+
   private
+
   def table_columns # tablo sütun isimleri
     return eval(session[:TABLE] + ".columns").collect {|c| c.name}
   end

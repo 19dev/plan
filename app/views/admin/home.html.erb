@@ -1,13 +1,1 @@
 <h2>Yönetici Paneli</h2>
-<p style="margin: 0 0 0px 167px;">Veritabanının ilgili tablosunu seçiniz.</p>
-<%= form_tag :action => 'table' do %>
-  <table class="custom">
-    <tr>
-      <td class="label">Tablo:</td>
-      <td class="field">
-        <%= select_tag :table, options_for_select(session[:TABLES].keys.map {|key| key.to_s}, session[:TABLE]),
-          :onchange => 'this.form.submit()' %>
-      </td>
-    </tr>
-  </table>
-<% end %>
