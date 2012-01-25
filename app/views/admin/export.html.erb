@@ -1,0 +1,22 @@
+<h2>Csv Çıktı</h2>
+<%= form_tag :action => 'export' do %>
+  <table class="custom">
+    <tr>
+      <td class="label">Alanlar</td>
+    </tr>
+    <% (eval(session[:TABLE] + ".columns").collect {|c| c.name}).each do |column| %>
+      <tr>
+        <td></td>
+        <td><input type="checkbox" name="<%= column %>" value="<%= column %>" checked><b><%= column %></b></td>
+      </tr>
+    <% end %>
+    </td>
+    <tr>
+      <td class="label"> Karakter: </td>
+      <td class="field">
+        <%= select_tag :csv_key,
+        options_for_select(['', ',', ';', '|', '~', '$'], ''),
+        :onchange => 'this.form.submit()'%>
+    </tr>
+  </table>
+<% end %>

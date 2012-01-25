@@ -1,12 +1,15 @@
 # encoding: utf-8
+require 'fastercsv'
+require 'csv'
 class AdminController < ApplicationController
   include InitHelper
   include ImageHelper
+  include CsvHelper
   include CleanHelper # temizlik birimi
 
   before_filter :require_login, :except => [:login, :logout] # loginsiz asla!
-  before_filter :clean_notice, :except => [:home, :show, :update, :review] # temiz sayfa
-  before_filter :clean_error, :except => [:login, :find, :show] # temiz sayfa
+  before_filter :clean_notice, :only => [:info, :system] # temiz sayfa
+  before_filter :clean_error, :only => [:info, :system] # temiz sayfa
 
   def login
     redirect_to '/admin/home' if session[:admin]
@@ -89,6 +92,22 @@ class AdminController < ApplicationController
     session[:KEY] = session[:TABLES][table]
 
     if params[:table]; return redirect_to '/admin/database' else return redirect_to '/admin/home' end
+  end
+
+  def export
+    if params[:csv_key]
+      if params[:csv_key] == ""
+        session[:error] = "Csv ayırt edici karakter boş bırakılamaz"
+        return redirect_to '/admin/export'
+      end
+      columns = eval(session[:TABLE] + ".columns").collect {|c| c.name}
+      request_columns = params.map { |k, v| k if columns.include?(k) }.compact
+      if request_columns == []
+        session[:error] = "Sütunlardan en az bir tanesini seçmelisiniz"
+        return redirect_to '/admin/export'
+      end
+      csv_export session[:TABLE], params[:csv_key], request_columns
+    end
   end
 
   def new

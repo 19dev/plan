@@ -64,7 +64,7 @@
 <div id="content">
   <% if session[:admin] %>
     <% page = File.basename request.fullpath %>
-    <% if ["database","review","edit","show","new","find"].include? page %>
+    <% if ["database","review","edit","show","new","find","export"].include? page %>
       <%= render :partial => "database_menu" %>
     <% end %>
   <% end %>

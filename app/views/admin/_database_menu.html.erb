@@ -18,13 +18,13 @@
     }
   </style>
   <%= form_tag :action => 'table' do %>
-        <%= select_tag :table, options_for_select(session[:TABLES].keys.map {|key| key.to_s}, session[:TABLE]),
-          :onchange => 'this.form.submit()', :class => "table"%>
-    <% end %>
-    </li>
-    <li><a class="review" href="/admin/review">Tablo İncele</a></li>
-    <li><a class="find" href="/admin/find">Ara</a></li>
-    <li><a class="new" href="/admin/new">Ekle</a></li>
-    <li><a class="export" href="">Csv Çıktı</a></li>
-    <li><a class="import" href="">Csv Yükle</a></li>
+      <%= select_tag :table, options_for_select(session[:TABLES].keys.map {|key| key.to_s}, session[:TABLE]),
+        :onchange => 'this.form.submit()', :class => "table"%>
+  <% end %>
+  </li>
+  <li><a class="review" href="/admin/review">Tablo İncele</a></li>
+  <li><a class="find" href="/admin/find">Ara</a></li>
+  <li><a class="new" href="/admin/new">Ekle</a></li>
+  <li><a class="export" href="/admin/export">Csv Çıktı</a></li>
+  <li><a class="import" href="#">Csv Yükle</a></li>
 </ul>
