@@ -66,7 +66,7 @@ class AdminController < ApplicationController
     end
   end
 
-  def helper
+  def help
     user = "gdemir"
     repo_wiki = "plan.wiki"
     markdown_file = "Kullanıcı-Kılavuzu.md"
@@ -88,7 +88,7 @@ class AdminController < ApplicationController
     session[:SAVE] = eval table.capitalize + ".count"
     session[:KEY] = session[:TABLES][table]
 
-    redirect_to '/admin/database'
+    redirect_to '/admin/home'
   end
 
   def new
