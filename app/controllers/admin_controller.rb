@@ -67,7 +67,7 @@ class AdminController < ApplicationController
   end
 
   def help
-    user = "gdemir"
+    user = "19"
     repo_wiki = "plan.wiki"
     markdown_file = "Kullanıcı-Kılavuzu.md"
     time = Time.now
