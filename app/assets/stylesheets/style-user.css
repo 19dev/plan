@@ -1,10 +1,9 @@
 @import url(admin.css);     /* table.custom */
 @import url(button.css);    /* submit_button */
 @import url(buttons.css);   /* submit_button */
-@import url(menu.css);      /* menuler */
 @import url(flash.css);     /* notice */
 @import url(style.css);
 @import url(page-header.css);
 @import url(local.css);
 @import url(image-box.css); /* 19 logosu kutusu için */
-@import url(admin-menu.css);
+@import url(menu.css);
