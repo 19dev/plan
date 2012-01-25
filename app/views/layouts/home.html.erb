@@ -4,6 +4,7 @@
   <title><%= @title %></title>
   <%= stylesheet_link_tag "style-home"%>
   <%= csrf_meta_tag %>
+  <%= javascript_include_tag "jquery" %>
   <style>
     #logo tr img {width:60px;}
     #logo td {width:70px;}
@@ -131,5 +132,34 @@
       <b>irtibat</b> : <code id="errorline">web@bil.omu.edu.tr</code>
     </div>
   </div>
+  <div style="display:none;" class="nav_up" id="nav_up"></div>
+  <div style="display:none;" class="nav_down" id="nav_down"></div>
+  <script src="/assets/scroll-startstop.events.jquery.js" type="text/javascript"></script>
+  <script>
+	$(function() {
+		var $elem = $('#content');
+		
+		$('#nav_up').fadeIn('slow');
+		$('#nav_down').fadeIn('slow');  
+		
+		$(window).bind('scrollstart', function(){
+			$('#nav_up,#nav_down').stop().animate({'opacity':'0.2'});
+		});
+		$(window).bind('scrollstop', function(){
+			$('#nav_up,#nav_down').stop().animate({'opacity':'1'});
+		});
+		
+		$('#nav_down').click(
+			function (e) {
+				$('html, body').animate({scrollTop: $elem.height()}, 800);
+			}
+		);
+		$('#nav_up').click(
+			function (e) {
+				$('html, body').animate({scrollTop: '0px'}, 800);
+			}
+		);
+	});
+  </script>
 </body>
 </html>
