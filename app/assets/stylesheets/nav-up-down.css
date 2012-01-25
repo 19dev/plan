@@ -9,7 +9,7 @@
 	height:20px;
 	bottom:10px;
 	opacity:0.7;
-	left:30px;
+	right:30px;
 	white-space:nowrap;
 	cursor: pointer;
 	-moz-border-radius: 3px 3px 3px 3px;
@@ -30,7 +30,7 @@
 	height:20px;
 	bottom:10px;
 	opacity:0.7;
-	left:70px;
+	right:70px;
 	white-space:nowrap;
 	cursor: pointer;
 	-moz-border-radius: 3px 3px 3px 3px;
