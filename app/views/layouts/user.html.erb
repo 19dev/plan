@@ -82,77 +82,55 @@
       </div>
     <% end %>
 
-    <div id="content">
-      <% if session[:usersuper] %>
-        <div id="admin-panel">
+    <% if session[:usersuper] %>
+      <div id="usermenu">
+        <ul class="altnav">
+          <li><a class="home" href="home">Ana Sayfa</a>
+          <li><a class="lecturer">Öğretim Üyesi</a>
           <ul>
-            <li>
-            <ul class="menu">
-              <li class="menuhead">
-              <img src="/assets/default.png"/><p id="manuname">Öğretim Üyesi</p>
-              <ul>
-                <li><a href="lecturernew" class="menu-1" style=""><b>Ekle</b></a></li>
-                <li class="lastli"><a href="lecturerreview" class="menu-2" style=""><b>İncele</b></a></li>
-              </ul>
-              </li>
-            </ul>
-            </li>
-            <li>
-            <ul class="menu">
-              <li class="menuhead">
-              <img src="/assets/lesson.png"/><p id="manuname">Ders</p>
-              <ul>
-                <li><a href="coursenew" class="menu-1" style=""><b>Ekle</b></a></li>
-                <li class="lastli"><a href="coursereview" class="menu-2" style=""><b>İncele</b></a></li>
-              </ul>
-              </li>
-            </ul>
-            </li>
-            <li>
-            <ul class="menu">
-              <li class="menuhead">
-              <img src="/assets/assignment.png"/><p id="manuname">Ders Ata</p>
-              <ul>
-                <li><a href="assignmentnew" class="menu-1" style=""><b>Ekle</b></a></li>
-                <li class="lastli"><a href="assignmentreview" class="menu-2" style=""><b>İncele</b></a></li>
-              </ul>
-              </li>
-            </ul>
-            </li>
-            <li>
-            <ul class="menu">
-              <li class="menuhead">
-              <img src="/assets/schedule.png"/><p id="manuname">Ders Programı</p>
-              <ul>
-                <li><a href="schedulenew" class="menu-1" style=""><b>Ekle</b></a></li>
-                <li class="lastli"><a href="schedulereview" class="menu-2" style=""><b>İncele</b></a></li>
-              </ul>
-              </li>
-            </ul>
-            </li>
+            <li><a class="list" href="lecturerreview">Listele</a></li>
+            <li><a class="new" href="lecturernew">Ekle</a></li>
           </ul>
-        </tr>
-      </table>
-    </div>
-  <% end %>
+          </li>
+          <li><a class="course">Ders</a>
+          <ul>
+            <li><a class="list" href="coursereview">Listele</a></li>
+            <li><a class="new" href="coursenew">Ekle</a></li>
+          </ul>
+          </li>
+          <li><a class="assignment">Ders Ata</a>
+          <ul>
+            <li><a class="list" href="assignmentreview">Listele</a>
+            <li><a class="new" href="assignmentnew">Ekle</a></li>
+          </ul>
+          </li>
+          <li><a class="schedule">Ders Programı</a>
+          <ul>
+            <li><a class="list" href="schedulereview">Listele</a></li>
+            <li><a class="new" href="schedulenew">Ekle</a></li>
+          </ul>
+          </li>
+        </ul>
+      </div>
+    <% end %>
 
-  <%= yield %>
-
-</div>
-
-<div id="footer">
-  <ul class="recent photos" style="float:left;">
-    <li>
-    <a href="http://ce.omu.edu.tr" title="Bilgisayar Mühendisliği">
-      <%= image_tag "/assets/19-normal-57x57.png", :width => 26, :height => 26 %>
-    </a>
-    </li>
-  </ul>
-  <div style="margin-left:60px;margin-top:5px">
-    copyright &copy; 2011 Mühendislik Fakültesi Program Arama Sistemi<br/>
-    <b>irtibat</b> : <code id="errorline">web@bil.omu.edu.tr</code>
+  <div id="content">
+    <%= yield %>
   </div>
-</div>
 
-</body>
+  <div id="footer">
+    <ul class="recent photos" style="float:left;">
+      <li>
+      <a href="http://ce.omu.edu.tr" title="Bilgisayar Mühendisliği">
+        <%= image_tag "/assets/19-normal-57x57.png", :width => 26, :height => 26 %>
+      </a>
+      </li>
+    </ul>
+    <div style="margin-left:60px;margin-top:5px">
+      copyright &copy; 2011 Mühendislik Fakültesi Program Arama Sistemi<br/>
+      <b>irtibat</b> : <code id="errorline">web@bil.omu.edu.tr</code>
+    </div>
+  </div>
+
+  </body>
 </html>
