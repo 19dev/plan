@@ -88,7 +88,7 @@ class AdminController < ApplicationController
     session[:SAVE] = eval table.capitalize + ".count"
     session[:KEY] = session[:TABLES][table]
 
-    redirect_to '/admin/home'
+    if params[:table]; return redirect_to '/admin/database' else return redirect_to '/admin/home' end
   end
 
   def new
