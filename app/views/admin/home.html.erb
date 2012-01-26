@@ -1,5 +1,5 @@
 <h2>Yönetici Paneli</h2>
-<table class='zebra-striped'>
+<table class='dashboard'>
   <thead>
     <tr>
       <th class='shrink'>Tablo</th>
@@ -10,30 +10,25 @@
 
     <% session[:TABLES].each do |table| %>
       <tr>
+        <td><%= table[0] %></td>
         <td>
-          <span>
-              <%= table[0] %>
-          </span>
-        </td>
-        <td>
-          <% table_count = eval table[0].capitalize+".count" %>
-          <%
+          <% table_count = eval table[0].capitalize + ".count"
             max = 100
             min = 10
-            if table_count >= max
-              choise = "label important"
+            choise = if table_count >= max
+              "important"
             elsif table_count <= min
-              choise = "label trivial"
+              "trivial"
             elsif table_count >= (min+max)/2.0
-              choise = "label warning"
+              "warning"
             else
-              choise = "label notice"
+              "notice"
             end
           %>
           <div
-            class='animate-width-to <%= choise %>'
+            class='animate-width-to stick <%= choise %>'
             data-animate-length='<%= max %>'
-            data-animate-width-to='<%= 2*table_count %>%'
+            data-animate-width-to='<%= table_count %>%'
             style='width:2%'>
             <%= table_count %>
           </div>
