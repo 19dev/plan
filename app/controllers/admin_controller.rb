@@ -42,6 +42,7 @@ class AdminController < ApplicationController
                           'id' => true,
                           'status' => true,
                           'name' => true,
+                          'year' => false,
                           'photo' => false,
                           'content' => false,
                           'code' => false,
