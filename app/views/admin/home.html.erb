@@ -13,8 +13,8 @@
         <td><%= table[0] %></td>
         <td>
           <% table_count = eval table[0].capitalize + ".count"
-            max = 100
-            min = 10
+            max = 500
+            min = 50
             choise = if table_count >= max
               "important"
             elsif table_count <= min
