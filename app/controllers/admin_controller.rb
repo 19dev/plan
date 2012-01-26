@@ -9,7 +9,7 @@ class AdminController < ApplicationController
 
   before_filter :require_login, :except => [:login, :logout] # loginsiz asla!
   before_filter :clean_notice, :only => [:info, :system] # temiz sayfa
-  before_filter :clean_error, :only => [:info, :system] # temiz sayfa
+  before_filter :clean_error, :only => [:home, :info, :system] # temiz sayfa
 
   def login
     redirect_to '/admin/home' if session[:admin]
