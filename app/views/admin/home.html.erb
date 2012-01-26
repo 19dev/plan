@@ -17,6 +17,8 @@
             min = 50
             choise = if table_count >= max
               "important"
+            elsif table_count == 0
+              "zero"
             elsif table_count <= min
               "trivial"
             elsif table_count >= (min+max)/2.0
@@ -28,7 +30,7 @@
           <div
             class='animate-width-to stick <%= choise %>'
             data-animate-length='<%= max %>'
-            data-animate-width-to='<%= table_count %>%'
+            data-animate-width-to='<%= table_count / (max / 100.0) + 0.5 %>%'
             style='width:2%'>
             <%= table_count %>
           </div>
