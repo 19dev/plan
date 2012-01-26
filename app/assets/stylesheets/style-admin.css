@@ -1,12 +1,12 @@
 @import url(custom.css);     /* table.custom */
-@import url(button.css);    /* submit_button */
-@import url(buttons.css);   /* submit_button */
+@import url(button.css);     /* submit_button */
+@import url(buttons.css);    /* github buttons */
 @import url(style.css);
 @import url(flash.css);
 @import url(page-header.css);
 @import url(local.css);
-@import url(image-box.css); /* 19 logosu kutusu için */
-@import url(menu.css);
+@import url(image-box.css);  /* 19 logosu kutusu için */
+@import url(menu.css);       /* user ve admin menüsü */
 @import url(main-sidebar.css);
 @import url(status.css);
 @import url(dashboard.css);
