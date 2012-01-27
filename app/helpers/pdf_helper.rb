@@ -6,7 +6,7 @@ module PdfHelper
 
       move_up(30)
       text "Ondokuz Mayıs Üniversitesi", :size => 16,  :align => :center
-      text "Mühendislik Fakültesi Program Arama Sistemi", :size => 12,  :align => :center
+      text "Mühendislik Fakültesi Eğitim Öğretim Planları", :size => 12,  :align => :center
 
       image "#{Rails.root}/app/assets/images/omu-logo.jpg", :width => 64, :height => 64, :position => 0, :vposition => -30
       image "#{Rails.root}/app/assets/images/mf-128x128.png", :width => 64, :height => 64, :position => 460, :vposition => -30
@@ -67,7 +67,7 @@ module PdfHelper
 
       move_up(30)
       text "Ondokuz Mayıs Üniversitesi", :size => 16,  :align => :center
-      text "Mühendislik Fakültesi Program Arama Sistemi", :size => 12, :align => :center
+      text "Mühendislik Fakültesi Eğitim Öğretim Planları", :size => 12, :align => :center
 
       image "#{Rails.root}/app/assets/images/omu-logo.jpg", :width => 64, :height => 64, :position => 0, :vposition => -30
       image "#{Rails.root}/app/assets/images/mf-128x128.png", :width => 64, :height => 64, :position => 460, :vposition => -30
@@ -135,7 +135,7 @@ module PdfHelper
 
       move_up(30)
       text "Ondokuz Mayıs Üniversitesi", :size => 16,  :align => :center
-      text "Mühendislik Fakültesi Program Arama Sistemi", :size => 12,  :align => :center
+      text "Mühendislik Fakültesi Eğitim Öğretim Planları", :size => 12,  :align => :center
 
       image "#{Rails.root}/app/assets/images/omu-logo.jpg", :width => 64, :height => 64, :position => 0, :vposition => -30
       image "#{Rails.root}/app/assets/images/mf-128x128.png", :width => 64, :height => 64, :position => 460, :vposition => -30
