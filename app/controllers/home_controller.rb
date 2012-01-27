@@ -9,7 +9,7 @@ class HomeController < ApplicationController
   include PdfHelper    # pdf birimi
 
   before_filter :clean_notice # temiz sayfa
-  before_filter :clean_error, :only => [:index, :info, :lecturerplan, :classplan] # temiz sayfa
+  before_filter :clean_error, :only => [:index, :info, :help, :lecturerplan, :classplan] # temiz sayfa
 
   def departmentreview
     session[:department_id] = params[:department_id] if params[:department_id] # uniq veriyi oturuma gömelim
