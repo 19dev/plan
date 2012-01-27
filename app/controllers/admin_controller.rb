@@ -77,7 +77,8 @@ class AdminController < ApplicationController
     time = Time.now
     path = "#{Rails.root}/#{repo_wiki}"
 
-    unless File.exists?(path) or File.directory?(path)
+    unless File.exists?("#{path}/#{markdown_file}")
+      FileUtils.rm_rf path if File.exists?(path)
       system "git clone git://github.com/#{user}/#{repo_wiki}.git"
     else
       Dir.chdir(path)
