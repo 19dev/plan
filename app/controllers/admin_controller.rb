@@ -74,6 +74,7 @@ class AdminController < ApplicationController
     user = "19"
     repo_wiki = "plan.wiki"
     markdown_file = "Kullanıcı-Kılavuzu.md"
+    temp_file = "_temp"
     time = Time.now
     path = "#{Rails.root}/#{repo_wiki}"
 
@@ -83,9 +84,9 @@ class AdminController < ApplicationController
       Dir.chdir(path)
       system "git pull"
     end
-
-    system "echo '\n<p id='errorline'>Update:#{time}</p>' >> #{path}/#{markdown_file}"
-    system "markdown #{path}/#{markdown_file} > #{Rails.root}/app/views/home/help.html.erb"
+    FileUtils.cp markdown_file, temp_file
+    system "echo '\n<p id='errorline'>Update:#{time}</p>' >> #{path}/#{temp_file}"
+    system "markdown #{path}/#{temp_file} > #{Rails.root}/app/views/home/help.html.erb"
 
     session[:success] = "Kullanıcı klavuzu güncellendi : #{time}"
     redirect_to '/admin/home'
