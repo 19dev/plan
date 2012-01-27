@@ -74,19 +74,18 @@ class AdminController < ApplicationController
     user = "19"
     repo_wiki = "plan.wiki"
     markdown_file = "Kullanıcı-Kılavuzu.md"
-    temp_file = "_temp"
     time = Time.now
     path = "#{Rails.root}/#{repo_wiki}"
 
-    unless File.exists?(path) && File.directory?(path)
+    unless File.exists?(path) or File.directory?(path)
       system "git clone git://github.com/#{user}/#{repo_wiki}.git"
     else
       Dir.chdir(path)
       system "git pull"
     end
-    FileUtils.cp markdown_file, temp_file
-    system "echo '\n<p id='errorline'>Update:#{time}</p>' >> #{path}/#{temp_file}"
-    system "markdown #{path}/#{temp_file} > #{Rails.root}/app/views/home/help.html.erb"
+
+    system "markdown #{path}/#{markdown_file} > #{Rails.root}/app/views/home/help.html.erb"
+    system "echo '\n<p id='errorline'>Update:#{time}</p>' >> #{Rails.root}/app/views/home/help.html.erb"
 
     session[:success] = "Kullanıcı klavuzu güncellendi : #{time}"
     redirect_to '/admin/home'
