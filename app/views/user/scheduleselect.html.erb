@@ -2,35 +2,35 @@
 <script src="/assets/jquery-latest.js"></script>
 <!-- end dual listbox -->
 
- <link href="/assets/jquery-ui2.css" rel="stylesheet" type="text/css"/>
-
- <script src="/assets/jquery-ui.js"></script>
-  
-  <script>
- $(document).ready(function() {
-    $("#accordion").accordion({ 
-    collapsible: true, 
-    autoHeight: false, 
-    active: true 
-});
+<link href="/assets/jquery-ui2.css" rel="stylesheet" type="text/css"/>
+<script src="/assets/jquery-ui.js"></script>
+<script>
+  $(document).ready(function() {
+    $("#accordion").accordion({
+      collapsible: true,
+      autoHeight: false,
+      active: true
+    });
   });
-  </script>
-  
+</script>
 <h2><%= session[:department] %> Bölümü Öğretim Üyesi Programını Ayarla</h2>
+<p style="margin-left:800px;margin-top:-80px;">
+<%= link_to "", "/home/departmentplanpdf/#{session[:period_id]}/#{session[:department_id]}/0/0", :id=>"pdf_button" %>
+</p>
 <%= form_tag({ :action => 'scheduleadd' }) do %>
   <table class="custom" style="margin-left:15px">
     <tr>
       <td class="label">Ders</td>
       <td>
-		<%= @course.full_name %>
-		<input type='hidden' id='course_id' name='course_id' value='<%= @course.id %>'/>        
+        <%= @course.full_name %>
+        <input type='hidden' id='course_id' name='course_id' value='<%= @course.id %>'/>
       </td>
     </tr>
     <tr>
       <td class="label">Öğretim Üyesi</td>
       <td>
-		<%= @lecturer.full_name %>
-		<input type='hidden' id='lecturer_id' name='lecturer_id' value='<%= @lecturer.id %>'/>
+        <%= @lecturer.full_name %>
+        <input type='hidden' id='lecturer_id' name='lecturer_id' value='<%= @lecturer.id %>'/>
         <input class="button" type='submit' value='Programı Kaydet'/>
       </td>
     </tr>
@@ -53,143 +53,141 @@
           #table th.launch{min-height:20px;height:20px;background-color:#ccc;}
         </style>
         <div id="table">
-        
-        
-		<div id="accordion" style="width:960px;padding:0px;">
-		<% @year.each_with_index do |year, year_index| %>
-			<h3><a href="#"><%= year %>. Sınıf</a></h3>
-			<div>
-			  <table>
-              <tr>
-                <td id="headline" colspan=2><%= year %>. Sınıf</td>
-                <td colspan=4>
-                  <%= link_to "",
-                    "/home/departmentyearpdf/#{session[:period_id]}/#{session[:department_id]}/#{year}/0",
-                  :class => "button", :id=>'pdf_buttonx32' %>
-                </td>
-              </tr>
-              <tr>
-                <th class='x' rowspan=2><%= @header[0][0] %></th>
-                <% @header[0].slice(1..-1).each do |day| %>
-                  <th class='header' colspan=2><%= day %></th>
-                <% end %>
-              </tr>
-              <tr>
-                <% (@header[0].length-1).times do %>
-                  <th class='header'>Ders</td>
-                  <th class='header'>Sınıf</td>
-                <% end %>
-              </tr>
-
-              <% if @morning[year_index] %>
-                <% @morning[year_index].each do |col| %>
+          <div id="accordion" style="width:960px;padding:0px;">
+            <% @year.each_with_index do |year, year_index| %>
+              <h3><a href="#"><%= year %>. Sınıf</a></h3>
+              <div>
+                <table>
                   <tr>
-                    <th class='clock<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'><%= col[0].gsub('-', ':') %></th>
-                    <% index = 0 %>
-                    <% col.slice(1..-1).each_with_index do |c, i| %>
-                      <% unless c == "" and year == @course.year %>
-                        <% if i % 2 == 0 %>
-                          <th class='field1<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
-                            id='<%= @day.keys[index] + col[0].slice(0..4) %>field1'>
-                            <% c = c.split("\n") %>
-                            <p style='text-align:left'> <%= c[0] %></p>
-                            <p style='text-align:left'> <%= c[1] %></p>
-                            <p style='text-align:right'><%= c[2] %></p>
-                          </th>
-                        <% else %>
-                          <th class='field2<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
-                            id='<%= @day.keys[index] + col[0].slice(0..4) %>field2'><%= c %></th>
-                          <% index = index + 1 %>
-                        <% end %>
-                      <% else %>
-                        <% if i % 2 == 0 %>
-                          <th class='field1<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
-                            id='<%= @day.keys[index] + col[0].slice(0..4) %>field1'>
-                            <% if col[0].slice(0..1) == @launch[0].slice(0..1)%>
-                              <input type="checkbox" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]"
-                              id="<%= 'seçim : '+@day.values[index]+' - '+col[0] %>"
-                              value="<%= col[0].slice(0..4) %>" onchange="alert(this.id)" disabled/>
+                    <td id="headline" colspan=2><%= year %>. Sınıf</td>
+                    <td colspan=4>
+                      <%= link_to "",
+                        "/home/departmentplanpdf/#{session[:period_id]}/#{session[:department_id]}/#{year}/0",
+                      :class => "button", :id=>'pdf_buttonx32' %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class='x' rowspan=2><%= @header[0][0] %></th>
+                    <% @header[0].slice(1..-1).each do |day| %>
+                      <th class='header' colspan=2><%= day %></th>
+                    <% end %>
+                  </tr>
+                  <tr>
+                    <% (@header[0].length-1).times do %>
+                      <th class='header'>Ders</td>
+                      <th class='header'>Sınıf</td>
+                    <% end %>
+                  </tr>
+
+                  <% if @morning[year_index] %>
+                    <% @morning[year_index].each do |col| %>
+                      <tr>
+                        <th class='clock<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'><%= col[0].gsub('-', ':') %></th>
+                        <% index = 0 %>
+                        <% col.slice(1..-1).each_with_index do |c, i| %>
+                          <% unless c == "" and year == @course.year %>
+                            <% if i % 2 == 0 %>
+                              <th class='field1<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
+                                id='<%= @day.keys[index] + col[0].slice(0..4) %>field1'>
+                                <% c = c.split("\n") %>
+                                <p style='text-align:left'> <%= c[0] %></p>
+                                <p style='text-align:left'> <%= c[1] %></p>
+                                <p style='text-align:right'><%= c[2] %></p>
+                              </th>
                             <% else %>
-                              <input type="checkbox" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]"
-                              id="<%= 'seçim : '+@day.values[index]+' - '+col[0] %>"
-                              value="<%= col[0].slice(0..4) %>" onchange="alert(this.id)"/>
+                              <th class='field2<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
+                                id='<%= @day.keys[index] + col[0].slice(0..4) %>field2'><%= c %></th>
+                              <% index = index + 1 %>
                             <% end %>
-                          </th>
-                        <% else %>
-                          <th class='field2<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
-                            id='<%= @day.keys[index] + col[0].slice(0..4) %>field2'>
-                            <% if col[0].slice(0..1) == @launch[0].slice(0..1)%>
-                              <input type="checkbox" id="classroom_id" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]" value="" disabled>
-                            <% else %>
-                              <select id="classroom_id" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]" style="width:50px">
-                                <option value="" selected>
-                                </option>
-                                <% @class.each do |k| %>
-                                  <option value="<%= k.id %>">
-                                  <%= k.name %>
-                                  </option>
+                          <% else %>
+                            <% if i % 2 == 0 %>
+                              <th class='field1<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
+                                id='<%= @day.keys[index] + col[0].slice(0..4) %>field1'>
+                                <% if col[0].slice(0..1) == @launch[0].slice(0..1)%>
+                                  <input type="checkbox" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]"
+                                  id="<%= 'seçim : '+@day.values[index]+' - '+col[0] %>"
+                                  value="<%= col[0].slice(0..4) %>" onchange="alert(this.id)" disabled/>
+                                <% else %>
+                                  <input type="checkbox" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]"
+                                  id="<%= 'seçim : '+@day.values[index]+' - '+col[0] %>"
+                                  value="<%= col[0].slice(0..4) %>" onchange="alert(this.id)"/>
                                 <% end %>
-                              </select>
+                              </th>
+                            <% else %>
+                              <th class='field2<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
+                                id='<%= @day.keys[index] + col[0].slice(0..4) %>field2'>
+                                <% if col[0].slice(0..1) == @launch[0].slice(0..1)%>
+                                  <input type="checkbox" id="classroom_id" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]" value="" disabled>
+                                <% else %>
+                                  <select id="classroom_id" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]" style="width:50px">
+                                    <option value="" selected>
+                                    </option>
+                                    <% @class.each do |k| %>
+                                      <option value="<%= k.id %>">
+                                      <%= k.name %>
+                                      </option>
+                                    <% end %>
+                                  </select>
+                                <% end %>
+                              </th>
+                              <% index = index + 1 %>
                             <% end %>
-                          </th>
-                          <% index = index + 1 %>
+                          <% end %>
                         <% end %>
-                      <% end %>
+                      </tr>
                     <% end %>
-                  </tr>
-                <% end %>
-              <% end %>
+                  <% end %>
 
-              <% if @evening[year_index] %>
-                <% @evening[year_index].each do |col| %>
-                  <tr>
-                    <th class='clock'><%= col[0].gsub('-', ':') %></th>
-                    <% index = 0 %>
-                    <% col.slice(1..-1).each_with_index do |c, i| %>
-                      <% unless c == "" and year == @course.year %>
-                        <% if i % 2 == 0 %>
-                          <th class='field1' id='<%= @day.keys[index] + col[0].slice(0..4) %>field1'>
-                            <% c = c.split("\n") %>
-                            <p style='text-align:left'> <%= c[0] %></p>
-                            <p style='text-align:left'> <%= c[1] %></p>
-                            <p style='text-align:right'><%= c[2] %></p>
-                          </th>
-                        <% else %>
-                          <th class='field2' id='<%= @day.keys[index] + col[0].slice(0..4) %>field2'><%= c %></th>
-                          <% index = index + 1 %>
+                  <% if @evening[year_index] %>
+                    <% @evening[year_index].each do |col| %>
+                      <tr>
+                        <th class='clock'><%= col[0].gsub('-', ':') %></th>
+                        <% index = 0 %>
+                        <% col.slice(1..-1).each_with_index do |c, i| %>
+                          <% unless c == "" and year == @course.year %>
+                            <% if i % 2 == 0 %>
+                              <th class='field1' id='<%= @day.keys[index] + col[0].slice(0..4) %>field1'>
+                                <% c = c.split("\n") %>
+                                <p style='text-align:left'> <%= c[0] %></p>
+                                <p style='text-align:left'> <%= c[1] %></p>
+                                <p style='text-align:right'><%= c[2] %></p>
+                              </th>
+                            <% else %>
+                              <th class='field2' id='<%= @day.keys[index] + col[0].slice(0..4) %>field2'><%= c %></th>
+                              <% index = index + 1 %>
+                            <% end %>
+                          <% else %>
+                            <% if i % 2 == 0 %>
+                              <th class='field1'>
+                                <input type="checkbox" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]"
+                                id="<%= 'seçim : '+@day.values[index]+' - '+col[0] %>"
+                                value="<%= col[0].slice(0..4) %>" onchange="alert(this.id)"/>
+                              </th>
+                            <% else %>
+                              <th class="field2">
+                                <select id="classroom_id" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]" style="width:50px">
+                                  <option value="" selected>
+                                  </option>
+                                  <% @class.each do |k| %>
+                                    <option value="<%= k.id %>">
+                                    <%= k.name %>
+                                    </option>
+                                  <% end %>
+                                </select>
+                              </th>
+                              <% index = index + 1 %>
+                            <% end %>
+                          <% end %>
                         <% end %>
-                      <% else %>
-                        <% if i % 2 == 0 %>
-                          <th class='field1'>
-                            <input type="checkbox" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]"
-                            id="<%= 'seçim : '+@day.values[index]+' - '+col[0] %>"
-                            value="<%= col[0].slice(0..4) %>" onchange="alert(this.id)"/>
-                          </th>
-                        <% else %>
-                          <th class="field2">
-                            <select id="classroom_id" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]" style="width:50px">
-                              <option value="" selected>
-                              </option>
-                              <% @class.each do |k| %>
-                                <option value="<%= k.id %>">
-                                <%= k.name %>
-                                </option>
-                              <% end %>
-                            </select>
-                          </th>
-                          <% index = index + 1 %>
-                        <% end %>
-                      <% end %>
+                      </tr>
                     <% end %>
-                  </tr>
-                <% end %>
-              <% end %>
-			
-            
-          </table>
+                  <% end %>
+
+
+                </table>
+              </div>
+            <% end %>
           </div>
-          <% end %>
-			</div>
         </div>
       </th>
     </tr>
@@ -202,9 +200,9 @@
     var part = $(this).val().split('#');
     if (part[0] != "") {
       if (part[0].indexOf(';') >= 0)
-        var ham_hocalar = part[0].split(';');
+      var ham_hocalar = part[0].split(';');
       else
-        var ham_hocalar = [part[0]];
+      var ham_hocalar = [part[0]];
 
       var course_id = part[1];
       var hocalar = "";

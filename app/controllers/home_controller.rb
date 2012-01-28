@@ -228,42 +228,6 @@ class HomeController < ApplicationController
   def departmentplanpdf
     session[:department_id] = params[:department_id] if params[:department_id] # uniq veriyi oturuma gömelim
     session[:period_id] = params[:period_id] if params[:period_id] # uniq veriyi oturuma gömelim
-    session[:section] = params[:section]
-
-    unless Department.find(:first, :conditions => { :id => session[:department_id] })
-      return redirect_to "/home/department"
-    end
-    unless Period.find(:first, :conditions => { :id => session[:period_id] })
-      return redirect_to "/home/department"
-    end
-    unless ["0","1","2"].include?(session[:section])
-      return redirect_to "/home/department"
-    end
-
-    day,header,launch,morning1,evening1 = departmentplan_schema(session[:period_id],session[:department_id],1,session[:section])
-    day,header,launch,morning2,evening2 = departmentplan_schema(session[:period_id],session[:department_id],2,session[:section])
-    day,header,launch,morning3,evening3 = departmentplan_schema(session[:period_id],session[:department_id],3,session[:section])
-    day,header,launch,morning4,evening4 = departmentplan_schema(session[:period_id],session[:department_id],4,session[:section])
-
-    morning = [morning1, morning2, morning3, morning4]
-    evening = [evening1, evening2, evening3, evening4]
-
-    department_name = Department.find(session[:department_id]).name
-    period_name = Period.find(session[:period_id]).full_name
-    title = period_name + " / " + department_name
-
-    info = [
-      ["Bölüm", department_name],
-      ["Dönem", period_name],
-    ]
-
-    pdf = departmentpdf_schema title, info, header, "Ders", "Bölüm", launch, morning, evening
-    send_data(pdf.render(), :filename => period_name + "-" + department_name + ".pdf")
-  end
-
-  def departmentyearpdf
-    session[:department_id] = params[:department_id] if params[:department_id] # uniq veriyi oturuma gömelim
-    session[:period_id] = params[:period_id] if params[:period_id] # uniq veriyi oturuma gömelim
     session[:year] = params[:year]
     session[:section] = params[:section]
 
@@ -280,19 +244,32 @@ class HomeController < ApplicationController
       return redirect_to "/home/department"
     end
 
-    day, header, launch, morning, evening = departmentplan_schema(session[:period_id],session[:department_id],params[:year].to_i,session[:section])
-
     department_name = Department.find(session[:department_id]).name
     period_name = Period.find(session[:period_id]).full_name
     title = period_name + " / " + department_name
 
-    info = [
-      ["Bölüm", department_name],
-      ["Sınıf", params[:year]],
-      ["Dönem", period_name],
-    ]
-
-    pdf = pdf_schema title, info, header, "Ders", "Sınıf", launch, morning, evening
-    send_data(pdf.render(), :filename => period_name + "-" + department_name + "-" + params[:year] + ".pdf")
+    if session[:year] == "0"
+      day,header,launch,morning1,evening1 = departmentplan_schema(session[:period_id],session[:department_id],1,session[:section])
+      day,header,launch,morning2,evening2 = departmentplan_schema(session[:period_id],session[:department_id],2,session[:section])
+      day,header,launch,morning3,evening3 = departmentplan_schema(session[:period_id],session[:department_id],3,session[:section])
+      day,header,launch,morning4,evening4 = departmentplan_schema(session[:period_id],session[:department_id],4,session[:section])
+      morning = [morning1, morning2, morning3, morning4]
+      evening = [evening1, evening2, evening3, evening4]
+      info = [
+        ["Bölüm", department_name],
+        ["Dönem", period_name],
+      ]
+      pdf = departmentpdf_schema title, info, header, "Ders", "Sınıf", launch, morning, evening
+      send_data(pdf.render(), :filename => period_name + "-" + department_name + ".pdf")
+    else
+      day,header,launch,morning,evening = departmentplan_schema(session[:period_id],session[:department_id],session[:year].to_i,session[:section])
+      info = [
+        ["Bölüm", department_name],
+        ["Sınıf", session[:year]],
+        ["Dönem", period_name],
+      ]
+      pdf = pdf_schema title, info, header, "Ders", "Sınıf", launch, morning, evening
+      send_data(pdf.render(), :filename => period_name + "-" + department_name + "-" + session[:year] + ".pdf")
+    end
   end
 end

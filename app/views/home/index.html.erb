@@ -1,6 +1,6 @@
 <div class="columns generic">
   <div class="column main">
-    <h2 style="width:600px"><span class="highlight" style="font-size:19px">Program Arama Sistemi</span> Nedir ?</h2>
+    <h2 style="width:600px"><span class="highlight" style="font-size:19px">Eğitim Öğretim Plan Sistemi</span> Nedir ?</h2>
 
     Eğitim öğretim plan sistemi, <%= link_to "akademisyen giriş", "/user" %> paneli ile bilgi girişi sağlar.<br/>
     Her öğretim üyesi için; haftalık, hangi gün hangi saate dersi olduğu, bilgilerini barındıran ders programı bilgisini sunar.
@@ -82,7 +82,7 @@
       <div class="inner">
         <h2> Duyurular </h2>
         <div id="textslide"  style="width:300px;background-color:#eee;">
-          <ul id="ticker" class="ticker" style="width:300px;height:210px">
+          <ul id="ticker" class="ticker" style="width:300px;height:185px">
             <% Notice.all.each do |notice| %>
               <li><%= substr?(notice.content, 89) %></li>
             <% end %>

@@ -3,123 +3,121 @@
   <%= link_to Period.find(session[:period_id]).full_name + " / " + Department.find(session[:department_id]).name + section,
     "/home/departmentshow/#{session[:period_id]}/#{session[:department_id]}/#{session[:section]}" %>
     / Plan
-  </h2>
-  <p style="margin-left:800px;margin-top:-80px;">
-  <%= link_to "", "/home/departmentplanpdf/#{session[:period_id]}/#{session[:department_id]}/#{session[:section]}", :id=>"pdf_button" %>
-  </p>
-  <link href="/assets/jquery-ui2.css" rel="stylesheet" type="text/css"/>
+</h2>
 
-  <script src="/assets/jquery-ui.js"></script>
+<p style="margin-left:800px;margin-top:-80px;">
+<%= link_to "", "/home/departmentplanpdf/#{session[:period_id]}/#{session[:department_id]}/#{session[:section]}", :id=>"pdf_button" %>
+</p>
 
-  <script>
-    $(document).ready(function() {
-      $("#accordion").accordion({ 
-        collapsible: true, 
-        autoHeight: false, 
-        active: true 
-      });
+<link href="/assets/jquery-ui2.css" rel="stylesheet" type="text/css"/>
+<script src="/assets/jquery-ui.js"></script>
+
+<script>
+  $(document).ready(function() {
+    $("#accordion").accordion({
+      collapsible: true,
+      autoHeight: false,
+      active: true
     });
-  </script>
+  });
+</script>
 
-  <table class="custom">
-    <tr>
-      <td class="info" colspan=2>
-        <style>
-          #table { margin-left:-30px;}
-          #table th {
-            font-size:9px;
-            padding:0em;
-            font-weight:lighter;
-            border:1px solid #ddd;
-          }
-          #table th.header{min-height:20px;height:20px;background-color:#ccc;}
-          #table th.x{background-color:#ccc;min-height:20px;height:20px;min-width:65px;width:65px;}
-          #table th.clock{min-height:20px;height:20px;min-width:60px;width:60px;}
-          #table th.field1{min-height:25px;height:25px;min-width:140px;width:140px;}
-          #table th.field2{min-height:65px;height:65px;min-width:30px;width:30px;}
+<table class="custom">
+  <tr>
+    <td class="info" colspan=2>
+      <style>
+        #table { margin-left:-30px;}
+        #table th {
+          font-size:9px;
+          padding:0em;
+          font-weight:lighter;
+          border:1px solid #ddd;
+        }
+        #table th.header{min-height:20px;height:20px;background-color:#ccc;}
+        #table th.x{background-color:#ccc;min-height:20px;height:20px;min-width:65px;width:65px;}
+        #table th.clock{min-height:20px;height:20px;min-width:60px;width:60px;}
+        #table th.field1{min-height:25px;height:25px;min-width:140px;width:140px;}
+        #table th.field2{min-height:65px;height:65px;min-width:30px;width:30px;}
 
-          #table th.launch{min-height:20px;height:20px;background-color:#ccc;}
+        #table th.launch{min-height:20px;height:20px;background-color:#ccc;}
 
-        </style>
-        <div id="table">
-          <div id="accordion" style="width:960px;padding:0px;">
-            <% @year.each_with_index do |year, year_index| %>
-              <h3><a href="#"><%= year %>. Sınıf</a></h3>
-              <div>
-                <table>
-                  <tr>
-                    <td id="headline" colspan=2><%= year %>. Sınıf</td>
-                    <td colspan=4>
-                      <%= link_to "",
-                        "/home/departmentyearpdf/#{session[:period_id]}/#{session[:department_id]}/#{year}/#{session[:section]}",
-                      :class => "button", :id=>'pdf_buttonx32' %>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th class='x' rowspan=2><%= @header[0][0] %></th>
-                    <% @header[0].slice(1..-1).each do |day| %>
-                      <th class='header' colspan=2><%= day %></th>
-                    <% end %>
-                  </tr>
-                  <tr>
-                    <% (@header[0].length-1).times do %>
-                      <th class='header'>Ders</td>
-                      <th class='header'>Sınıf</td>
-                    <% end %>
-                  </tr>
-
-                  <% if @morning[year_index] %>
-                    <% @morning[year_index].each do |col| %>
-                      <tr>
-                        <th class='clock<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'><%= col[0].gsub('-', ':') %></th>
-                        <% index = 0 %>
-                        <% col.slice(1..-1).each_with_index do |c, i| %>
-                          <% if i % 2 == 0 %>
-                            <th class='field1<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
-                              id='<%= @day.keys[index] + col[0].slice(0..4) %>field1'>
-                              <% c = c.split("\n") %>
-                              <p style='text-align:left'> <%= c[0] %></p>
-                              <p style='text-align:left'> <%= c[1] %></p>
-                              <p style='text-align:right'><%= c[2] %></p>
-                            </th>
-                          <% else %>
-                            <th class='field2<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
-                              id='<%= @day.keys[index] + col[0].slice(0..4) %>field2'><%= c %></th>
-                            <% index = index + 1 %>
-                          <% end %>
-                        <% end %>
-                      </tr>
-                    <% end %>
+      </style>
+      <div id="table">
+        <div id="accordion" style="width:960px;padding:0px;">
+          <% @year.each_with_index do |year, year_index| %>
+            <h3><a href="#"><%= year %>. Sınıf</a></h3>
+            <div>
+              <table>
+                <tr>
+                  <td id="headline" colspan=2><%= year %>. Sınıf</td>
+                  <td colspan=4>
+                    <%= link_to "",
+                      "/home/departmentplanpdf/#{session[:period_id]}/#{session[:department_id]}/#{year}/#{session[:section]}",
+                    :class => "button", :id=>'pdf_buttonx32' %>
+                  </td>
+                </tr>
+                <tr>
+                  <th class='x' rowspan=2><%= @header[0][0] %></th>
+                  <% @header[0].slice(1..-1).each do |day| %>
+                    <th class='header' colspan=2><%= day %></th>
                   <% end %>
-
-                  <% if @evening[year_index] %>
-                    <% @evening[year_index].each do |col| %>
-                      <tr>
-                        <th class='clock'><%= col[0].gsub('-', ':') %></th>
-                        <% index = 0 %>
-                        <% col.slice(1..-1).each_with_index do |c, i| %>
-                          <% if i % 2 == 0 %>
-                            <th class='field1' id='<%= @day.keys[index] + col[0].slice(0..4) %>field1'>
-                              <% c = c.split("\n") %>
-                              <p style='text-align:left'> <%= c[0] %></p>
-                              <p style='text-align:left'> <%= c[1] %></p>
-                              <p style='text-align:right'><%= c[2] %></p>
-                            </th>
-                          <% else %>
-                            <th class='field2' id='<%= @day.keys[index] + col[0].slice(0..4) %>field2'><%= c %></th>
-                            <% index = index + 1 %>
-                          <% end %>
-                        <% end %>
-                      </tr>
-                    <% end %>
+                </tr>
+                <tr>
+                  <% (@header[0].length-1).times do %>
+                    <th class='header'>Ders</td>
+                    <th class='header'>Sınıf</td>
                   <% end %>
+                </tr>
 
+                <% if @morning[year_index] %>
+                  <% @morning[year_index].each do |col| %>
+                    <tr>
+                      <th class='clock<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'><%= col[0].gsub('-', ':') %></th>
+                      <% index = 0 %>
+                      <% col.slice(1..-1).each_with_index do |c, i| %>
+                        <% if i % 2 == 0 %>
+                          <th class='field1<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
+                            id='<%= @day.keys[index] + col[0].slice(0..4) %>field1'>
+                            <% c = c.split("\n") %>
+                            <p style='text-align:left'> <%= c[0] %></p>
+                            <p style='text-align:left'> <%= c[1] %></p>
+                            <p style='text-align:right'><%= c[2] %></p>
+                          </th>
+                        <% else %>
+                          <th class='field2<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
+                            id='<%= @day.keys[index] + col[0].slice(0..4) %>field2'><%= c %></th>
+                          <% index = index + 1 %>
+                        <% end %>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                <% end %>
 
-                </table>
-              </div>
-            <% end %>
-          </div>
-        </td>
-
-      </tr>
-    </table>
+                <% if @evening[year_index] %>
+                  <% @evening[year_index].each do |col| %>
+                    <tr>
+                      <th class='clock'><%= col[0].gsub('-', ':') %></th>
+                      <% index = 0 %>
+                      <% col.slice(1..-1).each_with_index do |c, i| %>
+                        <% if i % 2 == 0 %>
+                          <th class='field1' id='<%= @day.keys[index] + col[0].slice(0..4) %>field1'>
+                            <% c = c.split("\n") %>
+                            <p style='text-align:left'> <%= c[0] %></p>
+                            <p style='text-align:left'> <%= c[1] %></p>
+                            <p style='text-align:right'><%= c[2] %></p>
+                          </th>
+                        <% else %>
+                          <th class='field2' id='<%= @day.keys[index] + col[0].slice(0..4) %>field2'><%= c %></th>
+                          <% index = index + 1 %>
+                        <% end %>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                <% end %>
+              </table>
+            </div>
+          <% end %>
+        </div>
+      </td>
+    </tr>
+  </table>
