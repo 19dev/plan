@@ -8,10 +8,11 @@ module AssignmentHelper
     @unassignment_lecturers = lecturers.select do |lecturer|
       !Assignment.find(:first, :conditions => { :lecturer_id => lecturer.id, :period_id => session[:period_id] })
     end
-    courses = Course.find(:all, :conditions => {:department_id => session[:department_id]})
-    @unassignment_courses = courses.select do |course|
-      !Assignment.find(:first, :conditions => { :course_id => course.id, :period_id => session[:period_id] })
-    end
+    # courses = Course.find(:all, :conditions => {:department_id => session[:department_id]})
+    # @unassignment_courses = courses.select do |course|
+    #   !Assignment.find(:first, :conditions => { :course_id => course.id, :period_id => session[:period_id] })
+    # end
+    @unassignment_courses = Course.find(:all, :conditions => {:department_id => session[:department_id]}) # yeni
   end
   def assignmentadd
     if session[:error] = control({ params[:course_ids] => "Atanacak ders", params[:lecturer_id] => "Dersi atanacak hoca",})
@@ -59,12 +60,13 @@ module AssignmentHelper
 
     @lecturer_course_ids = lecturer_assignment.collect { |ass| ass.course_id }
 
-    courses = Course.find(:all, :conditions => {:department_id => session[:department_id]})
-    @unassignment_courses = courses.select do |course|
-      !Assignment.find(:first, :conditions => { :course_id => course.id, :period_id => session[:period_id] }) or
-      @lecturer_course_ids.include?(course.id)
-    end
+    # courses = Course.find(:all, :conditions => {:department_id => session[:department_id]})
+    # @unassignment_courses = courses.select do |course|
+    #   !Assignment.find(:first, :conditions => { :course_id => course.id, :period_id => session[:period_id] }) or
+    #   @lecturer_course_ids.include?(course.id)
+    # end
     @lecturer = Lecturer.find(session[:lecturer_id])
+    @unassignment_courses = Course.find(:all, :conditions => {:department_id => session[:department_id]}) # yeni
   end
   def assignmentdel
     session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim

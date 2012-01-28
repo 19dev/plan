@@ -1,46 +1,46 @@
 <h2>
-    <% section = unless session[:section] ==  0; " / #{session[:section]}. öğretim" else "" end %>
-    <%= link_to Period.find(session[:period_id]).full_name + " / " + Department.find(session[:department_id]).name + section,
-      "/home/departmentshow/#{session[:period_id]}/#{session[:department_id]}/#{session[:section]}" %>
-</h2>
+  <% section = unless session[:section] ==  0; " / #{session[:section]}. öğretim" else "" end %>
+  <%= link_to Period.find(session[:period_id]).full_name + " / " + Department.find(session[:department_id]).name + section,
+    "/home/departmentshow/#{session[:period_id]}/#{session[:department_id]}/#{session[:section]}" %>
+  </h2>
 
-<table cellpadding="0" cellspacing="0" border="0" class="custom" 
-  id="example">
-  <thead>
-    <tr id="headline">
-      <th>Sınıf</th>
-      <th colspan="2">İşlem</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% (1..4).each do |year| %>
+  <table cellpadding="0" cellspacing="0" border="0" class="custom" 
+    id="example">
+    <thead>
       <tr id="headline">
-        <td class="field"><%= Department.find(session[:department_id]).name + " " + year.to_s %>. Sınıf</td>
+        <th>Sınıf</th>
+        <th colspan="2">İşlem</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% (1..4).each do |year| %>
+        <tr id="headline">
+          <td class="field"><%= Department.find(session[:department_id]).name + " " + year.to_s %>. Sınıf</td>
+          <td>
+            <%= link_to "Ders Programı",
+              "/home/departmentplan/#{session[:period_id]}/#{session[:department_id]}/#{year}/#{session[:section]}",
+            :class => "button" %>
+          </td>
+          <td>
+            <%= link_to "",
+              "/home/departmentyearpdf/#{session[:period_id]}/#{session[:department_id]}/#{year}/#{session[:section]}",
+            :class => "button", :id=>'pdf_buttonx32' %>
+
+          </td>
+        </tr>
+      <% end %>
+      <tr id="headline">
+        <td class="field">Tüm <%= Department.find(session[:department_id]).name %></td>
         <td>
           <%= link_to "Ders Programı",
-            "/home/departmentplan/#{session[:period_id]}/#{session[:department_id]}/#{year}/#{session[:section]}",
+            "/home/departmentplan/#{session[:period_id]}/#{session[:department_id]}/0/#{session[:section]}",
           :class => "button" %>
         </td>
         <td>
           <%= link_to "",
-            "/home/departmentyearpdf/#{session[:period_id]}/#{session[:department_id]}/#{year}/#{session[:section]}",
+            "/home/departmentplanpdf/#{session[:period_id]}/#{session[:department_id]}/#{session[:section]}",
           :class => "button", :id=>'pdf_buttonx32' %>
-
         </td>
       </tr>
-    <% end %>
-    <tr id="headline">
-      <td class="field">Tüm <%= Department.find(session[:department_id]).name %></td>
-      <td>
-        <%= link_to "Ders Programı",
-          "/home/departmentplan/#{session[:period_id]}/#{session[:department_id]}/0/#{session[:section]}",
-        :class => "button" %>
-      </td>
-      <td>
-        <%= link_to "",
-          "/home/departmentplanpdf/#{session[:period_id]}/#{session[:department_id]}/#{session[:section]}",
-        :class => "button", :id=>'pdf_buttonx32' %>
-      </td>
-    </tr>
-  </tbody>
-</table>
+    </tbody>
+  </table>

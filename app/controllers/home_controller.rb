@@ -168,7 +168,7 @@ class HomeController < ApplicationController
     if session[:error] = control({
       (params[:section1] or params[:section2] or params[:section]) => "Bu 1. öğretim veya 2.öğretim",
     })
-      #return render '/home/department'
+      return render '/home/department'
     end
     session[:department_id] = params[:department_id] if params[:department_id] # uniq veriyi oturuma gömelim
     session[:period_id] = params[:period_id] if params[:period_id] # uniq veriyi oturuma gömelim

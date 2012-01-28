@@ -56,6 +56,7 @@ Schedule::Application.routes.draw do
   # --------------------
 
   get  "user/schedulenew"
+  post "user/scheduleselect"
   post "user/scheduleadd"
   get  "user/scheduleshow"
   post "user/scheduleshow"
