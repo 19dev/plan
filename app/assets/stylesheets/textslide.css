@@ -18,6 +18,7 @@
 }
 #ticker {
 	height: 120px;
+}
 .ticker li {
 	height: 30px;
 	border-bottom: 1px dotted #DDD;
