@@ -1,9 +1,8 @@
-@import url(custom.css);     /* table.custom */
-@import url(button.css);     /* submit_button */
-@import url(buttons.css);    /* submit_button */
-@import url(flash.css);      /* notice */
-@import url(style.css);
-@import url(page-header.css);
-@import url(local.css);
-@import url(image-box.css);  /* 19 logosu kutusu için */
-@import url(menu.css);       /* user ve admin menüsü */
+@import url(style.css);        /* site genel css */
+@import url(custom.css);       /* table.custom */
+@import url(button.css);       /* submit_button */
+@import url(buttons.css);      /* github buttons */
+@import url(flash.css);        /* notice */
+@import url(page-header.css);  /* siyah en üstteki menü */
+@import url(image-box.css);    /* 19 logosu kutusu için */
+@import url(menu.css);         /* user ve admin menüsü */

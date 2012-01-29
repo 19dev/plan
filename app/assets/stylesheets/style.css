@@ -12,29 +12,6 @@ body {
     font-family:Arial, Helvetica, Helvetica Neue, Verdana, sans-serif;
     -webkit-font-smoothing: antialiased;
 }
-
-.title{
-    font-family: "Helvetica Neue", Helvetica, Corbel, Arial, sans-serif;
-    color: #ccc;
-    font-size: 13px;
-    line-height: 18px;
-    word-spacing: 1px;
-    font-weight: bold;
-    letter-spacing:0.4px;
-    text-align: center;
-}
-
-#title{
-    font-family: "Helvetica Neue", Helvetica, Corbel, Arial, sans-serif;
-    color: #ccc;
-    font-size: 13px;
-    line-height: 18px;
-    word-spacing: 1px;
-    font-weight: bold;
-    letter-spacing:0.4px;
-    text-align: center;
-}
-
 #content {
     width: 920px;
     margin: 10px auto 10px;;
@@ -70,6 +47,17 @@ a {
     -moz-outline-style: none;
     text-decoration:none
 }
+
+/* footer */
+#footer ul{margin:0;padding:0;border:0;outline:0;font-size:100%;font:inherit;vertical-align:baseline}
+#footer { width: 940px;margin: 27px auto 0; border-top: 1px solid #ddd; padding: 20px 0 18px; clear: both; position: relative;}
+#footer p.copyright { margin: 0; }
+
+#footer ul { float: right; height: 27px; margin: -2px -12px 0 0; }
+#footer ul li { display: inline;}
+#footer ul li a,
+#site-info ul li a:visited { float: left; width: auto; margin: 0; padding: 2px 12px 2px; color: #777; text-decoration:none;}
+/* end footer */
 
 /* ------------- wrapper - header ------------------------- */
 div#wrapper {border-top:4px solid #3072b3;clear:left;}
