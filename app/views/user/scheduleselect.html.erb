@@ -14,9 +14,7 @@
   });
 </script>
 <h2><%= session[:department] %> Bölümü Öğretim Üyesi Programını Ayarla</h2>
-<p style="margin-left:800px;margin-top:-80px;">
-<%= link_to "", "/home/departmentplanpdf/#{session[:period_id]}/#{session[:department_id]}/0/0", :id=>"pdf_button" %>
-</p>
+
 <%= form_tag({ :action => 'scheduleadd' }) do %>
   <table class="custom" style="margin-left:15px">
     <tr>
@@ -32,6 +30,7 @@
         <%= @lecturer.full_name %>
         <input type='hidden' id='lecturer_id' name='lecturer_id' value='<%= @lecturer.id %>'/>
         <input class="button" type='submit' value='Programı Kaydet'/>
+        <%= link_to "", "/home/departmentplanpdf/#{session[:period_id]}/#{session[:department_id]}/0/0", :id=>"pdf_button",:style=>"float:right" %>
       </td>
     </tr>
     <tr>

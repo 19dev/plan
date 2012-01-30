@@ -5,10 +5,6 @@
     / Plan
 </h2>
 
-<p style="margin-left:800px;margin-top:-80px;">
-<%= link_to "", "/home/departmentplanpdf/#{session[:period_id]}/#{session[:department_id]}/0/#{session[:section]}", :id=>"pdf_button" %>
-</p>
-
 <link href="/assets/jquery-ui.css" rel="stylesheet" type="text/css"/>
 <script src="/assets/jquery-ui.js"></script>
 
@@ -23,6 +19,12 @@
 </script>
 
 <table class="custom">
+  <tr>
+    <td></td>
+    <td>
+      <%= link_to "", "/home/departmentplanpdf/#{session[:period_id]}/#{session[:department_id]}/0/0", :id=>"pdf_button",:style=>"float:right" %>
+    </td>
+  </tr>
   <tr>
     <td class="info" colspan=2>
       <style>
