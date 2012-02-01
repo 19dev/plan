@@ -25,8 +25,8 @@
                 <th><%= course_count = Course.where(:department_id => department.id).count %></th>
                 <th>
                   <%
-                    assignments = Assignment.joins(:course).where(
-                    'courses.department_id' => department.id,
+                    assignments = Assignment.joins(:lecturer).where(
+                    'lecturers.department_id' => department.id,
                     'assignments.period_id' => Period.find(:first, :conditions=>{:status => true})
                     )
                     lecturer_ids = assignments.collect { |assignment| assignment.lecturer_id }
@@ -41,8 +41,8 @@
                 </th>
                 <th>
                 <%
-                  assignments = Assignment.joins(:course).where(
-                  'courses.department_id' => department.id,
+                  assignments = Assignment.joins(:lecturer).where(
+                  'lecturers.department_id' => department.id,
                   'assignments.period_id' => Period.find(:first, :conditions=>{:status => true})
                   )
                   lecturer_ids = []
