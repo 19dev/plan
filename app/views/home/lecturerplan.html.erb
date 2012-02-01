@@ -1,11 +1,12 @@
 <!-- dual listbox -->
 <script src="/assets/jquery-latest.js"></script>
 <!-- end dual listbox -->
+<% lecturer = Lecturer.find(session[:lecturer_id]) %>
 <h2>
   <%= Period.find(session[:period_id]).full_name %>
-  <%= link_to " / " + Department.find(session[:department_id]).name,
+  <%= link_to " / " + lecturer.department.name,
   "/home/departmentreview/#{session[:period_id]}/#{session[:department_id]}" %>
-  <%= link_to " / " + Lecturer.find(session[:lecturer_id]).full_name,
+  <%= link_to " / " + lecturer.full_name,
   "/home/lecturershow/#{session[:period_id]}/#{session[:lecturer_id]}"%>
   / Plan
 </h2>
@@ -16,13 +17,13 @@
   <tr>
     <td class="label">Fotoğraf</td>
     <td>
-      <%= image_tag Lecturer.find(session[:lecturer_id]).photo, :width =>128, :height => 128 %>
+      <%= image_tag lecturer.photo, :width =>128, :height => 128 %>
     </td>
   </tr>
   <tr>
     <td class="label">Öğretim Üyesi</td>
     <td>
-      <%= Lecturer.find(session[:lecturer_id]).full_name %>
+      <%= lecturer.full_name %>
     </td>
   </tr>
   <tr>
@@ -42,14 +43,14 @@
       <style>
         #table { margin-left:-35px;}
         #table th {
-        font-size:9px;
-        padding:0em;
-        font-weight:lighter;
-        border:1px solid #ddd;
+          font-size:9px;
+          padding:0px;
+          font-weight:lighter;
+          border:1px solid #ddd;
         }
         #table th.header{min-height:20px;height:20px;background-color:#ccc;}
-        #table th.x{background-color:#ccc;min-height:20px;height:20px;min-width:65px;width:65px;}
-        #table th.clock{min-height:20px;height:20px;min-width:60px;width:60px;}
+        #table th.x{background-color:#ccc;min-height:20px;height:20px;min-width:40px;width:40px;}
+        #table th.clock{min-height:20px;height:20px;min-width:40px;width:40px;}
         #table th.field1{min-height:25px;height:25px;min-width:140px;width:140px;}
         #table th.field2{min-height:55px;height:55px;min-width:30px;width:30px;}
 

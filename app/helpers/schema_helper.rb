@@ -2,11 +2,13 @@
 module SchemaHelper
   def table_schema
     day = {
-      "Sunday" => "Pazartesi",
+      "Monday" => "Pazartesi",
       "Tuesday" => "Salı",
       "Wednesday" => "Çarşamba",
       "Thursday" => "Perşembe",
-      "Friday" => "Cuma"
+      "Friday" => "Cuma",
+      # "Saturday" => "Cumartesi",
+      # "Sunday" => "Pazar",
     }
 
     header = [["Saat / Gün"] + day.values]
