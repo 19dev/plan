@@ -3,22 +3,14 @@ include SchemaHelper # schema helper
 module ScheduleHelper
   def schedulenew
 
-    #~ assignments = Assignment.joins(:course).where(
-    #~ 'courses.department_id' => 1,
-    #~ 'assignments.period_id' => 1
-    #~ )
     assignments = Assignment.joins(:course).where(
       'courses.department_id' => session[:department_id],
       'assignments.period_id' => session[:period_id]
     )
     @assignments = {}
-    # tüm hocaların derslerini şu şekilde ekleyelim
-    # courses = "1,BIL303-foo;2,BIL404-bar;#1"
-    # courses = "1,BIL303-baz;2;#2"
-    #lecturer_ids = assignments.collect { |assignment| assignment.lecturer_id }
+
     course_ids = assignments.collect { |assignment| assignment.course_id }
 
-    #lecturer_ids.uniq!
     course_ids.uniq!
 
     course_ids.each do |course_id|
@@ -42,60 +34,6 @@ module ScheduleHelper
 
     @class = Classroom.find(:all, :order => 'name')
 
-    # courses = Course.find(:all, :conditions => {:department_id => session[:department_id]})
-    # @unschedule_courses = courses.select do |course|
-    #   !Assignment.find(:first, :conditions => { :course_id => course.id, :period_id => session[:period_id] })
-    # end
-
-    # @day, @header, @launch, @morning, @evening, morning_time, evening_time = table_schema # standart tablo şeması
-    # morning_time.each do |hour|
-    #   if hour.to_i < 13
-    #     column = [hour + '-15' + ' / ' + (hour.to_i+1).to_s + '-00']
-    #     hour = hour + '-15'
-    #   else
-    #     column = [hour + '-00' + ' / ' + (hour.to_i+1).to_s + '-00']
-    #     hour = hour + '-00'
-    #   end
-    #   @day.each do |day_en, day_tr|
-    #     classplan = Classplan.find(:first,
-    #                                :conditions => {
-    #       :classroom_id => session[:classroom_id],
-    #       :period_id => session[:period_id],
-    #       :day => day_en,
-    #       :begin_time => hour
-    #     })
-    #     if classplan and @assignments.include?(classplan.assignment_id)
-    #       column << classplan.assignment.course.full_name + "\n" +
-    #         classplan.assignment.lecturer.full_name + "\n" +
-    #         classplan.assignment.lecturer.department.name
-    #     else
-    #       column << ""
-    #     end
-    #   end
-    #   @morning << column
-    # end
-
-    # evening_time.each do |hour|
-    #   column = [hour + '-00' + ' / ' + (hour.to_i+1).to_s + '-00']
-    #   hour = hour + '-00'
-    #   @day.each do |day_en, day_tr|
-    #     classplan = Classplan.find(:first,
-    #                                :conditions => {
-    #       :classroom_id => session[:classroom_id],
-    #       :period_id => session[:period_id],
-    #       :day => day_en,
-    #       :begin_time => hour
-    #     })
-    #     if classplan and @assignments.include?(classplan.assignment_id)
-    #       column << classplan.assignment.course.full_name + "\n" +
-    #         classplan.assignment.lecturer.full_name + "\n" +
-    #         classplan.assignment.lecturer.department.name
-    #     else
-    #       column << ""
-    #     end
-    #   end
-    #   @evening << column
-    # end
 
     unless Department.find(:first, :conditions => { :id => session[:department_id] })
       return redirect_to "/user/home"
@@ -115,61 +53,6 @@ module ScheduleHelper
     @lecturer = Lecturer.find(params[:lecturer_id])
     @course = Course.find(params[:course_id])
     @class = Classroom.find(:all, :order => 'name')
-
-    # courses = Course.find(:all, :conditions => {:department_id => session[:department_id]})
-    # @unschedule_courses = courses.select do |course|
-    #   !Assignment.find(:first, :conditions => { :course_id => course.id, :period_id => session[:period_id] })
-    # end
-
-    # @day, @header, @launch, @morning, @evening, morning_time, evening_time = table_schema # standart tablo şeması
-    # morning_time.each do |hour|
-    #   if hour.to_i < 13
-    #     column = [hour + '-15' + ' / ' + (hour.to_i+1).to_s + '-00']
-    #     hour = hour + '-15'
-    #   else
-    #     column = [hour + '-00' + ' / ' + (hour.to_i+1).to_s + '-00']
-    #     hour = hour + '-00'
-    #   end
-    #   @day.each do |day_en, day_tr|
-    #     classplan = Classplan.find(:first,
-    #                                :conditions => {
-    #       :classroom_id => session[:classroom_id],
-    #       :period_id => session[:period_id],
-    #       :day => day_en,
-    #       :begin_time => hour
-    #     })
-    #     if classplan and @assignments.include?(classplan.assignment_id)
-    #       column << classplan.assignment.course.full_name + "\n" +
-    #         classplan.assignment.lecturer.full_name + "\n" +
-    #         classplan.assignment.lecturer.department.name
-    #     else
-    #       column << ""
-    #     end
-    #   end
-    #   @morning << column
-    # end
-
-    # evening_time.each do |hour|
-    #   column = [hour + '-00' + ' / ' + (hour.to_i+1).to_s + '-00']
-    #   hour = hour + '-00'
-    #   @day.each do |day_en, day_tr|
-    #     classplan = Classplan.find(:first,
-    #                                :conditions => {
-    #       :classroom_id => session[:classroom_id],
-    #       :period_id => session[:period_id],
-    #       :day => day_en,
-    #       :begin_time => hour
-    #     })
-    #     if classplan and @assignments.include?(classplan.assignment_id)
-    #       column << classplan.assignment.course.full_name + "\n" +
-    #         classplan.assignment.lecturer.full_name + "\n" +
-    #         classplan.assignment.lecturer.department.name
-    #     else
-    #       column << ""
-    #     end
-    #   end
-    #   @evening << column
-    # end
 
     unless Department.find(:first, :conditions => { :id => session[:department_id] })
       return redirect_to "/user/home"
@@ -341,7 +224,8 @@ module ScheduleHelper
   end
   def scheduleshow
     session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
-    session[:course_ids] = {}
+    @lecturer = Lecturer.find(session[:lecturer_id])
+    @course_ids = {}
 
     assignments = Assignment.find(:all,
                                   :conditions => {
@@ -369,7 +253,7 @@ module ScheduleHelper
         courses = courses.join(';')
         unless courses == ""
           courses += '#' + assignment.id.to_s
-          session[:course_ids][courses] = assignment.course.full_name
+          @course_ids[courses] = assignment.course.full_name
         end
       end
     end
@@ -378,10 +262,10 @@ module ScheduleHelper
 
     morning_time.each do |hour|
       if hour.to_i < 13
-        column = [hour + '-15' + ' / ' + (hour.to_i+1).to_s + '-00']
+        column = [hour + '-15' + '/' + (hour.to_i+1).to_s + '-00']
         hour = hour + '-15'
       else
-        column = [hour + '-00' + ' / ' + (hour.to_i+1).to_s + '-00']
+        column = [hour + '-00' + '/' + (hour.to_i+1).to_s + '-00']
         hour = hour + '-00'
       end
       if hour.slice(0..1) == @launch[0]
@@ -410,7 +294,7 @@ module ScheduleHelper
     end
 
     evening_time.each do |hour|
-      column = [hour + '-00' + ' / ' + (hour.to_i+1).to_s + '-00']
+      column = [hour + '-00' + '/' + (hour.to_i+1).to_s + '-00']
       hour = hour + '-00'
       @day.each do |day_en, day_tr|
         classplan = Classplan.find(:first,

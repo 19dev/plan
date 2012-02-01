@@ -8,7 +8,6 @@
   </head>
   <body>
     <% if session[:user] %>
-
       <style>
         .platform-bar {
           width: 960px;
@@ -82,39 +81,10 @@
       </div>
     <% end %>
 
-    <% if session[:usersuper] %>
-      <div id="usermenu">
-        <ul class="altnav">
-          <li><a class="home" href="home">Ana Sayfa</a>
-          <li><a class="lecturer">Öğretim Üyesi</a>
-          <ul>
-            <li><a class="list" href="lecturerreview">Listele</a></li>
-            <li><a class="new" href="lecturernew">Ekle</a></li>
-          </ul>
-          </li>
-          <li><a class="course">Ders</a>
-          <ul>
-            <li><a class="list" href="coursereview">Listele</a></li>
-            <li><a class="new" href="coursenew">Ekle</a></li>
-          </ul>
-          </li>
-          <li><a class="assignment">Ders Ata</a>
-          <ul>
-            <li><a class="list" href="assignmentreview">Listele</a>
-            <li><a class="new" href="assignmentnew">Ekle</a></li>
-          </ul>
-          </li>
-          <li><a class="schedule">Ders Programı</a>
-          <ul>
-            <li><a class="list" href="schedulereview">Listele</a></li>
-            <li><a class="new" href="schedulenew">Ekle</a></li>
-          </ul>
-          </li>
-        </ul>
-      </div>
-    <% end %>
-
   <div id="content">
+    <% if session[:usersuper] %>
+      <%= render :partial => "user_menu" %>
+    <% end %>
     <%= yield %>
   </div>
 
