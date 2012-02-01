@@ -120,7 +120,7 @@ Schedule::Application.routes.draw do
 
   get  "home/department"
   match 'home/departmentplan' => 'home#departmentplan'
-  match 'home/departmentplan/:period_id/:departmet_id/:year/:section' => 'home#departmentplan'
+  match 'home/departmentplan/:period_id/:department_id/:year/:section' => 'home#departmentplan'
   match 'home/departmentplanpdf/:period_id/:department_id/:year/:section' => 'home#departmentplanpdf'
 
   get  "home/info"

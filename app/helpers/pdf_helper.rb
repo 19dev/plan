@@ -1,6 +1,6 @@
 # encoding: utf-8
 module PdfHelper
-  def pdf_schema title, info, header, field1, field2, launch, morning, evening
+  def pdf_schema info, header, field1, field2, launch, morning, evening
     pdf = Prawn::Document.new(:page_size => 'A4', :layout => 'portrait') do
       font "#{Prawn::BASEDIR}/data/fonts/Dustismo_Roman.ttf", :size => 8
 
@@ -61,7 +61,7 @@ module PdfHelper
     end
     pdf
   end
-  def lecturerpdf_schema title, photo, info, header, field1, field2, launch, morning, evening
+  def lecturerpdf_schema photo, info, header, field1, field2, launch, morning, evening
     pdf = Prawn::Document.new(:page_size => 'A4', :layout => 'portrait') do
       font "#{Prawn::BASEDIR}/data/fonts/Dustismo_Roman.ttf", :size => 8
 
@@ -126,7 +126,7 @@ module PdfHelper
     end
     pdf
   end
-  def departmentpdf_schema title, info, header, field1, field2, launch, morning, evening
+  def departmentpdf_schema info, header, field1, field2, launch, morning, evening
     morning1, morning2, morning3, morning4 = morning
     evening1, evening2, evening3, evening4 = evening
 

@@ -26,7 +26,7 @@
     -moz-box-shadow:0 2px 2px rgba(0,0,0,0.2);
     box-shadow:0 2px 2px rgba(0,0,0,0.2);
 }
-#image-box tr img {width:64px;height:64px;} /*75*/
+#image-box tr img {width:64px;height:64px;}
 #image-box tr{font-size:12px;font-weight:bold;width:100px;}
 #info {
     width: 880px;

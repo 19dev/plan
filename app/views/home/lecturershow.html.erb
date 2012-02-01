@@ -1,8 +1,8 @@
 <h2>
-  <%= Period.find(session[:period_id]).full_name %>
-  <%= link_to " / " + Department.find(session[:department_id]).name,
-  "/home/departmentreview/#{session[:period_id]}/#{session[:department_id]}" %>
-  <%= " / " + Lecturer.find(session[:lecturer_id]).full_name %>
+  <%= @period.full_name %>
+  <%= link_to " / " + @lecturer.department.name,
+  "/home/departmentreview/#{@period.id}/#{@lecturer.department_id}" %>
+  <%= " / " + @lecturer.full_name %>
 </h2>
 
 <div id="headline">
@@ -39,8 +39,8 @@
     <tr>
       <td></td>
       <td>
-        <%= link_to "Ders Programı İncele", "/home/lecturerplan/#{session[:period_id]}/#{@lecturer.id}", :class=>"button" %>
-        <%= link_to "Pdf Çıktı", "/home/lecturerplanpdf/#{session[:period_id]}/#{@lecturer.id}", :class => "button danger", :id=>"pdf_buttonx32" %>
+        <%= link_to "Ders Programı İncele", "/home/lecturerplan/#{@period.id}/#{@lecturer.id}", :class=>"button" %>
+        <%= link_to "Pdf Çıktı", "/home/lecturerplanpdf/#{@period.id}/#{@lecturer.id}", :class => "button danger", :id=>"pdf_buttonx32" %>
       </td>
     </tr>
   </table>

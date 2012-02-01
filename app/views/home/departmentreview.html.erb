@@ -1,6 +1,6 @@
 <h2>
-    <%= link_to Period.find(session[:period_id]).full_name + " / " + Department.find(session[:department_id]).name,
-      "/home/departmentreview/#{session[:period_id]}/#{session[:department_id]}" %>
+    <%= link_to @period.full_name + " / " + @department.name,
+      "/home/departmentreview/#{@period.id}/#{@department.id}" %>
 </h2>
 <table cellpadding="0" cellspacing="0" border="0" class="custom" 
   id="example">
@@ -20,12 +20,12 @@
         </td>
         <td class="field"><%= lecturer.first_name %></td>
         <td class="field"><%= lecturer.last_name %></td>
-        <td><%= link_to "Bilgi", "/home/lecturershow/#{session[:period_id]}/#{lecturer.id}", :class=>"button" %></td>
+        <td><%= link_to "Bilgi", "/home/lecturershow/#{@period.id}/#{lecturer.id}", :class=>"button" %></td>
         <td>
-          <%= link_to "Ders Programı", "/home/lecturerplan/#{session[:period_id]}/#{lecturer.id}", :class=>"button" %>
+          <%= link_to "Ders Programı", "/home/lecturerplan/#{@period.id}/#{lecturer.id}", :class=>"button" %>
         </td>
         <td>
-          <%= link_to "Pdf Çıktı", "/home/lecturerplanpdf/#{session[:period_id]}/#{lecturer.id}", :class => "button danger", :id=>"pdf_buttonx32" %>
+          <%= link_to "Pdf Çıktı", "/home/lecturerplanpdf/#{@period.id}/#{lecturer.id}", :class => "button danger", :id=>"pdf_buttonx32" %>
         </td>
       </tr>
     <% end %>
