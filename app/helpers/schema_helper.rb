@@ -84,8 +84,8 @@ module SchemaHelper
     end
     if section == "0" or section == "2"
       evening_time.each do |hour|
-        hour = hour + '-00'
         column = [hour + '-00' + '/' + (hour.to_i+1).to_s + '-00']
+        hour = hour + '-00'
         day.each do |day_en, day_tr|
 
           classplans = Classplan.find(:all,
