@@ -1,7 +1,7 @@
 # encoding: utf-8
 module PlanHelper
   def lecturer_plan period_id, lecturer_id
-    
+
     course_ids = {}
     assignments = Assignment.find(:all,
                                    :conditions => {
@@ -23,11 +23,11 @@ module PlanHelper
         end
       end
     end
-   
+
     return [course_ids, assignments.collect { |assignment| assignment.id }]
   end
   def class_plan period_id, classroom_id
-	course_ids = {}
+    course_ids = {}
     assignments = Assignment.find(:all,
                                   :conditions => {
       :period_id => period_id

@@ -43,6 +43,8 @@ class AdminController < ApplicationController
                           'status' => true,
                           'name' => true,
                           'year' => false,
+                          'day' => false,
+                          'begin_time' => false,
                           'photo' => false,
                           'content' => false,
                           'code' => false,
