@@ -231,7 +231,7 @@ module ScheduleHelper
                                   :conditions => {
       :lecturer_id => session[:lecturer_id],
       :period_id => session[:period_id]
-    })
+    }, :select => "id")
 
     @assignments = assignments.collect {|assignment| assignment.id }
 
@@ -274,13 +274,30 @@ module ScheduleHelper
         @morning << column
       else
         @day.each do |day_en, day_tr|
-          classplan = Classplan.find(:first,
-                                     :conditions => {
+          classplans = Classplan.find(:all,
+                                      :conditions => {
             :period_id => session[:period_id],
             :day => day_en,
             :begin_time => hour
-          })
-          if classplan and @assignments.include?(classplan.assignment_id)
+          }, :select => "assignment_id")
+          assignment_ids = classplans.collect { |classplan| classplan.assignment_id }
+          assignment_state = false
+          _assignment_id = ""
+          assignment_ids.each do |assignment_id|
+            if @assignments.include?(assignment_id)
+              _assignment_id = assignment_id
+              assignment_state = true
+              break
+            end
+          end
+          if assignment_state
+            classplan = Classplan.find(:first,
+                                      :conditions => {
+              :assignment_id => _assignment_id,
+              :period_id => session[:period_id],
+              :day => day_en,
+              :begin_time => hour
+            })
             column << classplan.assignment.course.code + "\n" +
               classplan.assignment.course.name
             column << classplan.classroom.name
@@ -297,13 +314,31 @@ module ScheduleHelper
       column = [hour + '-00' + '/' + (hour.to_i+1).to_s + '-00']
       hour = hour + '-00'
       @day.each do |day_en, day_tr|
-        classplan = Classplan.find(:first,
+        classplans = Classplan.find(:all,
                                    :conditions => {
           :period_id => session[:period_id],
           :day => day_en,
           :begin_time => hour
-        })
-        if classplan and @assignments.include?(classplan.assignment_id)
+          }, :select => "assignment_id")
+
+        assignment_ids = classplans.collect { |classplan| classplan.assignment_id }
+        assignment_state = false
+        _assignment_id = ""
+        assignment_ids.each do |assignment_id|
+          if @assignments.include?(assignment_id)
+            _assignment_id = assignment_id
+            assignment_state = true
+            break
+          end
+        end
+        if assignment_state
+          classplan = Classplan.find(:first,
+                                     :conditions => {
+            :assignment_id => _assignment_id,
+            :period_id => session[:period_id],
+            :day => day_en,
+            :begin_time => hour
+          })
           column << classplan.assignment.course.code + "\n" +
             classplan.assignment.course.name
           column << classplan.classroom.name
@@ -320,7 +355,7 @@ module ScheduleHelper
     assignments = Assignment.joins(:course).where(
       'courses.department_id' => session[:department_id],
       'assignments.period_id' => session[:period_id]
-    )
+    ).select("assignments.id, assignments.lecturer_id")
 
     lecturer_ids = []
     assignments.each do |assignment|
@@ -369,7 +404,8 @@ module ScheduleHelper
       'assignments.period_id' => session[:period_id]
     ).joins(:course).where(
     'courses.department_id' => session[:department_id],
-    )
+    ).select("assignments.id")
+
     assignments.each do |assignment|
       Classplan.delete_all({
         :assignment_id => assignment.id,

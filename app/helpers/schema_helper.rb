@@ -47,7 +47,7 @@ module SchemaHelper
               :period_id => period_id,
               :day => day_en,
               :begin_time => hour
-            })
+            }, :select => "assignment_id")
             assignment_ids = classplans.collect { |classplan| classplan.assignment_id }
             assignment_state = false
             _assignment_id = ""
@@ -195,11 +195,11 @@ module SchemaHelper
       else
         day.each do |day_en, day_tr|
           classplans = Classplan.find(:all,
-                                     :conditions => {
+                                      :conditions => {
             :period_id => period_id,
             :day => day_en,
             :begin_time => hour
-          })
+          }, :select => "assignment_id")
           assignment_ids = classplans.collect { |classplan| classplan.assignment_id }
           assignment_state = false
           _assignment_id = ""
@@ -210,7 +210,7 @@ module SchemaHelper
               break
             end
           end
-          if classplans and assignment_state
+          if assignment_state
             classplan = Classplan.find(:first,
                                       :conditions => {
               :assignment_id => _assignment_id,
@@ -234,13 +234,32 @@ module SchemaHelper
       column = [hour + '-00' + '/' + (hour.to_i+1).to_s + '-00']
       hour = hour + '-00'
       day.each do |day_en, day_tr|
-        classplan = Classplan.find(:first,
+        classplans = Classplan.find(:all,
                                    :conditions => {
           :period_id => period_id,
           :day => day_en,
           :begin_time => hour
-        })
-        if classplan and assignments.include?(classplan.assignment_id)
+        }, :select => "assignment_id")
+        assignment_ids = classplans.collect { |classplan| classplan.assignment_id }
+
+        assignment_state = false
+        _assignment_id = ""
+        assignment_ids.each do |assignment_id|
+          if assignments.include?(assignment_id)
+            _assignment_id = assignment_id
+            assignment_state = true
+            break
+          end
+        end
+
+        if assignment_state
+            classplan = Classplan.find(:first,
+                                      :conditions => {
+              :assignment_id => _assignment_id,
+              :period_id => period_id,
+              :day => day_en,
+              :begin_time => hour
+            })
           column << classplan.assignment.course.code + "\n" +
             classplan.assignment.course.name
           column << classplan.classroom.name
