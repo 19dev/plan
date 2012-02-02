@@ -19,11 +19,11 @@ module SchemaHelper
     evening_time = ["17", "18", "19", "20", "21", "22"]
     return [day, header, launch, morning, evening, morning_time, evening_time]
   end
-def departmentplan_schema period_id, department_id, year, section
+  def departmentplan_schema period_id, department_id, year, section
     assignments = Assignment.joins(:course).where(
       'courses.department_id' => department_id,
       'assignments.period_id' => period_id
-    )
+    ).select("assignments.id")
     assignments = assignments.collect { |assignment| assignment.id }
 
     day, header, launch, morning, evening, morning_time, evening_time = table_schema # standart tablo şeması
@@ -42,14 +42,33 @@ def departmentplan_schema period_id, department_id, year, section
           morning << column
         else
           day.each do |day_en, day_tr|
-            classplan = Classplan.find(:first,
-                                       :conditions => {
+            classplans = Classplan.find(:all,
+                                        :conditions => {
               :period_id => period_id,
               :day => day_en,
               :begin_time => hour
             })
-            if classplan and classplan.assignment.course.year == year and
-              assignments.include?(classplan.assignment_id)
+
+            assignment_ids = classplans.map { |classplan| classplan.assignment_id if classplan.assignment.course.year == year }.compact
+
+            assignment_state = false
+            _assignment_id = ""
+            assignment_ids.each do |assignment_id|
+              if assignments.include?(assignment_id)
+                _assignment_id = assignment_id
+                assignment_state = true
+                break
+              end
+            end
+
+            if classplans and assignment_state
+              classplan = Classplan.find(:first,
+                                         :conditions => {
+                :assignment_id => _assignment_id,
+                :period_id => period_id,
+                :day => day_en,
+                :begin_time => hour
+              })
               column << classplan.assignment.course.code + "\n" +
                 classplan.assignment.course.name + "\n" +
                 classplan.assignment.lecturer.full_name
@@ -65,16 +84,37 @@ def departmentplan_schema period_id, department_id, year, section
     end
     if section == "0" or section == "2"
       evening_time.each do |hour|
+        hour = hour + '-00'
         column = [hour + '-00' + '/' + (hour.to_i+1).to_s + '-00']
         day.each do |day_en, day_tr|
-          classplan = Classplan.find(:first,
-                                     :conditions => {
+
+          classplans = Classplan.find(:all,
+                                      :conditions => {
             :period_id => period_id,
             :day => day_en,
-            :begin_time => hour+'-00'
+            :begin_time => hour
           })
-          if classplan and classplan.assignment.course.year == year and
-            assignments.include?(classplan.assignment_id)
+
+          assignment_ids = classplans.map { |classplan| classplan.assignment_id if classplan.assignment.course.year == year }.compact
+
+          assignment_state = false
+          _assignment_id = ""
+          assignment_ids.each do |assignment_id|
+            if assignments.include?(assignment_id)
+              _assignment_id = assignment_id
+              assignment_state = true
+              break
+            end
+          end
+
+          if classplans and assignment_state
+            classplan = Classplan.find(:first,
+                                       :conditions => {
+              :assignment_id => _assignment_id,
+              :period_id => period_id,
+              :day => day_en,
+              :begin_time => hour
+            })
             column << classplan.assignment.course.code + "\n" +
               classplan.assignment.course.name + "\n" +
               classplan.assignment.lecturer.full_name
