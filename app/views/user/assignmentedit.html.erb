@@ -8,16 +8,29 @@
 <% end %>
 <!-- end multiselect -->
 <h2><%= session[:department] %> Bölümü Öğretim Üyesinin Verdiği Dersleri Düzenle</h2>
+
+<div id="headline">
+  <div id="image-box">
+    <table>
+      <tr>
+        <td class="xsmall">
+          <%= image_tag @lecturer.photo %>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <table class="custom">
+    <tr></tr>
+    <tr></tr>
+    <tr>
+      <td class="label" style="border:none">Ad Soyad</td>
+      <td><%= @lecturer.full_name %></td>
+    </tr>
+  </table>
+</div>
+
 <%= form_tag({ :action => 'assignmentupdate' }, :multipart => true) do %>
   <table class="login">
-  <tr>
-    <td class="label">Fotoğraf</td>
-    <td><%= image_tag @lecturer.photo %></td>
-  </tr>
-  <tr>
-    <td class="label">Ad</td>
-    <td><%= @lecturer.full_name %></td>
-  </tr>
   <tr>
     <td class="label">Dersleri seçiniz</td>
     <td>

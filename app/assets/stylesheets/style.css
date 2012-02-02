@@ -54,6 +54,7 @@ body {
     -moz-box-shadow:0 2px 2px rgba(0,0,0,0.2);
     box-shadow:0 2px 2px rgba(0,0,0,0.2);
 }
+#image-box td.xsmall img{width:32px; height:32px}
 #image-box td.small img{width:71px; height:71px}
 #image-box td.medium img{width:135px; height:135px}
 #image-box td.large img{width:185px; height:185px}
