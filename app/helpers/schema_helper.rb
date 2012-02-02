@@ -19,12 +19,12 @@ module SchemaHelper
     evening_time = ["17", "18", "19", "20", "21", "22"]
     return [day, header, launch, morning, evening, morning_time, evening_time]
   end
-
-  def departmentplan_schema period_id, department_id, year, section
+def departmentplan_schema period_id, department_id, year, section
     assignments = Assignment.joins(:course).where(
       'courses.department_id' => department_id,
       'assignments.period_id' => period_id
-    ).select("assignments.id")
+    )
+    assignments = assignments.collect { |assignment| assignment.id }
 
     day, header, launch, morning, evening, morning_time, evening_time = table_schema # standart tablo şeması
     if section == "0" or section == "1"
@@ -42,32 +42,14 @@ module SchemaHelper
           morning << column
         else
           day.each do |day_en, day_tr|
-            classplans = Classplan.find(:all,
+            classplan = Classplan.find(:first,
                                        :conditions => {
               :period_id => period_id,
               :day => day_en,
               :begin_time => hour
-            }, :select => "assignment_id")
-            assignment_ids = classplans.collect { |classplan| classplan.assignment_id }
-            assignment_state = false
-            _assignment_id = ""
-            assignment_ids.each do |assignment_id|
-              if assignments.include?(assignment_id)
-                _assignment_id = assignment_id
-                assignment_state = true
-                break
-              end
-            end
-            if assignment_state
-              classplan = Classplan.find(:first,
-                                        :conditions => {
-                :assignment_id => _assignment_id,
-                :period_id => period_id,
-                :day => day_en,
-                :begin_time => hour
-              })
-            end
-            if classplans and assignment_state and classplan.assignment.course.year == year
+            })
+            if classplan and classplan.assignment.course.year == year and
+              assignments.include?(classplan.assignment_id)
               column << classplan.assignment.course.code + "\n" +
                 classplan.assignment.course.name + "\n" +
                 classplan.assignment.lecturer.full_name
@@ -113,6 +95,7 @@ module SchemaHelper
       [day, header, nil, nil, evening]
     end
   end
+
 
   def classplan_schema period_id, assignments, classroom_id
 
