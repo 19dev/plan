@@ -3,52 +3,59 @@
 <!-- end dual listbox -->
 
 <h2><%= session[:department] %> Bölümü Öğretim Üyesi Programı</h2>
-<table class="custom" style="margin-left:5px">
-  <tr>
-    <td class="label">Fotoğraf</td>
-    <td>
-      <%= image_tag @lecturer.photo %>
-    </td>
-  </tr>
-  <tr>
-    <td class="label">Öğretim görevlisi</td>
-    <td>
-      <%= @lecturer.full_name %>
-    </td>
-  </tr>
-  <tr>
-    <td class="label">Verdiği ders</td>
-    <td>
-      <select id="course_ids" name="course_ids">
-        <% @course_ids.each do |k, v| %>
-          <option value="<%= k %>" selected>
+
+<div id="headline">
+  <div id="image-box">
+    <table>
+      <tr>
+        <td>
+          <%= image_tag @lecturer.photo %>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <table class="custom">
+    <tr>
+      <td class="label" style="border:none"> Ad Soyad: </td>
+      <td class="field"><%= @lecturer.full_name %></td>
+    </tr>
+    <tr>
+      <td class="label" style="border:none">Verdiği Ders</td>
+      <td>
+        <select id="course_ids" name="course_ids">
+          <% @course_ids.each do |k, v| %>
+            <option value="<%= k %>" selected>
             <%= v %>
-          </option>
-        <% end %>
-      </select>
-      <div class="button-group">
-        <li>
-          <%= form_tag({ :action => 'scheduleedit' }, :multipart => true) do %>
-            <b id="select_assignment_id"></b>
-            <%= submit_tag "Seçili dersi sil", :class => "button",
-              :onClick => "return confirm('#{@lecturer.full_name} isimli öğretim " +
-                          "görevlisinin tablodan seçtiğiniz dersi silmek üzeresiniz. " +
-                          "Silmek istediğinizden emin misiniz ?');" %>
+            </option>
           <% end %>
-        </li>
-        <li>
-          <%= form_tag({ :action => 'scheduledel' }, :multipart => true) do %>
-            <%= submit_tag "Tüm dersi sil", :class => "button danger",
-              :onClick => "return confirm('#{@lecturer.full_name} isimli öğretim " +
-                          "görevlisinin bu dönemlik #{session[:department]} bölümüne verdiği tüm dersleri " +
-                          "silmek üzeresiniz. " +
-                          "Silmek istediğinizden emin misiniz ?');" %>
-          <% end %>
-        </li>
-      </div>
-    </td>
-  </tr>
-</table>
+        </select>
+        <div class="button-group">
+          <li>
+            <%= form_tag({ :action => 'scheduleedit' }, :multipart => true) do %>
+              <b id="select_assignment_id"></b>
+              <%= submit_tag "Seçili dersi sil", :class => "button",
+                :onClick => "return confirm('#{@lecturer.full_name} isimli öğretim " +
+                            "görevlisinin tablodan seçtiğiniz dersi silmek üzeresiniz. " +
+                            "Silmek istediğinizden emin misiniz ?');" %>
+            <% end %>
+          </li>
+          <li>
+            <%= form_tag({ :action => 'scheduledel' }, :multipart => true) do %>
+              <%= submit_tag "Tüm dersi sil", :class => "button danger",
+                :onClick => "return confirm('#{@lecturer.full_name} isimli öğretim " +
+                            "görevlisinin bu dönemlik #{session[:department]} bölümüne verdiği tüm dersleri " +
+                            "silmek üzeresiniz. " +
+                            "Silmek istediğinizden emin misiniz ?');" %>
+            <% end %>
+          </li>
+        </div>
+      </td>
+      <td>
+        <%= link_to "", "/home/lecturerplanpdf/#{session[:period_id]}/#{@lecturer.id}", :id=>"pdf_buttonx32", :style=>"float:right" %>
+      </td>
+    </tr>
+  </table>
+</div>
 
 <style>
   #table { margin-left:-20px;}
