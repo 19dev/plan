@@ -16,7 +16,15 @@
     <% @lecturers.each do |lecturer| %>
       <tr id="headline">
         <td>
-            <%= image_tag lecturer.photo, :width => 32, :height => 32, :id => "image-box" %>
+          <div id="image-box">
+            <table>
+              <tr>
+                <td class="small">
+                  <%= image_tag lecturer.photo %>
+                </td>
+              </tr>
+            </table>
+          </div>
         </td>
         <td class="field"><%= lecturer.first_name %></td>
         <td class="field"><%= lecturer.last_name %></td>
