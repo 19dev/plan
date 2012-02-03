@@ -6,7 +6,7 @@ module ScheduleHelper
     assignments = Assignment.joins(:course).where(
       'courses.department_id' => session[:department_id],
       'assignments.period_id' => session[:period_id]
-    )
+    ).select("assignments.course_id")
     @assignments = {}
 
     course_ids = assignments.collect { |assignment| assignment.course_id }
@@ -79,7 +79,7 @@ module ScheduleHelper
                                   :conditions => {
       :lecturer_id => params[:lecturer_id],
       :period_id => session[:period_id]
-    })
+    }, :select => "id")
     @assignments = assignments.collect { |assignment| assignment.id }
     # @assignment.id
     schedule = []
