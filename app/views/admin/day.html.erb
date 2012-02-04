@@ -1,0 +1,31 @@
+<h2>Gün Rapor</h2>
+<% @day, @header, @launch, @morning, @evening, morning_time, evening_time = table_schema # standart tablo şeması %>
+<div class="module">
+  <div class="inner">
+    <h2>Gün Bilgileri</h2>
+    <div class='description'>
+      <table>
+        <colgroup><col width=100 /><col width=100 /></colgroup>
+        <tr>
+          <td><b>Gün </b></td><th>Ders Sayısı</th><th>Ders Saati</th>
+        </tr>
+        <% @day.each do |day_en, day_tr| %>
+        <tr>
+          <td><%= day_tr %></td>
+          <th>
+            <%= Classplan.find(:all,
+                                :conditions => {
+              :day => day_en,
+              :period_id => Period.find(:first, :conditions => {:status => true}).id
+            },
+              :group => "assignment_id").count %>
+            </th>
+            <th>
+              <%= Classplan.where(:day => day_en, :period_id => Period.find(:first, :conditions => {:status => true}).id).count * 45 / 60.0 %>
+            </th>
+          </tr>
+          <% end %>
+      </table>
+    </div>
+  </div>
+</div>

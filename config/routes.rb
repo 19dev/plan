@@ -74,10 +74,8 @@ Schedule::Application.routes.draw do
   get  "admin/home"
   get  "admin/logout"
   # ---------------------
-
   get  "admin/info"
   get  "admin/help"
-  get  "admin/system"
   # database
   get  "admin/database"
   get  "admin/export"
@@ -92,6 +90,12 @@ Schedule::Application.routes.draw do
   get  "admin/find"
   get  "admin/new"
   post "admin/add"
+  # system
+  get  "admin/report"
+  get  "admin/department"
+  get  "admin/period"
+  get  "admin/class"
+  get  "admin/day"
   # end ADMIN -----------
 
   # HOME

@@ -55,8 +55,8 @@
       <ul>
         <li><a class="home" href="/admin/home">Ana Sayfa</a></li>
         <li><a class="db" href="/admin/database">Veri Tabanı Yönetimi</a></li>
-        <li><a class="system" href="/admin/system">Sistem Yönetimi</a></li>
-        <li><a class="support" href="/admin/help">Yardım Sayfasını Güncelle</a></li>
+        <li><a class="report" href="/admin/report">Rapor</a></li>
+        <li><a class="help" href="/admin/help">Yardım Sayfasını Güncelle</a></li>
       </ul>
     </div>
   </div>
@@ -67,6 +67,8 @@
     <% page = File.basename request.fullpath %>
     <% if ["database","review","edit","show","new","find","export"].include? page %>
       <%= render :partial => "database_menu" %>
+    <% elsif ["report","department","period","class","day"].include? page %>
+      <%= render :partial => "report_menu" %>
     <% end %>
   <% end %>
   <%= yield %>

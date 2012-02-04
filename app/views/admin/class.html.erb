@@ -1,0 +1,39 @@
+<h2>Sınıf Rapor</h2>
+<% @day, @header, @launch, @morning, @evening, morning_time, evening_time = table_schema # standart tablo şeması %>
+<% class_capacity = morning_time.length * @day.keys.length + evening_time.length * @day.keys.length %>
+<div class="module">
+  <div class="inner">
+    <h2>Sınıf Bilgileri</h2>
+    <div class='description'>
+      <table>
+        <colgroup><col width=100 /><col width=120 /><col width=120 /><col width=120 /></colgroup>
+        <tr>
+          <td><b>Sınıf </b></td><th>Ders Saati</th><th>Günlük Kullanım</th><th>Ders Sayısı</th><th>Öğretim Üyesi</th>
+        </tr>
+        <% Classroom.all.each do |classroom| %>
+        <tr>
+          <% class_done = Classplan.where(:classroom_id => classroom.id).count %>
+          <td><%= classroom.name %> </td>
+          <th><%= class_done * 45 / 60.0 %> </th>
+          <th>%<%= class_done * 100 / class_capacity %></th>
+          <th>
+            <%= Classplan.find(:all,
+                                :conditions => {
+              :classroom_id => classroom.id,
+              :period_id => Period.find(:first, :conditions => {:status => true}).id
+            },
+              :group => "assignment_id").count %>
+            </th>
+          <th>
+            <%= Classplan.joins(:assignment).where(
+              'classplans.classroom_id' => classroom.id,
+              'assignments.period_id' => Period.find(:first, :conditions => {:status => true}).id
+            ).group("assignments.lecturer_id").length
+          %>
+          </th>
+        </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>

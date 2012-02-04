@@ -1,0 +1,36 @@
+<%
+  if period = Period.find(:first, :conditions => {:status => true})
+    period_state = "up"
+  elsif Period.find(:first, :conditions => {:status => false})
+    period_state = "problem"
+  else
+    period_state = "down"
+  end
+  if ["problem", "down"].include?(period_state)
+    user_state = "down"
+  else
+    user_state = "up"
+  end
+%>
+<div class="columns generic">
+  <div class="column main">
+    <h2 style="width:600px">Period Rapor</h2>
+
+    Aktif Dönem : <span class="highlight" style="font-size:19px"><%=  if period; period.full_name else "---" end %></span>
+
+  </div>
+
+  <div class="column sidebar">
+    <div id="realtime">
+      <div class="inner">
+        <div id="git" class="service">
+          <span class="status <%= period_state %>"></span> Aktif Dönem
+        </div>
+        <div id="downloads" class="service">
+          <span class="status <%= user_state %>"></span> Akademisyen Giriş
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

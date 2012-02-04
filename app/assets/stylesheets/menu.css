@@ -19,9 +19,8 @@ ol, ul {
 /* admin panel */
 .usermenulist li a.home { background:url(/assets/home.png) no-repeat; }
 .usermenulist li a.db { background:url(/assets/database.png) no-repeat; }
-.usermenulist li a.system { background:url(/assets/settings_yellow.png) no-repeat; }
-.usermenulist li a.support { background:url(/assets/support.png) no-repeat; }
-
+.usermenulist li a.report { background:url(/assets/chart.png) no-repeat; }
+.usermenulist li a.help { background:url(/assets/help_balloon.png) no-repeat; }
 
 
 #usermenu .userinfo { float:right; width: 160px; margin-left:5px; padding-left:7px; font-size:11px; border-left:1px solid #ddd; }
@@ -50,13 +49,19 @@ ol, ul {
 .altnav a.new     { background:url(/assets/add_to_database.png) no-repeat left; }
 .altnav a.export  { background:url(/assets/download_database.png) no-repeat left; }
 .altnav a.import  { background:url(/assets/database_upload.png) no-repeat left; }
+/* admin-report menüsü */
+.altnav a.report     { background:url(/assets/chart.png) no-repeat; }
+.altnav a.department { background:url(/assets/chart_pie.png) no-repeat left; }
+.altnav a.period     { background:url(/assets/target.png) no-repeat left; }
+.altnav a.class      { background:url(/assets/chart_up.png) no-repeat left; }
+.altnav a.day        { background:url(/assets/calendar_empty.png) no-repeat left; }
 
 /* user menüsü */
 .altnav a.home       { background:url(/assets/home.png) no-repeat left; }
 .altnav a.lecturer   { background:url(/assets/default.png) no-repeat left; }
-.altnav a.course     { background:url(/assets/lesson.png) no-repeat left; }
-.altnav a.assignment { background:url(/assets/assignment.png) no-repeat left; }
-.altnav a.schedule   { background:url(/assets/schedule.png) no-repeat left; }
+.altnav a.course     { background:url(/assets/chalk_board.png) no-repeat left; }
+.altnav a.assignment { background:url(/assets/next_blue.png) no-repeat left; }
+.altnav a.schedule   { background:url(/assets/clock.png) no-repeat left; }
 
 /* yardım menüsü */
 /* .altnav a.puser    { background:url(/assets/database.png) no-repeat left; } */
