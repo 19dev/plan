@@ -26,8 +26,10 @@
                 <th>
                   <%
                     assignments = Assignment.joins(:lecturer).where(
-                    'lecturers.department_id' => department.id,
-                    'assignments.period_id' => Period.find(:first, :conditions=>{:status => true})
+                      'lecturers.department_id' => department.id,
+                      'assignments.period_id' => Period.find(:first, :conditions => {:status => true})
+                    ).joins(:course).where(
+                    'courses.department_id' => department.id,
                     )
                     lecturer_ids = assignments.collect { |assignment| assignment.lecturer_id }
                     lecturer_ids.uniq!
@@ -42,8 +44,10 @@
                 <th>
                 <%
                   assignments = Assignment.joins(:lecturer).where(
-                  'lecturers.department_id' => department.id,
-                  'assignments.period_id' => Period.find(:first, :conditions=>{:status => true})
+                    'lecturers.department_id' => department.id,
+                    'assignments.period_id' => Period.find(:first, :conditions => {:status => true})
+                  ).joins(:course).where(
+                  'courses.department_id' => department.id,
                   )
                   lecturer_ids = []
                   assignments.each do |assignment|
@@ -71,9 +75,9 @@
   <div class="column sidebar">
     <div id="realtime">
         <%
-          if period = Period.find(:first, :conditions=>{:status => true})
+          if period = Period.find(:first, :conditions => {:status => true})
             period_state = "up"
-          elsif Period.find(:first, :conditions=>{:status => false})
+          elsif Period.find(:first, :conditions => {:status => false})
             period_state = "problem"
           else
             period_state = "down"
@@ -118,7 +122,7 @@
               <td>Sistem Yöneticisi Sayısı</td><th><%= People.where(:status => 0).count %></th>
             </tr>
             <tr>
-              <td>Sistem Akademisyen Sayısı</td><th> <%= People.where(:status => [1,2,3]).count %></th>
+              <td>Sistem Akademisyen Sayısı</td><th> <%= People.where(:status => [1, 2, 3]).count %></th>
             </tr>
             <tr>
               <td>Toplam Kullanıcı Sayısı</td><th><%= People.count %></th>
@@ -127,5 +131,27 @@
         </div>
       </div>
     </div>
+
+    <% @day, @header, @launch, @morning, @evening, morning_time, evening_time = table_schema # standart tablo şeması %>
+    <div class="module">
+      <div class="inner">
+        <h2>Gün Bilgileri</h2>
+        <div class='description'>
+          <table>
+            <colgroup><col width=350 /><col width=210 /></colgroup>
+            <tr>
+              <td><b>Gün </b></td><th>Ders sayısı</th>
+            </tr>
+            <% @day.each do |day_en, day_tr| %>
+              <tr>
+                <td><%= day_tr %></td>
+                <th><%= Classplan.where(:day => day_en, :period_id => period.id).count %></th>
+              </tr>
+            <% end %>
+          </table>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
