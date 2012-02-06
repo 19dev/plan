@@ -166,8 +166,8 @@ module SchemaHelper
             :begin_time => hour
           })
           if classplan and assignments.include?(classplan.assignment_id)
-            column << classplan.assignment.course.code + "\n" +
-              classplan.assignment.course.name + "\n" +
+#           column << classplan.assignment.course.code + "\n" +
+            column << classplan.assignment.course.name + "\n" +
               classplan.assignment.lecturer.full_name
             column << classplan.assignment.course.department.code
           else
@@ -191,8 +191,8 @@ module SchemaHelper
           :begin_time => hour
         })
         if classplan and assignments.include?(classplan.assignment_id)
-          column << classplan.assignment.course.code + "\n" +
-            classplan.assignment.course.name + "\n" +
+#         column << classplan.assignment.course.code + "\n" +
+          column << classplan.assignment.course.name + "\n" +
             classplan.assignment.lecturer.full_name
           column << classplan.assignment.course.department.code
         else
