@@ -62,17 +62,19 @@ module SchemaHelper
             end
 
             if classplans and assignment_state
-              classplan = Classplan.find(:first,
-                                         :conditions => {
+              classplan = Classplan.find(:all,
+                                        :conditions => {
                 :assignment_id => _assignment_id,
                 :period_id => period_id,
                 :day => day_en,
                 :begin_time => hour
-              })
-              column << classplan.assignment.course.code + "\n" +
-                classplan.assignment.course.name + "\n" +
-                classplan.assignment.lecturer.full_name
-              column << classplan.classroom.name
+              }, :select=>"assignment_id, classroom_id")
+              classroom_name = ""
+              classplan.each {|cp| classroom_name += cp.classroom.name + "\n"}
+              column << classplan[0].assignment.course.code + "\n" +
+                classplan[0].assignment.course.name + "\n" +
+                classplan[0].assignment.lecturer.full_name
+              column << classroom_name
             else
               column << ""
               column << ""
@@ -108,17 +110,19 @@ module SchemaHelper
           end
 
           if classplans and assignment_state
-            classplan = Classplan.find(:first,
+            classplan = Classplan.find(:all,
                                        :conditions => {
               :assignment_id => _assignment_id,
               :period_id => period_id,
               :day => day_en,
               :begin_time => hour
-            })
-            column << classplan.assignment.course.code + "\n" +
-              classplan.assignment.course.name + "\n" +
-              classplan.assignment.lecturer.full_name
-            column << classplan.classroom.name
+            }, :select=>"assignment_id, classroom_id")
+            classroom_name = ""
+            classplan.each {|cp| classroom_name += cp.classroom.name + "\n"}
+            column << classplan[0].assignment.course.code + "\n" +
+              classplan[0].assignment.course.name + "\n" +
+              classplan[0].assignment.lecturer.full_name
+            column << classroom_name
           else
             column << ""
             column << ""
@@ -234,16 +238,18 @@ module SchemaHelper
             end
           end
           if assignment_state
-            classplan = Classplan.find(:first,
-                                      :conditions => {
+            classplan = Classplan.find(:all,
+                                       :conditions => {
               :assignment_id => _assignment_id,
               :period_id => period_id,
               :day => day_en,
               :begin_time => hour
-            })
-            column << classplan.assignment.course.code + "\n" +
-              classplan.assignment.course.name
-            column << classplan.classroom.name
+            }, :select=>"assignment_id, classroom_id")
+            classroom_name = ""
+            classplan.each {|cp| classroom_name += cp.classroom.name + "\n"}
+            column << classplan[0].assignment.course.code + "\n" +
+              classplan[0].assignment.course.name
+            column << classroom_name
           else
             column << ""
             column << ""
@@ -276,16 +282,18 @@ module SchemaHelper
         end
 
         if assignment_state
-            classplan = Classplan.find(:first,
-                                      :conditions => {
+            classplan = Classplan.find(:all,
+                                       :conditions => {
               :assignment_id => _assignment_id,
               :period_id => period_id,
               :day => day_en,
               :begin_time => hour
-            })
-          column << classplan.assignment.course.code + "\n" +
-            classplan.assignment.course.name
-          column << classplan.classroom.name
+            }, :select=>"assignment_id, classroom_id")
+            classroom_name = ""
+            classplan.each {|cp| classroom_name += cp.classroom.name + "\n"}
+            column << classplan[0].assignment.course.code + "\n" +
+              classplan[0].assignment.course.name
+            column << classroom_name
         else
           column << ""
           column << ""

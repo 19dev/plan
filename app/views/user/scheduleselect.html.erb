@@ -1,6 +1,17 @@
-<!-- dual listbox -->
-<script src="/assets/jquery-latest.js"></script>
-<!-- end dual listbox -->
+<link rel="stylesheet" type="text/css" href="/assets/jquery.multiselect.css" />
+<link rel="stylesheet" type="text/css" href="/assets/jquery-ui.css" />
+<script type="text/javascript" src="/assets/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/assets/jquery.multiselect.js"></script>
+<script type="text/javascript">
+  $(function(){
+      $("select").multiselect({
+        position: {
+          my: 'left',
+          at: 'right'
+        }
+      });
+  });
+</script>
 
 <link href="/assets/jquery-ui.css" rel="stylesheet" type="text/css"/>
 <script src="/assets/jquery-ui.js"></script>
@@ -148,9 +159,7 @@
                         <% if col[0].slice(0..1) == @launch[0].slice(0..1)%>
                           <input type="checkbox" id="classroom_id" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]" value="" disabled>
                         <% else %>
-                          <select id="classroom_id" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]" style="width:50px">
-                            <option value="" selected>
-                            </option>
+                          <select id="classroom_id" multiple="multiple" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]">
                             <% @class.each do |k| %>
                               <option value="<%= k.id %>">
                               <%= k.name %>
@@ -194,9 +203,7 @@
                       </th>
                     <% else %>
                       <th class="field2">
-                        <select id="classroom_id" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]" style="width:50px">
-                          <option value="" selected>
-                          </option>
+                        <select id="classroom_id" multiple="multiple" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]">
                           <% @class.each do |k| %>
                             <option value="<%= k.id %>">
                             <%= k.name %>
@@ -219,28 +226,3 @@
   </div>
 </div>
 <% end %>
-
-<!-- dual listbox -->
-<script>
-  $("#course_ids").change(function () {
-    var part = $(this).val().split('#');
-    if (part[0] != "") {
-      if (part[0].indexOf(';') >= 0)
-      var ham_hocalar = part[0].split(';');
-      else
-      var ham_hocalar = [part[0]];
-
-      var course_id = part[1];
-      var hocalar = "";
-      for (var i = 0; i < ham_hocalar.length; i++) {
-        hoca = ham_hocalar[i].split(',');
-        if (hoca[1] != undefined)
-        hocalar +=  "<option value='"+ hoca[0] +"'>" + hoca[1] + "</option>";
-      }
-      $("#lecturer_id").html(hocalar);
-      $("#select_course_id").html("<input type='hidden' id='course_id' name='course_id' value='" + course_id + "'/>");
-    }
-  })
-  .trigger('change');
-</script>
-<!-- end dual listbox -->
