@@ -11,7 +11,7 @@ module SchemaHelper
       # "Sunday" => "Pazar",
     }
 
-    header = [["Saat / Gün"] + day.values]
+    header = [["Saat/Gün"] + day.values]
     morning = []
     launch = ["12", "", "", "", "", "", "", "", "", "", ""]
     evening = []
