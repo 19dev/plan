@@ -3,30 +3,40 @@
   <thead>
     <tr>
       <th class='shrink'>Tablo</th>
+      <th class='shrink'>Kullanıldı</th>
       <th>Kayıt</th>
     </tr>
   </thead>
   <tbody>
 
     <% session[:TABLES].each do |table| %>
+      <%
+        table_count = eval table[0].capitalize + ".count"
+        max = 1000
+        min = 100
+        choise = if table_count >= max
+                   "important"
+                 elsif table_count == 0
+                   "zero"
+                 elsif table_count <= min
+                   "trivial"
+                 elsif table_count >= (min+max)/2.0
+                   "warning"
+                 else
+                   "notice"
+                  end
+        last_used = eval(table[0] + ".order('updated_at DESC').limit(1)")
+        ms = Time.now - last_used[0].updated_at
+        _sec = ms % 60; ms /= 60
+        _min = ms % 60; ms /= 60
+        _hour = ms % 24; ms /= 24
+        _day = ms
+        from_time = Time.now - _day.days - _hour.hours - _min.minutes - _sec.seconds
+      %>
       <tr>
         <td><%= table[0] %></td>
+        <td><%= time_ago_in_words(from_time) %></td>
         <td>
-          <% table_count = eval table[0].capitalize + ".count"
-            max = 1000
-            min = 100
-            choise = if table_count >= max
-              "important"
-            elsif table_count == 0
-              "zero"
-            elsif table_count <= min
-              "trivial"
-            elsif table_count >= (min+max)/2.0
-              "warning"
-            else
-              "notice"
-            end
-          %>
           <div
             class='animate-width-to stick <%= choise %>'
             data-animate-length='<%= max %>'
