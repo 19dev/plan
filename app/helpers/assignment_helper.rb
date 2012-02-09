@@ -19,12 +19,19 @@ module AssignmentHelper
       return redirect_to '/user/assignmentnew'
     end
     params[:course_ids].each do |course_id|
+      unless Assignment.find(:first,
+                             :conditions => {
+        :lecturer_id => params[:lecturer_id],
+        :period_id => session[:period_id],
+        :course_id => course_id
+      })
       assignment = Assignment.new ({
-                                    :period_id => session[:period_id],
-                                    :lecturer_id => params[:lecturer_id],
-                                    :course_id => course_id
-                                  })
+        :period_id => session[:period_id],
+        :lecturer_id => params[:lecturer_id],
+        :course_id => course_id
+      })
       assignment.save
+      end
     end
     session[:lecturer_id] = params[:lecturer_id]
     session[:success] = "#{Lecturer.find(params[:lecturer_id]).full_name} öğretim üyesinin dersleri atandı"
