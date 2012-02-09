@@ -318,7 +318,7 @@ module ScheduleHelper
     end
 
     evening_time.each do |hour|
-      column = [hour + '-00' + '/' + (hour.to_i+1).to_s + '-00']
+      column = [hour + '-00' + '/' + (hour.to_i+1).to_s + '-45']
       hour = hour + '-00'
       @day.each do |day_en, day_tr|
         classplans = Classplan.find(:all,
