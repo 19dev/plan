@@ -34,7 +34,6 @@ module ScheduleHelper
 
     @class = Classroom.find(:all, :order => 'name')
 
-
     unless Department.find(:first, :conditions => { :id => session[:department_id] })
       return redirect_to "/user/home"
     end

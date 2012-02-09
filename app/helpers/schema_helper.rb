@@ -47,34 +47,36 @@ module SchemaHelper
               :period_id => period_id,
               :day => day_en,
               :begin_time => hour
-            })
+            }, :select => "assignment_id")
+            next unless classplans
+            assignment_ids = classplans.map { |classplan| classplan.assignment_id if classplan.assignment.course.year == year }.compact.uniq
 
-            assignment_ids = classplans.map { |classplan| classplan.assignment_id if classplan.assignment.course.year == year }.compact
-
-            assignment_state = false
-            _assignment_id = ""
+            _course_codes = []
+            _course_names = []
+            _classroom_names = []
+            _lecturer_names = []
             assignment_ids.each do |assignment_id|
               if assignments.include?(assignment_id)
-                _assignment_id = assignment_id
-                assignment_state = true
-                break
+                _classplan = Classplan.find(:all,
+                                          :conditions => {
+                  :assignment_id => assignment_id,
+                  :period_id => period_id,
+                  :day => day_en,
+                  :begin_time => hour
+                }, :select => "assignment_id, classroom_id")
+              classroom_name = ""
+              _classplan.each {|cp| classroom_name += cp.classroom.name + "\n"}
+              _course_codes << _classplan[0].assignment.course.code
+              _course_names << _classplan[0].assignment.course.name
+              _lecturer_names << _classplan[0].assignment.lecturer.full_name
+              _classroom_names << classroom_name
               end
             end
-
-            if classplans and assignment_state
-              classplan = Classplan.find(:all,
-                                        :conditions => {
-                :assignment_id => _assignment_id,
-                :period_id => period_id,
-                :day => day_en,
-                :begin_time => hour
-              }, :select=>"assignment_id, classroom_id")
-              classroom_name = ""
-              classplan.each {|cp| classroom_name += cp.classroom.name + "\n"}
-              column << classplan[0].assignment.course.code + "\n" +
-                classplan[0].assignment.course.name + "\n" +
-                classplan[0].assignment.lecturer.full_name
-              column << classroom_name
+            if _course_codes and _course_names and _lecturer_names and _classroom_names
+              column << _course_codes.join("/") +"\n" +
+                _course_names.join("/") +"\n" +
+                _lecturer_names.join("/")
+              column << _classroom_names.join("/")
             else
               column << ""
               column << ""
@@ -82,6 +84,7 @@ module SchemaHelper
           end
           morning << column
         end
+
       end
     end
     if section == "0" or section == "2"
@@ -97,36 +100,39 @@ module SchemaHelper
             :begin_time => hour
           })
 
-          assignment_ids = classplans.map { |classplan| classplan.assignment_id if classplan.assignment.course.year == year }.compact
-
-          assignment_state = false
-          _assignment_id = ""
+          next unless classplans
+          assignment_ids = classplans.map { |classplan| classplan.assignment_id if classplan.assignment.course.year == year }.compact.uniq
+          _course_codes = []
+          _course_names = []
+          _classroom_names = []
+          _lecturer_names = []
           assignment_ids.each do |assignment_id|
             if assignments.include?(assignment_id)
-              _assignment_id = assignment_id
-              assignment_state = true
-              break
+              _classplan = Classplan.find(:all,
+                                          :conditions => {
+                :assignment_id => assignment_id,
+                :period_id => period_id,
+                :day => day_en,
+                :begin_time => hour
+              }, :select => "assignment_id, classroom_id")
+              classroom_name = ""
+              _classplan.each {|cp| classroom_name += cp.classroom.name + "\n"}
+              _course_codes << _classplan[0].assignment.course.code
+              _course_names << _classplan[0].assignment.course.name
+              _lecturer_names << _classplan[0].assignment.lecturer.full_name
+              _classroom_names << classroom_name
             end
           end
-
-          if classplans and assignment_state
-            classplan = Classplan.find(:all,
-                                       :conditions => {
-              :assignment_id => _assignment_id,
-              :period_id => period_id,
-              :day => day_en,
-              :begin_time => hour
-            }, :select=>"assignment_id, classroom_id")
-            classroom_name = ""
-            classplan.each {|cp| classroom_name += cp.classroom.name + "\n"}
-            column << classplan[0].assignment.course.code + "\n" +
-              classplan[0].assignment.course.name + "\n" +
-              classplan[0].assignment.lecturer.full_name
-            column << classroom_name
+          if _course_codes and _course_names and _lecturer_names and _classroom_names
+            column << _course_codes.join("/") +"\n" +
+              _course_names.join("/") +"\n" +
+              _lecturer_names.join("/")
+            column << _classroom_names.join("/")
           else
             column << ""
             column << ""
           end
+
         end
         evening << column
       end

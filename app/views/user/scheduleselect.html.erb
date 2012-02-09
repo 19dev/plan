@@ -133,10 +133,22 @@
                         <p style='text-align:left'> <%= c[0] %></p>
                         <p style='text-align:left'> <%= c[1] %></p>
                         <p style='text-align:right'><%= c[2] %></p>
+                        <input type="checkbox" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]"
+                        id="<%= 'seçim : '+@day.values[index]+' - '+col[0] %>"
+                        value="<%= col[0].slice(0..4) %>" onchange="alert(this.id)"/>
                       </th>
                     <% else %>
                       <th class='field2<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
-                        id='<%= @day.keys[index] + col[0].slice(0..4) %>field2'><%= c %></th>
+                        id='<%= @day.keys[index] + col[0].slice(0..4) %>field2'>
+                        <%= c %>
+                        <select id="classroom_id" multiple="multiple" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]">
+                          <% @class.each do |k| %>
+                            <option value="<%= k.id %>">
+                            <%= k.name %>
+                            </option>
+                          <% end %>
+                        </select>
+                      </th>
                       <% index = index + 1 %>
                     <% end %>
                   <% else %>
@@ -189,9 +201,21 @@
                         <p style='text-align:left'> <%= c[0] %></p>
                         <p style='text-align:left'> <%= c[1] %></p>
                         <p style='text-align:right'><%= c[2] %></p>
+                        <input type="checkbox" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]"
+                        id="<%= 'seçim : '+@day.values[index]+' - '+col[0] %>"
+                        value="<%= col[0].slice(0..4) %>" onchange="alert(this.id)"/>
                       </th>
                     <% else %>
-                      <th class='field2' id='<%= @day.keys[index] + col[0].slice(0..4) %>field2'><%= c %></th>
+                      <th class='field2' id='<%= @day.keys[index] + col[0].slice(0..4) %>field2'>
+                        <%= c %>
+                        <select id="classroom_id" multiple="multiple" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]">
+                          <% @class.each do |k| %>
+                            <option value="<%= k.id %>">
+                            <%= k.name %>
+                            </option>
+                          <% end %>
+                        </select>
+                      </th>
                       <% index = index + 1 %>
                     <% end %>
                   <% else %>

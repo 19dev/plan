@@ -51,5 +51,5 @@ module PlanHelper
       end
     end
     return [course_ids, assignment_ids]
-    end
+  end
 end
