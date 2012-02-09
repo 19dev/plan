@@ -33,10 +33,11 @@
         <% end %>
         <%= form_tag({ :action => 'assignmentdel' }, :multipart => true) do %>
           <%= submit_tag "Sil", :id => "submit_button",
-            :onClick => "return confirm('#{@lecturer.full_name} isimli öğretim görevlisinin " +
-                        "#{session[:department]} bölümüne verdiği dersleri " +
-                        "silmek üzeresiniz. Eğer silerseniz, bu dönemlik ders atamaları " +
-                        "silinmiş olacaktır. Silmek istediğinizden emin misiniz ?');" %>
+              :onClick => "return confirm('#{@lecturer.full_name} isimli öğretim görevlisinin " +
+                          "#{session[:department]} bölümüne verdiği dersleri " +
+                          "silmek üzeresiniz. Eğer silerseniz, sadece bu dönemlik #{session[:department]} " +
+                          "bölümüne verdiği ders atamaları ve ders programı silinmiş olacaktır. " +
+                          "Silmek istediğinizden emin misiniz ?');" %>
         <% end %>
       </td>
     </tr>
