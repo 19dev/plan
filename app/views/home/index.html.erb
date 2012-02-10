@@ -21,9 +21,9 @@
         <h2>Bölüm Bilgileri</h2>
         <div class='description'>
           <table>
-            <colgroup><col width=200 /><col width=85 /><col width=40 /><col width=90 /></colgroup>
+            <colgroup><col width=190 /><col width=70 /><col width=60 /><col width=70 /></colgroup>
             <tr>
-              <td><b>Bölüm </b></td><th>Öğretim Üyesi</th><th>Ders</th><th>Ders Atama</th><th>Ders Programı</th>
+              <td><b>Bölüm </b></td><th>Öğretim Üyesi</th><th>Ders</th><th>Ders Atama</th><th>Ders Programı</th><th>Durum</th>
             </tr>
             <% Department.all.each do |department| %>
               <tr>
@@ -41,35 +41,45 @@
                     lecturer_ids = assignments.collect { |assignment| assignment.lecturer_id }
                     lecturer_ids.uniq!
                     done_lecturer_count = lecturer_ids.count
+
+                    assignment_percent = if lecturer_count != 0; done_lecturer_count * 100 / lecturer_count else 0 end
                   %>
-                  <% if lecturer_count != 0 %>
-                    %<%= done_lecturer_count * 100 / lecturer_count %>
-                  <% else %>
-                    %0
-                  <% end %>
+                  %<%= assignment_percent %>
                 </th>
                 <th>
-                <%
-                  assignments = Assignment.joins(:lecturer).where(
-                    'lecturers.department_id' => department.id,
-                    'assignments.period_id' => Period.find(:first, :conditions => {:status => true})
-                  ).joins(:course).where(
-                  'courses.department_id' => department.id,
-                  )
-                  lecturer_ids = []
-                  assignments.each do |assignment|
-                    if Classplan.find(:first, :conditions => { 'assignment_id' => assignment.id })
-                      lecturer_ids << assignment.lecturer_id
+                  <%
+                    assignments = Assignment.joins(:lecturer).where(
+                      'lecturers.department_id' => department.id,
+                      'assignments.period_id' => Period.find(:first, :conditions => {:status => true})
+                    ).joins(:course).where(
+                    'courses.department_id' => department.id,
+                    )
+                    lecturer_ids = []
+                    assignments.each do |assignment|
+                      if Classplan.find(:first, :conditions => { 'assignment_id' => assignment.id })
+                        lecturer_ids << assignment.lecturer_id
+                      end
                     end
-                  end
-                  lecturer_ids.uniq!
-                  done_schedule_count = lecturer_ids.count
-                %>
-                  <% if lecturer_count != 0 %>
-                    %<%= done_schedule_count * 100 / lecturer_count %>
-                  <% else %>
-                    %0
-                  <% end %>
+                    lecturer_ids.uniq!
+                    done_schedule_count = lecturer_ids.count
+
+                    schedule_percent = if lecturer_count != 0; done_schedule_count * 100 / lecturer_count else 0 end
+                  %>
+                  %<%= schedule_percent %>
+                </th>
+                <th>
+                  <%
+                    if schedule_percent == 100 and assignment_percent == 100
+                      state = "up"
+                    elsif assignment_percent != 0
+                      state = "problem"
+                    else
+                      state = "down"
+                    end
+                  %>
+                  <div id="realtime">
+                      <a class="status <%= state %>" style="margin-top:-8px"></a>
+                  </div>
                 </th>
               </tr>
             <% end %>
@@ -102,22 +112,22 @@
       setInterval(function(){ tick () }, 3000);
     </script>
     <!-- end slide -->
+
+    <%
+      if period = Period.find(:first, :conditions => {:status => true})
+        period_state = "up"
+      elsif Period.find(:first, :conditions => {:status => false})
+        period_state = "problem"
+      else
+        period_state = "down"
+      end
+      if ["problem", "down"].include?(period_state)
+        user_state = "down"
+      else
+        user_state = "up"
+      end
+    %>
     <div id="realtime">
-        <%
-          if period = Period.find(:first, :conditions => {:status => true})
-            period_state = "up"
-          elsif Period.find(:first, :conditions => {:status => false})
-            period_state = "problem"
-          else
-            period_state = "down"
-          end
-          if ["problem", "down"].include?(period_state)
-            user_state = "down"
-          else
-            user_state = "up"
-          end
-        %>
-        <% period_state %>
       <div class="inner">
         <div id="git" class="service">
           <span class="status <%= period_state %>"></span> Aktif Dönem
