@@ -125,10 +125,9 @@
                 <th class='clock<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'><%= col[0].gsub('-', ':') %></th>
                 <% index = 0 %>
                 <% col.slice(1..-1).each_with_index do |c, i| %>
-                  <% unless c == "" and year == @course.year %>
+                  <% if year == @course.year and col[0].slice(0..1) != @launch[0].slice(0..1) %>
                     <% if i % 2 == 0 %>
-                      <th class='field1<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
-                        id='<%= @day.keys[index] + col[0].slice(0..4) %>field1'>
+                      <th class='field1' id='<%= @day.keys[index] + col[0].slice(0..4) %>field1'>
                         <% c = c.split("\n") %>
                         <p style='text-align:left'> <%= c[0] %></p>
                         <p style='text-align:left'> <%= c[1] %></p>
@@ -138,8 +137,7 @@
                         value="<%= col[0].slice(0..4) %>" onchange="alert(this.id)"/>
                       </th>
                     <% else %>
-                      <th class='field2<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
-                        id='<%= @day.keys[index] + col[0].slice(0..4) %>field2'>
+                      <th class='field2' id='<%= @day.keys[index] + col[0].slice(0..4) %>field2'>
                         <%= c %>
                         <select id="classroom_id" multiple="multiple" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]">
                           <% @class.each do |k| %>
@@ -156,13 +154,15 @@
                       <th class='field1<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
                         id='<%= @day.keys[index] + col[0].slice(0..4) %>field1'>
                         <% if col[0].slice(0..1) == @launch[0].slice(0..1)%>
+
                           <input type="checkbox" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]"
                           id="<%= 'seçim : '+@day.values[index]+' - '+col[0] %>"
                           value="<%= col[0].slice(0..4) %>" onchange="alert(this.id)" disabled/>
                         <% else %>
-                          <input type="checkbox" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]"
-                          id="<%= 'seçim : '+@day.values[index]+' - '+col[0] %>"
-                          value="<%= col[0].slice(0..4) %>" onchange="alert(this.id)"/>
+                          <% c = c.split("\n") %>
+                          <p style='text-align:left'> <%= c[0] %></p>
+                          <p style='text-align:left'> <%= c[1] %></p>
+                          <p style='text-align:right'><%= c[2] %></p>
                         <% end %>
                       </th>
                     <% else %>
@@ -171,13 +171,7 @@
                         <% if col[0].slice(0..1) == @launch[0].slice(0..1)%>
                           <input type="checkbox" id="classroom_id" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]" value="" disabled>
                         <% else %>
-                          <select id="classroom_id" multiple="multiple" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]">
-                            <% @class.each do |k| %>
-                              <option value="<%= k.id %>">
-                              <%= k.name %>
-                              </option>
-                            <% end %>
-                          </select>
+                          <%= c %>
                         <% end %>
                       </th>
                       <% index = index + 1 %>
@@ -194,7 +188,7 @@
                 <th class='clock'><%= col[0].gsub('-', ':') %></th>
                 <% index = 0 %>
                 <% col.slice(1..-1).each_with_index do |c, i| %>
-                  <% unless c == "" and year == @course.year %>
+                  <% if year == @course.year %>
                     <% if i % 2 == 0 %>
                       <th class='field1' id='<%= @day.keys[index] + col[0].slice(0..4) %>field1'>
                         <% c = c.split("\n") %>
@@ -221,19 +215,14 @@
                   <% else %>
                     <% if i % 2 == 0 %>
                       <th class='field1'>
-                        <input type="checkbox" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]"
-                        id="<%= 'seçim : '+@day.values[index]+' - '+col[0] %>"
-                        value="<%= col[0].slice(0..4) %>" onchange="alert(this.id)"/>
+                        <% c = c.split("\n") %>
+                        <p style='text-align:left'> <%= c[0] %></p>
+                        <p style='text-align:left'> <%= c[1] %></p>
+                        <p style='text-align:right'><%= c[2] %></p>
                       </th>
                     <% else %>
                       <th class="field2">
-                        <select id="classroom_id" multiple="multiple" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]">
-                          <% @class.each do |k| %>
-                            <option value="<%= k.id %>">
-                            <%= k.name %>
-                            </option>
-                          <% end %>
-                        </select>
+                        <%= c %>
                       </th>
                       <% index = index + 1 %>
                     <% end %>
