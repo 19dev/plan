@@ -73,8 +73,8 @@ module SchemaHelper
               end
             end
             if _course_codes and _course_names and _lecturer_names and _classroom_names
-              column << _course_codes.join("/") +"\n" +
-                _course_names.join("/") +"\n" +
+              column << _course_codes.uniq.join("/") +"\n" +
+                _course_names.uniq.join("/") +"\n" +
                 _lecturer_names.join("/")
               column << _classroom_names.join("/")
             else
@@ -124,8 +124,8 @@ module SchemaHelper
             end
           end
           if _course_codes and _course_names and _lecturer_names and _classroom_names
-            column << _course_codes.join("/") +"\n" +
-              _course_names.join("/") +"\n" +
+            column << _course_codes.uniq.join("/") +"\n" +
+              _course_names.uniq.join("/") +"\n" +
               _lecturer_names.join("/")
             column << _classroom_names.join("/")
           else
