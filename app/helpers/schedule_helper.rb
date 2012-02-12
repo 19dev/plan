@@ -49,16 +49,22 @@ module ScheduleHelper
     @day,@header,@launch,@morning[3],@evening[3] = departmentplan_schema(session[:period_id],session[:department_id],4,"0")
   end
   def scheduleselect
-    @lecturer = Lecturer.find(params[:lecturer_id])
-    @course = Course.find(params[:course_id])
-    @class = Classroom.find(:all, :order => 'name')
-
     unless Department.find(:first, :conditions => { :id => session[:department_id] })
+      return redirect_to "/user/home"
+    end
+    unless Course.find(:first, :conditions => { :id => params[:course_id] })
+      return redirect_to "/user/home"
+    end
+    unless Lecturer.find(:first, :conditions => { :id => params[:lecturer_id] })
       return redirect_to "/user/home"
     end
     unless Period.find(:first, :conditions => { :id => session[:period_id] })
       return redirect_to "/user/home"
     end
+
+    @lecturer = Lecturer.find(params[:lecturer_id])
+    @course = Course.find(params[:course_id])
+    @class = Classroom.find(:all, :order => 'name')
     @morning, @evening = [], []
 
     @year = (1..4)
