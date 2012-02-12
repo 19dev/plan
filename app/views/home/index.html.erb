@@ -48,22 +48,22 @@
                 </th>
                 <th>
                   <%
-                    assignments = Assignment.joins(:lecturer).where(
-                      'lecturers.department_id' => department.id,
+                    assignments = Assignment.joins(:course).where(
+                      'courses.department_id' => department.id,
                       'assignments.period_id' => Period.find(:first, :conditions => {:status => true})
-                    ).joins(:course).where(
-                    'courses.department_id' => department.id,
-                    )
-                    lecturer_ids = []
+                    ).select("assignments.id")
+                    all_assignment = 0
+                    done_assignment = 0
                     assignments.each do |assignment|
-                      if Classplan.find(:first, :conditions => { 'assignment_id' => assignment.id })
-                        lecturer_ids << assignment.lecturer_id
+                      if Classplan.find(:first, :conditions => {
+                        :assignment_id => assignment.id,
+                        :period_id => Period.find(:first, :conditions => {:status => true})
+                      })
+                      done_assignment += 1
                       end
+                      all_assignment += 1
                     end
-                    lecturer_ids.uniq!
-                    done_schedule_count = lecturer_ids.count
-
-                    schedule_percent = if lecturer_count != 0; done_schedule_count * 100 / lecturer_count else 0 end
+                    schedule_percent = if all_assignment != 0; done_assignment * 100 / all_assignment else 0 end
                   %>
                   %<%= schedule_percent %>
                 </th>
@@ -78,7 +78,7 @@
                     end
                   %>
                   <div id="realtime">
-                      <a class="status <%= state %>" style="margin-top:-8px"></a>
+                    <a class="status <%= state %>" style="margin-top:-8px"></a>
                   </div>
                 </th>
               </tr>
