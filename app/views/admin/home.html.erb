@@ -13,7 +13,7 @@
       <%
         table_count = eval table[0].capitalize + ".count"
         max = 2000
-        percent = table_count / (max / 100.0) + 0.5
+        percent = table_count / (max / 100.0) + 1
         choise = if percent >= 75
                    "important"
                  elsif percent == 0
