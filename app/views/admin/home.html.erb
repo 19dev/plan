@@ -12,15 +12,15 @@
     <% session[:TABLES].each do |table| %>
       <%
         table_count = eval table[0].capitalize + ".count"
-        max = 1000
-        min = 100
-        choise = if table_count >= max
+        max = 2000
+        percent = table_count / (max / 100.0) + 0.5
+        choise = if percent >= 75
                    "important"
-                 elsif table_count == 0
+                 elsif percent == 0
                    "zero"
-                 elsif table_count <= min
+                 elsif percent <= 25
                    "trivial"
-                 elsif table_count >= (min+max)/2.0
+                 elsif percent >= 50
                    "warning"
                  else
                    "notice"
@@ -40,7 +40,7 @@
           <div
             class='animate-width-to stick <%= choise %>'
             data-animate-length='<%= max %>'
-            data-animate-width-to='<%= (table_count / (max / 100.0) + 0.5) - 10 %>%'
+            data-animate-width-to='<%= percent %>%'
             style='width:2%'>
             <%= table_count %>
           </div>
