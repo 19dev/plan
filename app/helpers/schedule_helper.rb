@@ -103,10 +103,10 @@ module ScheduleHelper
           next unless part
           part[1] = part.slice(1..-1)
           if part.length > 1 and part[1] == []
-            session[:error] = day_tr+hour+" bölümünde sınıf işaretlenmemiş"
+            session[:error] = day_tr+hour.gsub("-",":")+" bölümünde sınıf işaretlenmemiş"
             return redirect_to "/user/schedulenew"
           elsif part.length == 1 and part[0] != []
-            session[:error] = day_tr+hour+" bölümünde saat işaretlenmemiş"
+            session[:error] = day_tr+hour.gsub("-",":")+" bölümünde saat işaretlenmemiş"
             return redirect_to "/user/schedulenew"
           elsif part[0] != nil and part[1] != []
             part[1].each do |classroom_id|
@@ -125,7 +125,7 @@ module ScheduleHelper
                 'classroom_id' => classroom_id,
               })
 
-                session[:error] = day_tr + " " + hour + "de "+
+                session[:error] = day_tr + " " + hour.gsub("-",":") + " de "+
                   "#{classplan.classroom.name} sınıfında "+
                   "#{classplan.assignment.lecturer.department.name} bölümünden "+
                   "öğretim üyesini #{classplan.assignment.lecturer.full_name} tarafından "+
@@ -140,7 +140,7 @@ module ScheduleHelper
                 'begin_time' => part[0],
               })
                 if @assignments.include?(classplan.assignment_id)
-                  session[:error] = day_tr + " " + hour + " de "+
+                  session[:error] = day_tr + " " + hour.gsub("-",":") + " de "+
                     "#{classplan.classroom.name} sınıfında kaydetmeye çalıştığınız "+
                     "#{classplan.assignment.lecturer.department.name} bölümünden "+
                     "#{classplan.assignment.lecturer.full_name} isimli öğretim üyesini "+
@@ -167,10 +167,10 @@ module ScheduleHelper
         next unless part
         part[1] = part.slice(1..-1)
         if part.length > 1 and part[1] == []
-          session[:error] = day_tr+hour+" bölümünde sınıf işaretlenmemiş"
+          session[:error] = day_tr+hour.gsub("-",":")+" bölümünde sınıf işaretlenmemiş"
           return redirect_to "/user/schedulenew"
         elsif part.length == 1 and part[0] != []
-          session[:error] = day_tr+hour+" bölümünde saat işaretlenmemiş"
+          session[:error] = day_tr+hour.gsub("-",":")+" bölümünde saat işaretlenmemiş"
           return redirect_to "/user/schedulenew"
         elsif part[0] != nil and part[1] != []
           part[1].each do |classroom_id|
@@ -189,7 +189,7 @@ module ScheduleHelper
               'classroom_id' => classroom_id,
             })
 
-              session[:error] = day_tr + " " + hour + " de "+
+              session[:error] = day_tr + " " + hour.gsub("-",":") + " de "+
                 "#{classplan.classroom.name} sınıfında "+
                 "#{classplan.assignment.lecturer.department.name} bölümünden "+
                 "öğretim üyesini #{classplan.assignment.lecturer.full_name} tarafından "+
@@ -204,7 +204,7 @@ module ScheduleHelper
               'begin_time' => part[0],
             })
               if @assignments.include?(classplan.assignment_id)
-                session[:error] = day_tr + " " + hour + " de "+
+                session[:error] = day_tr + " " + hour.gsub("-",":") + " de "+
                   "#{classplan.classroom.name} sınıfında kaydetmeye çalıştığınız "+
                   "#{classplan.assignment.lecturer.department.name} bölümünden "+
                   "#{classplan.assignment.lecturer.full_name} isimli öğretim üyesini "+
