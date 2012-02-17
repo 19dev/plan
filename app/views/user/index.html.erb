@@ -1,0 +1,107 @@
+<!-- facebox -->
+<script src="/assets/facebox.js" type="text/javascript"></script>
+<script type="text/javascript">
+  jQuery(document).ready(function($) {
+      $('a[rel*=facebox]').facebox({
+loadingImage : '/assets/loading.gif',
+closeImage   : '/assets/closelabel.png'
+})
+      })
+</script>
+<!-- facebox -->
+
+<h2><%= session[:department] %> Bölümü Yönetim Paneli</h2>
+
+<div class="code">
+  <h2>Bilgi</h2>
+  <code>
+    Yukarıdaki işlem menüsünden istediğinizi seçip işleme başlayabilirsiniz.
+  </code>
+</div>
+
+<br/>
+
+<div class="module">
+  <div class="inner">
+    <h2>Bölüm Bilgileri</h2>
+    <div class='description'>
+      <table>
+        <colgroup><col width=190 /><col width=70 /><col width=60 /><col width=70 /></colgroup>
+        <tr>
+          <td><b>Bölüm </b></td><th>Öğretim Üyesi</th><th>Ders</th><th>Ders Atama</th><th>Ders Programı</th><th>Durum</th>
+        </tr>
+        <% department = Department.find(session[:department_id]) %>
+        <tr>
+          <td><%= department.name %> </td>
+          <th><%= Lecturer.where(:department_id => department.id).count %></th>
+          <th><%= Course.where(:department_id => department.id).count %></th>
+          <th>
+            <% if assignment_perc = assignment_percent(department.id, session[:period_id])%>
+              <a href="#assignment<%= department.id.to_s %>" rel="facebox">
+                %<%= assignment_perc %>
+              </a>
+            <% end %>
+          </th>
+          <th>
+            <% if schedule_perc = schedule_percent(department.id, session[:period_id]) %>
+              <a href="#schedule<%= department.id.to_s %>" rel="facebox">
+                %<%= schedule_perc %>
+              </a>
+            <% end %>
+          </th>
+          <th>
+            <div id="realtime">
+              <a class="status <%= percent(assignment_perc, schedule_perc) %>" style="margin-top:-8px"></a>
+            </div>
+          </th>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- for facebox info -->
+<div id="assignment<%= department.id.to_s %>" style="display:none;">
+  <div class="module">
+    <div class="inner">
+      <h2>Ders Vermeyen Öğretim Üyesi</h2>
+      <div class='description'>
+        <table>
+          <colgroup><col width=250 /><col width=110 /></colgroup>
+          <% not_assignment(department.id, session[:period_id]).each do |lecturer| %>
+            <tr>
+              <td><%= lecturer.full_name %></td>
+            </tr>
+          <% end %>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="schedule<%= department.id.to_s %>" style="display:none;">
+  <div class="module">
+    <div class="inner">
+      <h2>Programı Hazır Olmayan Dersler</h2>
+      <div class='description'>
+        <table>
+          <colgroup><col width=250 /><col width=110 /></colgroup>
+          <% not_schedule(department.id, session[:period_id]).each do |lecturers, course| %>
+            <tr>
+              <td><%= course %></td>
+            </tr>
+            <% lecturers.split(";").each do |lecturer| %>
+              <tr>
+                <td></td>
+                <th><%= lecturer %></th>
+              </tr>
+            <% end %>
+          <% end %>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- end for facebox info -->
+

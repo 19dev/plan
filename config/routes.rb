@@ -5,7 +5,7 @@ Schedule::Application.routes.draw do
   get  "user/login"
   post "user/login"
   get  "user/logout"
-  get  "user/home"
+  get  "user/index"
   # --------------------
 
   get  "user/noticenew"

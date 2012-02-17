@@ -35,10 +35,10 @@ module ScheduleHelper
     @class = Classroom.find(:all, :order => 'name')
 
     unless Department.find(:first, :conditions => { :id => session[:department_id] })
-      return redirect_to "/user/home"
+      return redirect_to "/user/index"
     end
     unless Period.find(:first, :conditions => { :id => session[:period_id] })
-      return redirect_to "/user/home"
+      return redirect_to "/user/index"
     end
     @morning, @evening = [], []
 
@@ -50,16 +50,16 @@ module ScheduleHelper
   end
   def scheduleselect
     unless Department.find(:first, :conditions => { :id => session[:department_id] })
-      return redirect_to "/user/home"
+      return redirect_to "/user/index"
     end
     unless Course.find(:first, :conditions => { :id => params[:course_id] })
-      return redirect_to "/user/home"
+      return redirect_to "/user/index"
     end
     unless Lecturer.find(:first, :conditions => { :id => params[:lecturer_id] })
-      return redirect_to "/user/home"
+      return redirect_to "/user/index"
     end
     unless Period.find(:first, :conditions => { :id => session[:period_id] })
-      return redirect_to "/user/home"
+      return redirect_to "/user/index"
     end
 
     @lecturer = Lecturer.find(params[:lecturer_id])

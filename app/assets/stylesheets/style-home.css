@@ -10,3 +10,4 @@
 @import url(main-sidebar.css); /* site split :main-sidebar */
 @import url(status.css);       /* system state bulb */
 @import url(nav-up-down.css);  /* uzayıp giden sayfalar için */
+@import url(facebox.css);      /* ek bilgiler için kutucuk */

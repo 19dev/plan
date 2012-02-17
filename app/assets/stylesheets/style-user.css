@@ -6,3 +6,7 @@
 @import url(page-header.css);  /* siyah en üstteki menü */
 @import url(image-box.css);    /* 19 logosu kutusu için */
 @import url(menu.css);         /* user ve admin menüsü */
+@import url(main-sidebar.css); /* site split :main-sidebar */
+@import url(status.css);       /* system state bulb */
+@import url(facebox.css);      /* ek bilgiler için kutucuk */
+@import url(code.css);         /* kodcuklarımız için */

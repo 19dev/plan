@@ -1,0 +1,15 @@
+.code {
+  background: #F7F7F7;
+  border-top: 1px solid #EBEBEB;
+  border-bottom: 1px solid #EBEBEB;
+  padding: 10px;
+}
+
+.code h3 {
+  font-size: 11px;
+}
+
+.code code {
+  margin: 10px 0;
+  display: block;
+}

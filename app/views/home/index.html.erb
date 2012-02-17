@@ -1,3 +1,30 @@
+<!-- facebox -->
+<script src="/assets/facebox.js" type="text/javascript"></script>
+<script type="text/javascript">
+  jQuery(document).ready(function($) {
+      $('a[rel*=facebox]').facebox({
+loadingImage : '/assets/loading.gif',
+closeImage   : '/assets/closelabel.png'
+})
+      })
+</script>
+<!-- facebox -->
+
+<%
+  if period = Period.find(:first, :conditions => {:status => true})
+    period_state = "up"
+  elsif Period.find(:first, :conditions => {:status => false})
+    period_state = "problem"
+  else
+    period_state = "down"
+  end
+  if ["problem", "down"].include?(period_state)
+    user_state = "down"
+  else
+    user_state = "up"
+  end
+%>
+
 <div class="columns generic">
   <div class="column main">
     <h2 style="width:600px"><span class="highlight" style="font-size:19px">Eğitim Öğretim Plan Sistemi</span> Nedir ?</h2>
@@ -16,6 +43,7 @@
     <br />
     <br />
     <br />
+    <% departments = Department.where('id not in (?)', 19) %>
     <div class="module">
       <div class="inner">
         <h2>Bölüm Bilgileri</h2>
@@ -25,69 +53,90 @@
             <tr>
               <td><b>Bölüm </b></td><th>Öğretim Üyesi</th><th>Ders</th><th>Ders Atama</th><th>Ders Programı</th><th>Durum</th>
             </tr>
-            <% Department.all.each do |department| %>
+            <% departments.each do |department| %>
               <tr>
                 <td><%= department.name %> </td>
-                <th><%= lecturer_count = Lecturer.where(:department_id => department.id).count %></th>
-                <th><%= course_count = Course.where(:department_id => department.id).count %></th>
+                <th><%= Lecturer.where(:department_id => department.id).count %></th>
+                <th><%= Course.where(:department_id => department.id).count %></th>
                 <th>
-                  <%
-                    assignments = Assignment.joins(:lecturer).where(
-                      'lecturers.department_id' => department.id,
-                      'assignments.period_id' => Period.find(:first, :conditions => {:status => true})
-                    ).joins(:course).where(
-                    'courses.department_id' => department.id,
-                    )
-                    lecturer_ids = assignments.collect { |assignment| assignment.lecturer_id }
-                    lecturer_ids.uniq!
-                    done_lecturer_count = lecturer_ids.count
-
-                    assignment_percent = if lecturer_count != 0; done_lecturer_count * 100 / lecturer_count else 0 end
-                  %>
-                  %<%= assignment_percent %>
+                  <% if assignment_perc = assignment_percent(department.id, period.id)%>
+                    <a href="#assignment<%= department.id.to_s %>" rel="facebox">
+                      %<%= assignment_perc %>
+                    </a>
+                  <% end %>
                 </th>
                 <th>
-                  <%
-                    assignments = Assignment.joins(:course).where(
-                      'courses.department_id' => department.id,
-                      'assignments.period_id' => Period.find(:first, :conditions => {:status => true})
-                    ).select("assignments.id")
-                    all_assignment = 0
-                    done_assignment = 0
-                    assignments.each do |assignment|
-                      if Classplan.find(:first, :conditions => {
-                        :assignment_id => assignment.id,
-                        :period_id => Period.find(:first, :conditions => {:status => true})
-                      })
-                      done_assignment += 1
-                      end
-                      all_assignment += 1
-                    end
-                    schedule_percent = if all_assignment != 0; done_assignment * 100 / all_assignment else 0 end
-                  %>
-                  %<%= schedule_percent %>
+                  <% if schedule_perc = schedule_percent(department.id, period.id) %>
+                    <a href="#schedule<%= department.id.to_s %>" rel="facebox">
+                      %<%= schedule_perc %>
+                    </a>
+                  <% end %>
                 </th>
                 <th>
-                  <%
-                    if schedule_percent == 100 and assignment_percent == 100
-                      state = "up"
-                    elsif assignment_percent != 0
-                      state = "problem"
-                    else
-                      state = "down"
-                    end
-                  %>
                   <div id="realtime">
-                    <a class="status <%= state %>" style="margin-top:-8px"></a>
+                    <a class="status <%= percent(assignment_perc, schedule_perc) %>" style="margin-top:-8px"></a>
                   </div>
                 </th>
               </tr>
             <% end %>
+            <% department = Department.find(19) %>
+            <tr>
+              <td><%= department.name %> </td>
+              <th><%= Lecturer.where(:department_id => department.id).count %></th>
+            </tr>
           </table>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- for facebox info -->
+  <% departments.each do |department| %>
+
+    <div id="assignment<%= department.id.to_s %>" style="display:none;">
+      <div class="module">
+        <div class="inner">
+          <h2>Ders Vermeyen Öğretim Üyesi</h2>
+          <div class='description'>
+            <table>
+              <colgroup><col width=250 /><col width=110 /></colgroup>
+              <% not_assignment(department.id, period.id).each do |lecturer| %>
+                <tr>
+                  <td><%= lecturer.full_name %></td>
+                </tr>
+              <% end %>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="schedule<%= department.id.to_s %>" style="display:none;">
+      <div class="module">
+        <div class="inner">
+          <h2>Programı Hazır Olmayan Dersler</h2>
+          <div class='description'>
+            <table>
+              <colgroup><col width=250 /><col width=110 /></colgroup>
+              <% not_schedule(department.id, period.id).each do |lecturers, course| %>
+                <tr>
+                  <td><%= course %></td>
+                </tr>
+                <% lecturers.split(";").each do |lecturer| %>
+                  <tr>
+                    <td></td>
+                    <th><%= lecturer %></th>
+                  </tr>
+                <% end %>
+              <% end %>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <% end %>
+  <!-- end for facebox info -->
 
   <div class="column sidebar">
     <!-- slide -->
@@ -113,20 +162,7 @@
     </script>
     <!-- end slide -->
 
-    <%
-      if period = Period.find(:first, :conditions => {:status => true})
-        period_state = "up"
-      elsif Period.find(:first, :conditions => {:status => false})
-        period_state = "problem"
-      else
-        period_state = "down"
-      end
-      if ["problem", "down"].include?(period_state)
-        user_state = "down"
-      else
-        user_state = "up"
-      end
-    %>
+
     <div id="realtime">
       <div class="inner">
         <div id="git" class="service">
