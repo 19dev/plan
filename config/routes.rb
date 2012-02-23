@@ -74,7 +74,7 @@ Schedule::Application.routes.draw do
   get  "admin/home"
   get  "admin/logout"
   # ---------------------
-  get  "admin/info"
+  get  "admin/about"
   get  "admin/help"
   # database
   get  "admin/database"
