@@ -64,13 +64,6 @@ module ScheduleHelper
     unless Period.find(:first, :conditions => { :id => session[:period_id] })
       return redirect_to "/user/index"
     end
-    @morning, @evening = [], []
-
-    @year = (1..4)
-    @day,@header,@launch,@morning[0],@evening[0] = departmentplan_schema(session[:period_id],session[:department_id],1,"0")
-    @day,@header,@launch,@morning[1],@evening[1] = departmentplan_schema(session[:period_id],session[:department_id],2,"0")
-    @day,@header,@launch,@morning[2],@evening[2] = departmentplan_schema(session[:period_id],session[:department_id],3,"0")
-    @day,@header,@launch,@morning[3],@evening[3] = departmentplan_schema(session[:period_id],session[:department_id],4,"0")
   end
   def scheduleselect
     unless Department.find(:first, :conditions => { :id => session[:department_id] })
@@ -89,13 +82,9 @@ module ScheduleHelper
     @lecturer = Lecturer.find(params[:lecturer_id])
     @course = Course.find(params[:course_id])
     @class = Classroom.find(:all, :order => 'name')
-    @morning, @evening = [], []
 
     @year = (1..4)
-    @day,@header,@launch,@morning[0],@evening[0] = departmentplan_schema(session[:period_id],session[:department_id],1,"0")
-    @day,@header,@launch,@morning[1],@evening[1] = departmentplan_schema(session[:period_id],session[:department_id],2,"0")
-    @day,@header,@launch,@morning[2],@evening[2] = departmentplan_schema(session[:period_id],session[:department_id],3,"0")
-    @day,@header,@launch,@morning[3],@evening[3] = departmentplan_schema(session[:period_id],session[:department_id],4,"0")
+    @day, @header, @launch, @morning, @evening = departmentplan_schema(session[:period_id],session[:department_id], 0, 0)
   end
   def scheduleadd
     @assignment = Assignment.find(:first,

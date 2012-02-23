@@ -19,15 +19,28 @@ module SchemaHelper
     evening_time = ["17", "18", "19", "20", "21", "22"]
     return [day, header, launch, morning, evening, morning_time, evening_time]
   end
+
   def departmentplan_schema period_id, department_id, year, section
     assignments = Assignment.joins(:course).where(
       'courses.department_id' => department_id,
       'assignments.period_id' => period_id
     ).select("assignments.id")
     assignments = assignments.collect { |assignment| assignment.id }
-
     day, header, launch, morning, evening, morning_time, evening_time = table_schema # standart tablo şeması
-    if section == "0" or section == "1"
+    if year == 0
+      launch, morning[0], evening[0] = department_schema period_id, assignments, department_id, 1, section
+      launch, morning[1], evening[1] = department_schema period_id, assignments, department_id, 2, section
+      launch, morning[2], evening[2] = department_schema period_id, assignments, department_id, 3, section
+      launch, morning[3], evening[3] = department_schema period_id, assignments, department_id, 4, section
+    else
+      launch, morning[0], evening[0] = department_schema period_id, assignments, department_id, year, section
+    end
+    [day, header, launch, morning, evening]
+  end
+
+  def department_schema period_id, assignments, department_id, year, section
+    day, header, launch, morning, evening, morning_time, evening_time = table_schema # standart tablo şeması
+    if section == 0 or section == 1
       morning_time.each do |hour|
         if hour.to_i < 13
           column = [hour + '-15' + '/' + (hour.to_i+1).to_s + '-00']
@@ -87,7 +100,7 @@ module SchemaHelper
 
       end
     end
-    if section == "0" or section == "2"
+    if section == 0 or section == 2
       evening_time.each do |hour|
         column = [hour + '-00' + '/' + hour + '-45']
         hour = hour + '-00'
@@ -137,12 +150,12 @@ module SchemaHelper
         evening << column
       end
     end
-    if section == "0"
-      [day, header, launch, morning, evening]
-    elsif section == "1"
-      [day, header, launch, morning, nil]
-    elsif section == "2"
-      [day, header, nil, nil, evening]
+    if section == 0
+      [launch, morning, evening]
+    elsif section == 1
+      [launch, morning, nil]
+    elsif section == 2
+      [launch, nil, evening]
     end
   end
 

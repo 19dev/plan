@@ -51,9 +51,13 @@
   }
 </style>
 <div id="table">
+  <% if @year == (1..4) %>
   <div id="accordion" style="width:960px;padding:0px;">
+  <% end %>
     <% @year.each_with_index do |year, year_index| %>
+      <% if @year == (1..4) %>
       <h3><a href="#"><%= year %>. Sınıf</a></h3>
+      <% end %>
       <div>
         <table>
           <tr>
@@ -125,5 +129,7 @@
         </table>
       </div>
     <% end %>
+  <% if @year == (1..4) %>
   </div>
+  <% end %>
 </div>

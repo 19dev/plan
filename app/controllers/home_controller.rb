@@ -215,13 +215,10 @@ class HomeController < ApplicationController
 
     if params[:year] == "0"
       @year = (1..4)
-      @day, @header, @launch, @morning[0], @evening[0] = departmentplan_schema(@period.id, @department.id, 1, @section)
-      @day, @header, @launch, @morning[1], @evening[1] = departmentplan_schema(@period.id, @department.id, 2, @section)
-      @day, @header, @launch, @morning[2], @evening[2] = departmentplan_schema(@period.id, @department.id, 3, @section)
-      @day, @header, @launch, @morning[3], @evening[3] = departmentplan_schema(@period.id, @department.id, 4, @section)
+      @day, @header, @launch, @morning, @evening = departmentplan_schema(@period.id, @department.id, 0, @section.to_i)
     else
       @year = [params[:year]]
-      @day, @header, @launch, @morning[0], @evening[0] = departmentplan_schema(@period.id, @department.id, params[:year].to_i, @section)
+      @day, @header, @launch, @morning, @evening = departmentplan_schema(@period.id, @department.id, params[:year].to_i, @section.to_i)
     end
   end
 
@@ -241,12 +238,7 @@ class HomeController < ApplicationController
     section = params[:section]
 
     if params[:year] == "0"
-      day, header, launch, morning1, evening1 = departmentplan_schema(period.id, department.id, 1, section)
-      day, header, launch, morning2, evening2 = departmentplan_schema(period.id, department.id, 2, section)
-      day, header, launch, morning3, evening3 = departmentplan_schema(period.id, department.id, 3, section)
-      day, header, launch, morning4, evening4 = departmentplan_schema(period.id, department.id, 4, section)
-      morning = [morning1, morning2, morning3, morning4]
-      evening = [evening1, evening2, evening3, evening4]
+      day, header, launch, morning, evening = departmentplan_schema(period.id, department.id, 0, section.to_i)
 
       description = {
         "Dönem" => period.full_name,
@@ -257,8 +249,9 @@ class HomeController < ApplicationController
       pdf = departmentpdf_schema info, header, "Ders", "Sınıf", launch, morning, evening
       send_data(pdf.render(), :filename => description.values.join("-") + ".pdf")
     else
-      day, header, launch, morning, evening = departmentplan_schema(period.id, department.id, params[:year].to_i, params[:section])
-
+      day, header, launch, morning, evening = departmentplan_schema(period.id, department.id, params[:year].to_i, params[:section].to_i)
+      morning = morning[0]
+      evening = evening[0]
       description = {
         "Dönem" => period.full_name,
         "Bölüm" => department.name,
