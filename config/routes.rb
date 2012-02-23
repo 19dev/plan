@@ -74,7 +74,7 @@ Schedule::Application.routes.draw do
   get  "admin/home"
   get  "admin/logout"
   # ---------------------
-  get  "admin/about"
+  get  "admin/info"
   get  "admin/help"
   # database
   get  "admin/database"
@@ -127,7 +127,7 @@ Schedule::Application.routes.draw do
   match 'home/departmentplan/:period_id/:department_id/:year/:section' => 'home#departmentplan'
   match 'home/departmentplanpdf/:period_id/:department_id/:year/:section' => 'home#departmentplanpdf'
 
-  get  "home/info"
+  get  "home/about"
   get  "home/help"
   # ---------------------
 
