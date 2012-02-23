@@ -58,18 +58,18 @@ module SchemaHelper
             assignment_ids.each do |assignment_id|
               if assignments.include?(assignment_id)
                 _classplan = Classplan.find(:all,
-                                          :conditions => {
+                                            :conditions => {
                   :assignment_id => assignment_id,
                   :period_id => period_id,
                   :day => day_en,
                   :begin_time => hour
                 }, :select => "assignment_id, classroom_id")
-              classroom_name = ""
-              _classplan.each {|cp| classroom_name += cp.classroom.name + "\n"}
-              _course_codes << _classplan[0].assignment.course.code
-              _course_names << _classplan[0].assignment.course.name
-              _lecturer_names << _classplan[0].assignment.lecturer.full_name
-              _classroom_names << classroom_name
+                classroom_name = ""
+                _classplan.each {|cp| classroom_name += cp.classroom.name + "\n"}
+                _course_codes << _classplan[0].assignment.course.code
+                _course_names << _classplan[0].assignment.course.name
+                _lecturer_names << _classplan[0].assignment.lecturer.full_name
+                _classroom_names << classroom_name
               end
             end
             if _course_codes and _course_names and _lecturer_names and _classroom_names

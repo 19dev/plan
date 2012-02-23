@@ -12,7 +12,7 @@ module AssignmentHelper
     # @unassignment_courses = courses.select do |course|
     #   !Assignment.find(:first, :conditions => { :course_id => course.id, :period_id => session[:period_id] })
     # end
-    @unassignment_courses = Course.find(:all, :conditions => {:department_id => session[:department_id]}) # yeni
+    @unassignment_courses = Course.find(:all, :conditions => {:department_id => session[:department_id]}, :order => 'code') # yeni
   end
   def assignmentadd
     if session[:error] = control({ params[:course_ids] => "Atanacak ders", params[:lecturer_id] => "Dersi atanacak hoca",})
@@ -53,13 +53,12 @@ module AssignmentHelper
     assignments = Assignment.joins(:course).where(
       'courses.department_id' => session[:department_id],
       'assignments.period_id' => session[:period_id]
-    )
+    ).select('assignments.lecturer_id').group('assignments.lecturer_id')
     lecturer_ids = assignments.collect { |assignment| assignment.lecturer_id }
-    lecturer_ids.uniq!
-    lecturers = Lecturer.find(lecturer_ids)
-    @assignment_lecturers = lecturers.select do |lecturer|
-      Assignment.find(:first, :conditions => { :lecturer_id => lecturer.id, :period_id => session[:period_id] })
-    end
+    @assignment_lecturers = Lecturer.joins(:assignment).where(
+      'assignments.period_id' => session[:period_id],
+      'assignments.lecturer_id' => lecturer_ids
+    ).group('assignments.lecturer_id')
   end
   def assignmentedit
     session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim

@@ -4,15 +4,13 @@ module ReportHelper
     assignments = Assignment.joins(:course).where(
       'courses.department_id' => department_id,
       'assignments.period_id' => period_id
-    ).select("assignments.course_id")
-
-    course_ids = assignments.collect { |assignment| assignment.course_id }.uniq
+    ).select("assignments.course_id").group('assignments.course_id')
 
     _assignments = {}
-    course_ids.each do |course_id|
+    assignments.each do |assignment|
       assignments = Assignment.find(:all,
                                     :conditions => {
-        :course_id => course_id,
+        :course_id => assignment.course_id,
         :period_id => period_id
       })
       lecturers = assignments.collect do |assignment|
@@ -23,7 +21,7 @@ module ReportHelper
       lecturers.compact! # nil'lerden kurtulsun
       unless lecturers == []
         lecturers = lecturers.join(';')
-        _assignments[lecturers] = Course.find(course_id).full_name
+        _assignments[lecturers] = assignment.course.full_name
       end
     end
     _assignments
@@ -35,8 +33,8 @@ module ReportHelper
       'assignments.period_id' => period_id
     ).joins(:course).where(
     'courses.department_id' => department_id,
-    )
-    lecturer_ids = assignments.collect { |assignment| assignment.lecturer_id }.uniq
+    ).group('assignments.lecturer_id')
+    lecturer_ids = assignments.collect { |assignment| assignment.lecturer_id }
     _lecturers = if lecturer_ids != []
       Lecturer.where('id not in (?)', lecturer_ids).where(:department_id => department_id)
     else

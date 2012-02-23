@@ -2,13 +2,12 @@
 module PercentHelper
   def assignment_percent department_id, period_id
     lecturer_count = Lecturer.where(:department_id => department_id).count
-    assignments = Assignment.joins(:lecturer).where(
+    done_lecturer_count = Assignment.joins(:lecturer).where(
       'lecturers.department_id' => department_id,
       'assignments.period_id' => period_id
     ).joins(:course).where(
     'courses.department_id' => department_id,
-    )
-    done_lecturer_count = assignments.collect { |assignment| assignment.lecturer_id }.uniq.count
+    ).group('assignments.lecturer_id').count.count
     assignment_percent = if lecturer_count != 0; done_lecturer_count * 100 / lecturer_count else 0 end
   end
   def schedule_percent department_id, period_id

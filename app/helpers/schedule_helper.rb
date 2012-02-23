@@ -3,32 +3,56 @@ include SchemaHelper # schema helper
 module ScheduleHelper
   def schedulenew
 
+
+    # assignments = Assignment.joins(:course).where(
+    #   'courses.department_id' => session[:department_id],
+    #   'assignments.period_id' => session[:period_id]
+    # ).select("assignments.course_id").group('assignments.course_id')
+    # @assignments = {}
+
+    # assignments.each do |assignment|
+    #   _assignments = Assignment.find(:all,
+    #                                 :conditions => {
+    #     :course_id => assignment.course_id,
+    #     :period_id => session[:period_id]
+    #   })
+    #   _assignments = Assignment.joins(:classplan).where(
+    #     'assignments.course_id' => assignment.course_id,
+    #     'assignments.period_id' => session[:period_id],
+    #     'classplans.period_id' => session[:period_id],
+    #   )
+    #   lecturers = _assignments.each do |_assignment|
+    #     _assignment.lecturer_id.to_s + ',' + _assignment.lecturer.full_name.to_s
+    #   end
+    #   lecturers.compact! # nil'lerden kurtulsun
+    #   unless lecturers == []
+    #     lecturers = lecturers.join(';') + '#' + assignment.course_id.to_s
+    #     @assignments[lecturers] = assignment.course.full_name
+    #   end
+    # end
+
+
     assignments = Assignment.joins(:course).where(
       'courses.department_id' => session[:department_id],
       'assignments.period_id' => session[:period_id]
-    ).select("assignments.course_id")
+    ).select("assignments.course_id").group('assignments.course_id')
     @assignments = {}
 
-    course_ids = assignments.collect { |assignment| assignment.course_id }
-
-    course_ids.uniq!
-
-    course_ids.each do |course_id|
-      assignments = Assignment.find(:all,
+    assignments.each do |assignment|
+      _assignments = Assignment.find(:all,
                                     :conditions => {
-        :course_id => course_id,
+        :course_id => assignment.course_id,
         :period_id => session[:period_id]
       })
-      lecturers = assignments.collect do |assignment|
-        if !Classplan.find(:first, :conditions => {:assignment_id => assignment.id, :period_id => session[:period_id]})
-          assignment.lecturer_id.to_s + ',' + assignment.lecturer.full_name.to_s
+      lecturers = _assignments.collect do |_assignment|
+        if !Classplan.find(:first, :conditions => {:assignment_id => _assignment.id, :period_id => session[:period_id]})
+          _assignment.lecturer_id.to_s + ',' + _assignment.lecturer.full_name.to_s
         end
       end
       lecturers.compact! # nil'lerden kurtulsun
       unless lecturers == []
-        lecturers = lecturers.join(';')
-        lecturers += '#' + course_id.to_s
-        @assignments[lecturers] = Course.find(course_id).full_name
+        lecturers = lecturers.join(';') + '#' + assignment.course_id.to_s
+        @assignments[lecturers] = assignment.course.full_name
       end
     end
 
@@ -307,7 +331,7 @@ module ScheduleHelper
               :period_id => session[:period_id],
               :day => day_en,
               :begin_time => hour
-            }, :select=>"assignment_id, classroom_id")
+            }, :select => "assignment_id, classroom_id")
             classroom_name = ""
             classplan.each {|cp| classroom_name += cp.classroom.name + "\n"}
             column << classplan[0].assignment.course.code + "\n" +
@@ -350,7 +374,7 @@ module ScheduleHelper
             :period_id => session[:period_id],
             :day => day_en,
             :begin_time => hour
-          }, :select=>"assignment_id, classroom_id")
+          }, :select => "assignment_id, classroom_id")
           classroom_name = ""
           classplan.each {|cp| classroom_name += cp.classroom.name + "\n"}
           column << classplan[0].assignment.course.code + "\n" +
