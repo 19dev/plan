@@ -5,8 +5,8 @@
   <%= stylesheet_link_tag "style-home"%>
 
   <%= javascript_include_tag "jquery" %>
-  <script src="assets/js/bootstrap-transition.js"></script>
-  <script src="assets/js/bootstrap-modal.js"></script>
+  <script src="/assets/js/bootstrap-transition.js"></script>
+  <script src="/assets/js/bootstrap-modal.js"></script>
   <style>
     #logo tr img {width:60px;}
     #logo td {width:70px;}
@@ -21,8 +21,7 @@
       <h3>Akademisyen Girişi</h3>
     </div>
     <div class="modal-body">
-  <%= stylesheet_link_tag "style-home"%>
-      <%= form_tag({:action => 'login', :controller => 'user'}, :method=>'post',:class =>"well") do %>
+      <%= form_tag({:action => 'login', :controller => 'user'}, :method=>'post', :class => "well") do %>
         <table class="login">
           <tr>
             <td class="label"> Kullanıcı Adı: </td>
@@ -70,9 +69,15 @@
           </a>
         </li>
         <li class="end">
-          <a class="btn btn-primary btn-large" data-toggle="modal" href="#user">
+        <% unless session[:user] %> <!-- login using javascript -->
+          <a data-toggle="modal" href="#user">
             Akademisyen Giriş
           </a>
+        <% else %>
+          <a href="user"><!-- for user auth -->
+            Akademisyen Giriş
+          </a>
+        <% end %>
         </li>
       </ul>
     </div>
