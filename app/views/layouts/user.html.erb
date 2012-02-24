@@ -19,38 +19,38 @@
       </style>
       <!--PLATFORM BAR-->
       <div class="platform-bar">
-        <div class="row bar-content" style="margin-left:19px;">
+        <div class="row bar-content">
           <span class="title">
             <a href="/home">
               <%= session[:department] %> / <%= session[:period] %>
             </a>
           </span>
           <ul class="related">
-            <li class="title">
+            <li class="menu">
             <a href="/user/index">
               Ana Sayfa
             </a>
             </li>
             <% if session[:usernotice] %>
-              <li class="title">
+              <li class="menu">
               <a href="/user/noticereview">
                 Duyurular
               </a>
               </li>
             <% end %>
             <% if session[:userdig] %>
-              <li class="title">
+              <li class="menu">
               <a href="/user/lecturerreview">
                 Öğretim Üyesi
               </a>
               </li>
             <% end %>
-            <li class="title">
+            <li class="menu">
             <a href="/user/accountshow">
               Kişisel Bilgiler
             </a>
             </li>
-            <li class="title">
+            <li class="end">
             <a href="logout">
               Çıkış
             </a>
