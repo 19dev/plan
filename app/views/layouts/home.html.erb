@@ -3,8 +3,10 @@
 <head>
   <title><%= @title %></title>
   <%= stylesheet_link_tag "style-home"%>
-  <%= csrf_meta_tag %>
+
   <%= javascript_include_tag "jquery" %>
+  <script src="assets/js/bootstrap-transition.js"></script>
+  <script src="assets/js/bootstrap-modal.js"></script>
   <style>
     #logo tr img {width:60px;}
     #logo td {width:70px;}
@@ -12,6 +14,33 @@
   </style>
 </head>
 <body>
+
+  <div class="modal hide fade" id="user"> <!-- modal-form -->
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3>Akademisyen Girişi</h3>
+    </div>
+    <div class="modal-body">
+  <%= stylesheet_link_tag "style-home"%>
+      <%= form_tag({:action => 'login', :controller => 'user'}, :method=>'post',:class =>"well") do %>
+        <table class="login">
+          <tr>
+            <td class="label"> Kullanıcı Adı: </td>
+            <td class="field"><%= text_field_tag :first_name %></td>
+          </tr>
+          <tr>
+            <td class="label"> Parola: </td>
+            <td class="field"><%= password_field_tag :password %></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><%= submit_tag "Giriş Yap", :id => "submit_button" %></td>
+          </tr>
+        </table>
+      <% end %>
+    </div>
+  </div> <!-- end of modal-form -->
+
   <style>
     .platform-bar {
       width: 960px;
@@ -41,7 +70,7 @@
           </a>
         </li>
         <li class="end">
-          <a href="/user/">
+          <a class="btn btn-primary btn-large" data-toggle="modal" href="#user">
             Akademisyen Giriş
           </a>
         </li>
@@ -49,7 +78,6 @@
     </div>
   </div>
   <!--PLATFORM BAR END-->
-
   <style>
     div.page-header {
       background:url(/assets/mf-140x140.png) no-repeat 98% top;
@@ -57,10 +85,14 @@
       background-size: auto;
     }
   </style>
+
   <div id="logo">
     <div class="page-header">
       <h1>Ondokuz Mayıs Üniversitesi</h1>
       <h2>Mühendislik Fakültesi Eğitim Öğretim Planları</h2>
+
+
+
     </div>
     <% page = File.basename request.fullpath %>
     <div id="notice" style="margin-top:-30px;">

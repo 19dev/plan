@@ -77,7 +77,7 @@ class UserController < ApplicationController
 
   def logout
     reset_session if session[:user]
-    redirect_to '/user/'
+    redirect_to '/home/'
   end
 
   def index
