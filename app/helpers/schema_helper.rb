@@ -77,19 +77,22 @@ module SchemaHelper
                   :day => day_en,
                   :begin_time => hour
                 }, :select => "assignment_id, classroom_id")
-                classroom_name = ""
-                _classplan.each {|cp| classroom_name += cp.classroom.name + "\n"}
+                classroom_name = _classplan.collect {|classplan| classplan.classroom.name + "\n"}
                 _course_codes << _classplan[0].assignment.course.code
                 _course_names << _classplan[0].assignment.course.name
-                _lecturer_names << _classplan[0].assignment.lecturer.full_name
+                _lecturer_names << unless _classplan[0].assignment.course.group
+                  _classplan[0].assignment.lecturer.full_name
+                else
+                  "Gruplanmış"
+                end
                 _classroom_names << classroom_name
               end
             end
             if _course_codes and _course_names and _lecturer_names and _classroom_names
               column << _course_codes.uniq.join("/") +"\n" +
                 _course_names.uniq.join("/") +"\n" +
-                _lecturer_names.join("/")
-              column << _classroom_names.join("/")
+                _lecturer_names.uniq.join("/")
+              column << _classroom_names.uniq.join("/")
             else
               column << ""
               column << ""
@@ -128,19 +131,22 @@ module SchemaHelper
                 :day => day_en,
                 :begin_time => hour
               }, :select => "assignment_id, classroom_id")
-              classroom_name = ""
-              _classplan.each {|cp| classroom_name += cp.classroom.name + "\n"}
+              classroom_name = _classplan.collect {|classplan| classplan.classroom.name + "\n"}
               _course_codes << _classplan[0].assignment.course.code
               _course_names << _classplan[0].assignment.course.name
-              _lecturer_names << _classplan[0].assignment.lecturer.full_name
+              _lecturer_names << unless _classplan[0].assignment.course.group
+                _classplan[0].assignment.lecturer.full_name
+              else
+                "Gruplanmış"
+              end
               _classroom_names << classroom_name
             end
           end
           if _course_codes and _course_names and _lecturer_names and _classroom_names
             column << _course_codes.uniq.join("/") +"\n" +
               _course_names.uniq.join("/") +"\n" +
-              _lecturer_names.join("/")
-            column << _classroom_names.join("/")
+              _lecturer_names.uniq.join("/")
+            column << _classroom_names.uniq.join("/")
           else
             column << ""
             column << ""
@@ -186,8 +192,11 @@ module SchemaHelper
           })
           if classplan and assignments.include?(classplan.assignment_id)
 #           column << classplan.assignment.course.code + "\n" +
-            column << classplan.assignment.course.name + "\n" +
-              classplan.assignment.lecturer.full_name
+            column << unless classplan.assignment.course.group
+              classplan.assignment.course.name + "\n" + classplan.assignment.lecturer.full_name
+            else
+              classplan.assignment.course.name + "\n" + "Gruplanmış"
+            end
             column << classplan.assignment.course.department.code
           else
             column << ""
@@ -211,8 +220,11 @@ module SchemaHelper
         })
         if classplan and assignments.include?(classplan.assignment_id)
 #         column << classplan.assignment.course.code + "\n" +
-          column << classplan.assignment.course.name + "\n" +
-            classplan.assignment.lecturer.full_name
+          column << unless classplan.assignment.course.group
+            classplan.assignment.course.name + "\n" + classplan.assignment.lecturer.full_name
+          else
+            classplan.assignment.course.name + "\n" + "Gruplanmış"
+          end
           column << classplan.assignment.course.department.code
         else
           column << ""
@@ -264,11 +276,10 @@ module SchemaHelper
               :day => day_en,
               :begin_time => hour
             }, :select=>"assignment_id, classroom_id")
-            classroom_name = ""
-            classplan.each {|cp| classroom_name += cp.classroom.name + "\n"}
+            classroom_name = classplan.collect {|classplan| classplan.classroom.name + "\n"}
             column << classplan[0].assignment.course.code + "\n" +
               classplan[0].assignment.course.name
-            column << classroom_name
+            column << classroom_name.join("")
           else
             column << ""
             column << ""
@@ -308,11 +319,10 @@ module SchemaHelper
               :day => day_en,
               :begin_time => hour
             }, :select=>"assignment_id, classroom_id")
-            classroom_name = ""
-            classplan.each {|cp| classroom_name += cp.classroom.name + "\n"}
+            classroom_name = classplan.collect {|classplan| classplan.classroom.name + "\n"}
             column << classplan[0].assignment.course.code + "\n" +
               classplan[0].assignment.course.name
-            column << classroom_name
+            column << classroom_name.join("")
         else
           column << ""
           column << ""

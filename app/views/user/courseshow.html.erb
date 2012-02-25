@@ -13,6 +13,14 @@
     <td class="field"><%= @course.name %></td>
   </tr>
   <tr>
+    <td class="label">Grup mu?</td>
+    <td class="field">
+      <% if @course.group %> evet
+      <% else %>             hayır
+      <% end %>
+    </td>
+  </tr>
+  <tr>
     <td class="label">Teorik</td>
     <td class="field"><%= @course.theoretical %></td>
   </tr>

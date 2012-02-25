@@ -2,36 +2,6 @@
 include SchemaHelper # schema helper
 module ScheduleHelper
   def schedulenew
-
-
-    # assignments = Assignment.joins(:course).where(
-    #   'courses.department_id' => session[:department_id],
-    #   'assignments.period_id' => session[:period_id]
-    # ).select("assignments.course_id").group('assignments.course_id')
-    # @assignments = {}
-
-    # assignments.each do |assignment|
-    #   _assignments = Assignment.find(:all,
-    #                                 :conditions => {
-    #     :course_id => assignment.course_id,
-    #     :period_id => session[:period_id]
-    #   })
-    #   _assignments = Assignment.joins(:classplan).where(
-    #     'assignments.course_id' => assignment.course_id,
-    #     'assignments.period_id' => session[:period_id],
-    #     'classplans.period_id' => session[:period_id],
-    #   )
-    #   lecturers = _assignments.each do |_assignment|
-    #     _assignment.lecturer_id.to_s + ',' + _assignment.lecturer.full_name.to_s
-    #   end
-    #   lecturers.compact! # nil'lerden kurtulsun
-    #   unless lecturers == []
-    #     lecturers = lecturers.join(';') + '#' + assignment.course_id.to_s
-    #     @assignments[lecturers] = assignment.course.full_name
-    #   end
-    # end
-
-
     assignments = Assignment.joins(:course).where(
       'courses.department_id' => session[:department_id],
       'assignments.period_id' => session[:period_id]
@@ -84,7 +54,7 @@ module ScheduleHelper
     @class = Classroom.find(:all, :order => 'name')
 
     @year = (1..4)
-    @day, @header, @launch, @morning, @evening = departmentplan_schema(session[:period_id],session[:department_id], 0, 0)
+    @day, @header, @launch, @morning, @evening = departmentplan_schema(session[:period_id], session[:department_id], 0, 0)
   end
   def scheduleadd
     @assignment = Assignment.find(:first,
@@ -136,27 +106,43 @@ module ScheduleHelper
                 'day' => day_en,
                 'begin_time' => part[0],
                 'classroom_id' => classroom_id,
-              })
+              }) and !classplan.assignment.course.group
 
                 session[:error] = day_tr + " " + hour.gsub("-",":") + " de "+
                   "#{classplan.classroom.name} sınıfında "+
                   "#{classplan.assignment.lecturer.department.name} bölümünden "+
-                  "öğretim üyesini #{classplan.assignment.lecturer.full_name} tarafından "+
+                  "öğretim üyesi #{classplan.assignment.lecturer.full_name} tarafından "+
                   "#{classplan.assignment.course.full_name} dersi verilmektedir. Bu "+
                   "bilginin düzeltilmesini istiyorsanız; "+
                   "#{classplan.assignment.lecturer.department.name} bölümünün yöneticileri ile irtibata geçin."
                 return redirect_to "/user/schedulenew"
-              elsif classplan = Classplan.find(:first,
+              elsif classplans = Classplan.find(:all,
                                                :conditions => {
                 'period_id' => session[:period_id],
                 'day' => day_en,
                 'begin_time' => part[0],
               })
-                if @assignments.include?(classplan.assignment_id)
+                assignment_id = ""
+                assignment_state = false
+                classplans.each do |classplan|
+                  if @assignments.include?(classplan.assignment_id)
+                    assignment_id = classplan.assignment_id
+                    assignment_state = true
+                    break
+                  end
+                end
+                if assignment_state
+                  classplan = Classplan.find(:first,
+                                               :conditions => {
+                    'period_id' => session[:period_id],
+                    'assignment_id' => assignment_id,
+                    'day' => day_en,
+                    'begin_time' => part[0],
+                  })
                   session[:error] = day_tr + " " + hour.gsub("-",":") + " de "+
                     "#{classplan.classroom.name} sınıfında kaydetmeye çalıştığınız "+
                     "#{classplan.assignment.lecturer.department.name} bölümünden "+
-                    "#{classplan.assignment.lecturer.full_name} isimli öğretim üyesini "+
+                    "#{classplan.assignment.lecturer.full_name} isimli öğretim üyesi "+
                     "#{classplan.assignment.course.full_name} dersini vermektedir. Bu "+
                     "bilginin düzeltilmesini istiyorsanız; "+
                     "bu verdiği dersin gününü veya saatini değiştiriniz."
@@ -205,7 +191,7 @@ module ScheduleHelper
               session[:error] = day_tr + " " + hour.gsub("-",":") + " de "+
                 "#{classplan.classroom.name} sınıfında "+
                 "#{classplan.assignment.lecturer.department.name} bölümünden "+
-                "öğretim üyesini #{classplan.assignment.lecturer.full_name} tarafından "+
+                "öğretim üyesi #{classplan.assignment.lecturer.full_name} tarafından "+
                 "#{classplan.assignment.course.full_name} dersi verilmektedir. Bu "+
                 "bilginin düzeltilmesini istiyorsanız; "+
                 "#{classplan.assignment.lecturer.department.name} bölümünün yöneticileri ile irtibata geçin."
@@ -220,7 +206,7 @@ module ScheduleHelper
                 session[:error] = day_tr + " " + hour.gsub("-",":") + " de "+
                   "#{classplan.classroom.name} sınıfında kaydetmeye çalıştığınız "+
                   "#{classplan.assignment.lecturer.department.name} bölümünden "+
-                  "#{classplan.assignment.lecturer.full_name} isimli öğretim üyesini "+
+                  "#{classplan.assignment.lecturer.full_name} isimli öğretim üyesi "+
                   "#{classplan.assignment.course.full_name} dersini vermektedir. Bu "+
                   "bilginin düzeltilmesini istiyorsanız; "+
                   "bu verdiği dersin gününü veya saatini değiştiriniz."
@@ -273,9 +259,8 @@ module ScheduleHelper
           :period_id => session[:period_id]
         })
         courses = classplans.collect { |classplan| classplan.day + classplan.begin_time }
-        courses = courses.join(';')
         unless courses == ""
-          courses += '#' + assignment.id.to_s
+          courses = courses.join(';') + '#' + assignment.id.to_s
           @course_ids[courses] = assignment.course.full_name
         end
       end

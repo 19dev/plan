@@ -29,9 +29,11 @@
         <td class="label"><%= image_tag lecturer.photo, :width => 26, :height => 26 %></td>
         <td class="label"><%= lecturer.full_name %></td>
         <td class="field">
-          <% Assignment.find(:all, :conditions => { :lecturer_id => lecturer.id, :period_id => session[:period_id] }).each do |ass| %>
-          <ul><%= ass.course.full_name %></ul>
-        <% end %>
+          <% Assignment.joins(:course).where(
+            :lecturer_id => lecturer.id, :period_id => session[:period_id]
+          ).order('courses.code').each do |assignment| %>
+            <ul><%= assignment.course.full_name %></ul>
+          <% end %>
         </td>
         <td class="label" style="float:left;width:92px">
           <%= form_tag :action => 'assignmentshow' do %>

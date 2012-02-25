@@ -10,3 +10,4 @@
 @import url(status.css);       /* system state bulb */
 @import url(facebox.css);      /* ek bilgiler için kutucuk */
 @import url(code.css);         /* kodcuklarımız için */
+@import url(nav-up-down.css);  /* uzayıp giden sayfalar için */

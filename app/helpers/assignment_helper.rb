@@ -8,10 +8,6 @@ module AssignmentHelper
     @unassignment_lecturers = lecturers.select do |lecturer|
       !Assignment.find(:first, :conditions => { :lecturer_id => lecturer.id, :period_id => session[:period_id] })
     end
-    # courses = Course.find(:all, :conditions => {:department_id => session[:department_id]})
-    # @unassignment_courses = courses.select do |course|
-    #   !Assignment.find(:first, :conditions => { :course_id => course.id, :period_id => session[:period_id] })
-    # end
     @unassignment_courses = Course.find(:all, :conditions => {:department_id => session[:department_id]}, :order => 'code') # yeni
   end
   def assignmentadd
@@ -62,17 +58,11 @@ module AssignmentHelper
   end
   def assignmentedit
     session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
-    lecturer_assignment = Assignment.find(:all, :conditions => {:lecturer_id => session[:lecturer_id], :period_id => session[:period_id]})
+    lecturer_assignment = Assignment.find(:all, :conditions => {:lecturer_id => session[:lecturer_id], :period_id => session[:period_id]}, :select => 'course_id')
 
-    @lecturer_course_ids = lecturer_assignment.collect { |ass| ass.course_id }
-
-    # courses = Course.find(:all, :conditions => {:department_id => session[:department_id]})
-    # @unassignment_courses = courses.select do |course|
-    #   !Assignment.find(:first, :conditions => { :course_id => course.id, :period_id => session[:period_id] }) or
-    #   @lecturer_course_ids.include?(course.id)
-    # end
+    @lecturer_course_ids = lecturer_assignment.collect { |assignment| assignment.course_id }
     @lecturer = Lecturer.find(session[:lecturer_id])
-    @unassignment_courses = Course.find(:all, :conditions => {:department_id => session[:department_id]}) # yeni
+    @unassignment_courses = Course.find(:all, :conditions => {:department_id => session[:department_id]}, :order => 'code') # yeni
   end
   def assignmentdel
     session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim

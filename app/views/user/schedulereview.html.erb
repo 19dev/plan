@@ -29,9 +29,9 @@
         <td class="label"><%= image_tag lecturer.photo, :width => 26, :height => 26 %></td>
         <td class="label"><%= lecturer.full_name %></td>
         <td class="field">
-        <% course_ids.each do |course_id| %>
-          <ul><%= Course.find(course_id).full_name %></ul>
-        <% end %>
+          <% Course.find(course_ids, :order => 'code').each do |course| %>
+            <ul><%= course.full_name %></ul>
+          <% end %>
         </td>
         <td class="label" style="float:left;width:92px">
           <%= form_tag :action => 'scheduleshow' do %>

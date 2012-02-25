@@ -14,6 +14,15 @@
     <td class="field"><%= text_field_tag :name %></td>
   </tr>
   <tr>
+    <td class="label">Grup Dersi mi?<br/>(Ör: Bitirme Çalışması Gibi Ders İçin "Evet")</td>
+    <td class="field">
+      evet
+      <%= radio_button_tag("group", '1')%>
+      hayır
+      <%= radio_button_tag("group", '0', true)%>
+    </td>
+  </tr>
+  <tr>
     <td class="label">Teorik(*)</td>
     <td class="field"><%= text_field_tag :theoretical %></td>
   </tr>

@@ -32,9 +32,9 @@
     <td class="label">Bölüm başkanı mı?</td>
     <td class="field">
       evet
-      <%= radio_button_tag("status", '1')%>
+      <%= radio_button_tag("status", '1', @lecturer.status)%>
       hayır
-      <%= radio_button_tag("status", '0', true)%>
+      <%= radio_button_tag("status", '0', !@lecturer.status)%>
     </td>
   </tr>
   <tr>

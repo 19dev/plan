@@ -14,6 +14,15 @@
     <td class="field"><%= text_field_tag :name, @course.name %></td>
   </tr>
   <tr>
+    <td class="label">Grup mu?</td>
+    <td class="field">
+      evet
+      <%= radio_button_tag("group", '1', @course.group)%>
+      hayır
+      <%= radio_button_tag("group", '0', !@course.group)%>
+    </td>
+  </tr>
+  <tr>
     <td class="label">Teorik</td>
     <td class="field"><%= text_field_tag :theoretical, @course.theoretical %></td>
   </tr>
