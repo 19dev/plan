@@ -62,74 +62,66 @@
 
     <% end %>
 
-
-    <% if session[:error] %>
-      <div id="notice">
-        <div class="error">
-          <h3 id="errorline">Bir problemimiz var!</h3>
-          <%= session[:error] %>
-        </div>
-      </div>
-    <% end %>
-
-    <% if session[:success] %>
-      <div id="notice">
-        <div class="success">
-          <h3 id="successline">Bir başarı iletisi var</h3>
-          <%= session[:success] %>
-        </div>
-      </div>
-    <% end %>
-
-  <div id="content">
     <% if session[:usersuper] %>
       <%= render :partial => "user_menu" %>
     <% end %>
-    <%= yield %>
-  </div>
 
-  <div id="footer">
-    <ul class="recent photos xsmall">
-      <li><a href="http://ce.omu.edu.tr" title="Bilgisayar Mühendisliği">
-        <%= image_tag "/assets/19-normal-57x57.png"%>
-      </a></li>
-    </ul>
+    <% page = File.basename request.fullpath %>
+
+    <% if ["user", "login"].include?(page) %>
+      <%= render :partial => "notice" %>
+    <% end %>
+
+    <div id="content">
+      <% if session[:user] %>
+        <% if page =~ /account/ %>
+          <%= render :partial => "account_menu" %>
+        <% end %>
+      <% end %>
+      <%= yield %>
+    </div>
+
+    <div id="footer">
+      <ul class="recent photos xsmall">
+        <li><a href="http://ce.omu.edu.tr" title="Bilgisayar Mühendisliği">
+          <%= image_tag "/assets/19-normal-57x57.png"%>
+        </a></li>
+      </ul>
       copyright &copy; 2011 Mühendislik Fakültesi Eğitim Öğretim Planları<br/>
       <b>irtibat</b> : <code id="errorline">web@bil.omu.edu.tr</code>
-  </div>
+    </div>
 
+    <!-- nav-up-down -->
+    <div style="display:none;" class="nav_up" id="nav_up"></div>
+    <div style="display:none;" class="nav_down" id="nav_down"></div>
+    <script src="/assets/scroll-startstop.events.jquery.js" type="text/javascript"></script>
+    <script>
+      $(function() {
+        var $elem = $('#content');
 
-  <!-- nav-up-down -->
-  <div style="display:none;" class="nav_up" id="nav_up"></div>
-  <div style="display:none;" class="nav_down" id="nav_down"></div>
-  <script src="/assets/scroll-startstop.events.jquery.js" type="text/javascript"></script>
-  <script>
-    $(function() {
-      var $elem = $('#content');
+        $('#nav_up').fadeIn('slow');
+        $('#nav_down').fadeIn('slow');
 
-      $('#nav_up').fadeIn('slow');
-      $('#nav_down').fadeIn('slow');
+        $(window).bind('scrollstart', function(){
+          $('#nav_up,#nav_down').stop().animate({'opacity':'0.2'});
+        });
+        $(window).bind('scrollstop', function(){
+          $('#nav_up,#nav_down').stop().animate({'opacity':'1'});
+        });
 
-      $(window).bind('scrollstart', function(){
-        $('#nav_up,#nav_down').stop().animate({'opacity':'0.2'});
+        $('#nav_down').click(
+        function (e) {
+          $('html, body').animate({scrollTop: $elem.height()}, 800);
+        }
+        );
+        $('#nav_up').click(
+        function (e) {
+          $('html, body').animate({scrollTop: '0px'}, 800);
+        }
+        );
       });
-      $(window).bind('scrollstop', function(){
-        $('#nav_up,#nav_down').stop().animate({'opacity':'1'});
-      });
-
-      $('#nav_down').click(
-      function (e) {
-        $('html, body').animate({scrollTop: $elem.height()}, 800);
-      }
-      );
-      $('#nav_up').click(
-      function (e) {
-        $('html, body').animate({scrollTop: '0px'}, 800);
-      }
-      );
-    });
-  </script>
-  <!-- nav-up-down -->
+    </script>
+    <!-- nav-up-down -->
 
   </body>
 </html>

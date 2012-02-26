@@ -3,7 +3,10 @@
   <table class="custom">
     <tr>
       <td class="label">Fotoğraf</td>
-      <td><%= image_tag @people.photo, :width => 56, :height => 56 %></td>
+      <td>
+        <%= file_field_tag :file %>
+        <%= image_tag @people.photo, :width => 56, :height => 56 %>
+      </td>
     </tr>
     <tr>
       <td class="label"> Ad: </td>
@@ -11,11 +14,7 @@
     </tr>
     <tr>
       <td class="label"> Soyad: </td>
-      <td><%= @people.last_name %></td>
-    </tr>
-    <tr>
-      <td class="label"> Parola: </td>
-      <td><%= text_field_tag :password, @people.password %></td>
+      <td><%= text_field_tag :last_name, @people.last_name %></td>
     </tr>
     <tr>
       <td></td>

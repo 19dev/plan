@@ -1,4 +1,5 @@
 <h2>Hesap Bilgileri</h2>
+<%= render :partial => "notice" %>
 <table class="custom">
   <tr>
     <td class="label">Fotoğraf</td>
@@ -13,8 +14,8 @@
     <td class="field"><%= @people.last_name %></td>
   </tr>
   <tr>
-    <td class="label">Şifre</td>
-    <td class="field"><%= @people.password %></td>
+    <td class="label">Parola</td>
+    <td class="field"><%= @people.password[0] + ("*" * (@people.password.length - 1)) %></td>
   </tr>
   <tr>
     <td></td>

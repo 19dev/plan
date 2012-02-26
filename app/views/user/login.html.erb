@@ -1,5 +1,4 @@
 <%= stylesheet_link_tag "login" %>
-
 <h2 id="boxline">Akademisyen Girişi</h2>
 
 <style>
@@ -10,11 +9,11 @@
   <table class="login">
     <tr>
       <td class="label"> Kullanıcı Adı: </td>
-      <td class="field"><%= text_field_tag :first_name %></td>
+      <td class="field"><%= text_field_tag :first_name, "", :placeholder => "Kullanıcı adını yazın" %></td>
     </tr>
     <tr>
       <td class="label"> Parola: </td>
-      <td class="field"><%= password_field_tag :password %></td>
+      <td class="field"><%= password_field_tag :password, "", :placeholder => "Kullanıcı parolasını yazın" %></td>
     </tr>
     <tr>
       <td></td>

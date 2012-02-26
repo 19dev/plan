@@ -26,17 +26,19 @@ class UserController < ApplicationController
                                               :noticenew, :noticereview, :noticeshow, :noticeedit,
                                             ] # for notice : loginsiz asla!
 
-  before_filter :clean_notice, :except => [:index, :lecturershow, :lecturerupdate, :lecturerreview,
-                                                  :courseshow, :courseupdate, :coursereview,
-                                                  :assignmentshow, :assignmentupdate, :assignmentreview,
-                                                  :schedulenew, :scheduleshow, :scheduleupdate, :schedulereview
+  before_filter :clean_notice, :except => [:index, :lecturershow, :lecturerupdate,
+                                                  :courseshow, :courseupdate,
+                                                  :assignmentshow, :assignmentupdate,
+                                                  :schedulenew, :scheduleshow, :scheduleupdate,
+                                                  :accountshow,
                                           ] # temiz sayfa
 
   before_filter :clean_error, :except => [:login, :noticenew,
-                                                  :lecturernew, :coursenew, :lecturerfind, :lecturershow, :lecturerreview,
-                                                  :coursefind, :courseshow, :coursereview,
+                                                  :lecturernew, :coursenew, :lecturerfind, :lecturershow,
+                                                  :coursefind, :courseshow,
                                                   :assignmentnew, :assignmentfind, :assignmentshow, :accountedit,
-                                                  :schedulenew, :schedulefind, :scheduleshow
+                                                  :schedulenew, :schedulefind, :scheduleshow,
+                                                  :accountshow,
                                          ] # temiz sayfa
 
   def login

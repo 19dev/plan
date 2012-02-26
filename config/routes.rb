@@ -18,11 +18,11 @@ Schedule::Application.routes.draw do
   post "user/noticeupdate"
   # --------------------
 
+  get  "user/accountpassword"
   get  "user/accountedit"
   post "user/accountedit"
   post "user/accountupdate"
   get  "user/accountshow"
-  post "user/accountshow"
   # --------------------
 
   get  "user/lecturernew"

@@ -50,16 +50,12 @@
 <% end %>
 
 <% if session[:admin] %>
-  <div id="usermenu">
-    <div class="usermenulist">
-      <ul>
-        <li><a class="home" href="/admin/home">Ana Sayfa</a></li>
-        <li><a class="db" href="/admin/database">Veri Tabanı Yönetimi</a></li>
-        <li><a class="report" href="/admin/report">Rapor</a></li>
-        <li><a class="help" href="/admin/help">Yardım Sayfasını Güncelle</a></li>
-      </ul>
-    </div>
-  </div>
+  <ul class="usermenulist">
+    <li><a class="home" href="/admin/home">Ana Sayfa</a></li>
+    <li><a class="db" href="/admin/database">Veri Tabanı Yönetimi</a></li>
+    <li><a class="report" href="/admin/report">Rapor</a></li>
+    <li><a class="help" href="/admin/help">Yardım Sayfasını Güncelle</a></li>
+  </ul>
 <% end %>
 
 <div id="content">
