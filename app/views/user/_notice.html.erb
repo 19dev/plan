@@ -1,0 +1,17 @@
+<% if session[:error] %>
+  <div id="notice">
+    <div class="error">
+      <h3 id="errorline">Bir problemimiz var!</h3>
+      <%= session[:error] %>
+    </div>
+  </div>
+<% end %>
+
+<% if session[:success] %>
+  <div id="notice">
+    <div class="success">
+      <h3 id="successline">Bir başarı iletisi var</h3>
+      <%= session[:success] %>
+    </div>
+  </div>
+<% end %>
