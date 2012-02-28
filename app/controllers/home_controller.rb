@@ -254,8 +254,7 @@ class HomeController < ApplicationController
       evening = evening[0]
       description = {
         "Dönem" => period.full_name,
-        "Bölüm" => department.name,
-        "Sınıf" => params[:year],
+        "Bölüm" => department.name + "-" + params[:year],
       }
       info = description.map {|k, v| [k, v]}
 
