@@ -9,6 +9,7 @@ body {
     padding:    auto;
     color:#555;
     background:#f0f0f0;
+    background: url("/assets/bg.jpg") repeat scroll 0 0 #FBFBFB;
     font-family:Arial, Helvetica, Helvetica Neue, Verdana, sans-serif;
     -webkit-font-smoothing: antialiased;
 }
