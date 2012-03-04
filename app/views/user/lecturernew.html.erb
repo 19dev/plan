@@ -1,4 +1,5 @@
 <h2><%= session[:department] %> Bölümüne Öğretim Üyesi Ekle</h2>
+<%= render :partial => "notice" %>
 <%= form_tag({ :action => 'lectureradd' }, :multipart => true) do %>
   <table class="custom">
   <tr>

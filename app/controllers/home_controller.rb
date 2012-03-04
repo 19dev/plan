@@ -2,16 +2,14 @@
 require 'prawn' # http://cracklabs.com/prawnto # pdf
 
 class HomeController < ApplicationController
-  include InitHelper   # gerekli ortak şeyler
-  include CleanHelper  # temizlik birimi
-  include SchemaHelper # schema helper
-  include PlanHelper   # plan helper
-  include PdfHelper    # pdf birimi
-  include ReportHelper # raporlama birimi
-  include PercentHelper # raporlama birimi
+  include Init::InitHelper   # gerekli ortak şeyler
 
-  before_filter :clean_notice # temiz sayfa
-  before_filter :clean_error, :only => [:index, :info, :help, :lecturerplan, :classplan] # temiz sayfa
+  # Plan
+  include Plan::PlanHelper         # plan helper
+  include Plan::SchemaHelper       # schema helper
+  include Plan::PdfHelper          # pdf birimi
+
+  include MainHelper
 
   def index
     assignments = Assignment.joins(:course).where(
@@ -61,7 +59,7 @@ class HomeController < ApplicationController
 
     @lecturers = Lecturer.find(:all, :conditions => { :department_id => @department.id }, :order => 'first_name, last_name')
     if @lecturers.empty?
-      session[:error] = "#{@department.name} bölümünde henüz öğretim görevlisi yok"
+      flash[:error] = "#{@department.name} bölümünde henüz öğretim görevlisi yok"
       return render '/home/lecturer'
     end
   end
@@ -91,7 +89,7 @@ class HomeController < ApplicationController
 
     @course_ids, @assignments = lecturer_plan(@period.id, @lecturer.id)
     if @course_ids == {}
-      session[:error] = "#{@lecturer.full_name} isimli öğretim görevlisinin " +
+      flash[:error] = "#{@lecturer.full_name} isimli öğretim görevlisinin " +
         "#{@period.full_name} dönemlik ders programı tablosu henüz hazır değil."
       return redirect_to '/home/lecturer'
     end
@@ -108,7 +106,7 @@ class HomeController < ApplicationController
 
     course_ids, assignments = lecturer_plan(period.id, lecturer.id)
     if course_ids == {}
-      session[:error] = "#{lecturer.full_name} isimli öğretim görevlisinin " +
+      flash[:error] = "#{lecturer.full_name} isimli öğretim görevlisinin " +
         "#{period.full_name} dönemlik ders programı tablosu henüz hazır değil."
       return redirect_to '/home/lecturer'
     end
@@ -135,10 +133,10 @@ class HomeController < ApplicationController
 
     @course_ids, @assignments = class_plan(@period.id, @classroom.id)
     if @course_ids == {}
-      session[:error] = "#{@classroom.name} sınıfın, " +
+      flash[:error] = "#{@classroom.name} sınıfın, " +
         "#{@period.full_name} dönemlik ders " +
         "programı tablosu henüz hazır değil."
-      return render '/home/class'
+      return redirect_to '/home/class'
     end
     @day, @header, @launch, @morning, @evening = classplan_schema(@period.id, @assignments, @classroom.id)
   end
@@ -153,7 +151,7 @@ class HomeController < ApplicationController
 
     course_ids, assignments = class_plan(period.id, classroom.id)
     if course_ids == {}
-      session[:error] = "#{classroom.name} sınıfın, " +
+      flash[:error] = "#{classroom.name} sınıfın, " +
         "#{period.full_name} dönemlik ders " +
         "programı tablosu henüz hazır değil."
       return render '/home/class'
@@ -171,7 +169,7 @@ class HomeController < ApplicationController
   end
 
   def departmentshow
-    if session[:error] = control({
+    if flash[:error] = control({
       (params[:section1] or params[:section2] or params[:section]) => "Bu 1. öğretim veya 2.öğretim",
     })
       return render '/home/department'

@@ -129,18 +129,18 @@
     </div>
   </div>
 
-  <% if session[:error] %>
+  <% if flash[:error] %>
     <div id="notice">
       <div class="error2">
-        <%= session[:error] %>
+        <%= flash[:error] %>
       </div>
     </div>
   <% end %>
 
-  <% if session[:success] %>
+  <% if flash[:success] %>
     <div id="notice">
       <div class="success2">
-        <%= session[:success] %>
+        <%= flash[:success] %>
       </div>
     </div>
   <% end %>

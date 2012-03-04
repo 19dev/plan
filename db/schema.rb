@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120224135840) do
+ActiveRecord::Schema.define(:version => 20120302195945) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "period_id"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(:version => 20120224135840) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "group",         :default => false
+    t.boolean  "common",        :default => false
   end
 
   create_table "departments", :force => true do |t|

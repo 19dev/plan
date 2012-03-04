@@ -1,4 +1,5 @@
 <h2><%= session[:department] %> Bölümüne Ders Ekle</h2>
+<%= render :partial => "notice" %>
 <%= form_tag({ :action => 'courseadd' }, :multipart => true) do %>
   <table class="custom">
   <tr>
@@ -12,6 +13,15 @@
   <tr>
     <td class="label">Ad(*)</td>
     <td class="field"><%= text_field_tag :name %></td>
+  </tr>
+  <tr>
+    <td class="label">Ortak Ders mi?<br/>(Ör: Türk Dili Gibi Ders İçin "Evet")</td>
+    <td class="field">
+      evet
+      <%= radio_button_tag("common", '1')%>
+      hayır
+      <%= radio_button_tag("common", '0', true)%>
+    </td>
   </tr>
   <tr>
     <td class="label">Grup Dersi mi?<br/>(Ör: Bitirme Çalışması Gibi Ders İçin "Evet")</td>

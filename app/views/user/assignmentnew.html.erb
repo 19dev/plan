@@ -45,6 +45,7 @@
 
 
 <h2><%= session[:department] %> Bölümünden Öğretim Üyeleri Ders Ata</h2>
+<%= render :partial => "notice" %>
 <%= form_tag({ :action => 'assignmentadd' }, :multipart => true, :html => {:id => 'real-form'}) do %>
   <table class="login">
     <tr>

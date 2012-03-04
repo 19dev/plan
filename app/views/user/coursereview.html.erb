@@ -12,6 +12,7 @@
 </script>
 
 <h2><%= session[:department] %> Bölümünün Dersleri İnceleniyor...</h2>
+<%= render :partial => "notice" %>
 <div class="dt_example module">
    <table cellpadding="0" cellspacing="0" border="0" class="display" 
        id="example">
@@ -20,6 +21,7 @@
       <th class="label">Sınıf</th>
       <th class="label">Kodu</th>
       <th class="label">Ad</th>
+      <th class="label">Ortak mı?</th>
       <th class="label">Grup mu?</th>
       <th class="label">Teorik</th>
       <th class="label">Uygulama</th>
@@ -29,11 +31,12 @@
     </tr>
   </thead>
   <tbody>
-    <% @courses.each do |course| %>
+    <% Course.find_all_by_department_id(session[:department_id]).each do |course| %>
       <tr>
         <td class="label"><%= course.year %></td>
         <td class="label"><%= course.code %></td>
         <td class="label"><%= course.name %></td>
+        <td class="label"><% if course.common %>evet<% else %>hayır<% end %></td>
         <td class="label"><% if course.group %>evet<% else %>hayır<% end %></td>
         <td class="label"><%= course.theoretical %></td>
         <td class="label"><%= course.practice %></td>
@@ -60,4 +63,4 @@
   </tbody>
   </table>
 </div>
-<a href="/user/coursesnew" class="button">Ders Ekle</a>
+<a href="/user/coursenew" class="button">Ders Ekle</a>

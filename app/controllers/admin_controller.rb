@@ -2,25 +2,16 @@
 require 'fastercsv'
 require 'csv'
 class AdminController < ApplicationController
-  include InitHelper
-  include ImageHelper
-  include CsvHelper
-  include CleanHelper # temizlik birimi
+  include Init::InitHelper
+  include Init::ImageHelper
+  include Init::CsvHelper
 
   before_filter :require_login, :except => [:login, :logout] # loginsiz asla!
-  before_filter :clean_notice, :only => [:info, :system] # temiz sayfa
-  before_filter :clean_error, :only => [:home, :info, :system] # temiz sayfa
 
   def login
     redirect_to '/admin/home' if session[:admin]
 
-    if admin = People.find(:first, :conditions => {
-                                                  :first_name => params[:first_name],
-                                                  :password => params[:password],
-                                                  :status => 0,
-                                                  :department_id => 0,
-                                                  }
-      )
+    if admin = People.find_by_first_name_and_password_and_status_and_department_id(params[:first_name], params[:password], 0, 0)
       session[:admin] = true
       session[:admindepartment] = admin.department_id
       session[:adminusername] = admin.first_name
@@ -50,13 +41,13 @@ class AdminController < ApplicationController
                           'code' => false,
       }
       unless session[:period_id] = Period.find( :first, :conditions => { :status => true })
-        session[:error] = "Dikkat! aktif bir güz/bahar yılı yok. Bu problemin düzeltilmesi için asıl yönetici ile irtibata geçin"
+        flash[:error] = "Dikkat! aktif bir güz/bahar yılı yok. Bu problemin düzeltilmesi için asıl yönetici ile irtibata geçin"
       end
 
       return table # ilk tablo seçilsin, oyun başlasın!
     end
       if params[:first_name] or params[:password]
-        session[:error] = "Oops! İsminiz veya şifreniz hatali, belkide bunlardan sadece biri hatalıdır?"
+        flash[:error] = "Oops! İsminiz veya şifreniz hatali, belkide bunlardan sadece biri hatalıdır?"
       end
   end
 
@@ -67,7 +58,7 @@ class AdminController < ApplicationController
 
   def require_login
     unless session[:admin]
-      session[:error] = "Lütfen hesabınıza girişi yapın!"
+      flash[:error] = "Lütfen hesabınıza girişi yapın!"
       redirect_to '/admin/'
     end
   end
@@ -90,13 +81,13 @@ class AdminController < ApplicationController
     system "markdown #{path}/#{markdown_file} > #{Rails.root}/app/views/home/help.html.erb"
     system "echo '\n<p id='errorline'>Update:#{time}</p>' >> #{Rails.root}/app/views/home/help.html.erb"
 
-    session[:success] = "Kullanıcı klavuzu güncellendi : #{time}"
+    flash[:success] = "Kullanıcı klavuzu güncellendi : #{time}"
     redirect_to '/admin/home'
   end
 
   def table
     table = if params[:table]; params[:table] else session[:TABLE_INIT] end
-    session[:success] = "#{table} tablosu başarıyla seçildi"
+    flash[:success] = "#{table} tablosu başarıyla seçildi"
     session[:TABLE] = table
     session[:SAVE] = eval table.capitalize + ".count"
     session[:KEY] = session[:TABLES][table]
@@ -107,13 +98,13 @@ class AdminController < ApplicationController
   def export
     if params[:csv_key]
       if params[:csv_key] == ""
-        session[:error] = "Csv ayırt edici karakter boş bırakılamaz"
+        flash[:error] = "Csv ayırt edici karakter boş bırakılamaz"
         return redirect_to '/admin/export'
       end
       columns = eval(session[:TABLE] + ".columns").collect {|c| c.name}
       request_columns = params.map { |k, v| k if columns.include?(k) }.compact
       if request_columns == []
-        session[:error] = "Sütunlardan en az bir tanesini seçmelisiniz"
+        flash[:error] = "Sütunlardan en az bir tanesini seçmelisiniz"
         return redirect_to '/admin/export'
       end
       csv_export session[:TABLE], params[:csv_key], request_columns
@@ -140,13 +131,13 @@ class AdminController < ApplicationController
         data[:photo] = response[1]
         data.save
       else
-        session[:error] = response[1]
+        flash[:error] = response[1]
       end
     else
       data[:photo] = "/default.png"
       data.save
     end
-    session[:success] = "#{session[:_key]} bilgisine sahip kişi #{session[:TABLE]} tablosuna başarıyla eklendi"
+    flash[:success] = "#{session[:_key]} bilgisine sahip kişi #{session[:TABLE]} tablosuna başarıyla eklendi"
 
     redirect_to '/admin/show'# göster
   end
@@ -158,7 +149,7 @@ class AdminController < ApplicationController
   def show # post ise oturma göm + verileri göster
     session[:_key] = params[:_key] if params[:_key] # uniq veriyi oturuma gömelim
     unless @data = eval(session[:TABLE].capitalize + ".find :first, :conditions => { session[:KEY] => session[:_key] }")
-      session[:error] = "Böyle bir kayıt bulunmamaktadır"
+      flash[:error] = "Böyle bir kayıt bulunmamaktadır"
       redirect_to '/admin/find'
     end
   end
@@ -178,7 +169,7 @@ class AdminController < ApplicationController
 
     Image.delete session[:TABLE], "#{session[:_key]}.jpg"
     session[:SAVE] -= 1
-    session[:success] = "#{session[:_key]} bilgisine sahip kişi #{session[:TABLE]} tablosundan başarıyla silindi"
+    flash[:success] = "#{session[:_key]} bilgisine sahip kişi #{session[:TABLE]} tablosundan başarıyla silindi"
     session[:_key] = nil # kişinin oturumunu öldürelim
 
     redirect_to '/admin/review'
@@ -198,10 +189,10 @@ class AdminController < ApplicationController
         data[:photo] = response[1]
         data.save
       else
-        session[:error] = response[1]
+        flash[:error] = response[1]
       end
     end
-    session[:success] = "#{session[:_key]} bilgisine sahip kişi #{session[:TABLE]} tablosunda başariyla güncellendi"
+    flash[:success] = "#{session[:_key]} bilgisine sahip kişi #{session[:TABLE]} tablosunda başariyla güncellendi"
 
     redirect_to '/admin/show'# göster
   end
