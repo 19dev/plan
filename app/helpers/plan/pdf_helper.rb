@@ -16,7 +16,7 @@ module Plan
         table info,
           :position => 93,
           :column_widths => { 0 => 24, 1 => 137},
-          :cell_style => { :size => 3.5, :text_color => "000000", :height => 13, :border_width => 0.1 }
+          :cell_style => { :size => 3.6, :text_color => "000000", :height => 13, :border_width => 0.1 }
 
         font "#{Prawn::BASEDIR}/data/fonts/comicsans.ttf", :size => 4
         table header,
@@ -83,7 +83,7 @@ module Plan
         table info,
           :position => 133,
           :column_widths => { 0 => 24, 1 => 98},
-          :cell_style => { :size => 3.5, :text_color => "000000", :height => 13, :border_width => 0.1 }
+          :cell_style => { :size => 3.6, :text_color => "000000", :height => 13, :border_width => 0.1 }
         if photo
           image "#{Rails.root}/public#{photo}", :width => 39, :height => 39, :position => 93, :vposition => -10
           move_up(38)

@@ -107,6 +107,17 @@
       </tr>
     <% end %>
 
+    <tr>
+      <th class="clock, launch"></th>
+      <% 5.times do %>
+        <th class='field1, launch'>
+          <p style="text-align:left"></p>
+          <p style="text-align:right"></p>
+        </th>
+        <th class='field2, launch'></th>
+      <% end %>
+    </tr>
+
     <% @evening.each do |col| %>
       <tr>
         <th class="clock"><%= col[0].gsub('-', ':') %></th>
