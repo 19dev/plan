@@ -63,7 +63,14 @@ module Plan
                 :begin_time => hour
               }, :select => "assignment_id")
               next unless classplans
-              assignment_ids = classplans.map { |classplan| classplan.assignment_id if classplan.assignment.course.year == year }.compact.uniq
+              # assignment_ids = classplans.map { |classplan| classplan.assignment_id if classplan.assignment.course.year == year }.compact.uniq
+
+              assignment_ids = classplans.map do |classplan|
+                if classplan.assignment.course.year == year and assignments.include?(classplan.assignment_id)
+                  classplan.assignment_id
+                end
+              end
+              assignment_ids = assignment_ids.compact.uniq
 
               _course_codes = []
               _course_names = []
@@ -118,7 +125,15 @@ module Plan
             })
 
             next unless classplans
-            assignment_ids = classplans.map { |classplan| classplan.assignment_id if classplan.assignment.course.year == year }.compact.uniq
+            # assignment_ids = classplans.map { |classplan| classplan.assignment_id if classplan.assignment.course.year == year }.compact.uniq
+
+            assignment_ids = classplans.map do |classplan|
+              if classplan.assignment.course.year == year and assignments.include?(classplan.assignment_id)
+                classplan.assignment_id
+              end
+            end
+            assignment_ids = assignment_ids.compact.uniq
+
             _course_codes = []
             _course_names = []
             _classroom_names = []

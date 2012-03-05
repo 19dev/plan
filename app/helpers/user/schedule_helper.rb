@@ -9,11 +9,7 @@ module User
       @assignments = {}
 
       assignments.each do |assignment|
-        _assignments = Assignment.find(:all,
-                                      :conditions => {
-          :course_id => assignment.course_id,
-          :period_id => session[:period_id]
-        })
+        _assignments = Assignment.find_all_by_course_id_and_period_id(assignment.course_id, session[:period_id])
         lecturers = _assignments.collect do |_assignment|
           if !Classplan.find(:first, :conditions => {:assignment_id => _assignment.id, :period_id => session[:period_id]})
             _assignment.lecturer_id.to_s + ',' + _assignment.lecturer.full_name.to_s
