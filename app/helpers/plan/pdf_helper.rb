@@ -23,12 +23,12 @@ module Plan
           :position => :center,
           :row_colors => ["cccccc"],
           :column_widths => { 0=>24,1=>63.7,2=>63.7,3=>63.7,4=>63.7,5=>63.7,6=>63.7},
-          :cell_style => { :size => 3.3, :text_color => "000000", :height => 8, :border_width => 0.1, :padding => 2 }
+          :cell_style => { :size => 3.5, :text_color => "000000", :height => 8, :border_width => 0.1, :padding => 1 }
         table [["", field1, field2, field1, field2, field1, field2, field1, field2, field1, field2],],
           :position => :center,
           :row_colors => ["cccccc"],
           :column_widths => { 0=>24,1=>45.7,2=>18,3=>45.7,4=>18,5=>45.7,6=>18,7=>45.7,8=>18,9=>45.7,10=>18},
-          :cell_style => { :size => 3, :text_color => "000000", :height => 8, :border_width => 0.1, :padding => 2 }
+          :cell_style => { :size => 3.3, :text_color => "000000", :height => 8, :border_width => 0.1, :padding => 1 }
         if morning
           launch_time = nil
           morning.each_with_index do |row, index|
@@ -40,24 +40,30 @@ module Plan
           table morning.slice(0..launch_time-1),
             :position => :center,
             :column_widths => { 0=>24,1=>45.7,2=>18,3=>45.7,4=>18,5=>45.7,6=>18,7=>45.7,8=>18,9=>45.7,10=>18},
-            :cell_style => { :size => 3, :text_color => "000000", :height => 28, :border_width => 0.1, :padding => 1 }
+            :cell_style => { :size => 3.6, :text_color => "000000", :height => 28, :border_width => 0.1, :padding => 1 }
 
           table [launch],
             :position => :center,
             :row_colors => ["cccccc"],
             :column_widths => { 0=>24,1=>45.7,2=>18,3=>45.7,4=>18,5=>45.7,6=>18,7=>45.7,8=>18,9=>45.7,10=>18},
-            :cell_style => { :size => 3, :text_color => "000000", :height => 6, :border_width => 0.1, :padding => 1 }
+            :cell_style => { :size => 3.6, :text_color => "000000", :height => 6, :border_width => 0.1, :padding => 1 }
 
           table morning.slice(launch_time+1..-1),
             :position => :center,
             :column_widths => { 0=>24,1=>45.7,2=>18,3=>45.7,4=>18,5=>45.7,6=>18,7=>45.7,8=>18,9=>45.7,10=>18},
-            :cell_style => { :size => 3, :text_color => "000000", :height => 28, :border_width => 0.1, :padding => 1 }
+            :cell_style => { :size => 3.6, :text_color => "000000", :height => 28, :border_width => 0.1, :padding => 1 }
         end
+        launch[0] = ""
+        table [launch],
+          :position => :center,
+          :row_colors => ["cccccc"],
+          :column_widths => { 0=>24,1=>45.7,2=>18,3=>45.7,4=>18,5=>45.7,6=>18,7=>45.7,8=>18,9=>45.7,10=>18},
+          :cell_style => { :size => 3.6, :text_color => "000000", :height => 6, :border_width => 0.1, :padding => 1 }
         if evening
           table evening,
             :position => :center,
             :column_widths => { 0=>24,1=>45.7,2=>18,3=>45.7,4=>18,5=>45.7,6=>18,7=>45.7,8=>18,9=>45.7,10=>18},
-            :cell_style => { :size => 3, :text_color => "000000", :height => 28, :border_width => 0.1, :padding => 1 }
+            :cell_style => { :size => 3.6, :text_color => "000000", :height => 28, :border_width => 0.1, :padding => 1 }
         end
       end
       pdf
@@ -88,12 +94,12 @@ module Plan
           :position => :center,
           :row_colors => ["cccccc"],
           :column_widths => { 0=>24,1=>63.7,2=>63.7,3=>63.7,4=>63.7,5=>63.7,6=>63.7},
-          :cell_style => { :size => 3.3, :text_color => "000000", :height => 8, :border_width => 0.1, :padding => 2 }
+          :cell_style => { :size => 3.6, :text_color => "000000", :height => 8, :border_width => 0.1, :padding => 1 }
         table [["", field1, field2, field1, field2, field1, field2, field1, field2, field1, field2],],
           :position => :center,
           :row_colors => ["cccccc"],
           :column_widths => { 0=>24,1=>45.7,2=>18,3=>45.7,4=>18,5=>45.7,6=>18,7=>45.7,8=>18,9=>45.7,10=>18},
-          :cell_style => { :size => 3, :text_color => "000000", :height => 8, :border_width => 0.1, :padding => 2 }
+          :cell_style => { :size => 3.3, :text_color => "000000", :height => 8, :border_width => 0.1, :padding => 1 }
         if morning
           launch_time = nil
           morning.each_with_index do |row, index|
@@ -105,24 +111,24 @@ module Plan
           table morning.slice(0..launch_time-1),
             :position => :center,
             :column_widths => { 0=>24,1=>45.7,2=>18,3=>45.7,4=>18,5=>45.7,6=>18,7=>45.7,8=>18,9=>45.7,10=>18},
-            :cell_style => { :size => 3, :text_color => "000000", :height => 25, :border_width => 0.1, :padding => 1 }
+            :cell_style => { :size => 3.6, :text_color => "000000", :height => 25, :border_width => 0.1, :padding => 1 }
 
           table [launch],
             :position => :center,
             :row_colors => ["cccccc"],
             :column_widths => { 0=>24,1=>45.7,2=>18,3=>45.7,4=>18,5=>45.7,6=>18,7=>45.7,8=>18,9=>45.7,10=>18},
-            :cell_style => { :size => 3, :text_color => "000000", :height => 6, :border_width => 0.1, :padding => 1 }
+            :cell_style => { :size => 3.6, :text_color => "000000", :height => 6, :border_width => 0.1, :padding => 1 }
 
           table morning.slice(launch_time+1..-1),
             :position => :center,
             :column_widths => { 0=>24,1=>45.7,2=>18,3=>45.7,4=>18,5=>45.7,6=>18,7=>45.7,8=>18,9=>45.7,10=>18},
-            :cell_style => { :size => 3, :text_color => "000000", :height => 25, :border_width => 0.1, :padding => 1 }
+            :cell_style => { :size => 3.6, :text_color => "000000", :height => 25, :border_width => 0.1, :padding => 1 }
         end
         if evening
           table evening,
             :position => :center,
             :column_widths => { 0=>24,1=>45.7,2=>18,3=>45.7,4=>18,5=>45.7,6=>18,7=>45.7,8=>18,9=>45.7,10=>18},
-            :cell_style => { :size => 3, :text_color => "000000", :height => 25, :border_width => 0.1, :padding => 1 }
+            :cell_style => { :size => 3.6, :text_color => "000000", :height => 25, :border_width => 0.1, :padding => 1 }
         end
       end
       pdf
