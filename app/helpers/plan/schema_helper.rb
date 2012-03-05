@@ -209,7 +209,7 @@ module Plan
                   :day => day_en,
                   :begin_time => hour
                 }, :select=>"assignment_id, classroom_id")
-                department_codes = classplan.collect {|classplan| classplan.assignment.course.department.code + "\n"}
+                department_codes = classplan.collect {|classplan| classplan.assignment.course.department.code + "\n"}.uniq
               #           column << classplan.assignment.course.code + "\n" +
                 column << unless classplan[0].assignment.course.group
                             classplan[0].assignment.course.name + "\n" + classplan[0].assignment.lecturer.full_name
@@ -256,7 +256,7 @@ module Plan
                   :day => day_en,
                   :begin_time => hour
                 }, :select=>"assignment_id, classroom_id")
-                department_codes = classplan.collect {|classplan| classplan.assignment.course.department.code + "\n"}
+                department_codes = classplan.collect {|classplan| classplan.assignment.course.department.code + "\n"}.uniq
             #         column << classplan.assignment.course.code + "\n" +
             column << unless classplan[0].assignment.course.group
                         classplan[0].assignment.course.name + "\n" + classplan[0].assignment.lecturer.full_name
