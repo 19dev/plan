@@ -143,7 +143,7 @@ module User
                       "#{classplan.assignment.lecturer.full_name} isimli öğretim üyesi "+
                       "#{classplan.assignment.course.full_name} dersini vermektedir. Bu "+
                       "bilginin düzeltilmesini istiyorsanız; "+
-                      "bu verdiği dersin gününü veya saatini değiştiriniz."+@assignment.course.common.to_s
+                      "bu verdiği dersin gününü veya saatini değiştiriniz."
                     return redirect_to "/user/schedulenew"
                   end
                 end
