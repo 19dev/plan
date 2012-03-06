@@ -59,22 +59,18 @@ closeImage   : '/assets/closelabel.png'
                 <th><%= Lecturer.where(:department_id => department.id).count %></th>
                 <th><%= Course.where(:department_id => department.id).count %></th>
                 <th>
-                  <% if assignment_perc = assignment_percent(department.id, period.id)%>
-                    <a href="#assignment<%= department.id.to_s %>" rel="facebox">
-                      %<%= assignment_perc %>
-                    </a>
-                  <% end %>
+                  <a href="#assignment<%= department.id.to_s %>" rel="facebox">
+                    %<%= assignment_percent = department.assignment_percent(period.id) %>
+                  </a>
                 </th>
                 <th>
-                  <% if schedule_perc = schedule_percent(department.id, period.id) %>
-                    <a href="#schedule<%= department.id.to_s %>" rel="facebox">
-                      %<%= schedule_perc %>
-                    </a>
-                  <% end %>
+                  <a href="#schedule<%= department.id.to_s %>" rel="facebox">
+                    %<%= schedule_percent = department.schedule_percent(period.id) %>
+                  </a>
                 </th>
                 <th>
                   <div id="realtime">
-                    <a class="status <%= percent(assignment_perc, schedule_perc) %>" style="margin-top:-8px"></a>
+                    <a class="status <%= percent(assignment_percent, schedule_percent) %>" style="margin-top:-8px"></a>
                   </div>
                 </th>
               </tr>
@@ -100,7 +96,7 @@ closeImage   : '/assets/closelabel.png'
           <div class='description'>
             <table>
               <colgroup><col width=250 /><col width=110 /></colgroup>
-              <% not_assignment(department.id, period.id).each do |lecturer| %>
+              <% department.not_assignment_lecturer(period.id).each do |lecturer| %>
                 <tr>
                   <td><%= lecturer.full_name %></td>
                 </tr>
@@ -118,7 +114,7 @@ closeImage   : '/assets/closelabel.png'
           <div class='description'>
             <table>
               <colgroup><col width=250 /><col width=110 /></colgroup>
-              <% not_schedule(department.id, period.id).each do |lecturers, course| %>
+              <% department.not_schedule_course(period.id).each do |lecturers, course| %>
                 <tr>
                   <td><%= course %></td>
                 </tr>
@@ -134,6 +130,7 @@ closeImage   : '/assets/closelabel.png'
         </div>
       </div>
     </div>
+
 
   <% end %>
   <!-- end for facebox info -->

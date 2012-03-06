@@ -39,11 +39,11 @@
         <td class="label" style="float:left;width:92px">
           <%= form_tag :action => 'assignmentshow' do %>
             <%= hidden_field_tag :lecturer_id, lecturer.id %>
-            <%= submit_tag "",:id => "review_button" %>
+            <%= submit_tag "", :id => "review_button", :title => 'İncele' %>
           <% end %>
           <%= form_tag :action => 'assignmentedit' do %>
             <%= hidden_field_tag :lecturer_id, lecturer.id %>
-            <%= submit_tag "",:id => "edit_button" %>
+            <%= submit_tag "", :id => "edit_button", :title => 'Düzenle' %>
           <% end %>
           <%= form_tag :action => 'assignmentdel' do %>
             <%= hidden_field_tag :lecturer_id, lecturer.id %>
@@ -52,7 +52,8 @@
                           "#{session[:department]} bölümüne verdiği dersleri " +
                           "silmek üzeresiniz. Eğer silerseniz, sadece bu dönemlik #{session[:department]} " +
                           "bölümüne verdiği ders atamaları ve ders programı silinmiş olacaktır. " +
-                          "Silmek istediğinizden emin misiniz ?');" %>
+                          "Silmek istediğinizden emin misiniz ?');",
+              :title => 'Sil' %>
           <% end %>
         </td>
       </tr>

@@ -11,49 +11,11 @@ class HomeController < ApplicationController
 
   include MainHelper
 
-  def index
-    assignments = Assignment.joins(:course).where(
-      'courses.department_id' => session[:department_id],
-      'assignments.period_id' => session[:period_id]
-    ).select("assignments.course_id")
-    @assignments = {}
-
-    course_ids = assignments.collect { |assignment| assignment.course_id }.uniq
-
-    course_ids.each do |course_id|
-      assignments = Assignment.find(:all,
-                                    :conditions => {
-        :course_id => course_id,
-        :period_id => session[:period_id]
-      })
-      lecturers = assignments.collect do |assignment|
-        if !Classplan.find(:first, :conditions => {:assignment_id => assignment.id, :period_id => session[:period_id]})
-          assignment.lecturer.full_name
-        end
-      end
-      lecturers.compact! # nil'lerden kurtulsun
-      unless lecturers == []
-        lecturers = lecturers.join(';')
-        @assignments[lecturers] = Course.find(course_id).full_name
-      end
-    end
-
-    lecturer_count = Lecturer.where(:department_id => session[:department_id]).count
-    assignments = Assignment.joins(:lecturer).where(
-      'lecturers.department_id' => session[:department_id],
-      'assignments.period_id' => session[:period_id]
-    ).joins(:course).where(
-    'courses.department_id' => session[:department_id],
-    )
-    lecturer_ids = assignments.collect { |assignment| assignment.lecturer_id }.uniq
-    @lecturers = Lecturer.where('id not in (?)', lecturer_ids).where(:department_id => session[:department_id])
-  end
-
   def departmentreview
-    unless @department = Department.find(:first, :conditions => { :id => params[:department_id] })
+    unless @department = Department.find(params[:department_id])
       return redirect_to "/home/lecturer"
     end
-    unless @period = Period.find(:first, :conditions => { :id => params[:period_id] })
+    unless @period = Period.find(params[:period_id])
       return redirect_to "/home/lecturer"
     end
 
@@ -66,24 +28,24 @@ class HomeController < ApplicationController
 
   def lecturer
     @auto_lecturers = Lecturer.all.collect do |lecturer|
-      { lecturer.id => ["#{lecturer.first_name} #{lecturer.last_name}", lecturer.photo, lecturer.department.name] }
+      { lecturer.id => [lecturer.full_name, lecturer.photo, lecturer.department.name] }
     end
   end
 
   def lecturershow
-    unless @lecturer = Lecturer.find(:first, :conditions => { :id => params[:lecturer_id] })
+    unless @lecturer = Lecturer.find(params[:lecturer_id])
       return redirect_to "/home/lecturer"
     end
-    unless @period = Period.find(:first, :conditions => { :id => params[:period_id] })
+    unless @period = Period.find(params[:period_id])
       return redirect_to "/home/lecturer"
     end
   end
 
   def lecturerplan
-    unless @lecturer = Lecturer.find(:first, :conditions => { :id => params[:lecturer_id] })
+    unless @lecturer = Lecturer.find(params[:lecturer_id])
       return redirect_to "/home/lecturer"
     end
-    unless @period = Period.find(:first, :conditions => { :id => params[:period_id] })
+    unless @period = Period.find(params[:period_id])
       return redirect_to "/home/lecturer"
     end
 
@@ -97,10 +59,10 @@ class HomeController < ApplicationController
   end
 
   def lecturerplanpdf
-    unless lecturer = Lecturer.find(:first, :conditions => { :id => params[:lecturer_id] })
+    unless lecturer = Lecturer.find(params[:lecturer_id])
       return redirect_to "/home/lecturer"
     end
-    unless period = Period.find(:first, :conditions => { :id => params[:period_id] })
+    unless period = Period.find(params[:period_id])
       return redirect_to "/home/lecturer"
     end
 
@@ -124,10 +86,10 @@ class HomeController < ApplicationController
   end
 
   def classplan
-    unless @classroom = Classroom.find(:first, :conditions => {:id => params[:classroom_id] })
+    unless @classroom = Classroom.find(params[:classroom_id])
       return redirect_to "/home/class"
     end
-    unless @period = Period.find(:first, :conditions => {:id => params[:period_id] })
+    unless @period = Period.find(params[:period_id])
       return redirect_to "/home/class"
     end
 
@@ -142,10 +104,10 @@ class HomeController < ApplicationController
   end
 
   def classplanpdf
-    unless classroom = Classroom.find(:first, :conditions => {:id => params[:classroom_id] })
+    unless classroom = Classroom.find(params[:classroom_id])
       return redirect_to "/home/class"
     end
-    unless period = Period.find(:first, :conditions => {:id => params[:period_id] })
+    unless period = Period.find(params[:period_id])
       return redirect_to "/home/class"
     end
 
@@ -175,10 +137,10 @@ class HomeController < ApplicationController
       return render '/home/department'
     end
 
-    unless @department = Department.find(:first, :conditions => {:id => params[:department_id] })
+    unless @department = Department.find(params[:department_id])
       return redirect_to "/home/department"
     end
-    unless @period = Period.find(:first, :conditions => {:id => params[:period_id] })
+    unless @period = Period.find(params[:period_id])
       return redirect_to "/home/department"
     end
 
@@ -196,10 +158,10 @@ class HomeController < ApplicationController
   end
 
   def departmentplan
-    unless @department = Department.find(:first, :conditions => { :id => params[:department_id] })
+    unless @department = Department.find(params[:department_id])
       return redirect_to "/home/department"
     end
-    unless @period = Period.find(:first, :conditions => { :id => params[:period_id] })
+    unless @period = Period.find(params[:period_id])
       return redirect_to "/home/department"
     end
     unless ["0","1","2","3","4"].include?(params[:year])
@@ -221,10 +183,10 @@ class HomeController < ApplicationController
   end
 
   def departmentplanpdf
-    unless department = Department.find(:first, :conditions => { :id => params[:department_id] })
+    unless department = Department.find(params[:department_id])
       return redirect_to "/home/department"
     end
-    unless period = Period.find(:first, :conditions => { :id => params[:period_id] })
+    unless period = Period.find(params[:period_id])
       return redirect_to "/home/department"
     end
     unless ["0","1","2","3","4"].include?(params[:year])

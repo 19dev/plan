@@ -45,17 +45,18 @@
         <td class="label" style="float:left;width:92px">
           <%= form_tag :action => 'courseshow' do %>
             <%= hidden_field_tag :course_id, course.id %>
-            <%= submit_tag "",:id => "review_button" %>
+            <%= submit_tag "", :id => "review_button", :title => 'İncele' %>
           <% end %>
           <%= form_tag :action => 'courseedit' do %>
             <%= hidden_field_tag :course_id, course.id %>
-            <%= submit_tag "",:id => "edit_button" %>
+            <%= submit_tag "", :id => "edit_button", :title => 'Düzenle' %>
           <% end %>
           <%= form_tag :action => 'coursedel' do %>
             <%= hidden_field_tag :course_id, course.id %>
             <%= submit_tag "", :id => "delete_button",
               :onClick => "return confirm('#{Course.find(course.id).full_name} dersini silmek üzeresiniz. " +
-                                          "Silmek istediğinizden emin misiniz ?');" %>
+              "Silmek istediğinizden emin misiniz ?');",
+              :title => 'Sil' %>
           <% end %>
         </td>
       </tr>

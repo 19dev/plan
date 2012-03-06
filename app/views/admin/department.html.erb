@@ -1,63 +1,94 @@
 <h2>Bölüm Rapor</h2>
 
+<% departments = Department.where('id not in (?)', 19) %>
+<% period = Period.find(:first, :conditions => {:status => true}) %>
 <div class="module">
   <div class="inner">
     <h2>Bölüm Bilgileri</h2>
     <div class='description'>
       <table>
-        <colgroup><col width=200 /><col width=85 /><col width=40 /><col width=90 /></colgroup>
+        <colgroup><col width=190 /><col width=70 /><col width=60 /><col width=70 /></colgroup>
         <tr>
-          <td><b>Bölüm </b></td><th>Öğretim Üyesi</th><th>Ders</th><th>Ders Atama</th><th>Ders Programı</th>
+          <td><b>Bölüm </b></td><th>Öğretim Üyesi</th><th>Ders</th><th>Ders Atama</th><th>Ders Programı</th><th>Durum</th>
         </tr>
-        <% Department.all.each do |department| %>
+        <% departments.each do |department| %>
           <tr>
             <td><%= department.name %> </td>
-            <th><%= lecturer_count = Lecturer.where(:department_id => department.id).count %></th>
-            <th><%= course_count = Course.where(:department_id => department.id).count %></th>
+            <th><%= Lecturer.where(:department_id => department.id).count %></th>
+            <th><%= Course.where(:department_id => department.id).count %></th>
             <th>
-              <%
-                assignments = Assignment.joins(:lecturer).where(
-                  'lecturers.department_id' => department.id,
-                  'assignments.period_id' => Period.find(:first, :conditions => {:status => true})
-                ).joins(:course).where(
-                'courses.department_id' => department.id,
-                )
-                lecturer_ids = assignments.collect { |assignment| assignment.lecturer_id }
-                lecturer_ids.uniq!
-                done_lecturer_count = lecturer_ids.count
-              %>
-              <% if lecturer_count != 0 %>
-                %<%= done_lecturer_count * 100 / lecturer_count %>
-              <% else %>
-                %0
-              <% end %>
+              <a href="#assignment<%= department.id.to_s %>" rel="facebox">
+                %<%= assignment_percent = department.assignment_percent(period.id) %>
+              </a>
             </th>
             <th>
-              <%
-                assignments = Assignment.joins(:lecturer).where(
-                  'lecturers.department_id' => department.id,
-                  'assignments.period_id' => Period.find(:first, :conditions => {:status => true})
-                ).joins(:course).where(
-                'courses.department_id' => department.id,
-                )
-                lecturer_ids = []
-                assignments.each do |assignment|
-                  if Classplan.find(:first, :conditions => { 'assignment_id' => assignment.id })
-                    lecturer_ids << assignment.lecturer_id
-                  end
-                end
-                lecturer_ids.uniq!
-                done_schedule_count = lecturer_ids.count
-              %>
-              <% if lecturer_count != 0 %>
-                %<%= done_schedule_count * 100 / lecturer_count %>
-              <% else %>
-                %0
-              <% end %>
+              <a href="#schedule<%= department.id.to_s %>" rel="facebox">
+                %<%= schedule_percent = department.schedule_percent(period.id) %>
+              </a>
+            </th>
+            <th>
+              <div id="realtime">
+                <a class="status <%= percent(assignment_percent, schedule_percent) %>" style="margin-top:-8px"></a>
+              </div>
             </th>
           </tr>
         <% end %>
+        <% department = Department.find(19) %>
+        <tr>
+          <td><%= department.name %> </td>
+          <th><%= Lecturer.where(:department_id => department.id).count %></th>
+        </tr>
       </table>
     </div>
   </div>
 </div>
+  </div>
+
+  <!-- for facebox info -->
+  <% departments.each do |department| %>
+
+    <div id="assignment<%= department.id.to_s %>" style="display:none;">
+      <div class="module">
+        <div class="inner">
+          <h2>Ders Vermeyen Öğretim Üyesi</h2>
+          <div class='description'>
+            <table>
+              <colgroup><col width=250 /><col width=110 /></colgroup>
+              <% department.not_assignment_lecturer(period.id).each do |lecturer| %>
+                <tr>
+                  <td><%= lecturer.full_name %></td>
+                </tr>
+              <% end %>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="schedule<%= department.id.to_s %>" style="display:none;">
+      <div class="module">
+        <div class="inner">
+          <h2>Programı Hazır Olmayan Dersler</h2>
+          <div class='description'>
+            <table>
+              <colgroup><col width=250 /><col width=110 /></colgroup>
+              <% department.not_schedule_course(period.id).each do |lecturers, course| %>
+                <tr>
+                  <td><%= course %></td>
+                </tr>
+                <% lecturers.split(";").each do |lecturer| %>
+                  <tr>
+                    <td></td>
+                    <th><%= lecturer %></th>
+                  </tr>
+                <% end %>
+              <% end %>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  <% end %>
+  <!-- end for facebox info -->

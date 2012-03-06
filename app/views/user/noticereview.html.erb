@@ -28,16 +28,17 @@
         <td class="label" style="float:left;width:92px">
           <%= form_tag :action => 'noticeshow' do %>
             <%= hidden_field_tag :notice_id, notice.id %>
-            <%= submit_tag "",:id => "review_button" %>
+            <%= submit_tag "", :id => "review_button", :title => 'İncele' %>
           <% end %>
           <%= form_tag :action => 'noticeedit' do %>
             <%= hidden_field_tag :notice_id, notice.id %>
-            <%= submit_tag "",:id => "edit_button" %>
+            <%= submit_tag "", :id => "edit_button", :title => 'Düzenle' %>
           <% end %>
           <%= form_tag :action => 'noticedel' do %>
             <%= hidden_field_tag :notice_id, notice.id %>
             <%= submit_tag "", :id => "delete_button",
-              :onClick => "return confirm('Silmek istediğinizden emin misiniz ?');" %>
+              :onClick => "return confirm('Silmek istediğinizden emin misiniz ?');",
+              :title => 'Sil' %>
           <% end %>
         </td>
       </tr>

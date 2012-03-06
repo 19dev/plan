@@ -37,18 +37,19 @@
         <td class="label" style="float:left;width:92px">
           <%= form_tag :action => 'scheduleshow' do %>
             <%= hidden_field_tag :lecturer_id, lecturer.id %>
-            <%= submit_tag "",:id => "review_button" %>
+            <%= submit_tag "", :id => "review_button", :title => 'İncele' %>
           <% end %>
           <!--<%= form_tag :action => 'scheduleedit' do %>
             <%= hidden_field_tag :lecturer_id, lecturer.id %>
-            <%= submit_tag "",:id => "edit_button" %>
+            <%= submit_tag "", :id => "edit_button", :title => 'Düzenle'%>
           <% end %>-->
           <%= form_tag :action => 'scheduledel' do %>
             <%= hidden_field_tag :lecturer_id, lecturer.id %>
             <%= submit_tag "", :id => "delete_button",
               :onClick => "return confirm('#{lecturer.full_name} isimli öğretim görevlisinin bu dönemlik " +
                           "verdiği tüm dersleri silmek üzeresiniz. " +
-                          "Silmek istediğinizden emin misiniz ?');" %><!-- FIXME -->
+                          "Silmek istediğinizden emin misiniz ?');",
+              :title => 'Sil' %>
           <% end %>
         </td>
       </tr>
