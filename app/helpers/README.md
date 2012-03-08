@@ -12,7 +12,7 @@
   
 - plan/
 
-        plan_helper	   # fetch course and assignment (classroom,lecturer,department)
+        plan_helper    # fetch course and assignment (classroom,lecturer,department)
         schema_helper  # fill assignment to schema (classplan,lecturerplan,departmentplan)
         pdf_helper     # export schema to pdf (classplan_schema,lecturer_schema,department_schema)
   

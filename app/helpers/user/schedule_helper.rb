@@ -50,7 +50,7 @@ module User
       @class = Classroom.find(:all, :order => 'name')
 
       @year = (1..4)
-      @day, @header, @launch, @morning, @evening = departmentplan_schema(session[:period_id], session[:department_id], 0, 0)
+      @day, @header, @morning, @evening, @meal_time = departmentplan_schema(session[:period_id], session[:department_id], 0, 0)
     end
     def scheduleadd
       @assignment = Assignment.find(:first,
@@ -68,92 +68,90 @@ module User
       # @assignment.id
       schedule = []
 
-      @day, @header, @launch, @morning, @evening, morning_time, evening_time = table_schema # standart tablo şeması
+      @day, @header, @morning, @evening, morning_time, evening_time, meal_time = table_schema # standart tablo şeması
       # sabah
       morning_time.each do |hour|
-        unless hour == @launch[0]
-          if hour.to_i < 13
-            hour = hour + "-15"
-          else
-            hour = hour + "-00"
-          end
-          @day.each do |day_en, day_tr|
-            part = params[day_en + hour]
-            next unless part
-            part[1] = part.slice(1..-1)
-            if part.length > 1 and part[1] == []
-              flash[:error] = day_tr+hour.gsub("-",":")+" bölümünde sınıf işaretlenmemiş"
-              return redirect_to "/user/schedulenew"
-            elsif part.length == 1 and part[0] != []
-              flash[:error] = day_tr+hour.gsub("-",":")+" bölümünde saat işaretlenmemiş"
-              return redirect_to "/user/schedulenew"
-            elsif part[0] != nil and part[1] != []
-              part[1].each do |classroom_id|
-                choice = {
-                  'period_id' => session[:period_id],
-                  'assignment_id' => @assignment.id,
-                  'day' => day_en,
-                  'begin_time' => part[0],
-                  'classroom_id' => classroom_id,
-                }
-                if classplan = Classplan.find(:first,
-                                              :conditions => {
-                  'period_id' => session[:period_id],
-                  'day' => day_en,
-                  'begin_time' => part[0],
-                  'classroom_id' => classroom_id,
-                }) and
+        if hour.to_i < 13
+          hour = hour + "-15"
+        else
+          hour = hour + "-00"
+        end
+        @day.each do |day_en, day_tr|
+          part = params[day_en + hour]
+          next unless part
+          part[1] = part.slice(1..-1)
+          if part.length > 1 and part[1] == []
+            flash[:error] = day_tr+hour.gsub("-",":")+" bölümünde sınıf işaretlenmemiş"
+            return redirect_to "/user/schedulenew"
+          elsif part.length == 1 and part[0] != []
+            flash[:error] = day_tr+hour.gsub("-",":")+" bölümünde saat işaretlenmemiş"
+            return redirect_to "/user/schedulenew"
+          elsif part[0] != nil and part[1] != []
+            part[1].each do |classroom_id|
+              choice = {
+                'period_id' => session[:period_id],
+                'assignment_id' => @assignment.id,
+                'day' => day_en,
+                'begin_time' => part[0],
+                'classroom_id' => classroom_id,
+              }
+              if classplan = Classplan.find(:first,
+                                            :conditions => {
+                'period_id' => session[:period_id],
+                'day' => day_en,
+                'begin_time' => part[0],
+                'classroom_id' => classroom_id,
+              }) and
                 !(classplan.assignment.course.group and @assignment.course.group and classplan.assignment.course_id == @assignment.course_id) and
                 !(classplan.assignment.course.common and @assignment.course.common and classplan.assignment.lecturer_id == @assignment.lecturer_id)
 
-                  flash[:error] = day_tr + " " + hour.gsub("-",":") + " de "+
-                    "#{classplan.classroom.name} sınıfında "+
-                    "#{classplan.assignment.lecturer.department.name} bölümünden "+
-                    "öğretim üyesi #{classplan.assignment.lecturer.full_name} tarafından "+
-                    "#{classplan.assignment.course.full_name} dersi verilmektedir. Bu "+
-                    "bilginin düzeltilmesini istiyorsanız; "+
-                    "#{classplan.assignment.lecturer.department.name} bölümünün yöneticileri ile irtibata geçin."
-                  return redirect_to "/user/schedulenew"
-                elsif classplans = Classplan.find(:all,
+                flash[:error] = day_tr + " " + hour.gsub("-",":") + " de "+
+                  "#{classplan.classroom.name} sınıfında "+
+                  "#{classplan.assignment.lecturer.department.name} bölümünden "+
+                  "öğretim üyesi #{classplan.assignment.lecturer.full_name} tarafından "+
+                  "#{classplan.assignment.course.full_name} dersi verilmektedir. Bu "+
+                  "bilginin düzeltilmesini istiyorsanız; "+
+                  "#{classplan.assignment.lecturer.department.name} bölümünün yöneticileri ile irtibata geçin."
+                return redirect_to "/user/schedulenew"
+              elsif classplans = Classplan.find(:all,
                                                 :conditions => {
-                  'period_id' => session[:period_id],
-                  'day' => day_en,
-                  'begin_time' => part[0],
-                })
-                  assignment_id = ""
-                  assignment_state = false
-                  classplans.each do |classplan|
-                    if @assignments.include?(classplan.assignment_id)
-                      assignment_id = classplan.assignment_id
-                      assignment_state = true
-                      break
-                    end
-                  end
-                  if assignment_state and classplan = Classplan.find(:first,
-                                                :conditions => {
-                      'period_id' => session[:period_id],
-                      'assignment_id' => assignment_id,
-                      'day' => day_en,
-                      'begin_time' => part[0],
-                    }) and
-                    !(classplan.assignment.course.common and @assignment.course.common and classplan.assignment.lecturer_id == @assignment.lecturer_id)
-                    flash[:error] = day_tr + " " + hour.gsub("-",":") + " de "+
-                      "#{classplan.classroom.name} sınıfında kaydetmeye çalıştığınız "+
-                      "#{classplan.assignment.lecturer.department.name} bölümünden "+
-                      "#{classplan.assignment.lecturer.full_name} isimli öğretim üyesi "+
-                      "#{classplan.assignment.course.full_name} dersini vermektedir. Bu "+
-                      "bilginin düzeltilmesini istiyorsanız; "+
-                      "bu verdiği dersin gününü veya saatini değiştiriniz."
-                    return redirect_to "/user/schedulenew"
+                'period_id' => session[:period_id],
+                'day' => day_en,
+                'begin_time' => part[0],
+              })
+                assignment_id = ""
+                assignment_state = false
+                classplans.each do |classplan|
+                  if @assignments.include?(classplan.assignment_id)
+                    assignment_id = classplan.assignment_id
+                    assignment_state = true
+                    break
                   end
                 end
-
-                schedule << choice
+                if assignment_state and classplan = Classplan.find(:first,
+                                                                   :conditions => {
+                  'period_id' => session[:period_id],
+                  'assignment_id' => assignment_id,
+                  'day' => day_en,
+                  'begin_time' => part[0],
+                }) and
+                  !(classplan.assignment.course.common and @assignment.course.common and classplan.assignment.lecturer_id == @assignment.lecturer_id)
+                  flash[:error] = day_tr + " " + hour.gsub("-",":") + " de "+
+                    "#{classplan.classroom.name} sınıfında kaydetmeye çalıştığınız "+
+                    "#{classplan.assignment.lecturer.department.name} bölümünden "+
+                    "#{classplan.assignment.lecturer.full_name} isimli öğretim üyesi "+
+                    "#{classplan.assignment.course.full_name} dersini vermektedir. Bu "+
+                    "bilginin düzeltilmesini istiyorsanız; "+
+                    "bu verdiği dersin gününü veya saatini değiştiriniz."
+                  return redirect_to "/user/schedulenew"
+                end
               end
+
+              schedule << choice
             end
           end
-
         end
+
       end
       # akşam
       evening_time.each do |hour|
@@ -251,7 +249,7 @@ module User
       session[:lecturer_id] = params[:lecturer_id] if params[:lecturer_id] # uniq veriyi oturuma gömelim
       @lecturer = Lecturer.find(session[:lecturer_id])
       @course_ids, @assignments = lecturer_plan(session[:period_id], session[:lecturer_id])
-      @day, @header, @launch, @morning, @evening = lecturerplan_schema(session[:period_id], @assignments)
+      @day, @header, @morning, @evening, @meal_time = lecturerplan_schema(session[:period_id], @assignments)
     end
     def schedulereview
       assignments = Assignment.joins(:course).where(

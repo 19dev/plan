@@ -55,7 +55,7 @@ class HomeController < ApplicationController
         "#{@period.full_name} dönemlik ders programı tablosu henüz hazır değil."
       return redirect_to '/home/lecturer'
     end
-    @day, @header, @launch, @morning, @evening = lecturerplan_schema(@period.id, @assignments)
+    @day, @header, @morning, @evening, @meal_time = lecturerplan_schema(@period.id, @assignments)
   end
 
   def lecturerplanpdf
@@ -72,7 +72,7 @@ class HomeController < ApplicationController
         "#{period.full_name} dönemlik ders programı tablosu henüz hazır değil."
       return redirect_to '/home/lecturer'
     end
-    day, header, launch, morning, evening = lecturerplan_schema(period.id, assignments)
+    day, header, morning, evening, meal_time = lecturerplan_schema(period.id, assignments)
 
     description = {
       "Dönem" => period.full_name,
@@ -81,7 +81,7 @@ class HomeController < ApplicationController
     }
     info = description.map {|k, v| [k, v]}
 
-    pdf = lecturerpdf_schema "#{lecturer.photo}", info, header, "Ders", "Sınıf", launch, morning, evening
+    pdf = pdf_schema lecturer.photo, info, header, "Ders", "Sınıf", meal_time, morning, evening, height=25
     send_data(pdf.render(), :filename => description.values.join("-") + ".pdf")
   end
 
@@ -100,7 +100,7 @@ class HomeController < ApplicationController
         "programı tablosu henüz hazır değil."
       return redirect_to '/home/class'
     end
-    @day, @header, @launch, @morning, @evening = classplan_schema(@period.id, @assignments, @classroom.id)
+    @day, @header, @morning, @evening, @meal_time = classplan_schema(@period.id, @assignments, @classroom.id)
   end
 
   def classplanpdf
@@ -118,7 +118,7 @@ class HomeController < ApplicationController
         "programı tablosu henüz hazır değil."
       return render '/home/class'
     end
-    day, header, launch, morning, evening = classplan_schema(period.id, assignments, classroom.id)
+    day, header, morning, evening, meal_time = classplan_schema(period.id, assignments, classroom.id)
 
     description = {
       "Dönem" => period.full_name,
@@ -126,7 +126,7 @@ class HomeController < ApplicationController
     }
     info = description.map {|k, v| [k, v]}
 
-    pdf = pdf_schema info, header, "Ders", "Bölüm", launch, morning, evening
+    pdf = pdf_schema nil, info, header, "Ders", "Bölüm", meal_time, morning, evening, height=28
     send_data(pdf.render(), :filename => description.values.join("-") + ".pdf")
   end
 
@@ -175,10 +175,10 @@ class HomeController < ApplicationController
 
     if params[:year] == "0"
       @year = (1..4)
-      @day, @header, @launch, @morning, @evening = departmentplan_schema(@period.id, @department.id, 0, @section.to_i)
+      @day, @header, @morning, @evening, @meal_time = departmentplan_schema(@period.id, @department.id, 0, @section.to_i)
     else
       @year = [params[:year]]
-      @day, @header, @launch, @morning, @evening = departmentplan_schema(@period.id, @department.id, params[:year].to_i, @section.to_i)
+      @day, @header, @morning, @evening, @meal_time = departmentplan_schema(@period.id, @department.id, params[:year].to_i, @section.to_i)
     end
   end
 
@@ -198,7 +198,7 @@ class HomeController < ApplicationController
     section = params[:section]
 
     if params[:year] == "0"
-      day, header, launch, morning, evening = departmentplan_schema(period.id, department.id, 0, section.to_i)
+      day, header, morning, evening, meal_time = departmentplan_schema(period.id, department.id, 0, section.to_i)
 
       description = {
         "Dönem" => period.full_name,
@@ -206,10 +206,10 @@ class HomeController < ApplicationController
       }
       info = description.map {|k, v| [k, v]}
 
-      pdf = departmentpdf_schema info, header, "Ders", "Sınıf", launch, morning, evening
+      pdf = departmentpdf_schema info, header, "Ders", "Sınıf", meal_time, morning, evening
       send_data(pdf.render(), :filename => description.values.join("-") + ".pdf")
     else
-      day, header, launch, morning, evening = departmentplan_schema(period.id, department.id, params[:year].to_i, params[:section].to_i)
+      day, header, morning, evening, meal_time = departmentplan_schema(period.id, department.id, params[:year].to_i, params[:section].to_i)
       morning = morning[0]
       evening = evening[0]
       description = {
@@ -218,7 +218,7 @@ class HomeController < ApplicationController
       }
       info = description.map {|k, v| [k, v]}
 
-      pdf = pdf_schema info, header, "Ders", "Sınıf", launch, morning, evening
+      pdf = pdf_schema nil, info, header, "Ders", "Sınıf", meal_time, morning, evening, height=28
       send_data(pdf.render(), :filename => description.values.join("-") + ".pdf")
     end
   end

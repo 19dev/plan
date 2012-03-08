@@ -75,7 +75,7 @@
   }
   #table th.x,
   #table th.header,
-  #table th.launch {
+  #table th.meal {
     background-color:#ccc;
   }
 
@@ -87,7 +87,7 @@
 
   #table th.field1{min-width:120px;width:120px;}
   #table th.field2{min-width:45px;width:45px;}
-  #table th.launch {
+  #table th.meal {
     min-height:20px;height:20px;
   }
 </style>
@@ -122,12 +122,12 @@
           <% if @morning[year_index] %>
             <% @morning[year_index].each do |col| %>
               <tr>
-                <th class='clock<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'><%= col[0].gsub('-', ':') %></th>
+                <th class='clock<%= ', meal' if col[0].slice(0..1) == @meal_time[0] %>'><%= col[0].gsub('-', ':') %></th>
                 <% index = 0 %>
                 <% col.slice(1..-1).each_with_index do |c, i| %>
-                  <% if year == @course.year and col[0].slice(0..1) != @launch[0].slice(0..1) %>
+                  <% if year == @course.year %>
                     <% if i % 2 == 0 %>
-                      <th class='field1' id='<%= @day.keys[index] + col[0].slice(0..4) %>field1'>
+                      <th class='field1<%= ', meal' if col[0].slice(0..1) == @meal_time[0] %>' id='<%= @day.keys[index] + col[0].slice(0..4) %>field1'>
                         <% c = c.split("\n") %>
                         <p style='text-align:left'> <%= c[0] %></p>
                         <p style='text-align:left'> <%= c[1] %></p>
@@ -137,7 +137,7 @@
                         value="<%= col[0].slice(0..4) %>" onchange="alert(this.id)"/>
                       </th>
                     <% else %>
-                      <th class='field2' id='<%= @day.keys[index] + col[0].slice(0..4) %>field2'>
+                      <th class='field2<%= ', meal' if col[0].slice(0..1) == @meal_time[0] %>' id='<%= @day.keys[index] + col[0].slice(0..4) %>field2'>
                         <%= c %>
                         <select id="classroom_id" multiple="multiple" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]">
                           <% @class.each do |k| %>
@@ -151,10 +151,9 @@
                     <% end %>
                   <% else %>
                     <% if i % 2 == 0 %>
-                      <th class='field1<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
+                      <th class='field1<%= ', meal' if col[0].slice(0..1) == @meal_time[0] %>'
                         id='<%= @day.keys[index] + col[0].slice(0..4) %>field1'>
-                        <% if col[0].slice(0..1) == @launch[0].slice(0..1)%>
-
+                        <% if col[0].slice(0..1) == @meal_time[0] %>
                           <input type="checkbox" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]"
                           id="<%= 'seçim : '+@day.values[index]+' - '+col[0] %>"
                           value="<%= col[0].slice(0..4) %>" onchange="alert(this.id)" disabled/>
@@ -166,9 +165,9 @@
                         <% end %>
                       </th>
                     <% else %>
-                      <th class='field2<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
+                      <th class='field2<%= ', meal' if col[0].slice(0..1) == @meal_time[0] %>'
                         id='<%= @day.keys[index] + col[0].slice(0..4) %>field2'>
-                        <% if col[0].slice(0..1) == @launch[0].slice(0..1)%>
+                        <% if col[0].slice(0..1) == @meal_time[0] %>
                           <input type="checkbox" id="classroom_id" name="<%= @day.keys[index] + col[0].slice(0..4) %>[]" value="" disabled>
                         <% else %>
                           <%= c %>
@@ -181,6 +180,17 @@
               </tr>
             <% end %>
           <% end %>
+
+          <tr>
+            <th class="clock, meal"></th>
+            <% 5.times do %>
+              <th class='field1, meal'>
+                <p style="text-align:left"></p>
+                <p style="text-align:right"></p>
+              </th>
+              <th class='field2, meal'></th>
+            <% end %>
+          </tr>
 
           <% if @evening[year_index] %>
             <% @evening[year_index].each do |col| %>

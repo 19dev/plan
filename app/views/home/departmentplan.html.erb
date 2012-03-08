@@ -34,7 +34,7 @@
   }
   #table th.x,
   #table th.header,
-  #table th.launch {
+  #table th.meal {
     background-color:#ccc;
   }
 
@@ -46,7 +46,7 @@
 
   #table th.field1{min-width:140px;width:140px;}
   #table th.field2{min-width:30px;width:30px;}
-  #table th.launch {
+  #table th.meal {
     min-height:20px;height:20px;
   }
 </style>
@@ -84,11 +84,11 @@
           <% if @morning[year_index] %>
             <% @morning[year_index].each do |col| %>
               <tr>
-                <th class='clock<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'><%= col[0].gsub('-', ':') %></th>
+                <th class='clock<%= ', meal' if col[0].slice(0..1) == @meal_time[0] %>'><%= col[0].gsub('-', ':') %></th>
                 <% index = 0 %>
                 <% col.slice(1..-1).each_with_index do |c, i| %>
                   <% if i % 2 == 0 %>
-                    <th class='field1<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
+                    <th class='field1<%= ', meal' if col[0].slice(0..1) == @meal_time[0] %>'
                       id='<%= @day.keys[index] + col[0].slice(0..4) %>field1'>
                       <% c = c.split("\n") %>
                       <p style='text-align:left'> <%= c[0] %></p>
@@ -96,7 +96,7 @@
                       <p style='text-align:right'><%= c[2] %></p>
                     </th>
                   <% else %>
-                    <th class='field2<%= ', launch' if col[0].slice(0..1) == @launch[0].slice(0..1)%>'
+                    <th class='field2<%= ', meal' if col[0].slice(0..1) == @meal_time[0] %>'
                       id='<%= @day.keys[index] + col[0].slice(0..4) %>field2'><%= c %></th>
                     <% index = index + 1 %>
                   <% end %>
