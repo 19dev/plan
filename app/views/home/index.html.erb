@@ -114,7 +114,7 @@ closeImage   : '/assets/closelabel.png'
           <div class='description'>
             <table>
               <colgroup><col width=250 /><col width=110 /></colgroup>
-              <% department.not_schedule_course(period.id).each do |lecturers, course| %>
+              <% department.not_schedule_course(period.id).each do |course, lecturers| %>
                 <tr>
                   <td><%= course %></td>
                 </tr>
