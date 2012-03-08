@@ -82,14 +82,14 @@ closeImage   : '/assets/closelabel.png'
       <div class='description'>
         <table>
           <colgroup><col width=250 /><col width=110 /></colgroup>
-          <% department.not_schedule_course(session[:period_id]).each do |lecturers, course| %>
+          <% department.not_schedule_course(period.id).each do |course_id, lecturer_ids| %>
             <tr>
-              <td><%= course %></td>
+              <td><%= Course.find(course_id).full_name %></td>
             </tr>
-            <% lecturers.split(";").each do |lecturer| %>
+            <% lecturer_ids.each do |lecturer_id| %>
               <tr>
                 <td></td>
-                <th><%= lecturer %></th>
+                <th><%= Lecturer.find(lecturer_id).full_name %></th>
               </tr>
             <% end %>
           <% end %>
