@@ -43,21 +43,26 @@ class Department < ActiveRecord::Base
     (lecturer_ids == []) ? Lecturer.where(:department_id => self.id) : Lecturer.where('id not in (?)', lecturer_ids).where(:department_id => self.id)
   end
   def not_schedule_course period_id
-    all_assignments = Assignment.joins(:course).where(
+    assignments = Assignment.joins(:course).where(
       'courses.department_id' => self.id,
       'assignments.period_id' => period_id
     ).select("assignments.course_id").group('assignments.course_id')
     _assignments = {}
 
-    all_assignments.each do |assignment|
-      assignments = Assignment.find_all_by_course_id_and_period_id(assignment.course_id, period_id)
-      lecturers = assignments.inject([]) do |lecturers, assignment|
-        lecturers << assignment.lecturer.full_name unless Classplan.find_by_assignment_id_and_period_id(assignment.id, period_id)
-        lecturers
+    assignments.each do |assignment|
+      course_assignments = Assignment.find_all_by_course_id_and_period_id(assignment.course_id, period_id)
+
+      lecturer_ids = course_assignments.collect do |assignment|
+        unless Classplan.find_by_assignment_id_and_period_id(assignment.id, period_id)
+          assignment.lecturer_id
+        end
       end
-      unless lecturers == []
-        _assignments[assignment.course.full_name] = lecturers.join(';')
+      lecturer_ids.compact! # nil'lerden kurtulsun
+
+      unless lecturer_ids == []
+        _assignments[assignment.course_id] = lecturer_ids
       end
     end
+    _assignments
   end
 end
