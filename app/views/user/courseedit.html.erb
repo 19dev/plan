@@ -16,18 +16,18 @@
   <tr>
     <td class="label">Ortak Ders mi?<br/>(Ör: Türk Dili Gibi Ders İçin "Evet")</td>
     <td class="field">
-      evet
+      Evet
       <%= radio_button_tag("common", '1', @course.common)%>
-      hayır
+      Hayır
       <%= radio_button_tag("common", '0', !@course.common)%>
     </td>
   </tr>
   <tr>
     <td class="label">Grup Dersi mi?<br/>(Ör: Bitirme Çalışması Gibi Ders İçin "Evet")</td>
     <td class="field">
-      evet
+      Evet
       <%= radio_button_tag("group", '1', @course.group)%>
-      hayır
+      Hayır
       <%= radio_button_tag("group", '0', !@course.group)%>
     </td>
   </tr>

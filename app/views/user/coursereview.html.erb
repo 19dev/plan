@@ -36,8 +36,8 @@
         <td class="label"><%= course.year %></td>
         <td class="label"><%= course.code %></td>
         <td class="label"><%= course.name %></td>
-        <td class="label"><% if course.common %>evet<% else %>hayır<% end %></td>
-        <td class="label"><% if course.group %>evet<% else %>hayır<% end %></td>
+        <td class="label"><%= course.common ? "Evet" : "Hayır" %></td>
+        <td class="label"><%= course.group  ? "Evet" : "Hayır" %></td>
         <td class="label"><%= course.theoretical %></td>
         <td class="label"><%= course.practice %></td>
         <td class="label"><%= course.lab %></td>

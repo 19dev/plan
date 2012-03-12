@@ -24,18 +24,20 @@
                    "warning"
                  else
                    "notice"
-                  end
-        last_used = eval(table[0] + ".order('updated_at DESC').limit(1)")
-        ms = Time.now - last_used[0].updated_at
-        _sec = ms % 60; ms /= 60
-        _min = ms % 60; ms /= 60
-        _hour = ms % 24; ms /= 24
-        _day = ms
-        from_time = Time.now - _day.days - _hour.hours - _min.minutes - _sec.seconds
+                 end
+        unless table_count == 0
+          last_used = eval(table[0] + ".order('updated_at DESC').limit(1)")
+          ms = Time.now - last_used[0].updated_at
+          _sec = ms % 60; ms /= 60
+          _min = ms % 60; ms /= 60
+          _hour = ms % 24; ms /= 24
+          _day = ms
+          from_time = Time.now - _day.days - _hour.hours - _min.minutes - _sec.seconds
+        end
       %>
       <tr>
         <td><%= table[0] %></td>
-        <td><%= time_ago_in_words(from_time) %></td>
+        <td><%= time_ago_in_words(from_time) unless table_count == 0 %></td>
         <td>
           <div
             class='animate-width-to stick <%= choise %>'

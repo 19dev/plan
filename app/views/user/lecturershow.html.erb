@@ -33,11 +33,11 @@
   </tr>
   <tr>
     <td class="label">Bölüm başkanı mı?</td>
-    <td class="field">
-      <% if @lecturer.status %> evet
-      <% else %>                hayır
-      <% end %>
-    </td>
+    <td class="field"><%= @lecturer.status ? "Evet" : "Hayır" %></td>
+  </tr>
+  <tr>
+    <td class="label">Devam durumu</td>
+    <td class="field"><%= @lecturer.continuity ? "Devamlı" : "Devamsız" %></td>
   </tr>
   <tr>
     <td></td>
@@ -47,8 +47,8 @@
       <% end %>
       <%= form_tag({ :action => 'lecturerdel' }, :multipart => true) do %>
         <%= submit_tag "Sil", :id => "submit_button",
-          :confirm => "#{Lecturer.find(@lecturer.id).full_name} isimli öğretim görevlisini " +
-                      "silmek üzeresiniz. Silmek istediğinizden emin misiniz ?" %>
+          :onClick => "return confirm('#{Lecturer.find(@lecturer.id).full_name} isimli öğretim görevlisini " +
+                      "silmek üzeresiniz. Silmek istediğinizden emin misiniz ?');" %>
       <% end %>
     </td>
   </tr>

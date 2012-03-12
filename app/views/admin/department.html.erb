@@ -4,7 +4,7 @@
 <% period = Period.find(:first, :conditions => {:status => true}) %>
 <div class="module">
   <div class="inner">
-    <h2>Bölüm Bilgileri</h2>
+    <h3>Bölüm Bilgileri</h3>
     <div class='description'>
       <table>
         <colgroup><col width=190 /><col width=70 /><col width=60 /><col width=70 /></colgroup>
@@ -50,7 +50,7 @@
     <div id="assignment<%= department.id.to_s %>" style="display:none;">
       <div class="module">
         <div class="inner">
-          <h2>Ders Vermeyen Öğretim Üyesi</h2>
+          <h3>Ders Vermeyen Öğretim Üyesi</h3>
           <div class='description'>
             <table>
               <colgroup><col width=250 /><col width=110 /></colgroup>
@@ -68,27 +68,27 @@
     <div id="schedule<%= department.id.to_s %>" style="display:none;">
       <div class="module">
         <div class="inner">
-          <h2>Programı Hazır Olmayan Dersler</h2>
+          <h3>Programı Hazır Olmayan Dersler</h3>
           <div class='description'>
             <table>
               <colgroup><col width=250 /><col width=110 /></colgroup>
-              <% department.not_schedule_course(period.id).each do |lecturers, course| %>
+              <% department.not_schedule_course(period.id).each do |course_id, lecturer_ids| %>
+              <tr>
+                <td><%= Course.find(course_id).full_name %></td>
+              </tr>
+              <% lecturer_ids.each do |lecturer_id| %>
                 <tr>
-                  <td><%= course %></td>
+                  <td></td>
+                  <th><%= Lecturer.find(lecturer_id).full_name %></th>
                 </tr>
-                <% lecturers.split(";").each do |lecturer| %>
-                  <tr>
-                    <td></td>
-                    <th><%= lecturer %></th>
-                  </tr>
-                <% end %>
               <% end %>
-            </table>
-          </div>
+            <% end %>
+          </table>
         </div>
       </div>
     </div>
+  </div>
 
 
-  <% end %>
-  <!-- end for facebox info -->
+<% end %>
+<!-- end for facebox info -->

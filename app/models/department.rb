@@ -8,9 +8,11 @@ class Department < ActiveRecord::Base
     done_lecturer_count = Assignment.joins(:lecturer).where(
       'lecturers.department_id' => self.id,
       'assignments.period_id' => period_id
-    ).joins(:course).where(
-    'courses.department_id' => self.id,
     ).group('assignments.lecturer_id').count.count
+#     .joins(:course).where(
+#      'courses.department_id' => self.id,
+#     )
+#   .group('assignments.lecturer_id').count.count
     (lecturer_count == 0) ? 0 : done_lecturer_count * 100 / lecturer_count
   end
   def schedule_percent period_id
@@ -21,26 +23,24 @@ class Department < ActiveRecord::Base
     assignment_count = 0
     done_assignment_count = 0
     assignments.each do |assignment|
-      if Classplan.find(:first, :conditions => {
-        :assignment_id => assignment.id,
-        :period_id => period_id
-      })
-      done_assignment_count += 1
+      if Classplan.find_by_assignment_id_and_period_id(assignment.id, period_id)
+        done_assignment_count += 1
       end
       assignment_count += 1
     end
-    (done_assignment_count == 0) ? 0 : done_assignment_count * 100 / assignment_count
+    done_assignment_count == 0 ? 0 : done_assignment_count * 100 / assignment_count
   end
   def not_assignment_lecturer period_id
     lecturer_count = Lecturer.where(:department_id => self.id).count
     assignments = Assignment.joins(:lecturer).where(
       'lecturers.department_id' => self.id,
       'assignments.period_id' => period_id
-    ).joins(:course).where(
-    'courses.department_id' => self.id,
     ).group('assignments.lecturer_id')
+#    .joins(:course).where(
+#   'courses.department_id' => self.id,
+#    ).group('assignments.lecturer_id')
     lecturer_ids = assignments.collect { |assignment| assignment.lecturer_id }
-    (lecturer_ids == []) ? Lecturer.where(:department_id => self.id) : Lecturer.where('id not in (?)', lecturer_ids).where(:department_id => self.id)
+    lecturer_ids == [] ? Lecturer.where(:department_id => self.id) : Lecturer.where('id not in (?)', lecturer_ids).where(:department_id => self.id)
   end
   def not_schedule_course period_id
     assignments = Assignment.joins(:course).where(

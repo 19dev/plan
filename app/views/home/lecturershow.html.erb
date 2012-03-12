@@ -37,11 +37,20 @@
       <td class="field"><%= @lecturer.work_phone %></td>
     </tr>
     <tr>
-      <td></td>
+      <td class="label" style="border:none"> Devam durumu: </td>
+      <td class="field"><%= @lecturer.continuity ? "Devamlı" : "Devamsız" %></td>
+    </tr>
+    <tr>
+      <td class="label" style="border:none"> Plan durumu: </td>
+      <td class="field"><%= @lecturer.has_plan?(@period.id) ? "Hazır" : "Hazır Değil" %></td>
+    </tr>
+    <tr>
+      <td class="label" style="border:none"> Ders Planı: </td>
       <td>
-        <%= link_to "Ders Programı İncele", "/home/lecturerplan/#{@period.id}/#{@lecturer.id}", :class=>"button" %>
-        <%= link_to "Pdf Çıktı", "/home/lecturerplanpdf/#{@period.id}/#{@lecturer.id}", :class => "button danger", :id=>"pdf_buttonx32" %>
+        <%= link_to "Göster", "/home/lecturerplan/#{@period.id}/#{@lecturer.id}", :class => "button" %>
+        <%= link_to "Pdf", "/home/lecturerplanpdf/#{@period.id}/#{@lecturer.id}", :class => "button danger", :id => "pdf_buttonx32" %>
       </td>
     </tr>
   </table>
 </div>
+

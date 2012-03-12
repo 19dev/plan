@@ -47,10 +47,19 @@
   <tr>
     <td class="label">Bölüm başkanı mı?</td>
     <td class="field">
-      evet
+      Evet
       <%= radio_button_tag("status", '1')%>
-      hayır
+      Hayır
       <%= radio_button_tag("status", '0', true)%>
+    </td>
+  </tr>
+  <tr>
+    <td class="label">Devam durumu</td>
+    <td class="field">
+      Devamlı
+      <%= radio_button_tag("continuity", '1', true)%>
+      Devamsız
+      <%= radio_button_tag("continuity", '0')%>
     </td>
   </tr>
   <tr>

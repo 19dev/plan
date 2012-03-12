@@ -38,6 +38,15 @@
     </td>
   </tr>
   <tr>
+    <td class="label">Devam durumu</td>
+    <td class="field">
+      Devamlı
+      <%= radio_button_tag("continuity", '1', @lecturer.continuity)%>
+      Devamsız
+      <%= radio_button_tag("continuity", '0', !@lecturer.continuity)%>
+    </td>
+  </tr>
+  <tr>
     <td></td>
     <td><%= submit_tag "Güncelle", :id => "submit_button" %></td>
   </tr>

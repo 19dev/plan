@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120302195945) do
+ActiveRecord::Schema.define(:version => 20120311205747) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "period_id"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(:version => 20120302195945) do
     t.string   "photo"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "continuity",    :default => true
   end
 
   create_table "notices", :force => true do |t|

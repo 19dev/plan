@@ -15,19 +15,11 @@
   </tr>
   <tr>
     <td class="label">Ortak Ders mi?<br/>(Ör: Türk Dili Gibi Ders İçin "Evet")</td>
-    <td class="field">
-      <% if @course.common %>evet
-      <% else %>             hayır
-      <% end %>
-    </td>
+    <td class="field"><%= @course.common ? "Evet" : "Hayır" %></td>
   </tr>
   <tr>
     <td class="label">Grup Dersi mi?<br/>(Ör: Bitirme Çalışması Gibi Ders İçin "Evet")</td>
-    <td class="field">
-      <% if @course.group %> evet
-      <% else %>             hayır
-      <% end %>
-    </td>
+    <td class="field"><%= @course.group ? "Evet" : "Hayır" %></td>
   </tr>
   <tr>
     <td class="label">Teorik</td>
@@ -53,8 +45,8 @@
       <% end %>
       <%= form_tag({ :action => 'coursedel' }, :multipart => true) do %>
           <%= submit_tag "Sil", :id => "submit_button",
-            :confirm => "#{Course.find(@course.id).full_name} dersini silmek üzeresiniz. " +
-                        "Silmek istediğinizden emin misiniz ?" %>
+            :onClick => "return confirm('#{Course.find(@course.id).full_name} dersini silmek üzeresiniz. " +
+                        "Silmek istediğinizden emin misiniz ?');" %>
       <% end %>
     </td>
   </tr>
