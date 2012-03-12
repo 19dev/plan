@@ -121,6 +121,8 @@ Schedule::Application.routes.draw do
   match 'home/classplan' => 'home#classplan'
   match 'home/classplan/:period_id/:classroom_id' => 'home#classplan'
   match 'home/classplanpdf/:period_id/:classroom_id' => 'home#classplanpdf'
+  post  'home/classplanpdf'
+  match 'home/classplanpdfs' => 'home#classplanpdfs'
 
   get  "home/department"
   match 'home/departmentplan' => 'home#departmentplan'

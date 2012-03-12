@@ -49,12 +49,13 @@ class HomeController < ApplicationController
       return redirect_to "/home/lecturer"
     end
 
-    @course_ids, @assignments = lecturer_plan(@period.id, @lecturer.id)
-    if @course_ids == {}
+    unless @lecturer.has_plan? @period.id
       flash[:error] = "#{@lecturer.full_name} isimli öğretim görevlisinin " +
         "#{@period.full_name} dönemlik ders programı tablosu henüz hazır değil."
       return redirect_to '/home/lecturer'
     end
+
+    @course_ids, @assignments = lecturer_plan(@period.id, @lecturer.id)
     @day, @header, @morning, @evening, @meal_time = lecturerplan_schema(@period.id, @assignments)
   end
 
@@ -66,12 +67,13 @@ class HomeController < ApplicationController
       return redirect_to "/home/lecturer"
     end
 
-    course_ids, assignments = lecturer_plan(period.id, lecturer.id)
-    if course_ids == {}
+    unless lecturer.has_plan? period.id
       flash[:error] = "#{lecturer.full_name} isimli öğretim görevlisinin " +
         "#{period.full_name} dönemlik ders programı tablosu henüz hazır değil."
       return redirect_to '/home/lecturer'
     end
+
+    course_ids, assignments = lecturer_plan(period.id, lecturer.id)
     day, header, morning, evening, meal_time = lecturerplan_schema(period.id, assignments)
 
     description = {
@@ -93,13 +95,14 @@ class HomeController < ApplicationController
       return redirect_to "/home/class"
     end
 
-    @course_ids, @assignments = class_plan(@period.id, @classroom.id)
-    if @course_ids == {}
+    unless @classroom.has_plan? @period.id
       flash[:error] = "#{@classroom.name} sınıfın, " +
         "#{@period.full_name} dönemlik ders " +
         "programı tablosu henüz hazır değil."
       return redirect_to '/home/class'
     end
+
+    @course_ids, @assignments = class_plan(@period.id, @classroom.id)
     @day, @header, @morning, @evening, @meal_time = classplan_schema(@period.id, @assignments, @classroom.id)
   end
 
@@ -111,13 +114,14 @@ class HomeController < ApplicationController
       return redirect_to "/home/class"
     end
 
-    course_ids, assignments = class_plan(period.id, classroom.id)
-    if course_ids == {}
+    unless classroom.has_plan? period.id
       flash[:error] = "#{classroom.name} sınıfın, " +
         "#{period.full_name} dönemlik ders " +
         "programı tablosu henüz hazır değil."
       return render '/home/class'
     end
+
+    course_ids, assignments = class_plan(period.id, classroom.id)
     day, header, morning, evening, meal_time = classplan_schema(period.id, assignments, classroom.id)
 
     description = {
