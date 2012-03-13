@@ -17,14 +17,14 @@ module Plan
           table info,
             :position => 133,
             :column_widths => { 0 => 24, 1 => 98},
-            :cell_style => { :size => 3.6, :text_color => "000000", :height => 13, :border_width => 0.1 }
+            :cell_style => { :size => 4.1, :text_color => "000000", :height => 13, :border_width => 0.1 }
           image "#{Rails.root}/public#{photo}", :width => 39, :height => 39, :position => 93, :vposition => -10
           move_up(38)
         else
           table info,
             :position => 93,
             :column_widths => { 0 => 24, 1 => 137},
-            :cell_style => { :size => 3.6, :text_color => "000000", :height => 13, :border_width => 0.1 }
+            :cell_style => { :size => 4.1, :text_color => "000000", :height => 13, :border_width => 0.1 }
         end
 
         font "#{Prawn::BASEDIR}/data/fonts/comicsans.ttf", :size => 4
@@ -75,6 +75,9 @@ module Plan
             :column_widths => { 0=>24,1=>45.7,2=>18,3=>45.7,4=>18,5=>45.7,6=>18,7=>45.7,8=>18,9=>45.7,10=>18},
             :cell_style => { :size => 3.6, :text_color => "000000", :height => height, :border_width => 0.1, :padding => 1 }
         end
+        move_down(5)
+        text "http://plan.mf.omu.edu.tr", :size => 5, :align => :center
+        text "copyright © #{Time.now.strftime("%Y")} Mühendislik Fakültesi Eğitim Öğretim Planları", :size => 5.5, :align => :center
       end
       pdf
     end
