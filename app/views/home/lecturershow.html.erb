@@ -54,3 +54,27 @@
   </table>
 </div>
 
+<table class='dashboard'>
+  <thead>
+    <tr>
+      <th class='shrink'>Kod</th>
+      <th class='shrink'>Ders</th>
+      <th class='shrink'>Teorik</th>
+      <th class='shrink'>Uygulama</th>
+      <th class='shrink'>Laboratuar</th>
+      <th class='shrink'>Kredi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% Period.find(@period.id).course.find_all_by_department_id(@lecturer.department_id).each do |course| %>
+      <tr>
+        <td><%= course.code %></td>
+        <td><%= course.name %></td>
+        <td><%= course.theoretical %></td>
+        <td><%= course.practice %></td>
+        <td><%= course.lab %></td>
+        <td><%= course.credit %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
