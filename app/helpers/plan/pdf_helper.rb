@@ -131,7 +131,7 @@ module Plan
               :column_widths => { 0=>24,1=>45.7,2=>18,3=>45.7,4=>18,5=>45.7,6=>18,7=>45.7,8=>18,9=>45.7,10=>18},
               :cell_style => { :size => 3, :text_color => "000000", :height => 28, :border_width => 0.1, :padding => 1 }
 
-            table eval("morning#{year}").slice(lunch_time..1),
+            table eval("morning#{year}").slice(lunch_time..lunch_time),
               :position => :center,
               :row_colors => ["cccccc"],
               :column_widths => { 0=>24,1=>45.7,2=>18,3=>45.7,4=>18,5=>45.7,6=>18,7=>45.7,8=>18,9=>45.7,10=>18},

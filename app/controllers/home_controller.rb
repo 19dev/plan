@@ -203,7 +203,6 @@ class HomeController < ApplicationController
 
     if params[:year] == "0"
       day, header, morning, evening, meal_time = departmentplan_schema(period.id, department.id, 0, section.to_i)
-
       description = {
         "Dönem" => period.full_name,
         "Bölüm" => department.name,
@@ -213,7 +212,7 @@ class HomeController < ApplicationController
       pdf = departmentpdf_schema info, header, "Ders", "Sınıf", meal_time, morning, evening
       send_data(pdf.render(), :filename => description.values.join("-") + ".pdf")
     else
-      day, header, morning, evening, meal_time = departmentplan_schema(period.id, department.id, params[:year].to_i, params[:section].to_i)
+      day, header, morning, evening, meal_time = departmentplan_schema(period.id, department.id, params[:year].to_i, section.to_i)
       morning = morning[0]
       evening = evening[0]
       description = {
