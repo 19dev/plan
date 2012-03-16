@@ -66,7 +66,7 @@
     </tr>
   </thead>
   <tbody>
-    <% Period.find(@period.id).course.find_all_by_department_id(@lecturer.department_id).each do |course| %>
+    <% @lecturer.courses(@period.id).each do |course| %> <!-- geçici olarak lecturer_plan düzenlenmeli -->
       <tr>
         <td><%= course.code %></td>
         <td><%= course.name %></td>
