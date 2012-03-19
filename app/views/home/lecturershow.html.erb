@@ -58,7 +58,7 @@
   <thead>
     <tr>
       <th class='shrink'>Kod</th>
-      <th class='shrink'>Ders</th>
+      <th>Ders</th>
       <th class='shrink'>Teorik</th>
       <th class='shrink'>Uygulama</th>
       <th class='shrink'>Laboratuar</th>
@@ -76,5 +76,29 @@
         <td><%= course.credit %></td>
       </tr>
     <% end %>
+  </tbody>
+</table>
+
+<table class='dashboard'>
+  <thead>
+    <tr>
+      <th class='shrink'>Gündüz/Gece/Toplam</th>
+      <th>Kredi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% credits = @lecturer.credits(@period.id) %>
+    <tr>
+      <td>Gündüz</td>
+      <td><%= credits["morning"] %></td>
+    </tr>
+    <tr>
+      <td>Gece</td>
+      <td><%= credits["evening"] %></td>
+    </tr>
+    <tr>
+      <td>Toplam</td>
+      <td><%= credits["morning"] + credits["evening"] %></td>
+    </tr>
   </tbody>
 </table>

@@ -19,4 +19,17 @@ class Lecturer < ActiveRecord::Base
     end
     return Course.find(course_ids, :order => 'code')
   end
+  def credits period_id
+    evening_time = (17..22).collect { |h| "#{h}-00" } # doğrusu table_schmea'dan çekilmeli FIXME
+    assignments = Lecturer.find(self.id).assignment.find_all_by_period_id(period_id)
+    credits = assignments.inject({"morning" => 0, "evening" => 0}) do |credit, assignment|
+      if classplans = Classplan.find_all_by_assignment_id_and_period_id(assignment.id, period_id)
+        evening_classplans = Classplan.find_all_by_assignment_id_and_period_id_and_begin_time(assignment.id, period_id, evening_time)
+        credit["morning"] += assignment.course.credit if classplans.count - evening_classplans.count > 0
+        credit["evening"] += assignment.course.credit if evening_classplans.count > 0
+      end
+      credit
+    end
+    return credits
+  end
 end
