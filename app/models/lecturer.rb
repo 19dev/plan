@@ -12,11 +12,11 @@ class Lecturer < ActiveRecord::Base
     return false
   end
   def courses period_id
-    courses = []
     assignments = Lecturer.find(self.id).assignment.find_all_by_period_id(period_id)
-    assignments.each do |assignment|
-      courses << Course.find(assignment.course_id) if Classplan.find_all_by_assignment_id_and_period_id(assignment.id, period_id)
-    end # Lecturer.find().course -> dersi atamaları gelir ancak hazır olanlar gelmez
-    return courses
+    course_ids = assignments.inject([]) do |course_id, assignment|
+      course_id << assignment.course_id if Classplan.find_all_by_assignment_id_and_period_id(assignment.id, period_id)
+      course_id
+    end
+    return Course.find(course_ids, :order => 'code')
   end
 end
