@@ -12,6 +12,7 @@ gem 'therubyracer'
 gem 'unicode_utils'
 gem 'prawn'
 gem "fastercsv"
+gem 'google-analytics-rails'
 
 # Gems used only for assets and not required
 # in production environments by default.
