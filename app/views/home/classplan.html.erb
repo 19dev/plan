@@ -32,6 +32,14 @@
       <td>
         <%= link_to "", "/home/classplanpdf/#{@period.id}/#{@classroom.id}", :id=>"pdf_buttonx32", :style=>"float:right" %>
       </td>
+      <td class="field">
+        Düz
+        <%= radio_button_tag("rotate", "0")%>
+      </td>
+      <td class="field">
+        Yan
+        <%= radio_button_tag("rotate", "1", true)%>
+      </td>
     </tr>
   </table>
 </div>

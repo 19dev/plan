@@ -113,6 +113,7 @@ class HomeController < ApplicationController
     unless period = Period.find(params[:period_id])
       return redirect_to "/home/class"
     end
+    rotate = (params[:rotate] == "0") ? false : true
 
     unless classroom.has_plan? period.id
       flash[:error] = "#{classroom.name} sınıfın, " +
@@ -120,6 +121,7 @@ class HomeController < ApplicationController
         "programı tablosu henüz hazır değil."
       return render '/home/class'
     end
+
 
     course_ids, assignments = class_plan(period.id, classroom.id)
     day, header, morning, evening, meal_time = classplan_schema(period.id, assignments, classroom.id)
@@ -130,7 +132,7 @@ class HomeController < ApplicationController
     }
     info = description.map {|k, v| [k, v]}
 
-    pdf = pdf_schema nil, info, header, "Ders", "Bölüm", meal_time, morning, evening, height=28
+    pdf = pdf_schema nil, info, header, "Ders", "Bölüm", meal_time, morning, evening, height=28, rotate
     send_data(pdf.render(), :filename => description.values.join("-") + ".pdf")
   end
 
