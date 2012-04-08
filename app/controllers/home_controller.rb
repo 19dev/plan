@@ -66,6 +66,7 @@ class HomeController < ApplicationController
     unless period = Period.find(params[:period_id])
       return redirect_to "/home/lecturer"
     end
+    rotate = (params[:rotate] == "0") ? false : true
 
     unless lecturer.has_plan? period.id
       flash[:error] = "#{lecturer.full_name} isimli öğretim görevlisinin " +
@@ -83,7 +84,7 @@ class HomeController < ApplicationController
     }
     info = description.map {|k, v| [k, v]}
 
-    pdf = pdf_schema lecturer.photo, info, header, "Ders", "Sınıf", meal_time, morning, evening, height=25
+    pdf = pdf_schema lecturer.photo, info, header, "Ders", "Sınıf", meal_time, morning, evening, height=25, rotate
     send_data(pdf.render(), :filename => description.values.join("-") + ".pdf")
   end
 
@@ -121,7 +122,6 @@ class HomeController < ApplicationController
         "programı tablosu henüz hazır değil."
       return render '/home/class'
     end
-
 
     course_ids, assignments = class_plan(period.id, classroom.id)
     day, header, morning, evening, meal_time = classplan_schema(period.id, assignments, classroom.id)

@@ -49,6 +49,12 @@
       <td>
         <%= link_to "Göster", "/home/lecturerplan/#{@period.id}/#{@lecturer.id}", :class => "button" %>
         <%= link_to "Pdf", "/home/lecturerplanpdf/#{@period.id}/#{@lecturer.id}", :class => "button danger", :id => "pdf_buttonx32" %>
+        (
+        Düz
+        <%= radio_button_tag("rotate", "0", true)%>
+        Yan
+        <%= radio_button_tag("rotate", "1")%>
+        )
       </td>
     </tr>
   </table>
