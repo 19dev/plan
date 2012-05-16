@@ -1,44 +1,47 @@
 # encoding: utf-8
 module Plan
   module PdfHelper
-    def pdf_schema photo, info, header, field1, field2, meal_time, morning, evening, height, rotate=false
-      pdf = Prawn::Document.new(:page_size => 'A5', :layout => 'portrait') do
-        rotate((rotate) ? 90 : 0, :origin => [310/2, 365]) do
-
-          font "#{Prawn::BASEDIR}/data/fonts/Dustismo_Roman.ttf", :size => 8
+    def pdf_schema photo, info, header, field1, field2, meal_time, morning, evening, height
+      pdf = Prawn::Document.new(:page_size => 'A4', :layout => 'portrait') do
+          font "#{Prawn::BASEDIR}/data/fonts/comicsans.ttf", :size => 8
 
           move_up(30)
           text "Ondokuz Mayıs Üniversitesi", :size => 12, :align => :center
           text "Mühendislik Fakültesi Eğitim Öğretim Planları", :size => 8, :align => :center
 
           image "#{Rails.root}/app/assets/images/omu-logo.jpg", :width => 45, :height => 45, :position => 0, :vposition => -30
-          image "#{Rails.root}/app/assets/images/mf-128x128.png", :width => 45, :height => 45, :position => 300, :vposition => -30
+          image "#{Rails.root}/app/assets/images/mf-128x128.png", :width => 45, :height => 45, :position => 475, :vposition => -30
 
           move_up(90)
           if photo
             table info,
-              :position => 133,
-              :column_widths => { 0 => 24, 1 => 98},
-              :cell_style => { :size => 4.1, :text_color => "000000", :height => 13, :border_width => 0.1 }
-            image "#{Rails.root}/public#{photo}", :width => 39, :height => 39, :position => 93, :vposition => -10
-            move_up(38)
+              :position => 221,
+              :column_widths => { 0 => 35, 1 => 90 },
+              :cell_style => { :size => 5, :text_color => "000000", :height => 16, :border_width => 0.1 }
+            image "#{Rails.root}/public#{photo}", :width => 42, :height => 48, :position => 178, :vposition => -8.5
+            move_up(47)
           else
             table info,
-              :position => 93,
-              :column_widths => { 0 => 24, 1 => 137},
-              :cell_style => { :size => 4.1, :text_color => "000000", :height => 13, :border_width => 0.1 }
+              :position => 166,
+              :column_widths => { 0 => 24, 1 => 160 },
+              :cell_style => { :size => 5, :text_color => "000000", :height => 16, :border_width => 0.1 }
           end
+          move_down(1)
 
-          font "#{Prawn::BASEDIR}/data/fonts/comicsans.ttf", :size => 4
+          column_widths = {0=>24,1=>53.3,2=>18,3=>53.3,4=>18,5=>53.3,6=>18,7=>53.3,8=>18,9=>53.3,10=>18,11=>53.3,12=>18,13=>53.3,14=>18}
+
+          header_column_widths = { 0 => column_widths[0] }
+          1.upto((column_widths.length - 1) / 2) { |i| header_column_widths[i] = column_widths[1]+column_widths[2] }
+
           table header,
             :position => :center,
             :row_colors => ["cccccc"],
-            :column_widths => { 0=>24,1=>63.7,2=>63.7,3=>63.7,4=>63.7,5=>63.7,6=>63.7},
+            :column_widths => header_column_widths,
             :cell_style => { :size => 3.6, :text_color => "000000", :height => 8, :border_width => 0.1, :padding => 1 }
-          table [["", field1, field2, field1, field2, field1, field2, field1, field2, field1, field2],],
+          table [["", field1, field2, field1, field2, field1, field2, field1, field2, field1, field2, field1, field2, field1, field2],],
             :position => :center,
             :row_colors => ["cccccc"],
-            :column_widths => { 0=>24,1=>45.7,2=>18,3=>45.7,4=>18,5=>45.7,6=>18,7=>45.7,8=>18,9=>45.7,10=>18},
+            :column_widths => column_widths,
             :cell_style => { :size => 3.3, :text_color => "000000", :height => 8, :border_width => 0.1, :padding => 1 }
           if morning
             lunch_time = nil
@@ -50,38 +53,37 @@ module Plan
             end
             table morning.slice(0..lunch_time-1),
               :position => :center,
-              :column_widths => { 0=>24,1=>45.7,2=>18,3=>45.7,4=>18,5=>45.7,6=>18,7=>45.7,8=>18,9=>45.7,10=>18},
+              :column_widths => column_widths,
               :cell_style => { :size => 3.6, :text_color => "000000", :height => height, :border_width => 0.1, :padding => 1 }
 
             table morning.slice(lunch_time..lunch_time),
               :position => :center,
               :row_colors => ["cccccc"],
-              :column_widths => { 0=>24,1=>45.7,2=>18,3=>45.7,4=>18,5=>45.7,6=>18,7=>45.7,8=>18,9=>45.7,10=>18},
+              :column_widths => column_widths,
               :cell_style => { :size => 3.6, :text_color => "000000", :height => height, :border_width => 0.1, :padding => 1 }
 
             table morning.slice(lunch_time+1..-1),
               :position => :center,
-              :column_widths => { 0=>24,1=>45.7,2=>18,3=>45.7,4=>18,5=>45.7,6=>18,7=>45.7,8=>18,9=>45.7,10=>18},
+              :column_widths => column_widths,
               :cell_style => { :size => 3.6, :text_color => "000000", :height => height, :border_width => 0.1, :padding => 1 }
           end
           if morning and evening
             table [morning[0].collect { |column| "" }], # 2. öğretimi ayıran çizgi
               :position => :center,
               :row_colors => ["cccccc"],
-              :column_widths => { 0=>24,1=>45.7,2=>18,3=>45.7,4=>18,5=>45.7,6=>18,7=>45.7,8=>18,9=>45.7,10=>18},
+              :column_widths => column_widths,
               :cell_style => { :size => 3.6, :text_color => "000000", :height => 6, :border_width => 0.1, :padding => 1 }
           end
           if evening
             table evening,
               :position => :center,
-              :column_widths => { 0=>24,1=>45.7,2=>18,3=>45.7,4=>18,5=>45.7,6=>18,7=>45.7,8=>18,9=>45.7,10=>18},
+              :column_widths => column_widths,
               :cell_style => { :size => 3.6, :text_color => "000000", :height => height, :border_width => 0.1, :padding => 1 }
           end
           move_down(5)
           text "http://plan.mf.omu.edu.tr", :size => 5, :align => :center
           text "copyright © #{Time.now.strftime("%Y")} Mühendislik Fakültesi Eğitim Öğretim Planları", :size => 5.5, :align => :center
         end
-      end
       pdf
     end
     def departmentpdf_schema info, header, field1, field2, meal_time, morning, evening

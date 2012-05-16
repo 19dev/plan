@@ -66,7 +66,6 @@ class HomeController < ApplicationController
     unless period = Period.find(params[:period_id])
       return redirect_to "/home/lecturer"
     end
-    rotate = (params[:rotate] == "0") ? false : true
 
     unless lecturer.has_plan? period.id
       flash[:error] = "#{lecturer.full_name} isimli öğretim görevlisinin " +
@@ -84,7 +83,7 @@ class HomeController < ApplicationController
     }
     info = description.map {|k, v| [k, v]}
 
-    pdf = pdf_schema lecturer.photo, info, header, "Ders", "Sınıf", meal_time, morning, evening, height=25, rotate
+    pdf = pdf_schema lecturer.photo, info, header, "Ders", "Sınıf", meal_time, morning, evening, height=30
     send_data(pdf.render(), :filename => description.values.join("-") + ".pdf")
   end
 
@@ -114,7 +113,6 @@ class HomeController < ApplicationController
     unless period = Period.find(params[:period_id])
       return redirect_to "/home/class"
     end
-    rotate = (params[:rotate] == "0") ? false : true
 
     unless classroom.has_plan? period.id
       flash[:error] = "#{classroom.name} sınıfın, " +
@@ -132,7 +130,7 @@ class HomeController < ApplicationController
     }
     info = description.map {|k, v| [k, v]}
 
-    pdf = pdf_schema nil, info, header, "Ders", "Bölüm", meal_time, morning, evening, height=28, rotate
+    pdf = pdf_schema nil, info, header, "Ders", "Bölüm", meal_time, morning, evening, height=30
     send_data(pdf.render(), :filename => description.values.join("-") + ".pdf")
   end
 

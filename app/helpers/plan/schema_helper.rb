@@ -8,8 +8,8 @@ module Plan
         "Wednesday" => "Çarşamba",
         "Thursday" => "Perşembe",
         "Friday" => "Cuma",
-        # "Saturday" => "Cumartesi",
-        # "Sunday" => "Pazar",
+        "Saturday" => "Cumartesi",
+        "Sunday" => "Pazar",
       }
 
       header = [["Saat/Gün"] + day.values]
