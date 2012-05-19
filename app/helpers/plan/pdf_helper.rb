@@ -14,10 +14,10 @@ module Plan
           move_up(90)
           if photo
             table info,
-              :position => 248,
-              :column_widths => { 0 => 35, 1 => 105 },
+              :position => 254,
+              :column_widths => { 0 => 35, 1 => 99 },
               :cell_style => { :size => 5, :text_color => "000000", :height => 16, :border_width => 0.1 }
-            image "#{Rails.root}/public#{photo}", :width => 42, :height => 48, :position => 204.5, :vposition => 22
+            image "#{Rails.root}/public#{photo}", :width => 48, :height => 48, :position => 204.5, :vposition => 22
             move_up(48)
           else
             table info,
