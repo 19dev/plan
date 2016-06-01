@@ -1,0 +1,44 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1464790735.6476154:@value{I"
+class:ETI"BundledAsset;
+FI"id;
+TI"%619230e42656b52115481a1673182817;
+FI"logical_path;
+TI"facebox.css;
+TI"pathname;
+TI"-$root/app/assets/stylesheets/facebox.css;
+FI"content_type;
+TI"text/css;
+TI"
+mtime;
+TI"2016-06-01T15:38:50+03:00;
+TI"	body;
+TI"¶#facebox { position: absolute; top: 0; left: 0; z-index: 100; text-align: left;}
+#facebox .popup { position:relative; border:3px solid rgba(0,0,0,0);
+-webkit-box-shadow:0 0 18px rgba(0,0,0,0.4); -moz-box-shadow:0 0 18px rgba(0,0,0,0.4); box-shadow:0 0 18px rgba(0,0,0,0.4);}
+#facebox .content { display:table; min-width: 500px; max-width:800px;padding: 20px; background: #fff; }
+#facebox .content > p:first-child { margin-top:0; }
+#facebox .content > p:last-child { margin-bottom:0; }
+#facebox .close { position:absolute; top:5px; right:5px; padding:2px; background:#fff; }
+#facebox .close img { opacity:0.3; }
+#facebox .close:hover img { opacity:1.0; }
+#facebox .loading { text-align: center; }
+#facebox .image { text-align: center; }
+#facebox img { border: 0; margin: 0; }
+#facebox_overlay { position: fixed; top: 0px; left: 0px; height:100%; width:100%;}
+.facebox_hide { z-index:-100; }
+.facebox_overlayBG { background-color: #000; z-index: 99; }
+;
+TI"asset_paths;
+T[I"-$root/app/assets/stylesheets/facebox.css;
+FI"dependency_paths;
+T[{I"	path;
+TI"-$root/app/assets/stylesheets/facebox.css;
+FI"
+mtime;
+TIu:	Time,€ö#›
+:nano_numi:nano_deni:submicro"& :offseti0*:	zoneI"	EEST;
+FI"hexdigest;
+TI"%021574348b1efd3d4bc300421c06c72b;
+FI"_version;
+TI"%d3399da1890ef54eecbcf24324b9c72a;
+F

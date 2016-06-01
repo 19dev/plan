@@ -1,0 +1,61 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1464790735.5682116:@value{	I"length:ETi©I"digest;
+TI"%543380b33eec65ca59ed96d36d166b1a;
+FI"source;
+TI"©#submit_button {
+    height:23px;
+    color:#2F7CA2;
+    text-align:center;
+    padding-top:6px;
+    background:url(/assets/btn.png) no-repeat top;
+    font-weight:bold;
+    width:96px;
+    font-size:13px;
+    display:block;
+    cursor:pointer;
+    border:none;
+    height:auto;
+    padding-bottom:7px;
+}
+#submit_button:active { background-position:bottom;}
+
+/* -------------------------------------------------------------------- */
+
+#review_button,
+#edit_button,
+#delete_button {
+    background:url(/assets/review-24x24.png) no-repeat center;
+    height:24px;
+    width:24px;
+    border:none;
+    cursor:pointer;
+    float:left;
+    margin-right:10px;
+}
+#edit_button {
+    background:url(/assets/edit-24x24.png) no-repeat center;
+}
+#delete_button {
+    background:url(/assets/delete-24x24.png) no-repeat center;
+    margin-right:0px;
+}
+#pdf_button {
+    background:url(/assets/pdf.png) no-repeat center;
+    height:64px;
+    width:64px;
+    border:none;
+    cursor:pointer;
+    float:left;
+}
+#pdf_buttonx32 {
+    height:32px;
+    width:32px;
+    background:url(/assets/pdf-32x32.png) no-repeat top;
+    cursor:pointer;
+    border:none;
+    text-decoration: none;
+    text-indent: -9000px;
+}
+;
+TI"_version;
+TI"%7bcee67c81fab19997777786fbabaece;
+F

@@ -1,0 +1,83 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1464790735.6127546:@value{I"
+class:ETI"BundledAsset;
+FI"id;
+TI"%92112f0bf39b60f7cd742cfefd76f7c5;
+FI"logical_path;
+TI"status.css;
+TI"pathname;
+TI",$root/app/assets/stylesheets/status.css;
+FI"content_type;
+TI"text/css;
+TI"
+mtime;
+TI"2016-06-01T15:38:50+03:00;
+TI"	body;
+TI"³#realtime {
+/*  background: -moz-linear-gradient(center top , #3A3A3A 0%, #444444 100%) repeat scroll 0 0 transparent; */
+
+    box-shadow: 0 3px 3px 0 #363636 inset;
+    color: #3072B3;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin: 0 auto;
+    position: relative;
+    text-shadow: 0 -1px 0 #000000;
+}
+#realtime .inner {
+    margin: 0 auto;
+    padding: 10px 13px 7px;
+    width: 285px;
+    height: 6px;
+}
+#realtime .inner .service {
+    float: left;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: -0.02em;
+    line-height: 20px;
+    margin-right: 20px;
+    padding: 0 0 0 26px;
+    position: relative;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.8);
+    text-transform: uppercase;
+}
+#realtime .status {
+    background: url("/assets/status.png") repeat scroll 0 0 transparent;
+    display: block;
+    height: 26px;
+    left: 0;
+    margin: 0 5px 0 0;
+    overflow: visible;
+    position: absolute;
+    top: -5px;
+    width: 26px;
+}
+#realtime .up {
+    background-position: 0 0;
+}
+#realtime .problem {
+    background-position: 0 -53px;
+}
+#realtime .down {
+    background-position: 0 -26px;
+}
+#realtime .spinner {
+    float: right;
+    margin-right: 8px;
+}
+;
+TI"asset_paths;
+T[I",$root/app/assets/stylesheets/status.css;
+FI"dependency_paths;
+T[{I"	path;
+TI",$root/app/assets/stylesheets/status.css;
+FI"
+mtime;
+TIu:	Time,€ö#›
+:nano_numi:nano_deni:submicro"& :offseti0*:	zoneI"	EEST;
+FI"hexdigest;
+TI"%e1df4112d3f5d2121d3fa9dbb29dd662;
+FI"_version;
+TI"%d3399da1890ef54eecbcf24324b9c72a;
+F

@@ -1,0 +1,20 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1464790735.5303063:@value{I"
+class:ETI"StaticAsset;
+FI"id;
+TI"%31d3c2195973484484ed4f40a4ad9040;
+FI"logical_path;
+TI"19-normal-57x57.png;
+TI"pathname;
+TI"0$root/app/assets/images/19-normal-57x57.png;
+FI"content_type;
+TI"image/png;
+TI"
+mtime;
+TI"2016-06-01T15:38:50+03:00;
+TI"length;
+TI"	1928;
+FI"digest;
+TI"%1fcb760c5346d88b712c8ac70418a8ee;
+FI"_version;
+TI"%d3399da1890ef54eecbcf24324b9c72a;
+F

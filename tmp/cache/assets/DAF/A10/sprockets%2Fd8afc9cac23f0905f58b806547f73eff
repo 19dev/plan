@@ -1,0 +1,20 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1464790735.7208207:@value{I"
+class:ETI"StaticAsset;
+FI"id;
+TI"%f7b02b4d0c9b3bc30e29123242538a28;
+FI"logical_path;
+TI"bg.jpg;
+TI"pathname;
+TI"#$root/app/assets/images/bg.jpg;
+FI"content_type;
+TI"image/jpeg;
+TI"
+mtime;
+TI"2016-06-01T15:38:50+03:00;
+TI"length;
+TI"	9633;
+FI"digest;
+TI"%417dbb738c20c6dded2381cf96c1f221;
+FI"_version;
+TI"%d3399da1890ef54eecbcf24324b9c72a;
+F

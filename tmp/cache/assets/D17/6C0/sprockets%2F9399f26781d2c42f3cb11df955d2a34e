@@ -1,0 +1,34 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1464790735.5754302:@value{	I"length:ETiÀI"digest;
+TI"%4db9959f6f425d85b3b1b98b928a888e;
+FI"source;
+TI"À#textslide {
+	width: 900px;
+	margin: 10px auto;
+	background-color: #FFF;
+	margin-left: 0px;
+	margin-bottom: 50px;
+}
+.ticker {
+	width: 920px;
+	height: 40px;
+	overflow: hidden;
+	border: 1px solid #DDD;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border-radius: 5px;
+	box-shadow: 0px 0px 5px #DDD;
+}
+#ticker {
+	height: 120px;
+}
+.ticker li {
+	height: 30px;
+	border-bottom: 1px dotted #DDD;
+	padding: 5px;
+	margin: 0px 5px;
+}
+;
+TI"_version;
+TI"%83ede893f307909358de726acd84ed90;
+F

@@ -1,0 +1,70 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1464790735.603299:@value{I"
+class:ETI"BundledAsset;
+FI"id;
+TI"%e1f621d4f806fbeeb6274a232a5d514a;
+FI"logical_path;
+TI"local-home.css;
+TI"pathname;
+TI"0$root/app/assets/stylesheets/local-home.css;
+FI"content_type;
+TI"text/css;
+TI"
+mtime;
+TI"2016-06-01T15:38:50+03:00;
+TI"	body;
+TI"‘#logo {
+    width: 920px;
+    margin: 0px auto 10px;
+    background: #fff;
+    padding: 20px;
+    height: auto;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow:0 2px 2px rgba(0,0,0,0.2);
+    -moz-box-shadow:0 2px 2px rgba(0,0,0,0.2);
+    box-shadow:0 3px 12px rgba(0, 0, 0, 0.3);
+}
+
+#info {
+    width: 880px;
+    margin: 30px auto 30px;
+    margin-right:200px;
+    background: #fff;
+    padding: 20px;
+    height:auto;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+
+    -webkit-box-shadow:0 2px 2px rgba(0,0,0,0.2);
+    -moz-box-shadow:0 2px 2px rgba(0,0,0,0.2);
+    box-shadow:0 2px 2px rgba(0,0,0,0.2);
+}
+
+.image_with_name{
+    background-size:50px;
+    background-position:left;
+    background-repeat:no-repeat;
+    height:100px;
+}
+.error2 {
+    margin-top:0px;
+    width:920px;
+    background-color:#d62929;
+}
+;
+TI"asset_paths;
+T[I"0$root/app/assets/stylesheets/local-home.css;
+FI"dependency_paths;
+T[{I"	path;
+TI"0$root/app/assets/stylesheets/local-home.css;
+FI"
+mtime;
+TIu:	Time,€ö#›
+:nano_numi:nano_deni:submicro"& :offseti0*:	zoneI"	EEST;
+FI"hexdigest;
+TI"%bd69aaead2814725c8cee29b2d5f86d7;
+FI"_version;
+TI"%d3399da1890ef54eecbcf24324b9c72a;
+F

@@ -1,0 +1,21 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1464790735.7227347:@value{I"
+class:ETI"StaticAsset;
+FI"id;
+TI"%eb6904ddb080e099696d9a6373c0f4f5;
+FI"logical_path;
+TI"mf-140x140.png;
+TI"pathname;
+TI"+$root/app/assets/images/mf-140x140.png;
+FI"content_type;
+TI"image/png;
+TI"
+mtime;
+TI"2016-06-01T15:38:50+03:00;
+TI"length;
+TI"
+13844;
+FI"digest;
+TI"%d4f2446096193de6c3fde49e173c46c2;
+FI"_version;
+TI"%d3399da1890ef54eecbcf24324b9c72a;
+F

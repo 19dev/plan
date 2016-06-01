@@ -1,0 +1,20 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1464790735.7248788:@value{I"
+class:ETI"StaticAsset;
+FI"id;
+TI"%095e098fc6479720b7b556d9c0d0ff2d;
+FI"logical_path;
+TI"btn.png;
+TI"pathname;
+TI"$$root/app/assets/images/btn.png;
+FI"content_type;
+TI"image/png;
+TI"
+mtime;
+TI"2016-06-01T15:38:50+03:00;
+TI"length;
+TI"	1841;
+FI"digest;
+TI"%617556339c738277d64e3fccf6bbf7ab;
+FI"_version;
+TI"%d3399da1890ef54eecbcf24324b9c72a;
+F

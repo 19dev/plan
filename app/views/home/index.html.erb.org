@@ -1,0 +1,207 @@
+<!-- facebox -->
+<script src="/assets/facebox.js" type="text/javascript"></script>
+<script type="text/javascript">
+  jQuery(document).ready(function($) {
+      $('a[rel*=facebox]').facebox({
+loadingImage : '/assets/loading.gif',
+closeImage   : '/assets/closelabel.png'
+})
+      })
+</script>
+<!-- facebox -->
+
+<%
+  if period = Period.find(:first, :conditions => {:status => true})
+    period_state = "up"
+  elsif Period.find(:first, :conditions => {:status => false})
+    period_state = "problem"
+  else
+    period_state = "down"
+  end
+  if ["problem", "down"].include?(period_state)
+    user_state = "down"
+  else
+    user_state = "up"
+  end
+%>
+
+<div class="columns generic">
+  <div class="column main">
+    <h2 style="width:600px"><span class="highlight" style="font-size:19px">Eğitim Öğretim Plan Sistemi</span> Nedir ?</h2>
+
+    Eğitim öğretim plan sistemi, <%= link_to "akademisyen giriş", "/user" %> paneli ile bilgi girişi sağlar.<br/>
+    Her öğretim üyesi için; haftalık, hangi gün hangi saate dersi olduğu, bilgilerini barındıran ders programı bilgisini sunar.
+    Her sınıf için; haftalık, hangi dersin kimin tarafından yapılacağı bilgisini sunar.<br/>
+
+    <br />
+    <br />
+    <h2 style="width:600px"><span class="highlight" style="font-size:19px">Akademisyen Giriş Paneli</span> Nedir ?</h2>
+
+    Eğitim öğretim plan sistem sayfasının sağ üst köşesinden <b>"Akademisyen Giriş"</b> yazan kısmında giriş yapılır. Bu panele her giren bölüm yöneticisi kendi bölümüne öğretim üyelerini,  bölümüne ait dersleri ekler. Ve her dönem hangi dersin kimin tarafından  verileceğini
+    hangi gün saat kaçta olacağını belirler.
+
+    <br />
+    <br />
+    <br />
+    <% departments = Department.where('id not in (?)', 19) %>
+    <div class="module">
+      <div class="inner">
+        <h3>Bölüm Bilgileri</h3>
+        <div class='description'>
+          <table>
+            <colgroup><col width=190 /><col width=70 /><col width=60 /><col width=70 /></colgroup>
+            <tr>
+              <td><b>Bölüm </b></td><th>Öğretim Üyesi</th><th>Ders</th><th>Ders Atama</th><th>Ders Programı</th><th>Durum</th>
+            </tr>
+            <% departments.each do |department| %>
+              <tr>
+                <td><%= department.name %> </td>
+                <th><%= Lecturer.where(:department_id => department.id).count %></th>
+                <th><%= Course.where(:department_id => department.id).count %></th>
+                <th>
+                  <a href="#assignment<%= department.id.to_s %>" rel="facebox">
+                    %<%= assignment_percent = department.assignment_percent(period.id) %>
+                  </a>
+                </th>
+                <th>
+                  <a href="#schedule<%= department.id.to_s %>" rel="facebox">
+                    %<%= schedule_percent = department.schedule_percent(period.id) %>
+                  </a>
+                </th>
+                <th>
+                  <div id="realtime">
+                    <a class="status <%= percent(assignment_percent, schedule_percent) %>" style="margin-top:-8px"></a>
+                  </div>
+                </th>
+              </tr>
+            <% end %>
+            <% department = Department.find(19) %>
+            <tr>
+              <td><%= department.name %> </td>
+              <th><%= Lecturer.where(:department_id => department.id).count %></th>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- for facebox info -->
+  <% departments.each do |department| %>
+
+    <div id="assignment<%= department.id.to_s %>" style="display:none;">
+      <div class="module">
+        <div class="inner">
+          <h3>Ders Vermeyen Öğretim Üyesi</h3>
+          <div class='description'>
+            <table>
+              <colgroup><col width=250 /><col width=110 /></colgroup>
+              <% department.not_assignment_lecturer(period.id).each do |lecturer| %>
+                <tr>
+                  <td><%= lecturer.full_name %></td>
+                </tr>
+              <% end %>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="schedule<%= department.id.to_s %>" style="display:none;">
+      <div class="module">
+        <div class="inner">
+          <h3>Programı Hazır Olmayan Dersler</h3>
+          <div class='description'>
+            <table>
+              <colgroup><col width=250 /><col width=110 /></colgroup>
+              <% department.not_schedule_course(period.id).each do |course_id, lecturer_ids| %>
+                <tr>
+                  <td><%= Course.find(course_id).full_name %></td>
+                </tr>
+                <% lecturer_ids.each do |lecturer_id| %>
+                  <tr>
+                    <td></td>
+                    <th><%= Lecturer.find(lecturer_id).full_name %></th>
+                  </tr>
+                <% end %>
+              <% end %>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  <% end %>
+  <!-- end for facebox info -->
+
+  <div class="column sidebar">
+    <!-- slide -->
+    <!-- kaynak : http://www.htmldrive.net/items/show/1069/Auto-Scroll-News-Ticker-with-jQuery  -->
+    <div class="module">
+      <div class="inner">
+        <h3> Duyurular </h3>
+        <div id="textslide"  style="width:280px;background-color:#eee;">
+          <ul id="ticker" class="ticker" style="width:280px;height:185px">
+            <% Notice.all.each do |notice| %>
+              <li><%= substr?(notice.content, 89) %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function tick(){
+        $('#ticker li:first').slideUp( function () { $(this).appendTo($('#ticker')).slideDown(); });
+      }
+      setInterval(function(){ tick () }, 6000);
+    </script>
+    <!-- end slide -->
+
+
+    <div id="realtime">
+      <div class="inner">
+        <div id="git" class="service">
+          <span class="status <%= period_state %>"></span> Aktif Dönem
+        </div>
+        <div id="downloads" class="service">
+          <span class="status <%= user_state %>"></span> Akademisyen Giriş
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="inner">
+        <h3>Sistem Bilgileri</h3>
+        <div class='description'>
+          <table>
+            <colgroup><col width=300 /><col width=210 /></colgroup>
+            <tr>
+              <td>Toplam Bölüm Sayısı</td><th><%= Department.count-1 %></th>
+            </tr>
+            <tr>
+              <td>Toplam Öğretim Üyesi Sayısı</td><th><%= Lecturer.count %></th>
+            </tr>
+            <tr>
+              <td>Toplam Ders Sayısı</td><th><%= Course.count %></th>
+            </tr>
+            <tr><td><br></td><th></th></tr>
+            <tr>
+              <td>Aktif Dönem</td><th><%=  if period; period.full_name else "---" end %></th>
+            </tr>
+            <tr>
+              <td>Sistem Yöneticisi Sayısı</td><th><%= People.where(:status => 0).count %></th>
+            </tr>
+            <tr>
+              <td>Sistem Akademisyen Sayısı</td><th> <%= People.where(:status => [1, 2, 3]).count %></th>
+            </tr>
+            <tr>
+              <td>Toplam Kullanıcı Sayısı</td><th><%= People.count %></th>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

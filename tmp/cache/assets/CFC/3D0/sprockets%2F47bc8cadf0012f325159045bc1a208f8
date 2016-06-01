@@ -1,0 +1,52 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1464790735.6108649:@value{I"
+class:ETI"BundledAsset;
+FI"id;
+TI"%b31b76eb53ae48445ca7bbdb8ebc312c;
+FI"logical_path;
+TI"main-sidebar.css;
+TI"pathname;
+TI"2$root/app/assets/stylesheets/main-sidebar.css;
+FI"content_type;
+TI"text/css;
+TI"
+mtime;
+TI"2016-06-01T15:38:50+03:00;
+TI"	body;
+TI"a.columns:after {content:".";display:block;height:0;clear:both;visibility:hidden;}
+* html .columns{height:1%;}
+.columns{display:inline-block;}
+.columns{display:block;}
+.columns .column{float:left;}
+.columns.generic .column.main{width:540px;}
+.columns.generic .column.sidebar{float:right;width:300px;}
+.module {margin:0 0 10px 0;padding:3px;color:#777;background:#eee;}
+.module > .inner{padding:8px;border:1px solid #ddd;background:#fafafa;}
+.module h2{margin:0 0 8px -8px;width:100%;padding:0 8px 8px 8px;font-size:12px;color:#333;border-bottom:1px solid #ddd;}
+.module h2+p{margin-top:0;}
+.module p:last-child {margin-bottom:0;}
+.module p.note{font-size:11px;}
+.module em.paren-note{font-style:normal;color:#444;}
+.module h3{
+	font-size:11px;
+	color: #3072b3;
+	border-bottom:1px solid #ddd;
+	padding:0 5px 8px 5px;                                                                                                               margin:5px 0 15px;
+}
+.module.highlighted{background-color:#edeee1;}
+.module.highlighted>.inner{border-color:#e5e4d7;background-color:#fffeef;}
+.module .inner .description tr th {text-align:left;}
+;
+TI"asset_paths;
+T[I"2$root/app/assets/stylesheets/main-sidebar.css;
+FI"dependency_paths;
+T[{I"	path;
+TI"2$root/app/assets/stylesheets/main-sidebar.css;
+FI"
+mtime;
+TIu:	Time,€ö#›
+:nano_numi:nano_deni:submicro"& :offseti0*:	zoneI"	EEST;
+FI"hexdigest;
+TI"%b38035b50c251257d93f6206e9bb2d85;
+FI"_version;
+TI"%d3399da1890ef54eecbcf24324b9c72a;
+F

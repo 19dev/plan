@@ -1,0 +1,20 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1464790735.7325807:@value{I"
+class:ETI"StaticAsset;
+FI"id;
+TI"%f13f1ddaedfb753ada8ea921c7395817;
+FI"logical_path;
+TI"arrow_down.png;
+TI"pathname;
+TI"+$root/app/assets/images/arrow_down.png;
+FI"content_type;
+TI"image/png;
+TI"
+mtime;
+TI"2016-06-01T15:38:50+03:00;
+TI"length;
+TI"359;
+FI"digest;
+TI"%53d5a221bfdac3f9228cb79659ad4940;
+FI"_version;
+TI"%d3399da1890ef54eecbcf24324b9c72a;
+F

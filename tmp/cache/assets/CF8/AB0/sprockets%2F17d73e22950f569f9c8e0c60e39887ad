@@ -1,0 +1,98 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1464790735.532921:@value{I"
+class:ETI"BundledAsset;
+FI"id;
+TI"%fe4056f7aaf68889c07dbf92465d0b35;
+FI"logical_path;
+TI"&scroll-startstop.events.jquery.js;
+TI"pathname;
+TI"C$root/app/assets/javascripts/scroll-startstop.events.jquery.js;
+FI"content_type;
+TI"application/javascript;
+TI"
+mtime;
+TI"2016-06-01T15:38:50+03:00;
+TI"	body;
+TI"R(function(){
+    
+    var special = jQuery.event.special,
+        uid1 = 'D' + (+new Date()),
+        uid2 = 'D' + (+new Date() + 1);
+        
+    special.scrollstart = {
+        setup: function() {
+            
+            var timer,
+                handler =  function(evt) {
+                    
+                    var _self = this,
+                        _args = arguments;
+                    
+                    if (timer) {
+                        clearTimeout(timer);
+                    } else {
+                        evt.type = 'scrollstart';
+                        jQuery.event.handle.apply(_self, _args);
+                    }
+                    
+                    timer = setTimeout( function(){
+                        timer = null;
+                    }, special.scrollstop.latency);
+                    
+                };
+            
+            jQuery(this).bind('scroll', handler).data(uid1, handler);
+            
+        },
+        teardown: function(){
+            jQuery(this).unbind( 'scroll', jQuery(this).data(uid1) );
+        }
+    };
+    
+    special.scrollstop = {
+        latency: 300,
+        setup: function() {
+            
+            var timer,
+                    handler = function(evt) {
+                    
+                    var _self = this,
+                        _args = arguments;
+                    
+                    if (timer) {
+                        clearTimeout(timer);
+                    }
+                    
+                    timer = setTimeout( function(){
+                        
+                        timer = null;
+                        evt.type = 'scrollstop';
+                        jQuery.event.handle.apply(_self, _args);
+                        
+                    }, special.scrollstop.latency);
+                    
+                };
+            
+            jQuery(this).bind('scroll', handler).data(uid2, handler);
+            
+        },
+        teardown: function() {
+            jQuery(this).unbind( 'scroll', jQuery(this).data(uid2) );
+        }
+    };
+    
+})();
+;
+TI"asset_paths;
+T[I"C$root/app/assets/javascripts/scroll-startstop.events.jquery.js;
+FI"dependency_paths;
+T[{I"	path;
+TI"C$root/app/assets/javascripts/scroll-startstop.events.jquery.js;
+FI"
+mtime;
+TIu:	Time,€ö#›
+:nano_numi:nano_deni:submicro"& :offseti0*:	zoneI"	EEST;
+FI"hexdigest;
+TI"%a684a011eb8e1a3099586e14e24789f7;
+FI"_version;
+TI"%d3399da1890ef54eecbcf24324b9c72a;
+F

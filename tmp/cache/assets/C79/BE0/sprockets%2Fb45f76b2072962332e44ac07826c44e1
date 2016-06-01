@@ -1,0 +1,56 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1464790735.5750833:@value{I"
+class:ETI"BundledAsset;
+FI"id;
+TI"%83ede893f307909358de726acd84ed90;
+FI"logical_path;
+TI"textslide.css;
+TI"pathname;
+TI"/$root/app/assets/stylesheets/textslide.css;
+FI"content_type;
+TI"text/css;
+TI"
+mtime;
+TI"2016-06-01T15:38:50+03:00;
+TI"	body;
+TI"À#textslide {
+	width: 900px;
+	margin: 10px auto;
+	background-color: #FFF;
+	margin-left: 0px;
+	margin-bottom: 50px;
+}
+.ticker {
+	width: 920px;
+	height: 40px;
+	overflow: hidden;
+	border: 1px solid #DDD;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border-radius: 5px;
+	box-shadow: 0px 0px 5px #DDD;
+}
+#ticker {
+	height: 120px;
+}
+.ticker li {
+	height: 30px;
+	border-bottom: 1px dotted #DDD;
+	padding: 5px;
+	margin: 0px 5px;
+}
+;
+TI"asset_paths;
+T[I"/$root/app/assets/stylesheets/textslide.css;
+FI"dependency_paths;
+T[{I"	path;
+TI"/$root/app/assets/stylesheets/textslide.css;
+FI"
+mtime;
+TIu:	Time,€ö#›
+:nano_numi:nano_deni:submicro"& :offseti0*:	zoneI"	EEST;
+FI"hexdigest;
+TI"%a1ab254bdf6e5d5857df024072ba7d5c;
+FI"_version;
+TI"%d3399da1890ef54eecbcf24324b9c72a;
+F

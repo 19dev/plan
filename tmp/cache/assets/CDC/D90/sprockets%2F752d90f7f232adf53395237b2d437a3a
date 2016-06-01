@@ -1,0 +1,20 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1464790735.736386:@value{I"
+class:ETI"StaticAsset;
+FI"id;
+TI"%ea774057a42595a15d9d89602ebc1dbc;
+FI"logical_path;
+TI"arrow_up.png;
+TI"pathname;
+TI")$root/app/assets/images/arrow_up.png;
+FI"content_type;
+TI"image/png;
+TI"
+mtime;
+TI"2016-06-01T15:38:50+03:00;
+TI"length;
+TI"359;
+FI"digest;
+TI"%e65c4f7c99df8688ee071d7ddb66f384;
+FI"_version;
+TI"%d3399da1890ef54eecbcf24324b9c72a;
+F

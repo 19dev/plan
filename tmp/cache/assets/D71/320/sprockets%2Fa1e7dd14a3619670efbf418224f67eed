@@ -1,0 +1,20 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1464790735.7385306:@value{I"
+class:ETI"StaticAsset;
+FI"id;
+TI"%7f7a6f837f985cedebfb69966a582541;
+FI"logical_path;
+TI"status.png;
+TI"pathname;
+TI"'$root/app/assets/images/status.png;
+FI"content_type;
+TI"image/png;
+TI"
+mtime;
+TI"2016-06-01T15:38:50+03:00;
+TI"length;
+TI"	2913;
+FI"digest;
+TI"%6642a1e70e9c872b480df6673490da74;
+FI"_version;
+TI"%d3399da1890ef54eecbcf24324b9c72a;
+F
