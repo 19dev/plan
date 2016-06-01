@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120311205747) do
+ActiveRecord::Schema.define(:version => 20160601140021) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "period_id"
@@ -51,8 +51,6 @@ ActiveRecord::Schema.define(:version => 20120311205747) do
     t.integer  "credit"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "group",         :default => false
-    t.boolean  "common",        :default => false
   end
 
   create_table "departments", :force => true do |t|
@@ -73,7 +71,6 @@ ActiveRecord::Schema.define(:version => 20120311205747) do
     t.string   "photo"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "continuity",    :default => true
   end
 
   create_table "notices", :force => true do |t|

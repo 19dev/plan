@@ -1,7 +1,7 @@
 Schedule::Application.routes.draw do
   # USER --------------
   # - I/O
-  match "user/" => "user#login"
+  get "user/" => "user#login"
   get  "user/login"
   post "user/login"
   get  "user/logout"
@@ -68,7 +68,7 @@ Schedule::Application.routes.draw do
 
   # ADMIN
   # - I/O
-  match "admin/" => "admin#login"
+  get "admin/" => "admin#login"
   get  "admin/login"
   post "admin/login"
   get  "admin/home"
@@ -100,34 +100,34 @@ Schedule::Application.routes.draw do
 
   # HOME
   root :to => 'home#index'
-  match "home/" => "home#index"
+  get "home/" => "home#index"
   get  "home/index"
 
-  match 'home/lecturershow' => 'home#lecturershow'
-  match 'home/lecturershow/:period_id/:lecturer_id' => 'home#lecturershow'
+  get 'home/lecturershow' => 'home#lecturershow'
+  get 'home/lecturershow/:period_id/:lecturer_id' => 'home#lecturershow'
 
-  match 'home/departmentshow' => 'home#departmentshow'
-  match 'home/departmentshow/:period_id/:department_id/:section' => 'home#departmentshow'
+  get 'home/departmentshow' => 'home#departmentshow'
+  get 'home/departmentshow/:period_id/:department_id/:section' => 'home#departmentshow'
 
-  match 'home/departmentreview' => 'home#departmentreview'
-  match 'home/departmentreview/:period_id/:department_id' => 'home#departmentreview'
+  get 'home/departmentreview' => 'home#departmentreview'
+  get 'home/departmentreview/:period_id/:department_id' => 'home#departmentreview'
 
   get  "home/lecturer"
-  match 'home/lecturerplan' => 'home#lecturerplan'
-  match 'home/lecturerplan/:period_id/:lecturer_id' => 'home#lecturerplan'
-  match 'home/lecturerplanpdf/:period_id/:lecturer_id' => 'home#lecturerplanpdf'
+  get 'home/lecturerplan' => 'home#lecturerplan'
+  get 'home/lecturerplan/:period_id/:lecturer_id' => 'home#lecturerplan'
+  get 'home/lecturerplanpdf/:period_id/:lecturer_id' => 'home#lecturerplanpdf'
 
   get  "home/class"
-  match 'home/classplan' => 'home#classplan'
-  match 'home/classplan/:period_id/:classroom_id' => 'home#classplan'
-  match 'home/classplanpdf/:period_id/:classroom_id' => 'home#classplanpdf'
+  get 'home/classplan' => 'home#classplan'
+  get 'home/classplan/:period_id/:classroom_id' => 'home#classplan'
+  get 'home/classplanpdf/:period_id/:classroom_id' => 'home#classplanpdf'
   post  'home/classplanpdf'
-  match 'home/classplanpdfs' => 'home#classplanpdfs'
+  get 'home/classplanpdfs' => 'home#classplanpdfs'
 
   get  "home/department"
-  match 'home/departmentplan' => 'home#departmentplan'
-  match 'home/departmentplan/:period_id/:department_id/:year/:section' => 'home#departmentplan'
-  match 'home/departmentplanpdf/:period_id/:department_id/:year/:section' => 'home#departmentplanpdf'
+  get 'home/departmentplan' => 'home#departmentplan'
+  get 'home/departmentplan/:period_id/:department_id/:year/:section' => 'home#departmentplan'
+  get 'home/departmentplanpdf/:period_id/:department_id/:year/:section' => 'home#departmentplanpdf'
 
   get  "home/about"
   get  "home/help"
@@ -137,11 +137,11 @@ Schedule::Application.routes.draw do
   # first created -> highest priority.
 
   # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
+  #   get 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
 
   # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
+  #   get 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
@@ -188,5 +188,5 @@ Schedule::Application.routes.draw do
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id(.:format)))'
+  # get ':controller(/:action(/:id(.:format)))'
 end

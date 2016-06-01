@@ -56,29 +56,12 @@ closeImage   : '/assets/closelabel.png'
             <% departments.each do |department| %>
               <tr>
                 <td><%= department.name %> </td>
-                <th><%= Lecturer.where(:department_id => department.id).count %></th>
-                <th><%= Course.where(:department_id => department.id).count %></th>
-                <th>
-                  <a href="#assignment<%= department.id.to_s %>" rel="facebox">
-                    %<%= assignment_percent = department.assignment_percent(period.id) %>
-                  </a>
-                </th>
-                <th>
-                  <a href="#schedule<%= department.id.to_s %>" rel="facebox">
-                    %<%= schedule_percent = department.schedule_percent(period.id) %>
-                  </a>
-                </th>
-                <th>
-                  <div id="realtime">
-                    <a class="status <%= percent(assignment_percent, schedule_percent) %>" style="margin-top:-8px"></a>
-                  </div>
-                </th>
+                <th><%= Lecturer.where(:department_id => department.id).count if department %></th>
+                <th><%= department %></th>
               </tr>
             <% end %>
             <% department = Department.find(19) %>
             <tr>
-              <td><%= department.name %> </td>
-              <th><%= Lecturer.where(:department_id => department.id).count %></th>
             </tr>
           </table>
         </div>
@@ -96,11 +79,6 @@ closeImage   : '/assets/closelabel.png'
           <div class='description'>
             <table>
               <colgroup><col width=250 /><col width=110 /></colgroup>
-              <% department.not_assignment_lecturer(period.id).each do |lecturer| %>
-                <tr>
-                  <td><%= lecturer.full_name %></td>
-                </tr>
-              <% end %>
             </table>
           </div>
         </div>
@@ -114,17 +92,6 @@ closeImage   : '/assets/closelabel.png'
           <div class='description'>
             <table>
               <colgroup><col width=250 /><col width=110 /></colgroup>
-              <% department.not_schedule_course(period.id).each do |course_id, lecturer_ids| %>
-                <tr>
-                  <td><%= Course.find(course_id).full_name %></td>
-                </tr>
-                <% lecturer_ids.each do |lecturer_id| %>
-                  <tr>
-                    <td></td>
-                    <th><%= Lecturer.find(lecturer_id).full_name %></th>
-                  </tr>
-                <% end %>
-              <% end %>
             </table>
           </div>
         </div>
